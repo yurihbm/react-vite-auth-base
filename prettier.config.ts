@@ -28,6 +28,8 @@ const config: PrettierConfig = {
 		"",
 		"^[.]",
 	],
+	tailwindStylesheet: "./src/main.css",
+	tailwindFunctions: ["tv"],
 };
 
 export default config;
