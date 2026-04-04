@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { useAuth } from "@src/modules/auth";
+import { useAuth, useLogout } from "@src/modules/auth";
 
 import { Button, TextInput } from "../modules/shared";
 
@@ -11,6 +11,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
 	const { user, isPending, isAuthenticated } = useAuth();
+	const { mutate: logout } = useLogout();
 	const [count, setCount] = useState(0);
 	const [text, setText] = useState("");
 
@@ -38,6 +39,11 @@ function Index() {
 					<pre className="overflow-x-auto rounded bg-background-elevated p-4">
 						{JSON.stringify(user, null, 2)}
 					</pre>
+				)}
+				{isAuthenticated && (
+					<Button className="mt-4 w-full" onClick={() => logout()}>
+						Logout
+					</Button>
 				)}
 			</section>
 		</div>
