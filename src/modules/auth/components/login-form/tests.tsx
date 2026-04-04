@@ -15,6 +15,22 @@ vi.mock("../../services", () => ({
 	useLogin: vi.fn(),
 }));
 
+/**
+ * Helper function to fill the login form and submit it.
+ */
+function fillFormAndSubmit(
+	getByLabelText: ReturnType<typeof render>["getByLabelText"],
+	getByRole: ReturnType<typeof render>["getByRole"],
+) {
+	fireEvent.change(getByLabelText("Email"), {
+		target: { value: "john@doe.com" },
+	});
+	fireEvent.change(getByLabelText("Password"), {
+		target: { value: "secret" },
+	});
+	fireEvent.click(getByRole("button", { name: "Login" }));
+}
+
 describe("LoginForm", () => {
 	const navigateMock = vi.fn();
 	const loginMutateMock = vi.fn();
@@ -59,13 +75,7 @@ describe("LoginForm", () => {
 	test("shows API error message from login failure", () => {
 		const { getByLabelText, getByRole, getByText } = render(<LoginForm />);
 
-		fireEvent.change(getByLabelText("Email"), {
-			target: { value: "john@doe.com" },
-		});
-		fireEvent.change(getByLabelText("Password"), {
-			target: { value: "secret" },
-		});
-		fireEvent.click(getByRole("button", { name: "Login" }));
+		fillFormAndSubmit(getByLabelText, getByRole);
 
 		const [, handlers] = loginMutateMock.mock.calls[0] as [
 			unknown,
@@ -84,13 +94,7 @@ describe("LoginForm", () => {
 	test("shows fallback message for unknown errors", () => {
 		const { getByLabelText, getByRole, getByText } = render(<LoginForm />);
 
-		fireEvent.change(getByLabelText("Email"), {
-			target: { value: "john@doe.com" },
-		});
-		fireEvent.change(getByLabelText("Password"), {
-			target: { value: "secret" },
-		});
-		fireEvent.click(getByRole("button", { name: "Login" }));
+		fillFormAndSubmit(getByLabelText, getByRole);
 
 		const [, handlers] = loginMutateMock.mock.calls[0] as [
 			unknown,
@@ -120,16 +124,10 @@ describe("LoginForm", () => {
 		expect((submitButton as HTMLButtonElement).disabled).toBe(true);
 	});
 
-	test("navigates to home on successful login", () => {
+	test("navigates to home on successful login without provided redirectTo prop", () => {
 		const { getByLabelText, getByRole } = render(<LoginForm />);
 
-		fireEvent.change(getByLabelText("Email"), {
-			target: { value: "john@doe.com" },
-		});
-		fireEvent.change(getByLabelText("Password"), {
-			target: { value: "secret" },
-		});
-		fireEvent.click(getByRole("button", { name: "Login" }));
+		fillFormAndSubmit(getByLabelText, getByRole);
 
 		const [, handlers] = loginMutateMock.mock.calls[0] as [
 			unknown,
@@ -144,6 +142,29 @@ describe("LoginForm", () => {
 
 		expect(navigateMock).toHaveBeenCalledWith({
 			to: "/",
+		});
+	});
+
+	test("navigates to provided redirectTo path on successful login", () => {
+		const { getByLabelText, getByRole } = render(
+			<LoginForm redirectTo="/dashboard" />,
+		);
+
+		fillFormAndSubmit(getByLabelText, getByRole);
+
+		const [, handlers] = loginMutateMock.mock.calls[0] as [
+			unknown,
+			{
+				onSuccess: () => void;
+			},
+		];
+
+		act(() => {
+			handlers.onSuccess();
+		});
+
+		expect(navigateMock).toHaveBeenCalledWith({
+			to: "/dashboard",
 		});
 	});
 });

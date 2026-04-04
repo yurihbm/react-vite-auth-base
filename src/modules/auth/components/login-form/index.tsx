@@ -12,11 +12,15 @@ import { styles } from "./styles";
 const EMAIL_INPUT_NAME = "email";
 const PASSWORD_INPUT_NAME = "password";
 
+interface LoginFormProps {
+	redirectTo?: string;
+}
+
 /**
  * LoginForm component is responsible for rendering the login form and
  * handling its submission.
  */
-export function LoginForm() {
+export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 	const navigate = useNavigate();
 
 	const { mutate: login, isPending } = useLogin();
@@ -52,7 +56,7 @@ export function LoginForm() {
 					setEmailMessage("");
 					setPasswordMessage("");
 					navigate({
-						to: "/",
+						to: redirectTo,
 					});
 				},
 			},
