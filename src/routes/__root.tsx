@@ -1,13 +1,16 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import type { QueryClient } from "@tanstack/react-query";
 
-const queryClient = new QueryClient();
+import {
+	createRootRouteWithContext,
+	Link,
+	Outlet,
+} from "@tanstack/react-router";
+
+import { DevTools } from "@src/modules/shared";
 
 function RootLayout() {
 	return (
-		<QueryClientProvider client={queryClient}>
+		<>
 			<header className="flex h-16 items-center justify-between px-4">
 				<h1 className="text-xl font-bold">React Vite Auth Base</h1>
 				<nav>
@@ -45,10 +48,15 @@ function RootLayout() {
 			<footer className="flex h-12 items-center justify-center border-t border-t-foreground text-xs">
 				Made with ❤️ by Yuri Maciel
 			</footer>
-			<TanStackRouterDevtools />
-			<ReactQueryDevtools />
-		</QueryClientProvider>
+			<DevTools />
+		</>
 	);
 }
 
-export const Route = createRootRoute({ component: RootLayout });
+interface RouterContext {
+	queryClient: QueryClient;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
+	component: RootLayout,
+});
