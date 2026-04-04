@@ -63,8 +63,8 @@ export type RequestParams = Record<string, string | number>;
 export interface APIClient {
 	post: <Body, ResponseData>(
 		endpoint: string,
-		options: {
-			data: Body;
+		options?: {
+			data?: Body;
 			signal?: AbortSignal;
 		},
 	) => Promise<APIResponseBody<ResponseData>>;
@@ -77,15 +77,15 @@ export interface APIClient {
 	) => Promise<APIResponseBody<ResponseData>>;
 	patch: <Body, ResponseData>(
 		endpoint: string,
-		options: {
-			data: Body;
+		options?: {
+			data?: Body;
 			signal?: AbortSignal;
 		},
 	) => Promise<APIResponseBody<ResponseData>>;
 	put: <Body, ResponseData>(
 		endpoint: string,
-		options: {
-			data: Body;
+		options?: {
+			data?: Body;
 			signal?: AbortSignal;
 		},
 	) => Promise<APIResponseBody<ResponseData>>;

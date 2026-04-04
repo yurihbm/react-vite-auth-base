@@ -90,6 +90,44 @@ describe("createAPIClient", () => {
 		});
 	});
 
+	test("allows POST, PATCH and PUT requests without body", async () => {
+		fetchMock
+			.mockResolvedValueOnce(
+				createJSONResponse({
+					data: { ok: true },
+					message: "ok",
+				}),
+			)
+			.mockResolvedValueOnce(
+				createJSONResponse({
+					data: { ok: true },
+					message: "ok",
+				}),
+			)
+			.mockResolvedValueOnce(
+				createJSONResponse({
+					data: { ok: true },
+					message: "ok",
+				}),
+			);
+
+		await client.post<unknown, { ok: boolean }>("/auth/login");
+		await client.patch<unknown, { ok: boolean }>("/users/me");
+		await client.put<unknown, { ok: boolean }>("/users/settings");
+
+		const [, postOptions] = fetchMock.mock.calls[0] as [string, RequestInit];
+		expect(postOptions.method).toBe("POST");
+		expect(postOptions.body).toBeUndefined();
+
+		const [, patchOptions] = fetchMock.mock.calls[1] as [string, RequestInit];
+		expect(patchOptions.method).toBe("PATCH");
+		expect(patchOptions.body).toBeUndefined();
+
+		const [, putOptions] = fetchMock.mock.calls[2] as [string, RequestInit];
+		expect(putOptions.method).toBe("PUT");
+		expect(putOptions.body).toBeUndefined();
+	});
+
 	test("returns standard response for successful 204 requests", async () => {
 		fetchMock.mockResolvedValueOnce(new Response(null, { status: 204 }));
 

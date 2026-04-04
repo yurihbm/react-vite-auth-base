@@ -100,7 +100,7 @@ function ensureSignal(signal?: AbortSignal): AbortSignal {
  */
 export function createAPIClient(): APIClient {
 	return {
-		post: async (endpoint, { data, signal }) => {
+		post: async (endpoint, { data, signal } = {}) => {
 			const response = await fetch(parseURL(endpoint), {
 				method: "POST",
 				headers: {
@@ -113,10 +113,7 @@ export function createAPIClient(): APIClient {
 
 			return parseResponse(response);
 		},
-		get: async (
-			endpoint,
-			{ params, signal } = { params: undefined, signal: undefined },
-		) => {
+		get: async (endpoint, { params, signal } = {}) => {
 			const response = await fetch(parseURL(endpoint, params), {
 				method: "GET",
 				credentials: CREDENTIALS_MODE,
@@ -125,7 +122,7 @@ export function createAPIClient(): APIClient {
 
 			return parseResponse(response);
 		},
-		patch: async (endpoint, { data, signal }) => {
+		patch: async (endpoint, { data, signal } = {}) => {
 			const response = await fetch(parseURL(endpoint), {
 				method: "PATCH",
 				headers: {
@@ -138,7 +135,7 @@ export function createAPIClient(): APIClient {
 
 			return parseResponse(response);
 		},
-		put: async (endpoint, { data, signal }) => {
+		put: async (endpoint, { data, signal } = {}) => {
 			const response = await fetch(parseURL(endpoint), {
 				method: "PUT",
 				headers: {
@@ -151,10 +148,7 @@ export function createAPIClient(): APIClient {
 
 			return parseResponse(response);
 		},
-		delete: async (
-			endpoint,
-			{ params, signal } = { params: undefined, signal: undefined },
-		) => {
+		delete: async (endpoint, { params, signal } = {}) => {
 			const response = await fetch(parseURL(endpoint, params), {
 				method: "DELETE",
 				credentials: CREDENTIALS_MODE,
