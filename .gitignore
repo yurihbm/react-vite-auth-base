@@ -35,3 +35,11 @@ storybook-static
 
 # Tanstack
 .tanstack
+
+# Testing
+coverage
+
+# OpenCode
+.opencode
+
+
