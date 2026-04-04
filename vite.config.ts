@@ -30,6 +30,11 @@ export default defineConfig({
 			presets: [reactCompilerPreset()],
 		}),
 	],
+	resolve: {
+		alias: {
+			"@src": path.resolve(__dirname, "src"),
+		},
+	},
 	test: {
 		projects: [
 			{
