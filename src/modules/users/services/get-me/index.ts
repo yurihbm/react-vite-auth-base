@@ -55,5 +55,6 @@ export function useGetMe() {
 	return useQuery({
 		queryKey: [getMeKey],
 		queryFn: ({ signal }) => getMe(signal),
+		retry: false,
 	});
 }
