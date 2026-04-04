@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { useAuth, useLogout } from "@src/modules/auth";
+import { useAuth } from "@src/modules/auth";
 
 import { Button, TextInput } from "../modules/shared";
 
@@ -10,8 +10,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-	const { user, isPending, isAuthenticated } = useAuth();
-	const { mutate: logout } = useLogout();
+	const { isAuthenticated } = useAuth();
 	const [count, setCount] = useState(0);
 	const [text, setText] = useState("");
 
@@ -27,25 +26,17 @@ function Index() {
 			<Button className="w-full" onClick={() => setCount((c) => c + 1)}>
 				Count: {count}
 			</Button>
-			<section>
-				<h2 className="text-lg font-bold">User Info</h2>
-				{isPending && <p>Loading...</p>}
-				{!isPending && !isAuthenticated && (
-					<p className="text-danger">
-						You are not authenticated. Please log in to see your user info.
-					</p>
-				)}
-				{isAuthenticated && (
-					<pre className="overflow-x-auto rounded bg-background-elevated p-4">
-						{JSON.stringify(user, null, 2)}
-					</pre>
-				)}
-				{isAuthenticated && (
-					<Button className="mt-4 w-full" onClick={() => logout()}>
-						Logout
-					</Button>
-				)}
-			</section>
+
+			{isAuthenticated && (
+				<Button
+					color="secondary"
+					as={Link}
+					to="/users/profile"
+					className="w-full"
+				>
+					Go to Profile
+				</Button>
+			)}
 		</div>
 	);
 }

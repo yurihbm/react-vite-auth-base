@@ -27,6 +27,9 @@ function RootLayout() {
 							<Link
 								to="/login"
 								className="text-sm font-medium text-foreground/80 hover:text-foreground"
+								search={{
+									redirect: "/",
+								}}
 							>
 								Login
 							</Link>
