@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme inline {
+	/* Foundation */
+	--color-background: var(--color-neutral-950);
+	--color-background-muted: var(--color-neutral-900);
+	--color-background-elevated: var(--color-neutral-800);
+	--color-background-inverse: var(--color-neutral-50);
+
+	--color-foreground: var(--color-neutral-50);
+	--color-foreground-muted: var(--color-neutral-300);
+	--color-foreground-subtle: var(--color-neutral-400);
+	--color-foreground-inverse: var(--color-neutral-950);
+
+	--color-border: var(--color-neutral-800);
+	--color-border-strong: var(--color-neutral-700);
+	--color-ring: var(--color-blue-400);
+
+	/* Brand */
+	--color-primary: var(--color-blue-600);
+	--color-primary-foreground: var(--color-white);
+	--color-primary-hover: var(--color-blue-500);
+	--color-primary-active: var(--color-blue-700);
+	--color-primary-subtle: var(--color-blue-950);
+	--color-primary-subtle-foreground: var(--color-blue-200);
+
+	--color-secondary: var(--color-indigo-500);
+	--color-secondary-foreground: var(--color-white);
+	--color-secondary-hover: var(--color-indigo-400);
+	--color-secondary-active: var(--color-indigo-600);
+	--color-secondary-subtle: var(--color-indigo-950);
+	--color-secondary-subtle-foreground: var(--color-indigo-200);
+
+	/* Neutral interaction */
+	--color-subtle: var(--color-neutral-900);
+	--color-subtle-foreground: var(--color-neutral-200);
+	--color-subtle-hover: var(--color-neutral-800);
+	--color-subtle-active: var(--color-neutral-700);
+
+	/* Semantic */
+	--color-info: var(--color-sky-500);
+	--color-info-foreground: var(--color-sky-950);
+	--color-info-hover: var(--color-sky-400);
+	--color-info-active: var(--color-sky-600);
+	--color-info-subtle: var(--color-sky-950);
+	--color-info-subtle-foreground: var(--color-sky-200);
+
+	--color-success: var(--color-emerald-500);
+	--color-success-foreground: var(--color-emerald-950);
+	--color-success-hover: var(--color-emerald-400);
+	--color-success-active: var(--color-emerald-600);
+	--color-success-subtle: var(--color-emerald-950);
+	--color-success-subtle-foreground: var(--color-emerald-200);
+
+	--color-warning: var(--color-amber-400);
+	--color-warning-foreground: var(--color-amber-950);
+	--color-warning-hover: var(--color-amber-300);
+	--color-warning-active: var(--color-amber-500);
+	--color-warning-subtle: var(--color-amber-950);
+	--color-warning-subtle-foreground: var(--color-amber-200);
+
+	--color-danger: var(--color-rose-500);
+	--color-danger-foreground: var(--color-white);
+	--color-danger-hover: var(--color-rose-400);
+	--color-danger-active: var(--color-rose-600);
+	--color-danger-subtle: var(--color-rose-950);
+	--color-danger-subtle-foreground: var(--color-rose-200);
+}
+
+html,
+body {
+	@apply bg-background text-foreground;
+}
