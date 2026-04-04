@@ -7,7 +7,7 @@ const styles = tv({
 		labelContainer: ["flex flex-col gap-1"],
 		labelText: ["text-sm font-medium text-foreground"],
 		baseContainer: ["flex flex-col gap-1"],
-		inputMessage: ["text-xs text-foreground-muted"],
+		inputMessage: ["min-h-4 text-xs text-foreground-muted"],
 		inputContainer: [
 			"flex items-center gap-2 rounded border border-border bg-background-muted",
 			"transition-colors duration-200",

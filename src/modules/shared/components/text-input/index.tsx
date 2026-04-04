@@ -95,18 +95,17 @@ export function TextInput({
 					/>
 					{endIcon}
 				</div>
-				{message && (
-					<p
-						id={messageId}
-						className={inputMessage({
-							isError,
-							isSuccess,
-							className: classNames?.inputMessage,
-						})}
-					>
-						{message}
-					</p>
-				)}
+				<p
+					id={messageId}
+					aria-hidden={message ? false : true}
+					className={inputMessage({
+						isError,
+						isSuccess,
+						className: classNames?.inputMessage,
+					})}
+				>
+					{message}
+				</p>
 			</div>
 		</div>
 	);

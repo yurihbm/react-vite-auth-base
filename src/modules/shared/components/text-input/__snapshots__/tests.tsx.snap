@@ -26,6 +26,11 @@ exports[`TextInput > renders correctly 1`] = `
           type="text"
         />
       </div>
+      <p
+        aria-hidden="true"
+        class="min-h-4 text-xs text-foreground-muted"
+        id="_r_1_"
+      />
     </div>
   </div>
 </div>
