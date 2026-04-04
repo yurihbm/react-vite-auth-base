@@ -1,6 +1,6 @@
 import type { User } from "../../types";
 
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { client } from "@src/lib/api";
 
@@ -37,6 +37,17 @@ async function getMe(signal?: AbortSignal): Promise<User> {
  */
 export const getMeKey = "users/me";
 
+export const GET_ME_QUERY_OPTIONS = queryOptions({
+	queryKey: [getMeKey],
+	queryFn: ({ signal }) => getMe(signal),
+	retry: false,
+	// The Go net/http Auth Base project uses 15min access tokens, so we can
+	// safely set the stale time to 14min to avoid unnecessary refetches.
+	// This must be kept in sync.
+	// See [auth.go#L18](https://github.com/yurihbm/go-net-http-auth-base/blob/main/internal/domain/auth.go#L18).
+	staleTime: 14 * 60 * 1000,
+});
+
 /**
  * A TanStack Query hook to fetch and manage the current user's session state.
  *
@@ -52,14 +63,5 @@ export const getMeKey = "users/me";
  * @returns The standard useQuery result object containing the user data and status.
  */
 export function useGetMe() {
-	return useQuery({
-		queryKey: [getMeKey],
-		queryFn: ({ signal }) => getMe(signal),
-		retry: false,
-		// The Go net/http Auth Base project uses 15min access tokens, so we can
-		// safely set the stale time to 14min to avoid unnecessary refetches.
-		// This must be kept in sync.
-		// See [auth.go#L18](https://github.com/yurihbm/go-net-http-auth-base/blob/main/internal/domain/auth.go#L18).
-		staleTime: 14 * 60 * 1000,
-	});
+	return useQuery(GET_ME_QUERY_OPTIONS);
 }
