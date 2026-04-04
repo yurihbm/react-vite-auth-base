@@ -30,7 +30,7 @@ async function login({ email, password }: LoginData) {
 /**
  * Cache key used for the login mutation.
  */
-const loginKey = "auth/login";
+export const loginKey = "auth/login";
 
 /**
  * Hook to manage the login mutation state using TanStack Query.
