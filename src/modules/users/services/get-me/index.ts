@@ -56,5 +56,10 @@ export function useGetMe() {
 		queryKey: [getMeKey],
 		queryFn: ({ signal }) => getMe(signal),
 		retry: false,
+		// The Go net/http Auth Base project uses 15min access tokens, so we can
+		// safely set the stale time to 14min to avoid unnecessary refetches.
+		// This must be kept in sync.
+		// See [auth.go#L18](https://github.com/yurihbm/go-net-http-auth-base/blob/main/internal/domain/auth.go#L18).
+		staleTime: 14 * 60 * 1000,
 	});
 }
