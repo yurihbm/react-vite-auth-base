@@ -73,7 +73,7 @@ describe("useAuth", () => {
 		vi.mocked(useGetMe).mockReturnValueOnce({
 			data: null,
 			isSuccess: false,
-			isPending: true,
+			isPending: false,
 			isError: true,
 		} as unknown as ReturnType<typeof useGetMe>);
 
