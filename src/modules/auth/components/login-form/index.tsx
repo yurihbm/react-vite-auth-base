@@ -38,7 +38,6 @@ export function LoginForm() {
 			},
 			{
 				onError: (error) => {
-					console.error("Login error:", error);
 					if (error instanceof APIError) {
 						setLoginError(error.message);
 						return;
