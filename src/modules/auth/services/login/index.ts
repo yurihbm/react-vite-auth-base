@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { client } from "@src/lib/api";
 
@@ -35,6 +35,10 @@ export const loginKey = "auth/login";
 /**
  * Hook to manage the login mutation state using TanStack Query.
  *
+ * @remarks
+ * On successful login, all queries are invalidated to ensure that any
+ * user-specific data is refetched, reflecting the logged-in state.
+ *
  * @returns The mutation object for managing the login process, including
  * pending, error, and success states.
  *
@@ -52,8 +56,14 @@ export const loginKey = "auth/login";
  * ```
  */
 export function useLogin() {
+	const queryClient = useQueryClient();
+
 	return useMutation({
 		mutationKey: [loginKey],
 		mutationFn: login,
+		onSuccess: () => {
+			// Invalidate all queries to ensure that any user-specific data is refetched.
+			queryClient.invalidateQueries();
+		},
 	});
 }
