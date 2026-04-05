@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useAuth } from "@src/modules/auth";
 
@@ -14,17 +15,19 @@ function Index() {
 	const [count, setCount] = useState(0);
 	const [text, setText] = useState("");
 
+	const { t } = useTranslation("home");
+
 	return (
 		<div className="mx-auto flex max-w-96 flex-col gap-4">
 			<TextInput
-				label="Write something"
-				placeholder="Type here..."
+				label={t("input.label")}
+				placeholder={t("input.placeholder")}
 				value={text}
 				onChange={({ target }) => setText(target.value)}
-				message={`Text length: ${text.length}`}
+				message={`${t("input.message")}: ${text.length}`}
 			/>
 			<Button className="w-full" onClick={() => setCount((c) => c + 1)}>
-				Count: {count}
+				{t("count")}: {count}
 			</Button>
 
 			{isAuthenticated && (
@@ -34,7 +37,7 @@ function Index() {
 					to="/users/profile"
 					className="w-full"
 				>
-					Go to Profile
+					{t("profile")}
 				</Button>
 			)}
 		</div>

@@ -1,0 +1,9 @@
+{
+	"count": "Count",
+	"input": {
+		"label": "Write something",
+		"message": "Text length",
+		"placeholder": "Type something here..."
+	},
+	"profile": "Go to profile"
+}

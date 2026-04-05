@@ -1,0 +1,9 @@
+{
+	"count": "Contador",
+	"input": {
+		"label": "Escreva algo",
+		"message": "Comprimento do texto",
+		"placeholder": "Digite algo aqui..."
+	},
+	"profile": "Ir para o perfil"
+}

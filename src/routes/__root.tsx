@@ -5,10 +5,13 @@ import {
 	Link,
 	Outlet,
 } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 import { DevTools } from "@src/modules/shared";
 
 function RootLayout() {
+	const { t } = useTranslation();
+
 	return (
 		<>
 			<header className="flex h-16 items-center justify-between px-4">
@@ -20,7 +23,7 @@ function RootLayout() {
 								to="/"
 								className="text-sm font-medium text-foreground/80 hover:text-foreground"
 							>
-								Home
+								{t("nav.link.home")}
 							</Link>
 						</li>
 						<li>
@@ -31,7 +34,7 @@ function RootLayout() {
 									redirect: "/",
 								}}
 							>
-								Login
+								{t("nav.link.login")}
 							</Link>
 						</li>
 						<li>
@@ -39,7 +42,7 @@ function RootLayout() {
 								to="/register"
 								className="text-sm font-medium text-foreground/80 hover:text-foreground"
 							>
-								Register
+								{t("nav.link.register")}
 							</Link>
 						</li>
 					</ul>
@@ -49,7 +52,7 @@ function RootLayout() {
 				<Outlet />
 			</main>
 			<footer className="flex h-12 items-center justify-center border-t border-t-foreground text-xs">
-				Made with ❤️ by Yuri Maciel
+				{t("footer.message")}
 			</footer>
 			<DevTools />
 		</>

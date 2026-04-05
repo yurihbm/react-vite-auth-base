@@ -1,0 +1,12 @@
+{
+	"footer": {
+		"message": "Feito com ❤️ por Yuri"
+	},
+	"nav": {
+		"link": {
+			"home": "Início",
+			"login": "Entrar",
+			"register": "Registrar"
+		}
+	}
+}

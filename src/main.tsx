@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 
+import "@src/lib/i18n";
 import "./main.css";
 
 const queryClient = new QueryClient();
