@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LanguageSwitcher > renders correctly 1`] = `
+<div>
+  <div
+    class="flex gap-2 text-base"
+  >
+    <button
+      class="cursor-pointer rounded p-1 hover:bg-background-elevated active:bg-background-muted disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:active:bg-transparent"
+      disabled=""
+    >
+      🇺🇸
+    </button>
+    <button
+      class="cursor-pointer rounded p-1 hover:bg-background-elevated active:bg-background-muted disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:active:bg-transparent"
+    >
+      🇧🇷
+    </button>
+  </div>
+</div>
+`;
