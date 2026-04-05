@@ -1,11 +1,12 @@
 import { cleanup, fireEvent, render } from "@testing-library/react";
-import { useTranslation } from "react-i18next";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+
+import { useLanguage } from "@src/lib/i18n";
 
 import { LanguageSwitcher } from ".";
 
-vi.mock("react-i18next", () => ({
-	useTranslation: vi.fn(),
+vi.mock("@src/lib/i18n", () => ({
+	useLanguage: vi.fn(),
 }));
 
 describe("LanguageSwitcher", () => {
@@ -13,12 +14,10 @@ describe("LanguageSwitcher", () => {
 
 	beforeEach(() => {
 		changeLanguageMock.mockClear();
-		vi.mocked(useTranslation).mockReturnValue({
-			i18n: {
-				changeLanguage: changeLanguageMock,
-				resolvedLanguage: "en",
-			},
-		} as unknown as ReturnType<typeof useTranslation>);
+		vi.mocked(useLanguage).mockReturnValue({
+			changeLanguage: changeLanguageMock,
+			language: "en",
+		} as unknown as ReturnType<typeof useLanguage>);
 	});
 
 	afterEach(() => {
@@ -41,12 +40,10 @@ describe("LanguageSwitcher", () => {
 		expect((englishButton as HTMLButtonElement).disabled).toBe(true);
 		expect((portugueseButton as HTMLButtonElement).disabled).toBe(false);
 
-		vi.mocked(useTranslation).mockReturnValue({
-			i18n: {
-				changeLanguage: changeLanguageMock,
-				resolvedLanguage: "pt",
-			},
-		} as unknown as ReturnType<typeof useTranslation>);
+		vi.mocked(useLanguage).mockReturnValue({
+			changeLanguage: changeLanguageMock,
+			language: "pt",
+		} as unknown as ReturnType<typeof useLanguage>);
 
 		rerender(<LanguageSwitcher />);
 		[englishButton, portugueseButton] = getAllByRole("button");

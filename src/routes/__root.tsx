@@ -5,12 +5,12 @@ import {
 	Link,
 	Outlet,
 } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
 
+import { useTranslate } from "@src/lib/i18n";
 import { DevTools, LanguageSwitcher } from "@src/modules/shared";
 
 function RootLayout() {
-	const { t } = useTranslation();
+	const t = useTranslate();
 
 	return (
 		<>

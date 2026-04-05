@@ -1,6 +1,6 @@
 import type { LanguageSwitcherStyles } from "./styles";
 
-import { useTranslation } from "react-i18next";
+import { useLanguage } from "@src/lib/i18n";
 
 import { base, switchButton } from "./styles";
 
@@ -13,21 +13,21 @@ interface LanguageSwitcherProps {
  * English and Portuguese.
  */
 export function LanguageSwitcher({ classNames = {} }: LanguageSwitcherProps) {
-	const { i18n } = useTranslation();
+	const { language, changeLanguage } = useLanguage();
 
 	return (
 		<div className={base({ className: classNames.base })}>
 			<button
 				className={switchButton({ className: classNames.switchButton })}
-				disabled={i18n.resolvedLanguage === "en"}
-				onClick={() => i18n.changeLanguage("en")}
+				disabled={language === "en"}
+				onClick={() => changeLanguage("en")}
 			>
 				🇺🇸
 			</button>
 			<button
 				className={switchButton({ className: classNames.switchButton })}
-				disabled={i18n.resolvedLanguage === "pt"}
-				onClick={() => i18n.changeLanguage("pt")}
+				disabled={language === "pt"}
+				onClick={() => changeLanguage("pt")}
 			>
 				🇧🇷
 			</button>

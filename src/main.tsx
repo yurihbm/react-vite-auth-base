@@ -3,10 +3,11 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
+import { initI18n } from "@src/lib/i18n";
+
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 
-import "@src/lib/i18n";
 import "./main.css";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,8 @@ declare module "@tanstack/react-router" {
 		router: typeof router;
 	}
 }
+
+await initI18n();
 
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>

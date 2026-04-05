@@ -1,18 +1,28 @@
 import { defineConfig } from "i18next-cli";
 
-import { defaultNS } from "./src/lib/i18n";
+import { DEFAULT_NAMESPACE, SUPPORTED_LANGUAGES } from "./src/lib/i18n";
 
 export default defineConfig({
-	locales: ["en", "pt"],
+	// .map call is for type coercion to string[] since SUPPORTED_LANGUAGES is
+	// a readonly array.
+	locales: SUPPORTED_LANGUAGES.map((lng) => lng),
 	extract: {
 		input: ["src/**/*.{ts,tsx}"],
 		output: "public/locales/{{language}}/{{namespace}}.json",
-		defaultNS,
+		defaultNS: DEFAULT_NAMESPACE,
+		functions: ["t", "translate"],
+		useTranslationNames: [
+			"useTranslation",
+			{
+				name: "useTranslate",
+				nsArg: 0,
+			},
+		],
 	},
 	types: {
 		input: ["public/locales/en/*.json"],
-		output: "src/types/i18next.d.ts",
-		resourcesFile: "src/types/resources.d.ts",
-		enableSelector: true,
+		output: "src/lib/i18n/i18n.d.ts",
+		resourcesFile: "src/lib/i18n/resources.d.ts",
+		enableSelector: false,
 	},
 });

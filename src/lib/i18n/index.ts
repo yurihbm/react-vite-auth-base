@@ -1,23 +1,14 @@
-import type { HttpBackendOptions } from "i18next-http-backend";
+/**
+ * Facade for i18n related utilities, constants, types, and hooks.
+ *
+ * Translation React components like Trans are out of scope for this library.
+ * If they become necessary, they should be implemented in this library and
+ * re-exported here.
+ *
+ * Current internal library used: i18n-next and react-i18next.
+ */
 
-import i18next from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
-import HttpBackend from "i18next-http-backend";
-import { initReactI18next } from "react-i18next";
-
-export const defaultNS = "shared" as const;
-
-i18next
-	.use(HttpBackend)
-	.use(LanguageDetector)
-	.use(initReactI18next)
-	.init<HttpBackendOptions>({
-		debug: import.meta.env.DEV,
-		supportedLngs: ["en", "pt"],
-		fallbackLng: "en",
-		defaultNS,
-		ns: [defaultNS],
-		backend: {
-			loadPath: "/locales/{{lng}}/{{ns}}.json",
-		},
-	});
+export * from "./constants";
+export * from "./types";
+export * from "./hooks";
+export * from "./utils";

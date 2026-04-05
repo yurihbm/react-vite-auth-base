@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
+import { useTranslate } from "@src/lib/i18n";
 import { useAuth } from "@src/modules/auth";
 
 import { Button, TextInput } from "../modules/shared";
@@ -15,7 +15,7 @@ function Index() {
 	const [count, setCount] = useState(0);
 	const [text, setText] = useState("");
 
-	const { t } = useTranslation("home");
+	const t = useTranslate("home");
 
 	return (
 		<div className="mx-auto flex max-w-96 flex-col gap-4">

@@ -33,6 +33,33 @@ export default defineConfig([
 		files: ["src/routes/**/*.{ts,tsx}"],
 		rules: { "react-refresh/only-export-components": "off" },
 	},
+	{
+		files: ["src/**/*.{ts,tsx}"],
+		ignores: ["src/lib/i18n/**/*.{ts,tsx}"],
+		rules: {
+			"no-restricted-imports": [
+				"error",
+				{
+					paths: [
+						{
+							name: "react-i18next",
+							message: "Use @src/lib/i18n facade instead.",
+						},
+						{
+							name: "i18next",
+							message: "Use @src/lib/i18n facade instead.",
+						},
+					],
+					patterns: [
+						{
+							group: ["react-i18next/*", "i18next/*"],
+							message: "Use @src/lib/i18n facade instead.",
+						},
+					],
+				},
+			],
+		},
+	},
 	eslintConfigPrettier,
 	...pluginQuery.configs["flat/recommended"],
 	...storybook.configs["flat/recommended"],

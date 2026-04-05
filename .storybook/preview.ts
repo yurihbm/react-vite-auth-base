@@ -1,7 +1,10 @@
 import type { Preview } from "@storybook/react-vite";
 
 import "@src/main.css";
-import "@src/lib/i18n";
+
+import { initI18n } from "@src/lib/i18n";
+
+await initI18n();
 
 const preview: Preview = {
 	parameters: {
