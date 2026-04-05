@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
-import { DevTools } from "@src/modules/shared";
+import { DevTools, LanguageSwitcher } from "@src/modules/shared";
 
 function RootLayout() {
 	const { t } = useTranslation();
@@ -51,8 +51,13 @@ function RootLayout() {
 			<main className="flex min-h-[calc(100vh-4rem-3rem)] flex-col gap-4 px-4 py-6">
 				<Outlet />
 			</main>
-			<footer className="flex h-12 items-center justify-center border-t border-t-foreground text-xs">
+			<footer className="relative flex h-12 items-center justify-center border-t border-t-foreground text-xs">
 				{t("footer.message")}
+				<LanguageSwitcher
+					classNames={{
+						base: "absolute right-5",
+					}}
+				/>
 			</footer>
 			<DevTools />
 		</>
