@@ -21,8 +21,8 @@ export default defineConfig({
 	},
 	types: {
 		input: ["public/locales/en/*.json"],
-		output: "src/lib/i18n/i18n.d.ts",
-		resourcesFile: "src/lib/i18n/resources.d.ts",
+		output: "src/lib/i18n/generated/i18n.d.ts",
+		resourcesFile: "src/lib/i18n/generated/resources.d.ts",
 		enableSelector: false,
 	},
 });
