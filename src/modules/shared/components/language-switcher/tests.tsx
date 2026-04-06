@@ -1,11 +1,12 @@
 import { cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { useLanguage } from "@src/lib/i18n";
+import { SUPPORTED_LANGUAGE_EMOJI_MAP, useLanguage } from "@src/lib/i18n";
 
 import { LanguageSwitcher } from ".";
 
-vi.mock("@src/lib/i18n", () => ({
+vi.mock("@src/lib/i18n", async () => ({
+	...(await vi.importActual("@src/lib/i18n")),
 	useLanguage: vi.fn(),
 }));
 
@@ -28,8 +29,9 @@ describe("LanguageSwitcher", () => {
 		const { container, getByText } = render(<LanguageSwitcher />);
 
 		expect(container).toMatchSnapshot();
-		expect(getByText("🇺🇸")).toBeDefined();
-		expect(getByText("🇧🇷")).toBeDefined();
+		Object.values(SUPPORTED_LANGUAGE_EMOJI_MAP).forEach((emoji) => {
+			expect(getByText(emoji)).toBeDefined();
+		});
 	});
 
 	test("disables the active language button", () => {
@@ -73,10 +75,11 @@ describe("LanguageSwitcher", () => {
 			/>,
 		);
 
-		const [englishButton, portugueseButton] = getAllByRole("button");
+		const buttons = getAllByRole("button");
 
 		expect(container.firstElementChild?.className).toContain("bg-danger");
-		expect(englishButton.className).toContain("text-info");
-		expect(portugueseButton.className).toContain("text-info");
+		buttons.forEach((button) => {
+			expect(button.className).toContain("text-info");
+		});
 	});
 });
