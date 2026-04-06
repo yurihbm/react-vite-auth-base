@@ -126,7 +126,7 @@ Recommended local setup:
 
 The project uses Vitest with `happy-dom`.
 
-- Add tests as features are implemented (`*.test.ts` / `*.test.tsx`)
+- Add tests as features are implemented (`tests.ts` / `tests.tsx`)
 - Keep tests close to modules or in dedicated test folders per domain
 - Run `pnpm test` before opening PRs
 
