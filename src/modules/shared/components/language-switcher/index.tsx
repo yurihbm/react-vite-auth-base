@@ -27,6 +27,7 @@ export function LanguageSwitcher({ classNames = {} }: LanguageSwitcherProps) {
 					className={switchButton({ className: classNames.switchButton })}
 					disabled={language === lang}
 					onClick={() => changeLanguage(lang)}
+					aria-label={lang}
 				>
 					{SUPPORTED_LANGUAGE_EMOJI_MAP[lang]}
 				</button>
