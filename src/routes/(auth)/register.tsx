@@ -1,12 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { publicOnlyRouteBeforeLoad } from "@src/modules/auth";
+import { publicOnlyRouteBeforeLoad, RegisterForm } from "@src/modules/auth";
 
 export const Route = createFileRoute("/(auth)/register")({
 	component: RouteComponent,
 	beforeLoad: publicOnlyRouteBeforeLoad,
+	validateSearch: (search) => {
+		const redirect = search.redirect ? String(search.redirect) : "/";
+		return { redirect };
+	},
 });
 
+const { useSearch } = Route;
+
 function RouteComponent() {
-	return <div>Hello "/(auth)/register"!</div>;
+	const search = useSearch();
+
+	return <RegisterForm redirectTo={search.redirect} />;
 }
