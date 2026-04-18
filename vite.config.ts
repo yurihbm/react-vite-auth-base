@@ -36,6 +36,35 @@ export default defineConfig({
 		},
 	},
 	test: {
+		coverage: {
+			exclude: [
+				// Storybook folder
+				".storybook/**",
+				// Barrel files
+				"**/modules/*/components/index.ts",
+				"**/modules/*/hooks/index.ts",
+				"**/modules/*/services/index.ts",
+				"**/modules/*/utils/index.ts",
+				"**/modules/*/types/index.ts",
+				"**/modules/*/index.ts",
+				"**/lib/*/hooks/index.ts",
+				"**/lib/*/utils/index.ts",
+				"**/lib/*/index.ts",
+				// Type-only files (no executable code)
+				"**/types.ts",
+				"**/types.d.ts",
+				"**/vite-env.d.ts",
+				// Routes (integration/entry points, not logic units)
+				"**/routes/**",
+				// App entry point (bootstrapping)
+				"main.tsx",
+				// Generated files
+				"**/*.gen.ts",
+				"**/*generated*",
+				// CSS files
+				"*.css",
+			],
+		},
 		projects: [
 			{
 				extends: true,
