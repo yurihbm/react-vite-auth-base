@@ -18,6 +18,31 @@ export default interface Resources {
       },
       "submitButton": "Login",
       "unexpectedError": "An unexpected error occurred. Try again later."
+    },
+    "registerForm": {
+      "input": {
+        "email": {
+          "invalid": "Please enter a valid email address.",
+          "label": "Email",
+          "placeholder": "Enter your email",
+          "required": "Email is required.",
+          "tooShort": "Email must be at least 5 characters long."
+        },
+        "name": {
+          "label": "Name",
+          "placeholder": "Enter your name",
+          "required": "Name is required.",
+          "tooShort": "Name must be at least 2 characters long."
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Enter your password",
+          "required": "Password is required.",
+          "tooShort": "Password must be at least 8 characters long."
+        }
+      },
+      "submitButton": "Register",
+      "unexpectedError": "An unexpected error occurred. Try again later."
     }
   },
   "home": {

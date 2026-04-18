@@ -4,45 +4,48 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { APIError } from "@src/lib/api";
 
-import { LoginForm } from ".";
-import { useLogin } from "../../services";
+import { RegisterForm } from ".";
+import { useRegister } from "../../services";
 
 vi.mock("@tanstack/react-router", () => ({
 	useNavigate: vi.fn(),
 }));
 
 vi.mock("../../services", () => ({
-	useLogin: vi.fn(),
+	useRegister: vi.fn(),
 }));
 
 /**
- * Helper function to fill the login form and submit it.
+ * Helper function to fill the register form and submit it.
  */
 function fillFormAndSubmit(
 	getByLabelText: ReturnType<typeof render>["getByLabelText"],
 	getByRole: ReturnType<typeof render>["getByRole"],
 ) {
-	fireEvent.change(getByLabelText("loginForm.input.email.label"), {
+	fireEvent.change(getByLabelText("registerForm.input.email.label"), {
 		target: { value: "john@doe.com" },
 	});
-	fireEvent.change(getByLabelText("loginForm.input.password.label"), {
-		target: { value: "secret" },
+	fireEvent.change(getByLabelText("registerForm.input.name.label"), {
+		target: { value: "John Doe" },
 	});
-	fireEvent.click(getByRole("button", { name: "loginForm.submitButton" }));
+	fireEvent.change(getByLabelText("registerForm.input.password.label"), {
+		target: { value: "secretpass" },
+	});
+	fireEvent.click(getByRole("button", { name: "registerForm.submitButton" }));
 }
 
-describe("LoginForm", () => {
+describe("RegisterForm", () => {
 	const navigateMock = vi.fn();
-	const loginMutateMock = vi.fn();
+	const registerMutateMock = vi.fn();
 
 	beforeEach(() => {
 		vi.clearAllMocks();
 
 		vi.mocked(useNavigate).mockReturnValue(navigateMock);
-		vi.mocked(useLogin).mockReturnValue({
+		vi.mocked(useRegister).mockReturnValue({
 			isPending: false,
-			mutate: loginMutateMock,
-		} as unknown as ReturnType<typeof useLogin>);
+			mutate: registerMutateMock,
+		} as unknown as ReturnType<typeof useRegister>);
 	});
 
 	afterEach(() => {
@@ -50,20 +53,21 @@ describe("LoginForm", () => {
 	});
 
 	test("renders correctly", () => {
-		const { container } = render(<LoginForm />);
+		const { container } = render(<RegisterForm />);
 
 		expect(container).toMatchSnapshot();
 	});
 
-	test("submits entered credentials through login mutation", () => {
-		const { getByLabelText, getByRole } = render(<LoginForm />);
+	test("submits entered data through register mutation", () => {
+		const { getByLabelText, getByRole } = render(<RegisterForm />);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
 
-		expect(loginMutateMock).toHaveBeenCalledWith(
+		expect(registerMutateMock).toHaveBeenCalledWith(
 			{
 				email: "john@doe.com",
-				password: "secret",
+				name: "John Doe",
+				password: "secretpass",
 			},
 			expect.objectContaining({
 				onError: expect.any(Function),
@@ -72,19 +76,19 @@ describe("LoginForm", () => {
 		);
 	});
 
-	test("shows API error message from login failure", () => {
-		const { getByLabelText, getByRole, getByText } = render(<LoginForm />);
+	test("shows API error message from register failure", () => {
+		const { getByLabelText, getByRole, getByText } = render(<RegisterForm />);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
 
-		const [, handlers] = loginMutateMock.mock.calls[0] as [
+		const [, handlers] = registerMutateMock.mock.calls[0] as [
 			unknown,
 			{
 				onError: (error: unknown) => void;
 			},
 		];
 
-		const apiErrorMessage = "auth.login.invalidCredentials";
+		const apiErrorMessage = "auth.register.emailTaken";
 
 		act(() => {
 			handlers.onError(new APIError(apiErrorMessage));
@@ -94,11 +98,11 @@ describe("LoginForm", () => {
 	});
 
 	test("shows fallback message for unknown errors", () => {
-		const { getByLabelText, getByRole, getByText } = render(<LoginForm />);
+		const { getByLabelText, getByRole, getByText } = render(<RegisterForm />);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
 
-		const [, handlers] = loginMutateMock.mock.calls[0] as [
+		const [, handlers] = registerMutateMock.mock.calls[0] as [
 			unknown,
 			{
 				onError: (error: unknown) => void;
@@ -109,29 +113,29 @@ describe("LoginForm", () => {
 			handlers.onError(new Error("boom"));
 		});
 
-		expect(getByText("loginForm.unexpectedError")).toBeDefined();
+		expect(getByText("registerForm.unexpectedError")).toBeDefined();
 	});
 
-	test("disables submit button while login is pending", () => {
-		vi.mocked(useLogin).mockReturnValueOnce({
+	test("disables submit button while register is pending", () => {
+		vi.mocked(useRegister).mockReturnValueOnce({
 			isPending: true,
-			mutate: loginMutateMock,
-		} as unknown as ReturnType<typeof useLogin>);
+			mutate: registerMutateMock,
+		} as unknown as ReturnType<typeof useRegister>);
 
-		const { getByRole } = render(<LoginForm />);
+		const { getByRole } = render(<RegisterForm />);
 		const submitButton = getByRole("button", {
-			name: "loginForm.submitButton",
+			name: "registerForm.submitButton",
 		});
 
 		expect((submitButton as HTMLButtonElement).disabled).toBe(true);
 	});
 
-	test("navigates to home on successful login without provided redirectTo prop", () => {
-		const { getByLabelText, getByRole } = render(<LoginForm />);
+	test("navigates to home on successful register without provided redirectTo prop", () => {
+		const { getByLabelText, getByRole } = render(<RegisterForm />);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
 
-		const [, handlers] = loginMutateMock.mock.calls[0] as [
+		const [, handlers] = registerMutateMock.mock.calls[0] as [
 			unknown,
 			{
 				onSuccess: () => void;
@@ -147,14 +151,14 @@ describe("LoginForm", () => {
 		});
 	});
 
-	test("navigates to provided redirectTo path on successful login", () => {
+	test("navigates to provided redirectTo path on successful register", () => {
 		const { getByLabelText, getByRole } = render(
-			<LoginForm redirectTo="/dashboard" />,
+			<RegisterForm redirectTo="/dashboard" />,
 		);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
 
-		const [, handlers] = loginMutateMock.mock.calls[0] as [
+		const [, handlers] = registerMutateMock.mock.calls[0] as [
 			unknown,
 			{
 				onSuccess: () => void;

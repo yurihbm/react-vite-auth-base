@@ -7,29 +7,31 @@ import { APIError } from "@src/lib/api";
 import { useTranslate, useTranslateKeyState } from "@src/lib/i18n";
 import { Button, TextInput } from "@src/modules/shared";
 
-import { useLogin } from "../../services";
+import { useRegister } from "../../services";
 import { base, errorMessage } from "./styles";
 
 const EMAIL_INPUT_NAME = "email";
+const NAME_INPUT_NAME = "name";
 const PASSWORD_INPUT_NAME = "password";
 
-interface LoginFormProps {
+interface RegisterFormProps {
 	redirectTo?: string;
 }
 
 /**
- * LoginForm component is responsible for rendering the login form and
+ * RegisterForm component is responsible for rendering the register form and
  * handling its submission.
  */
-export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
+export function RegisterForm({ redirectTo = "/" }: RegisterFormProps) {
 	const navigate = useNavigate();
 
 	const t = useTranslate("auth");
 	const emailMessage = useTranslateKeyState("auth");
+	const nameMessage = useTranslateKeyState("auth");
 	const passwordMessage = useTranslateKeyState("auth");
-	const loginMessage = useTranslateKeyState("auth");
+	const registerMessage = useTranslateKeyState("auth");
 
-	const { mutate: login, isPending } = useLogin();
+	const { mutate: register, isPending } = useRegister();
 
 	function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -37,24 +39,26 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 		const form = event.currentTarget;
 		const formData = new FormData(form);
 
-		login(
+		register(
 			{
 				email: String(formData.get(EMAIL_INPUT_NAME)),
+				name: String(formData.get(NAME_INPUT_NAME)),
 				password: String(formData.get(PASSWORD_INPUT_NAME)),
 			},
 			{
 				onError: (error) => {
 					if (error instanceof APIError) {
 						// TODO: map API errors to translation keys.
-						loginMessage.setKey(error.message as TranslateKey<"auth">);
+						registerMessage.setKey(error.message as TranslateKey<"auth">);
 						return;
 					}
-					loginMessage.setKey("loginForm.unexpectedError");
+					registerMessage.setKey("registerForm.unexpectedError");
 				},
 				onSuccess: () => {
 					form.reset();
-					loginMessage.setKey(null);
+					registerMessage.setKey(null);
 					emailMessage.setKey(null);
+					nameMessage.setKey(null);
 					passwordMessage.setKey(null);
 					navigate({
 						to: redirectTo,
@@ -69,17 +73,32 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 		const { validity } = event.currentTarget;
 
 		if (validity.valueMissing) {
-			emailMessage.setKey("loginForm.input.email.required");
+			emailMessage.setKey("registerForm.input.email.required");
 			return;
 		}
 
 		if (validity.typeMismatch) {
-			emailMessage.setKey("loginForm.input.email.invalid");
+			emailMessage.setKey("registerForm.input.email.invalid");
 			return;
 		}
 
 		if (validity.tooShort) {
-			emailMessage.setKey("loginForm.input.email.tooShort");
+			emailMessage.setKey("registerForm.input.email.tooShort");
+			return;
+		}
+	}
+
+	function handleInvalidName(event: SyntheticEvent<HTMLInputElement>) {
+		event.preventDefault();
+		const { validity } = event.currentTarget;
+
+		if (validity.valueMissing) {
+			nameMessage.setKey("registerForm.input.name.required");
+			return;
+		}
+
+		if (validity.tooShort) {
+			nameMessage.setKey("registerForm.input.name.tooShort");
 			return;
 		}
 	}
@@ -89,7 +108,12 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 		const { validity } = event.currentTarget;
 
 		if (validity.valueMissing) {
-			passwordMessage.setKey("loginForm.input.password.required");
+			passwordMessage.setKey("registerForm.input.password.required");
+			return;
+		}
+
+		if (validity.tooShort) {
+			passwordMessage.setKey("registerForm.input.password.tooShort");
 			return;
 		}
 	}
@@ -97,12 +121,12 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 	return (
 		<form onSubmit={handleSubmit} className={base()}>
 			<p className={errorMessage()}>
-				{loginMessage.key && t(loginMessage.key)}
+				{registerMessage.key && t(registerMessage.key)}
 			</p>
 			<TextInput
 				name={EMAIL_INPUT_NAME}
-				label={t("loginForm.input.email.label")}
-				placeholder={t("loginForm.input.email.placeholder")}
+				label={t("registerForm.input.email.label")}
+				placeholder={t("registerForm.input.email.placeholder")}
 				type="email"
 				onChange={() => emailMessage.setKey(null)}
 				onInvalid={handleInvalidEmail}
@@ -112,18 +136,31 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 				required
 			/>
 			<TextInput
+				name={NAME_INPUT_NAME}
+				label={t("registerForm.input.name.label")}
+				placeholder={t("registerForm.input.name.placeholder")}
+				type="text"
+				onChange={() => nameMessage.setKey(null)}
+				onInvalid={handleInvalidName}
+				message={nameMessage.key ? t(nameMessage.key) : undefined}
+				isError={!!nameMessage.key}
+				minLength={2}
+				required
+			/>
+			<TextInput
 				name={PASSWORD_INPUT_NAME}
-				label={t("loginForm.input.password.label")}
-				placeholder={t("loginForm.input.password.placeholder")}
+				label={t("registerForm.input.password.label")}
+				placeholder={t("registerForm.input.password.placeholder")}
 				type="password"
 				onChange={() => passwordMessage.setKey(null)}
 				onInvalid={handleInvalidPassword}
 				message={passwordMessage.key ? t(passwordMessage.key) : undefined}
 				isError={!!passwordMessage.key}
+				minLength={8}
 				required
 			/>
 			<Button type="submit" disabled={isPending}>
-				{t("loginForm.submitButton")}
+				{t("registerForm.submitButton")}
 			</Button>
 		</form>
 	);
