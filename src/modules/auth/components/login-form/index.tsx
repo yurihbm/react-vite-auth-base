@@ -1,9 +1,10 @@
+import type { TranslateKey } from "@src/lib/i18n";
 import type { SubmitEvent, SyntheticEvent } from "react";
 
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
 
 import { APIError } from "@src/lib/api";
+import { useTranslate, useTranslateKeyState } from "@src/lib/i18n";
 import { Button, TextInput } from "@src/modules/shared";
 
 import { useLogin } from "../../services";
@@ -23,11 +24,12 @@ interface LoginFormProps {
 export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 	const navigate = useNavigate();
 
-	const { mutate: login, isPending } = useLogin();
-	const [loginError, setLoginError] = useState<string | null>(null);
+	const t = useTranslate("auth");
+	const emailMessage = useTranslateKeyState("auth");
+	const passwordMessage = useTranslateKeyState("auth");
+	const loginMessage = useTranslateKeyState("auth");
 
-	const [emailMessage, setEmailMessage] = useState("");
-	const [passwordMessage, setPasswordMessage] = useState("");
+	const { mutate: login, isPending } = useLogin();
 
 	function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -43,18 +45,17 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 			{
 				onError: (error) => {
 					if (error instanceof APIError) {
-						setLoginError(error.message);
+						// TODO: map API errors to translation keys.
+						loginMessage.setKey(error.message as TranslateKey<"auth">);
 						return;
 					}
-					setLoginError(
-						"An unexpected error occurred. Please try again later.",
-					);
+					loginMessage.setKey("loginForm.unexpectedError");
 				},
 				onSuccess: () => {
 					form.reset();
-					setLoginError(null);
-					setEmailMessage("");
-					setPasswordMessage("");
+					loginMessage.setKey(null);
+					emailMessage.setKey(null);
+					passwordMessage.setKey(null);
 					navigate({
 						to: redirectTo,
 					});
@@ -68,17 +69,17 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 		const { validity } = event.currentTarget;
 
 		if (validity.valueMissing) {
-			setEmailMessage("Please enter your email address.");
+			emailMessage.setKey("loginForm.input.email.required");
 			return;
 		}
 
 		if (validity.typeMismatch) {
-			setEmailMessage("Please enter a valid email address.");
+			emailMessage.setKey("loginForm.input.email.invalid");
 			return;
 		}
 
 		if (validity.tooShort) {
-			setEmailMessage("Email must have at least 5 characters.");
+			emailMessage.setKey("loginForm.input.email.tooShort");
 			return;
 		}
 	}
@@ -88,38 +89,40 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 		const { validity } = event.currentTarget;
 
 		if (validity.valueMissing) {
-			setPasswordMessage("Please enter your password.");
+			passwordMessage.setKey("loginForm.input.password.required");
 		}
 	}
 
 	return (
 		<form onSubmit={handleSubmit} className={styles()}>
-			<p className="min-h-12 text-danger">{loginError}</p>
+			<p className="min-h-12 text-danger">
+				{loginMessage.key && t(loginMessage.key)}
+			</p>
 			<TextInput
 				name={EMAIL_INPUT_NAME}
-				label="Email"
-				placeholder="Enter your email"
+				label={t("loginForm.input.email.label")}
+				placeholder={t("loginForm.input.email.placeholder")}
 				type="email"
-				onChange={() => setEmailMessage("")}
+				onChange={() => emailMessage.setKey(null)}
 				onInvalid={handleInvalidEmail}
-				message={emailMessage}
-				isError={!!emailMessage}
+				message={emailMessage.key ? t(emailMessage.key) : undefined}
+				isError={!!emailMessage.key}
 				minLength={5}
 				required
 			/>
 			<TextInput
 				name={PASSWORD_INPUT_NAME}
-				label="Password"
-				placeholder="Enter your password"
+				label={t("loginForm.input.password.label")}
+				placeholder={t("loginForm.input.password.placeholder")}
 				type="password"
-				onChange={() => setPasswordMessage("")}
+				onChange={() => passwordMessage.setKey(null)}
 				onInvalid={handleInvalidPassword}
-				message={passwordMessage}
-				isError={!!passwordMessage}
+				message={passwordMessage.key ? t(passwordMessage.key) : undefined}
+				isError={!!passwordMessage.key}
 				required
 			/>
 			<Button type="submit" disabled={isPending}>
-				Login
+				{t("loginForm.submitButton")}
 			</Button>
 		</form>
 	);

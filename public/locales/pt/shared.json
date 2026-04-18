@@ -1,6 +1,10 @@
 {
+	"en": "en",
 	"footer": {
 		"message": "Feito com ❤️ por Yuri"
+	},
+	"loginForm": {
+		"unexpectedError": ""
 	},
 	"nav": {
 		"link": {
@@ -8,5 +12,6 @@
 			"login": "Entrar",
 			"register": "Registrar"
 		}
-	}
+	},
+	"pt": "pt"
 }

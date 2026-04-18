@@ -22,13 +22,13 @@ function fillFormAndSubmit(
 	getByLabelText: ReturnType<typeof render>["getByLabelText"],
 	getByRole: ReturnType<typeof render>["getByRole"],
 ) {
-	fireEvent.change(getByLabelText("Email"), {
+	fireEvent.change(getByLabelText("loginForm.input.email.label"), {
 		target: { value: "john@doe.com" },
 	});
-	fireEvent.change(getByLabelText("Password"), {
+	fireEvent.change(getByLabelText("loginForm.input.password.label"), {
 		target: { value: "secret" },
 	});
-	fireEvent.click(getByRole("button", { name: "Login" }));
+	fireEvent.click(getByRole("button", { name: "loginForm.submitButton" }));
 }
 
 describe("LoginForm", () => {
@@ -49,12 +49,20 @@ describe("LoginForm", () => {
 		cleanup();
 	});
 
+	test("renders correctly", () => {
+		const { container } = render(<LoginForm />);
+
+		expect(container).toMatchSnapshot();
+	});
+
 	test("submits entered credentials through login mutation", () => {
 		const { getByLabelText, getByRole } = render(<LoginForm />);
 
-		const emailInput = getByLabelText("Email");
-		const passwordInput = getByLabelText("Password");
-		const submitButton = getByRole("button", { name: "Login" });
+		const emailInput = getByLabelText("loginForm.input.email.label");
+		const passwordInput = getByLabelText("loginForm.input.password.label");
+		const submitButton = getByRole("button", {
+			name: "loginForm.submitButton",
+		});
 
 		fireEvent.change(emailInput, { target: { value: "john@doe.com" } });
 		fireEvent.change(passwordInput, { target: { value: "secret" } });
@@ -84,11 +92,13 @@ describe("LoginForm", () => {
 			},
 		];
 
+		const apiErrorMessage = "auth.login.invalidCredentials";
+
 		act(() => {
-			handlers.onError(new APIError("Invalid credentials"));
+			handlers.onError(new APIError(apiErrorMessage));
 		});
 
-		expect(getByText("Invalid credentials")).toBeDefined();
+		expect(getByText(apiErrorMessage)).toBeDefined();
 	});
 
 	test("shows fallback message for unknown errors", () => {
@@ -107,9 +117,7 @@ describe("LoginForm", () => {
 			handlers.onError(new Error("boom"));
 		});
 
-		expect(
-			getByText("An unexpected error occurred. Please try again later."),
-		).toBeDefined();
+		expect(getByText("loginForm.unexpectedError")).toBeDefined();
 	});
 
 	test("disables submit button while login is pending", () => {
@@ -119,7 +127,9 @@ describe("LoginForm", () => {
 		} as unknown as ReturnType<typeof useLogin>);
 
 		const { getByRole } = render(<LoginForm />);
-		const submitButton = getByRole("button", { name: "Login" });
+		const submitButton = getByRole("button", {
+			name: "loginForm.submitButton",
+		});
 
 		expect((submitButton as HTMLButtonElement).disabled).toBe(true);
 	});
