@@ -40,6 +40,9 @@ function RootLayout() {
 						<li>
 							<Link
 								to="/register"
+								search={{
+									redirect: "/",
+								}}
 								className="text-sm font-medium text-foreground/80 hover:text-foreground"
 							>
 								{t("nav.link.register")}
