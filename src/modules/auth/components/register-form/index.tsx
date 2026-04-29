@@ -7,7 +7,7 @@ import { APIError } from "@src/lib/api";
 import { useTranslate, useTranslateKeyState } from "@src/lib/i18n";
 import { Button, TextInput } from "@src/modules/shared";
 
-import { useRegister } from "../../services";
+import { useLogin, useRegister } from "../../services";
 import { base, errorMessage } from "./styles";
 
 const EMAIL_INPUT_NAME = "email";
@@ -31,41 +31,49 @@ export function RegisterForm({ redirectTo = "/" }: RegisterFormProps) {
 	const passwordMessage = useTranslateKeyState("auth");
 	const registerMessage = useTranslateKeyState("auth");
 
-	const { mutate: register, isPending } = useRegister();
+	const { mutateAsync: register, isPending: isRegisterPending } = useRegister();
+	const { mutateAsync: login, isPending: isLoginPending } = useLogin();
 
-	function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+	const isPending = isRegisterPending || isLoginPending;
+
+	async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
 		event.preventDefault();
 
 		const form = event.currentTarget;
 		const formData = new FormData(form);
 
-		register(
-			{
-				email: String(formData.get(EMAIL_INPUT_NAME)),
-				name: String(formData.get(NAME_INPUT_NAME)),
-				password: String(formData.get(PASSWORD_INPUT_NAME)),
-			},
-			{
-				onError: (error) => {
-					if (error instanceof APIError) {
-						// TODO: map API errors to translation keys.
-						registerMessage.setKey(error.message as TranslateKey<"auth">);
-						return;
-					}
-					registerMessage.setKey("registerForm.unexpectedError");
-				},
-				onSuccess: () => {
-					form.reset();
-					registerMessage.setKey(null);
-					emailMessage.setKey(null);
-					nameMessage.setKey(null);
-					passwordMessage.setKey(null);
-					navigate({
-						to: redirectTo,
-					});
-				},
-			},
-		);
+		try {
+			const email = String(formData.get(EMAIL_INPUT_NAME));
+			const name = String(formData.get(NAME_INPUT_NAME));
+			const password = String(formData.get(PASSWORD_INPUT_NAME));
+
+			await register({
+				email,
+				name,
+				password,
+			});
+
+			await login({
+				email,
+				password,
+			});
+
+			form.reset();
+			registerMessage.setKey(null);
+			emailMessage.setKey(null);
+			nameMessage.setKey(null);
+			passwordMessage.setKey(null);
+			navigate({
+				to: redirectTo,
+			});
+		} catch (error) {
+			if (error instanceof APIError) {
+				// TODO: map API errors to translation keys.
+				registerMessage.setKey(error.message as TranslateKey<"auth">);
+				return;
+			}
+			registerMessage.setKey("registerForm.unexpectedError");
+		}
 	}
 
 	function handleInvalidEmail(event: SyntheticEvent<HTMLInputElement>) {
