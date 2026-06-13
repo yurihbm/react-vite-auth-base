@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Badge > renders correctly 1`] = `
+<div>
+  <span
+    class="inline-flex items-center justify-center gap-1 rounded-full font-medium whitespace-nowrap px-2.5 py-0.5 text-sm bg-subtle text-subtle-foreground"
+  >
+    New
+  </span>
+</div>
+`;
