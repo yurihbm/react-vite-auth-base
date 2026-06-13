@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Spinner > renders correctly 1`] = `
+<div>
+  <span
+    aria-label="Loading"
+    role="status"
+  >
+    <span
+      class="inline-block animate-spin rounded-full border-solid border-current border-t-transparent size-6 border-2 text-primary"
+    />
+  </span>
+</div>
+`;
