@@ -5,6 +5,8 @@ export { DevTools } from "./dev-tools";
 export { LanguageSwitcher } from "./language-switcher";
 export { Portal } from "./portal";
 export type { PortalProps } from "./portal";
+export { Skeleton } from "./skeleton";
+export type { SkeletonProps } from "./skeleton";
 export { Spinner } from "./spinner";
 export type { SpinnerProps } from "./spinner";
 export { TextInput } from "./text-input";
