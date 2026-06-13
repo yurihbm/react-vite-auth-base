@@ -1,6 +1,8 @@
 export { Badge } from "./badge";
 export type { BadgeProps } from "./badge";
 export { Button } from "./button";
+export { Checkbox } from "./checkbox";
+export type { CheckboxProps } from "./checkbox";
 export { DevTools } from "./dev-tools";
 export { LanguageSwitcher } from "./language-switcher";
 export { Portal } from "./portal";
