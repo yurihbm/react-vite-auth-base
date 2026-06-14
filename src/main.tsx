@@ -4,6 +4,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { initI18n } from "@src/lib/i18n";
+import { ToastProvider } from "@src/modules/shared";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
@@ -32,7 +33,9 @@ await initI18n();
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
 		<QueryClientProvider client={queryClient}>
-			<RouterProvider router={router} />
+			<ToastProvider>
+				<RouterProvider router={router} />
+			</ToastProvider>
 		</QueryClientProvider>
 	</StrictMode>,
 );
