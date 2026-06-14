@@ -2,7 +2,7 @@ import type { SelectOption } from "../option-list/types";
 import type { SelectStyles, SelectVariants } from "./styles";
 
 import { CaretDownIcon } from "@phosphor-icons/react";
-import { useId, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 
 import { useCombobox } from "@src/modules/shared/hooks/use-combobox";
 import { useFilteredOptions } from "@src/modules/shared/hooks/use-filtered-options";
@@ -48,7 +48,10 @@ export interface SelectMultiProps extends SelectBaseProps {
 	onChange: (value: string[]) => void;
 	/** Builds the trigger summary text. Defaults to `"{n} selected"`. */
 	countLabel?: (count: number) => string;
-	/** Maximum number of selectable options. */
+	/**
+	 * Maximum number of selectable options. Must be ≥ 1; pass `undefined` for
+	 * no limit. Passing `0` silently blocks all selections.
+	 */
 	maxSelected?: number;
 }
 
@@ -72,12 +75,20 @@ export function Select(props: SelectProps) {
 		classNames,
 	} = props;
 
-	const isMulti = props.isMulti === true;
+	// props.isMulti as the ternary condition gives TypeScript full discriminant
+	// narrowing at each extraction site, so no `as` casts are needed anywhere.
+	// multiValue also doubles as the runtime mode flag: null = single, array = multi.
+	const multiValue = props.isMulti ? (props.value ?? []) : null;
+	const singleValue = props.isMulti ? null : props.value;
+	const multiOnChange = props.isMulti ? props.onChange : null;
+	const singleOnChange = props.isMulti ? null : props.onChange;
+	const maxSelected = props.isMulti ? props.maxSelected : undefined;
+	const countLabel = props.isMulti
+		? (props.countLabel ?? ((n: number) => `${n} selected`))
+		: null;
 	const placeholder =
-		props.placeholder ?? (isMulti ? "Select options" : "Select an option");
-
-	const multiValue = isMulti ? (props as SelectMultiProps).value : null;
-	const singleValue = !isMulti ? (props as SelectSingleProps).value : null;
+		props.placeholder ??
+		(props.isMulti ? "Select options" : "Select an option");
 
 	const [query, setQuery] = useState("");
 	const labelId = useId();
@@ -85,18 +96,25 @@ export function Select(props: SelectProps) {
 
 	const { filtered } = useFilteredOptions({ options, query, onSearch });
 
-	function handleSelect(option: SelectOption) {
-		if (isMulti && multiValue !== null) {
-			const { onChange, maxSelected } = props as SelectMultiProps;
-			if (multiValue.includes(option.value)) {
-				onChange(multiValue.filter((v) => v !== option.value));
-			} else if (maxSelected === undefined || multiValue.length < maxSelected) {
-				onChange([...multiValue, option.value]);
+	const resetQuery = useCallback(() => setQuery(""), []);
+
+	const handleSelect = useCallback(
+		(option: SelectOption) => {
+			if (multiValue !== null) {
+				if (multiValue.includes(option.value)) {
+					multiOnChange!(multiValue.filter((v) => v !== option.value));
+				} else if (
+					maxSelected === undefined ||
+					multiValue.length < maxSelected
+				) {
+					multiOnChange!([...multiValue, option.value]);
+				}
+			} else {
+				singleOnChange!(option.value);
 			}
-		} else {
-			(props as SelectSingleProps).onChange(option.value);
-		}
-	}
+		},
+		[multiValue, multiOnChange, maxSelected, singleOnChange],
+	);
 
 	const {
 		open,
@@ -110,9 +128,9 @@ export function Select(props: SelectProps) {
 	} = useCombobox({
 		options: filtered,
 		onSelect: handleSelect,
-		closeOnSelect: !isMulti,
+		closeOnSelect: multiValue === null,
 		disabled,
-		onQueryReset: () => setQuery(""),
+		onQueryReset: resetQuery,
 	});
 
 	const selectedOption = useMemo(
@@ -123,10 +141,13 @@ export function Select(props: SelectProps) {
 		[options, singleValue],
 	);
 
-	const getIsSelected = (option: SelectOption) => {
-		if (multiValue !== null) return multiValue.includes(option.value);
-		return option.value === singleValue;
-	};
+	const getIsSelected = useCallback(
+		(option: SelectOption) => {
+			if (multiValue !== null) return multiValue.includes(option.value);
+			return option.value === singleValue;
+		},
+		[multiValue, singleValue],
+	);
 
 	const getOptionId = (index: number) => `${listboxId}-opt-${index}`;
 	const activeOptionId =
@@ -134,12 +155,10 @@ export function Select(props: SelectProps) {
 
 	function renderTriggerLabel() {
 		if (multiValue !== null) {
-			const { countLabel = (n: number) => `${n} selected` } =
-				props as SelectMultiProps;
 			if (multiValue.length > 0) {
 				return (
 					<span className={triggerText({ className: classNames?.triggerText })}>
-						{countLabel(multiValue.length)}
+						{countLabel!(multiValue.length)}
 					</span>
 				);
 			}
@@ -211,7 +230,7 @@ export function Select(props: SelectProps) {
 						/>
 					</div>
 					<OptionList
-						multi={isMulti}
+						multi={multiValue !== null}
 						id={listboxId}
 						options={filtered}
 						size={size}
