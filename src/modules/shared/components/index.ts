@@ -14,3 +14,7 @@ export type { SkeletonProps } from "./skeleton";
 export { Spinner } from "./spinner";
 export type { SpinnerProps } from "./spinner";
 export { TextInput } from "./text-input";
+export { ToastProvider } from "./toast";
+export type { ToastProviderProps } from "./toast";
+export { useToast } from "./toast/use-toast";
+export type { Toast, ToastOptions } from "./toast/types";
