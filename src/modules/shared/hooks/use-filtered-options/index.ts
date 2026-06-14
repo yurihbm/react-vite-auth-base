@@ -52,9 +52,16 @@ export function useFilteredOptions({
 		[options, query],
 	);
 
-	const [asyncFiltered, setAsyncFiltered] = useState<SelectOption[]>(options);
+	const [asyncState, setAsyncState] = useState({
+		options,
+		filtered: options,
+	});
 	const [isLoading, setIsLoading] = useState(false);
 	const requestIdRef = useRef(0);
+
+	if (asyncState.options !== options) {
+		setAsyncState({ options, filtered: options });
+	}
 
 	useEffect(() => {
 		if (!onSearch) {
@@ -69,13 +76,19 @@ export function useFilteredOptions({
 				.then((result) => {
 					// Ignore stale responses from superseded requests.
 					if (requestId === requestIdRef.current) {
-						setAsyncFiltered(result);
+						setAsyncState((current) =>
+							current.options === options
+								? { options, filtered: result }
+								: current,
+						);
 						setIsLoading(false);
 					}
 				})
 				.catch(() => {
 					if (requestId === requestIdRef.current) {
-						setAsyncFiltered([]);
+						setAsyncState((current) =>
+							current.options === options ? { options, filtered: [] } : current,
+						);
 						setIsLoading(false);
 					}
 				});
@@ -84,10 +97,10 @@ export function useFilteredOptions({
 		return () => {
 			clearTimeout(timeoutId);
 		};
-	}, [onSearch, query, debounceMs]);
+	}, [options, onSearch, query, debounceMs]);
 
 	if (onSearch) {
-		return { filtered: asyncFiltered, isLoading };
+		return { filtered: asyncState.filtered, isLoading };
 	}
 
 	return { filtered: localFiltered, isLoading: false };

@@ -73,6 +73,14 @@ describe("MultiSelect", () => {
 		expect(getByRole("combobox").textContent).toContain("1 item(s)");
 	});
 
+	test("exposes the error state to assistive technology", () => {
+		const { getByRole } = render(
+			<MultiSelect options={OPTIONS} value={[]} onChange={() => {}} isError />,
+		);
+
+		expect(getByRole("combobox").getAttribute("aria-invalid")).toBe("true");
+	});
+
 	test("adds a value on select and stays open", () => {
 		const onChange = vi.fn();
 

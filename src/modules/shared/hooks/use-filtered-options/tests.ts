@@ -76,4 +76,24 @@ describe("useFilteredOptions", () => {
 
 		expect(result.current.isLoading).toBe(true);
 	});
+
+	test("syncs initial async options when the options prop changes", () => {
+		vi.useFakeTimers();
+		const onSearch = vi.fn(() => new Promise<SelectOption[]>(() => {}));
+		const { result, rerender } = renderHook(
+			({ options }) =>
+				useFilteredOptions({
+					options,
+					query: "",
+					onSearch,
+					debounceMs: 10_000,
+				}),
+			{ initialProps: { options: OPTIONS } },
+		);
+		const updatedOptions = [{ label: "Cherry", value: "cherry" }];
+
+		rerender({ options: updatedOptions });
+
+		expect(result.current.filtered).toEqual(updatedOptions);
+	});
 });

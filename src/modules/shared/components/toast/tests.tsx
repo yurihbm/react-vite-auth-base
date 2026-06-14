@@ -89,6 +89,25 @@ describe("Toast", () => {
 		expect(result.current.toasts).toHaveLength(0);
 	});
 
+	test("uses the provider duration when toast duration is undefined", () => {
+		vi.useFakeTimers();
+		const durationWrapper = ({ children }: { children: ReactNode }) => (
+			<ToastProvider defaultDuration={100}>{children}</ToastProvider>
+		);
+		const { result } = renderHook(() => useToast(), {
+			wrapper: durationWrapper,
+		});
+
+		act(() => {
+			result.current.toast({ title: "Temporary", duration: undefined });
+		});
+		act(() => {
+			vi.advanceTimersByTime(100);
+		});
+
+		expect(result.current.toasts).toHaveLength(0);
+	});
+
 	test("dismisses when the close button is clicked", () => {
 		function Trigger() {
 			const { toast } = useToast();

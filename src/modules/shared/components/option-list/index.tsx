@@ -49,6 +49,7 @@ export function OptionList({
 }: OptionListProps) {
 	const scrollRef = useRef<HTMLDivElement>(null);
 
+	// eslint-disable-next-line
 	const virtualizer = useVirtualizer({
 		count: options.length,
 		getScrollElement: () => scrollRef.current,
@@ -88,6 +89,10 @@ export function OptionList({
 			>
 				{virtualizer.getVirtualItems().map((virtualRow) => {
 					const item = options[virtualRow.index];
+					if (!item) {
+						return null;
+					}
+
 					const selected = getIsSelected(item);
 					const isActive = virtualRow.index === activeIndex;
 
