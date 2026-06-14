@@ -19,7 +19,8 @@
 		"test:ci": "vitest run --bail 1",
 		"test:coverage": "vitest run --coverage",
 		"test:watch": "vitest",
-		"typecheck": "tsc -b"
+		"typecheck": "tsc -b",
+		"typecheck:go": "tsgo -b"
 	},
 	"dependencies": {
 		"@phosphor-icons/react": "^2.1.10",

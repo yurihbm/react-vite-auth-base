@@ -45,6 +45,7 @@ pnpm test:watch
 pnpm test:ci
 pnpm test:coverage
 pnpm typecheck
+pnpm typecheck:go # Uses experimental TypeScript Go (v7) for faster execution
 ```
 
 Notes:

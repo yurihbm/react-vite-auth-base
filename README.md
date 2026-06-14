@@ -101,6 +101,7 @@ pnpm test:watch     # Run tests in watch mode
 pnpm test:ci        # CI-oriented test run (bail on first failure)
 pnpm test:coverage  # Generate coverage report
 pnpm typecheck      # Run TypeScript type checks
+pnpm typecheck:go   # Experimental TypeScript Go (v7) type checks (faster)
 pnpm lint           # Run ESLint
 ```
 
