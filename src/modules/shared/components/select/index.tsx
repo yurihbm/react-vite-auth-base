@@ -21,11 +21,8 @@ import {
 	triggerText,
 } from "./styles";
 
-export interface SelectProps extends SelectVariants {
-	options: SelectOption[];
-	/** The currently selected value, or null when nothing is selected. */
-	value: string | null;
-	onChange: (value: string | null) => void;
+interface SelectBaseProps extends SelectVariants {
+	options?: SelectOption[];
 	placeholder?: string;
 	searchPlaceholder?: string;
 	emptyMessage?: string;
@@ -37,32 +34,69 @@ export interface SelectProps extends SelectVariants {
 	classNames?: SelectStyles;
 }
 
-/**
- * A single-select dropdown with an embedded search field and a virtualized
- * option list, suitable for large datasets. Supports client-side filtering by
- * default, or async filtering via `onSearch`.
- */
-export function Select({
-	options = [],
-	value,
-	onChange,
-	placeholder = "Select an option",
-	searchPlaceholder = "Search…",
-	emptyMessage,
-	onSearch,
-	disabled = false,
-	label,
-	message,
-	size = "md",
-	color = "primary",
-	isError = false,
-	classNames,
-}: SelectProps) {
+export interface SelectSingleProps extends SelectBaseProps {
+	isMulti?: false;
+	value: string | null;
+	onChange: (value: string | null) => void;
+	countLabel?: never;
+	maxSelected?: never;
+}
+
+export interface SelectMultiProps extends SelectBaseProps {
+	isMulti: true;
+	value: string[];
+	onChange: (value: string[]) => void;
+	/** Builds the trigger summary text. Defaults to `"{n} selected"`. */
+	countLabel?: (count: number) => string;
+	/** Maximum number of selectable options. */
+	maxSelected?: number;
+}
+
+export type SelectProps = SelectSingleProps | SelectMultiProps;
+
+/** Backward-compat alias — prefer `<Select isMulti>` for new code. */
+export type MultiSelectProps = SelectMultiProps;
+
+export function Select(props: SelectProps) {
+	const {
+		options = [],
+		searchPlaceholder = "Search...",
+		emptyMessage,
+		onSearch,
+		disabled = false,
+		label,
+		message,
+		size = "md",
+		color = "primary",
+		isError = false,
+		classNames,
+	} = props;
+
+	const isMulti = props.isMulti === true;
+	const placeholder =
+		props.placeholder ?? (isMulti ? "Select options" : "Select an option");
+
+	const multiValue = isMulti ? (props as SelectMultiProps).value : null;
+	const singleValue = !isMulti ? (props as SelectSingleProps).value : null;
+
 	const [query, setQuery] = useState("");
 	const labelId = useId();
 	const listboxId = useId();
 
 	const { filtered } = useFilteredOptions({ options, query, onSearch });
+
+	function handleSelect(option: SelectOption) {
+		if (isMulti && multiValue !== null) {
+			const { onChange, maxSelected } = props as SelectMultiProps;
+			if (multiValue.includes(option.value)) {
+				onChange(multiValue.filter((v) => v !== option.value));
+			} else if (maxSelected === undefined || multiValue.length < maxSelected) {
+				onChange([...multiValue, option.value]);
+			}
+		} else {
+			(props as SelectSingleProps).onChange(option.value);
+		}
+	}
 
 	const {
 		open,
@@ -75,20 +109,53 @@ export function Select({
 		handleSearchKeyDown,
 	} = useCombobox({
 		options: filtered,
-		onSelect: (option) => onChange(option.value),
-		closeOnSelect: true,
+		onSelect: handleSelect,
+		closeOnSelect: !isMulti,
 		disabled,
 		onQueryReset: () => setQuery(""),
 	});
 
 	const selectedOption = useMemo(
-		() => options.find((option) => option.value === value) ?? null,
-		[options, value],
+		() =>
+			singleValue !== null
+				? (options.find((o) => o.value === singleValue) ?? null)
+				: null,
+		[options, singleValue],
 	);
+
+	const getIsSelected = (option: SelectOption) => {
+		if (multiValue !== null) return multiValue.includes(option.value);
+		return option.value === singleValue;
+	};
 
 	const getOptionId = (index: number) => `${listboxId}-opt-${index}`;
 	const activeOptionId =
 		open && activeIndex >= 0 ? getOptionId(activeIndex) : undefined;
+
+	function renderTriggerLabel() {
+		if (multiValue !== null) {
+			const { countLabel = (n: number) => `${n} selected` } =
+				props as SelectMultiProps;
+			if (multiValue.length > 0) {
+				return (
+					<span className={triggerText({ className: classNames?.triggerText })}>
+						{countLabel(multiValue.length)}
+					</span>
+				);
+			}
+		} else if (selectedOption) {
+			return (
+				<span className={triggerText({ className: classNames?.triggerText })}>
+					{selectedOption.label}
+				</span>
+			);
+		}
+		return (
+			<span className={placeholderSlot({ className: classNames?.placeholder })}>
+				{placeholder}
+			</span>
+		);
+	}
 
 	return (
 		<div ref={rootRef} className={root({ className: classNames?.root })}>
@@ -118,17 +185,7 @@ export function Select({
 					className: classNames?.trigger,
 				})}
 			>
-				{selectedOption ? (
-					<span className={triggerText({ className: classNames?.triggerText })}>
-						{selectedOption.label}
-					</span>
-				) : (
-					<span
-						className={placeholderSlot({ className: classNames?.placeholder })}
-					>
-						{placeholder}
-					</span>
-				)}
+				{renderTriggerLabel()}
 				<CaretDownIcon
 					size={16}
 					data-open={open}
@@ -154,11 +211,12 @@ export function Select({
 						/>
 					</div>
 					<OptionList
+						multi={isMulti}
 						id={listboxId}
 						options={filtered}
 						size={size}
 						activeIndex={activeIndex}
-						getIsSelected={(option) => option.value === value}
+						getIsSelected={getIsSelected}
 						onSelect={selectOption}
 						getOptionId={getOptionId}
 						emptyMessage={emptyMessage}

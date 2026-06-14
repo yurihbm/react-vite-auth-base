@@ -10,7 +10,7 @@ const meta: Meta<OptionListProps> = {
 	component: OptionList,
 	decorators: [
 		(Story) => (
-			<div className="max-w-72 rounded border border-border bg-background-muted">
+			<div className="max-w-72 overflow-hidden rounded border border-border bg-background-muted">
 				<Story />
 			</div>
 		),
