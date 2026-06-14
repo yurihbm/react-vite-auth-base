@@ -43,7 +43,7 @@ export interface SelectProps extends SelectVariants {
  * default, or async filtering via `onSearch`.
  */
 export function Select({
-	options,
+	options = [],
 	value,
 	onChange,
 	placeholder = "Select an option",
