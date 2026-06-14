@@ -107,6 +107,7 @@ export function Select({
 				aria-expanded={open}
 				aria-controls={listboxId}
 				aria-labelledby={label ? labelId : undefined}
+				aria-invalid={isError || undefined}
 				disabled={disabled}
 				onClick={toggle}
 				onKeyDown={handleTriggerKeyDown}

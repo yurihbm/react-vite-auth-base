@@ -95,7 +95,7 @@ export function ToastProvider({
 
 			setToasts((current) => [
 				...current,
-				{ duration: defaultDuration, ...options, id },
+				{ ...options, duration: options.duration ?? defaultDuration, id },
 			]);
 
 			return id;

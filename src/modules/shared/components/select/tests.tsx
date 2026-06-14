@@ -57,6 +57,14 @@ describe("Select", () => {
 		expect(getByRole("combobox").textContent).toContain("Banana");
 	});
 
+	test("exposes the error state to assistive technology", () => {
+		const { getByRole } = render(
+			<Select options={OPTIONS} value={null} onChange={() => {}} isError />,
+		);
+
+		expect(getByRole("combobox").getAttribute("aria-invalid")).toBe("true");
+	});
+
 	test("opens the dropdown and lists options on click", () => {
 		const { getByRole, getByText } = render(
 			<Select options={OPTIONS} value={null} onChange={() => {}} />,

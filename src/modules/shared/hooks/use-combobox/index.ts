@@ -34,9 +34,14 @@ function findNextEnabled(
 	direction: 1 | -1,
 ): number {
 	const count = options.length;
+	if (count === 0) {
+		return -1;
+	}
+
+	const start = from < 0 ? (direction === 1 ? -1 : count) : from;
 
 	for (let step = 1; step <= count; step++) {
-		const index = (from + direction * step + count * step) % count;
+		const index = (start + direction * step + count * step) % count;
 
 		if (!options[index]?.disabled) {
 			return index;
