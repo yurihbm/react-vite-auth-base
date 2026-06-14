@@ -4,6 +4,8 @@ export { Button } from "./button";
 export { Checkbox } from "./checkbox";
 export type { CheckboxProps } from "./checkbox";
 export { DevTools } from "./dev-tools";
+export { Dialog } from "./dialog";
+export type { DialogProps } from "./dialog";
 export { LanguageSwitcher } from "./language-switcher";
 export { Portal } from "./portal";
 export type { PortalProps } from "./portal";
