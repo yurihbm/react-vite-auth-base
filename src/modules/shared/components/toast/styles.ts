@@ -67,10 +67,4 @@ export type ToastPosition = NonNullable<
 	VariantProps<typeof viewportStyles>["position"]
 >;
 
-export const {
-	root,
-	content,
-	title: titleSlot,
-	description: descriptionSlot,
-	closeButton,
-} = styles();
+export const { root, content, title, description, closeButton } = styles();

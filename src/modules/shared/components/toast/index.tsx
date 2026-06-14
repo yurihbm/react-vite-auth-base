@@ -10,9 +10,9 @@ import { ToastContext } from "./context";
 import {
 	closeButton,
 	content,
-	descriptionSlot,
+	description,
 	root,
-	titleSlot,
+	title,
 	viewportStyles,
 } from "./styles";
 
@@ -56,9 +56,9 @@ function ToastItem({
 			className={root({ color: toast.color })}
 		>
 			<div className={content()}>
-				<p className={titleSlot()}>{toast.title}</p>
+				<p className={title()}>{toast.title}</p>
 				{toast.description && (
-					<p className={descriptionSlot()}>{toast.description}</p>
+					<p className={description()}>{toast.description}</p>
 				)}
 			</div>
 			<button
