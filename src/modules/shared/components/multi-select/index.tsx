@@ -46,8 +46,8 @@ export interface MultiSelectProps extends SelectVariants {
  * checkbox-based option list. The trigger summarizes the selection as a count.
  */
 export function MultiSelect({
-	options,
-	value,
+	options = [],
+	value = [],
 	onChange,
 	placeholder = "Select options",
 	searchPlaceholder = "Search…",

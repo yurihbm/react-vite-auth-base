@@ -96,6 +96,7 @@ export function useFilteredOptions({
 
 		return () => {
 			clearTimeout(timeoutId);
+			++requestIdRef.current;
 		};
 	}, [options, onSearch, query, debounceMs]);
 

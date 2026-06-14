@@ -66,7 +66,12 @@ export function OptionList({
 
 	if (options.length === 0) {
 		return (
-			<div className={empty({ className: classNames?.empty })}>
+			<div
+				id={id}
+				role="listbox"
+				aria-multiselectable={multi || undefined}
+				className={empty({ className: classNames?.empty })}
+			>
 				{emptyMessage}
 			</div>
 		);
