@@ -48,7 +48,7 @@ exports[`Checkbox > renders correctly 1`] = `
         </span>
       </span>
       <label
-        class="cursor-pointer select-none text-sm text-foreground"
+        class="cursor-pointer text-sm text-foreground select-none"
         for="_r_0_"
       >
         Subscribe
