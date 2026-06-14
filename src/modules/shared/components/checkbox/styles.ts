@@ -19,7 +19,7 @@ const styles = tv({
 			"peer-focus-visible:ring-2 peer-focus-visible:ring-ring/40",
 			"peer-disabled:cursor-not-allowed peer-disabled:opacity-60",
 		],
-		indicator: ["hidden peer-checked:block"],
+		indicator: ["peer-checked:block"],
 		indeterminateIndicator: ["hidden peer-indeterminate:block"],
 		labelText: ["cursor-pointer text-sm text-foreground select-none"],
 		message: ["min-h-4 text-xs text-foreground-muted"],
