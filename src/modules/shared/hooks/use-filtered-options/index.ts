@@ -1,6 +1,6 @@
 import type { SelectOption } from "@src/modules/shared/components/option-list/types";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export interface UseFilteredOptionsParams {
 	/** The full set of options to filter against (client-side mode). */
@@ -47,10 +47,7 @@ export function useFilteredOptions({
 	onSearch,
 	debounceMs = 300,
 }: UseFilteredOptionsParams): UseFilteredOptionsResult {
-	const localFiltered = useMemo(
-		() => filterLocally(options, query),
-		[options, query],
-	);
+	const localFiltered = filterLocally(options, query);
 
 	const [asyncState, setAsyncState] = useState({
 		options,
@@ -69,13 +66,14 @@ export function useFilteredOptions({
 		}
 
 		const requestId = ++requestIdRef.current;
+		let isCurrentRequest = true;
 
 		const timeoutId = setTimeout(() => {
 			setIsLoading(true);
 			onSearch(query)
 				.then((result) => {
 					// Ignore stale responses from superseded requests.
-					if (requestId === requestIdRef.current) {
+					if (isCurrentRequest && requestId === requestIdRef.current) {
 						setAsyncState((current) =>
 							current.options === options
 								? { options, filtered: result }
@@ -85,7 +83,7 @@ export function useFilteredOptions({
 					}
 				})
 				.catch(() => {
-					if (requestId === requestIdRef.current) {
+					if (isCurrentRequest && requestId === requestIdRef.current) {
 						setAsyncState((current) =>
 							current.options === options ? { options, filtered: [] } : current,
 						);
@@ -96,7 +94,7 @@ export function useFilteredOptions({
 
 		return () => {
 			clearTimeout(timeoutId);
-			++requestIdRef.current;
+			isCurrentRequest = false;
 		};
 	}, [options, onSearch, query, debounceMs]);
 

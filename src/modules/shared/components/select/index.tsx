@@ -2,7 +2,7 @@ import type { SelectOption } from "../option-list/types";
 import type { SelectStyles, SelectVariants } from "./styles";
 
 import { CaretDownIcon } from "@phosphor-icons/react";
-import { useCallback, useId, useMemo, useState } from "react";
+import { useId, useState } from "react";
 
 import { useCombobox } from "@src/modules/shared/hooks/use-combobox";
 import { useFilteredOptions } from "@src/modules/shared/hooks/use-filtered-options";
@@ -96,25 +96,21 @@ export function Select(props: SelectProps) {
 
 	const { filtered } = useFilteredOptions({ options, query, onSearch });
 
-	const resetQuery = useCallback(() => setQuery(""), []);
+	function resetQuery() {
+		setQuery("");
+	}
 
-	const handleSelect = useCallback(
-		(option: SelectOption) => {
-			if (multiValue !== null) {
-				if (multiValue.includes(option.value)) {
-					multiOnChange!(multiValue.filter((v) => v !== option.value));
-				} else if (
-					maxSelected === undefined ||
-					multiValue.length < maxSelected
-				) {
-					multiOnChange!([...multiValue, option.value]);
-				}
-			} else {
-				singleOnChange!(option.value);
+	function handleSelect(option: SelectOption) {
+		if (multiValue !== null) {
+			if (multiValue.includes(option.value)) {
+				multiOnChange!(multiValue.filter((v) => v !== option.value));
+			} else if (maxSelected === undefined || multiValue.length < maxSelected) {
+				multiOnChange!([...multiValue, option.value]);
 			}
-		},
-		[multiValue, multiOnChange, maxSelected, singleOnChange],
-	);
+		} else {
+			singleOnChange!(option.value);
+		}
+	}
 
 	const {
 		open,
@@ -133,21 +129,15 @@ export function Select(props: SelectProps) {
 		onQueryReset: resetQuery,
 	});
 
-	const selectedOption = useMemo(
-		() =>
-			singleValue !== null
-				? (options.find((o) => o.value === singleValue) ?? null)
-				: null,
-		[options, singleValue],
-	);
+	const selectedOption =
+		singleValue !== null
+			? (options.find((o) => o.value === singleValue) ?? null)
+			: null;
 
-	const getIsSelected = useCallback(
-		(option: SelectOption) => {
-			if (multiValue !== null) return multiValue.includes(option.value);
-			return option.value === singleValue;
-		},
-		[multiValue, singleValue],
-	);
+	function getIsSelected(option: SelectOption) {
+		if (multiValue !== null) return multiValue.includes(option.value);
+		return option.value === singleValue;
+	}
 
 	const getOptionId = (index: number) => `${listboxId}-opt-${index}`;
 	const activeOptionId =

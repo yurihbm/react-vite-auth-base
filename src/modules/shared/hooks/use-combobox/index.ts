@@ -1,7 +1,7 @@
 import type { SelectOption } from "@src/modules/shared/components/option-list/types";
 import type { KeyboardEvent as ReactKeyboardEvent, RefObject } from "react";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export interface UseComboboxParams {
 	/** The currently visible (filtered) options. */
@@ -68,6 +68,11 @@ export function useCombobox({
 	const [optionCount, setOptionCount] = useState(options.length);
 	const rootRef = useRef<HTMLDivElement>(null);
 	const searchRef = useRef<HTMLInputElement>(null);
+	const onQueryResetRef = useRef(onQueryReset);
+
+	useEffect(() => {
+		onQueryResetRef.current = onQueryReset;
+	}, [onQueryReset]);
 
 	// Keep the active index within bounds as the filtered list changes. Adjusting
 	// derived state during render is the recommended alternative to an effect.
@@ -79,43 +84,40 @@ export function useCombobox({
 		}
 	}
 
-	const close = useCallback(() => {
+	function close() {
 		setOpen(false);
 		setActiveIndex(-1);
-		onQueryReset();
-	}, [onQueryReset]);
+		onQueryResetRef.current();
+	}
 
-	const openDropdown = useCallback(() => {
+	function openDropdown() {
 		if (disabled) {
 			return;
 		}
 
 		setOpen(true);
 		setActiveIndex(options.length > 0 ? 0 : -1);
-	}, [disabled, options.length]);
+	}
 
-	const toggle = useCallback(() => {
+	function toggle() {
 		if (open) {
 			close();
 		} else {
 			openDropdown();
 		}
-	}, [open, close, openDropdown]);
+	}
 
-	const selectOption = useCallback(
-		(option: SelectOption) => {
-			if (option.disabled) {
-				return;
-			}
+	function selectOption(option: SelectOption) {
+		if (option.disabled) {
+			return;
+		}
 
-			onSelect(option);
+		onSelect(option);
 
-			if (closeOnSelect) {
-				close();
-			}
-		},
-		[onSelect, closeOnSelect, close],
-	);
+		if (closeOnSelect) {
+			close();
+		}
+	}
 
 	// Focus the search field when the dropdown opens.
 	useEffect(() => {
@@ -132,7 +134,9 @@ export function useCombobox({
 
 		function handlePointerDown(event: PointerEvent) {
 			if (!rootRef.current?.contains(event.target as Node)) {
-				close();
+				setOpen(false);
+				setActiveIndex(-1);
+				onQueryResetRef.current();
 			}
 		}
 
@@ -141,56 +145,50 @@ export function useCombobox({
 		return () => {
 			document.removeEventListener("pointerdown", handlePointerDown);
 		};
-	}, [open, close]);
+	}, [open]);
 
-	const handleTriggerKeyDown = useCallback(
-		(event: ReactKeyboardEvent<HTMLElement>) => {
-			if (disabled) {
-				return;
-			}
+	function handleTriggerKeyDown(event: ReactKeyboardEvent<HTMLElement>) {
+		if (disabled) {
+			return;
+		}
 
-			if (
-				event.key === "ArrowDown" ||
-				event.key === "Enter" ||
-				event.key === " "
-			) {
+		if (
+			event.key === "ArrowDown" ||
+			event.key === "Enter" ||
+			event.key === " "
+		) {
+			event.preventDefault();
+			openDropdown();
+		}
+	}
+
+	function handleSearchKeyDown(event: ReactKeyboardEvent<HTMLInputElement>) {
+		switch (event.key) {
+			case "ArrowDown":
 				event.preventDefault();
-				openDropdown();
-			}
-		},
-		[disabled, openDropdown],
-	);
-
-	const handleSearchKeyDown = useCallback(
-		(event: ReactKeyboardEvent<HTMLInputElement>) => {
-			switch (event.key) {
-				case "ArrowDown":
-					event.preventDefault();
-					setActiveIndex((current) => findNextEnabled(options, current, 1));
-					break;
-				case "ArrowUp":
-					event.preventDefault();
-					setActiveIndex((current) => findNextEnabled(options, current, -1));
-					break;
-				case "Enter": {
-					event.preventDefault();
-					const option = options[activeIndex];
-					if (option) {
-						selectOption(option);
-					}
-					break;
+				setActiveIndex((current) => findNextEnabled(options, current, 1));
+				break;
+			case "ArrowUp":
+				event.preventDefault();
+				setActiveIndex((current) => findNextEnabled(options, current, -1));
+				break;
+			case "Enter": {
+				event.preventDefault();
+				const option = options[activeIndex];
+				if (option) {
+					selectOption(option);
 				}
-				case "Escape":
-					event.preventDefault();
-					close();
-					break;
-				case "Tab":
-					close();
-					break;
+				break;
 			}
-		},
-		[options, activeIndex, selectOption, close],
-	);
+			case "Escape":
+				event.preventDefault();
+				close();
+				break;
+			case "Tab":
+				close();
+				break;
+		}
+	}
 
 	return {
 		open,

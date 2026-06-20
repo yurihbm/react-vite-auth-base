@@ -3,7 +3,7 @@ import type { ToastPosition } from "./styles";
 import type { Toast, ToastContextValue, ToastOptions } from "./types";
 
 import { XIcon } from "@phosphor-icons/react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Portal } from "../portal";
 import { ToastContext } from "./context";
@@ -38,16 +38,24 @@ function ToastItem({
 	closeLabel: string;
 }) {
 	const { id, duration = 5000 } = toast;
+	const onDismissRef = useRef(onDismiss);
+
+	useEffect(() => {
+		onDismissRef.current = onDismiss;
+	}, [onDismiss]);
 
 	useEffect(() => {
 		if (duration <= 0) {
 			return;
 		}
 
-		const timeoutId = window.setTimeout(() => onDismiss(id), duration);
+		const timeoutId = window.setTimeout(
+			() => onDismissRef.current(id),
+			duration,
+		);
 
 		return () => window.clearTimeout(timeoutId);
-	}, [id, duration, onDismiss]);
+	}, [id, duration]);
 
 	return (
 		<div
@@ -85,28 +93,22 @@ export function ToastProvider({
 }: ToastProviderProps) {
 	const [toasts, setToasts] = useState<Toast[]>([]);
 
-	const dismiss = useCallback((id: string) => {
+	function dismiss(id: string) {
 		setToasts((current) => current.filter((toast) => toast.id !== id));
-	}, []);
+	}
 
-	const toast = useCallback(
-		(options: ToastOptions) => {
-			const id = `toast-${++toastCounter}`;
+	function toast(options: ToastOptions) {
+		const id = `toast-${++toastCounter}`;
 
-			setToasts((current) => [
-				...current,
-				{ ...options, duration: options.duration ?? defaultDuration, id },
-			]);
+		setToasts((current) => [
+			...current,
+			{ ...options, duration: options.duration ?? defaultDuration, id },
+		]);
 
-			return id;
-		},
-		[defaultDuration],
-	);
+		return id;
+	}
 
-	const value = useMemo<ToastContextValue>(
-		() => ({ toasts, toast, dismiss }),
-		[toasts, toast, dismiss],
-	);
+	const value: ToastContextValue = { toasts, toast, dismiss };
 
 	return (
 		<ToastContext.Provider value={value}>
