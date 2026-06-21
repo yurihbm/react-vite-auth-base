@@ -6,7 +6,7 @@ const styles = tv({
 	slots: {
 		overlay: [
 			"fixed inset-0 z-50 flex items-center justify-center p-4",
-			"bg-background-inverse/40 backdrop-blur-sm",
+			"backdrop-blur-sm",
 		],
 		panel: [
 			"flex max-h-[calc(100vh-2rem)] w-full flex-col overflow-hidden rounded-lg",
