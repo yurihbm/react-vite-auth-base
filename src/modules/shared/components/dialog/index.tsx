@@ -4,6 +4,8 @@ import type { DialogStyles, DialogVariants } from "./styles";
 import { XIcon } from "@phosphor-icons/react";
 import { useEffect, useId, useRef } from "react";
 
+import { useDialogStack } from "@src/modules/shared/hooks/use-dialog-stack";
+
 import { Portal } from "../portal";
 import {
 	body,
@@ -41,6 +43,10 @@ const FOCUSABLE_SELECTOR = [
 	'[tabindex]:not([tabindex="-1"])',
 ].join(",");
 
+/** Base overlay z-index; each stacked dialog adds a step above the last. */
+const Z_INDEX_BASE = 50;
+const Z_INDEX_STEP = 10;
+
 /**
  * A modal dialog rendered in a portal. Traps focus while open, restores focus
  * to the previously focused element on close, locks body scroll, and closes on
@@ -62,6 +68,7 @@ export function Dialog({
 	const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 	const titleId = useId();
 	const descriptionId = useId();
+	const { index: stackIndex, isTop } = useDialogStack(open);
 
 	useEffect(() => {
 		if (!open) {
@@ -135,7 +142,18 @@ export function Dialog({
 	return (
 		<Portal>
 			<div
-				className={overlay({ className: classNames?.overlay })}
+				className={overlay({
+					className: [
+						!isTop && "bg-transparent backdrop-blur-none",
+						classNames?.overlay,
+					]
+						.filter(Boolean)
+						.join(" "),
+				})}
+				style={{
+					zIndex: Z_INDEX_BASE + Math.max(stackIndex, 0) * Z_INDEX_STEP,
+				}}
+				inert={!isTop}
 				onClick={handleOverlayClick}
 				onKeyDown={handleKeyDown}
 			>

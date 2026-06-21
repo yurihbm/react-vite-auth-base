@@ -55,3 +55,48 @@ export const Default: DialogStory = {
 		);
 	},
 };
+
+export const Stacked: DialogStory = {
+	render: function Render(args) {
+		const [firstOpen, setFirstOpen] = useState(false);
+		const [secondOpen, setSecondOpen] = useState(false);
+
+		return (
+			<>
+				<Button onClick={() => setFirstOpen(true)}>Open first dialog</Button>
+				<Dialog
+					{...args}
+					open={firstOpen}
+					onClose={() => setFirstOpen(false)}
+					title="First dialog"
+					description="This dialog can open another one on top of it."
+					footer={
+						<Button color="subtle" onClick={() => setFirstOpen(false)}>
+							Close
+						</Button>
+					}
+				>
+					<Button onClick={() => setSecondOpen(true)}>
+						Open second dialog
+					</Button>
+				</Dialog>
+				<Dialog
+					{...args}
+					open={secondOpen}
+					onClose={() => setSecondOpen(false)}
+					title="Second dialog"
+					description="Rendered above the first dialog."
+					footer={
+						<Button color="subtle" onClick={() => setSecondOpen(false)}>
+							Close
+						</Button>
+					}
+				>
+					<p className="text-sm text-foreground-muted">
+						This dialog was opened from the first one and stacks on top of it.
+					</p>
+				</Dialog>
+			</>
+		);
+	},
+};

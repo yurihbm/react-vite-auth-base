@@ -95,4 +95,66 @@ describe("Dialog", () => {
 
 		expect(onClose).toHaveBeenCalledTimes(1);
 	});
+
+	test("stacks a later-opened dialog above an earlier one", () => {
+		render(
+			<Dialog open onClose={() => {}} title="First">
+				Body
+			</Dialog>,
+		);
+		render(
+			<Dialog open onClose={() => {}} title="Second">
+				Body
+			</Dialog>,
+		);
+
+		const overlays = document.querySelectorAll<HTMLElement>('[role="dialog"]');
+		const firstOverlay = overlays[0].parentElement as HTMLElement;
+		const secondOverlay = overlays[1].parentElement as HTMLElement;
+
+		const firstZIndex = Number(firstOverlay.style.zIndex);
+		const secondZIndex = Number(secondOverlay.style.zIndex);
+
+		expect(secondZIndex).toBeGreaterThan(firstZIndex);
+	});
+
+	test("only the topmost dialog renders an interactive backdrop", () => {
+		render(
+			<Dialog open onClose={() => {}} title="First">
+				Body
+			</Dialog>,
+		);
+		render(
+			<Dialog open onClose={() => {}} title="Second">
+				Body
+			</Dialog>,
+		);
+
+		const overlays = document.querySelectorAll<HTMLElement>('[role="dialog"]');
+		const firstOverlay = overlays[0].parentElement as HTMLElement;
+		const secondOverlay = overlays[1].parentElement as HTMLElement;
+
+		expect(firstOverlay.className).not.toContain("bg-background-inverse/40");
+		expect(secondOverlay.className).toContain("bg-background-inverse/40");
+	});
+
+	test("non-top dialogs are inert and excluded from interaction", () => {
+		render(
+			<Dialog open onClose={() => {}} title="First">
+				Body
+			</Dialog>,
+		);
+		render(
+			<Dialog open onClose={() => {}} title="Second">
+				Body
+			</Dialog>,
+		);
+
+		const overlays = document.querySelectorAll<HTMLElement>('[role="dialog"]');
+		const firstOverlay = overlays[0].parentElement as HTMLElement;
+		const secondOverlay = overlays[1].parentElement as HTMLElement;
+
+		expect(firstOverlay.inert).toBe(true);
+		expect(secondOverlay.inert).toBe(false);
+	});
 });
