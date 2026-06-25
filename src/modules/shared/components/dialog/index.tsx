@@ -2,7 +2,7 @@ import type { KeyboardEvent, MouseEvent, ReactNode } from "react";
 import type { DialogStyles, DialogVariants } from "./styles";
 
 import { XIcon } from "@phosphor-icons/react";
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { useDialogStack } from "@src/modules/shared/hooks/use-dialog-stack";
 
@@ -47,6 +47,17 @@ const FOCUSABLE_SELECTOR = [
 const Z_INDEX_BASE = 50;
 const Z_INDEX_STEP = 10;
 
+/** Must match the `dialog-zoom-out` animation duration in `main.css`. */
+const EXIT_ANIMATION_DURATION_MS = 150;
+
+function getExitAnimationDuration() {
+	const prefersReducedMotion = window.matchMedia(
+		"(prefers-reduced-motion: reduce)",
+	).matches;
+
+	return prefersReducedMotion ? 0 : EXIT_ANIMATION_DURATION_MS;
+}
+
 /**
  * A modal dialog rendered in a portal. Traps focus while open, restores focus
  * to the previously focused element on close, locks body scroll, and closes on
@@ -68,7 +79,37 @@ export function Dialog({
 	const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 	const titleId = useId();
 	const descriptionId = useId();
-	const { index: stackIndex, isTop } = useDialogStack(open);
+	const [prevOpen, setPrevOpen] = useState(open);
+	const [isRendered, setIsRendered] = useState(open);
+	const [isClosing, setIsClosing] = useState(false);
+
+	if (open !== prevOpen) {
+		setPrevOpen(open);
+
+		if (open) {
+			setIsRendered(true);
+			setIsClosing(false);
+		} else if (isRendered) {
+			setIsClosing(true);
+		}
+	}
+
+	// Keep closing dialogs in the stack until they unmount, so the dialog
+	// underneath stays inert for the full duration of the exit animation.
+	const { index: stackIndex, isTop } = useDialogStack(isRendered);
+
+	useEffect(() => {
+		if (!isClosing) {
+			return;
+		}
+
+		const exitTimer = window.setTimeout(() => {
+			setIsRendered(false);
+			setIsClosing(false);
+		}, getExitAnimationDuration());
+
+		return () => window.clearTimeout(exitTimer);
+	}, [isClosing]);
 
 	useEffect(() => {
 		if (!open) {
@@ -95,7 +136,7 @@ export function Dialog({
 		};
 	}, [open]);
 
-	if (!open) {
+	if (!isRendered) {
 		return null;
 	}
 
@@ -143,12 +184,7 @@ export function Dialog({
 		<Portal>
 			<div
 				className={overlay({
-					className: [
-						!isTop && "bg-transparent backdrop-blur-none",
-						classNames?.overlay,
-					]
-						.filter(Boolean)
-						.join(" "),
+					className: classNames?.overlay,
 				})}
 				style={{
 					zIndex: Z_INDEX_BASE + Math.max(stackIndex, 0) * Z_INDEX_STEP,
@@ -164,7 +200,15 @@ export function Dialog({
 					aria-labelledby={title ? titleId : undefined}
 					aria-describedby={description ? descriptionId : undefined}
 					tabIndex={-1}
-					className={panel({ size, className: classNames?.panel })}
+					className={panel({
+						size,
+						className: [
+							isClosing ? "animate-dialog-zoom-out" : "animate-dialog-zoom-in",
+							classNames?.panel,
+						]
+							.filter(Boolean)
+							.join(" "),
+					})}
 				>
 					<button
 						type="button"

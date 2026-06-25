@@ -9,9 +9,10 @@ const styles = tv({
 			"backdrop-blur-sm",
 		],
 		panel: [
-			"flex max-h-[calc(100vh-2rem)] w-full flex-col overflow-hidden rounded-lg",
+			"relative flex max-h-[calc(100vh-2rem)] w-full flex-col overflow-hidden rounded-lg",
 			"border border-border bg-background-muted shadow-xl",
 			"focus:outline-none",
+			"motion-reduce:animate-none",
 		],
 		header: ["flex flex-col gap-1 border-b border-border px-6 py-4"],
 		title: ["text-lg font-semibold text-foreground"],
@@ -25,6 +26,7 @@ const styles = tv({
 			"transition-colors duration-200",
 			"hover:bg-background-elevated hover:text-foreground",
 			"focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
+			"cursor-pointer",
 		],
 	},
 	variants: {

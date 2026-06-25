@@ -1,4 +1,5 @@
-import { cleanup, fireEvent, render } from "@testing-library/react";
+import { act, cleanup, fireEvent, render } from "@testing-library/react";
+import { useState } from "react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { Dialog } from ".";
@@ -6,6 +7,7 @@ import { Dialog } from ".";
 describe("Dialog", () => {
 	afterEach(() => {
 		cleanup();
+		vi.useRealTimers();
 	});
 
 	test("does not render anything when closed", () => {
@@ -118,7 +120,7 @@ describe("Dialog", () => {
 		expect(secondZIndex).toBeGreaterThan(firstZIndex);
 	});
 
-	test("only the topmost dialog renders an interactive backdrop", () => {
+	test("all dialogs renders the backdrop blur", () => {
 		render(
 			<Dialog open onClose={() => {}} title="First">
 				Body
@@ -134,8 +136,8 @@ describe("Dialog", () => {
 		const firstOverlay = overlays[0].parentElement as HTMLElement;
 		const secondOverlay = overlays[1].parentElement as HTMLElement;
 
-		expect(firstOverlay.className).not.toContain("bg-background-inverse/40");
-		expect(secondOverlay.className).toContain("bg-background-inverse/40");
+		expect(firstOverlay.className).toContain("backdrop-blur-sm");
+		expect(secondOverlay.className).toContain("backdrop-blur-sm");
 	});
 
 	test("non-top dialogs are inert and excluded from interaction", () => {
@@ -156,5 +158,79 @@ describe("Dialog", () => {
 
 		expect(firstOverlay.inert).toBe(true);
 		expect(secondOverlay.inert).toBe(false);
+	});
+
+	test("plays a zoom-out animation before unmounting on close", () => {
+		vi.useFakeTimers();
+
+		function Wrapper() {
+			const [open, setOpen] = useState(true);
+
+			return (
+				<Dialog open={open} onClose={() => setOpen(false)} title="Closing">
+					Body
+				</Dialog>
+			);
+		}
+
+		const { getByLabelText, getByRole, queryByRole } = render(<Wrapper />);
+
+		fireEvent.click(getByLabelText("Close"));
+
+		expect(getByRole("dialog").className).toContain("animate-dialog-zoom-out");
+
+		act(() => {
+			vi.advanceTimersByTime(150);
+		});
+
+		expect(queryByRole("dialog")).toBeNull();
+	});
+
+	test("keeps the dialog underneath inert until the closing dialog unmounts", () => {
+		vi.useFakeTimers();
+
+		function Wrapper() {
+			const [secondOpen, setSecondOpen] = useState(true);
+
+			return (
+				<>
+					<Dialog open onClose={() => {}} title="First">
+						Body
+					</Dialog>
+					<Dialog
+						open={secondOpen}
+						onClose={() => setSecondOpen(false)}
+						title="Second"
+					>
+						Body
+					</Dialog>
+				</>
+			);
+		}
+
+		render(<Wrapper />);
+
+		const overlaysBeforeClose =
+			document.querySelectorAll<HTMLElement>('[role="dialog"]');
+		const firstOverlayBeforeClose = overlaysBeforeClose[0]
+			.parentElement as HTMLElement;
+
+		fireEvent.click(
+			document.querySelectorAll<HTMLElement>('[aria-label="Close"]')[1],
+		);
+
+		expect(firstOverlayBeforeClose.inert).toBe(true);
+
+		act(() => {
+			vi.advanceTimersByTime(150);
+		});
+
+		const overlaysAfterClose =
+			document.querySelectorAll<HTMLElement>('[role="dialog"]');
+		const firstOverlayAfterClose = overlaysAfterClose[0]
+			.parentElement as HTMLElement;
+
+		expect(overlaysAfterClose).toHaveLength(1);
+		expect(firstOverlayAfterClose.inert).toBe(false);
 	});
 });
