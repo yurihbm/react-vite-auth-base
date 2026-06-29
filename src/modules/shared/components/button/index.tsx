@@ -19,13 +19,20 @@ export type ButtonProps<E extends ElementType> = ComponentPropsWithRef<E> &
  * @returns {JSX.Element} The rendered Button component as the specified element type.
  */
 export function Button<E extends ElementType = "button">({
-	as = "button",
+	as,
 	color,
 	className,
 	size,
 	...rest
 }: ButtonProps<E>): JSX.Element {
-	const Component = as;
+	const Component = (as ?? "button") as ElementType;
+	const defaultType = Component === "button" ? { type: "button" as const } : {};
 
-	return <Component {...rest} className={styles({ className, color, size })} />;
+	return (
+		<Component
+			{...defaultType}
+			{...rest}
+			className={styles({ className, color, size })}
+		/>
+	);
 }

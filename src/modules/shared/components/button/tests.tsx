@@ -78,6 +78,14 @@ describe("Button", () => {
 		expect(onClick).toHaveBeenCalledTimes(1);
 	});
 
+	test("defaults to type=button to prevent accidental form submission", () => {
+		const { getByRole } = render(<Button>Save</Button>);
+
+		expect(
+			(getByRole("button", { name: "Save" }) as HTMLButtonElement).type,
+		).toBe("button");
+	});
+
 	test("does not call onClick when disabled", () => {
 		const onClick = vi.fn();
 
