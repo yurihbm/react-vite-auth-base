@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tooltip > renders correctly 1`] = `
+<div>
+  <span
+    class="relative inline-flex"
+  >
+    <button>
+      Save
+    </button>
+  </span>
+</div>
+`;
