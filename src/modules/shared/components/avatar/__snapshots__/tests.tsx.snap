@@ -1,0 +1,17 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Avatar > renders correctly 1`] = `
+<div>
+  <span
+    class="relative inline-flex shrink-0 items-center justify-center rounded-full overflow-hidden select-none size-10 bg-secondary text-secondary-foreground"
+  >
+    <span
+      aria-label="Ana Lima"
+      class="font-medium text-sm"
+      role="img"
+    >
+      AL
+    </span>
+  </span>
+</div>
+`;
