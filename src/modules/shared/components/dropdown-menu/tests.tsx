@@ -384,6 +384,26 @@ describe("DropdownMenu", () => {
 		});
 	});
 
+	test("ArrowDown after click-open focuses the first menu item", () => {
+		const { getByText } = render(
+			<DropdownMenu>
+				<DropdownMenu.Trigger asChild>
+					<Button>Options</Button>
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Item onSelect={() => {}}>Edit</DropdownMenu.Item>
+				<DropdownMenu.Separator />
+				<DropdownMenu.Item onSelect={() => {}} color="danger">
+					Delete
+				</DropdownMenu.Item>
+			</DropdownMenu>,
+		);
+
+		fireEvent.click(getByText("Options"));
+		fireEvent.keyDown(document.activeElement!, { key: "ArrowDown" });
+
+		expect(document.activeElement?.textContent).toBe("Edit");
+	});
+
 	test("Trigger without asChild renders a default button", () => {
 		const { getByRole } = render(
 			<DropdownMenu>

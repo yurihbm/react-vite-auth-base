@@ -114,6 +114,13 @@ export function useDropdownMenu(): UseDropdownMenuResult {
 		return () => document.removeEventListener("pointerdown", handlePointerDown);
 	}, [open]);
 
+	// Move focus to the menu when it opens so keyboard navigation works immediately.
+	useEffect(() => {
+		if (open) {
+			menuRef.current?.focus();
+		}
+	}, [open]);
+
 	// Recompute position after the menu renders (for accurate clamping/flipping)
 	// and keep it up-to-date on scroll or resize.
 	useEffect(() => {
