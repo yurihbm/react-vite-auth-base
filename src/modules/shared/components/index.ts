@@ -20,6 +20,7 @@ export { LanguageSwitcher } from "./language-switcher";
 export { OptionList, type OptionListProps } from "./option-list";
 export type { SelectOption } from "./option-list/types";
 export { Portal, type PortalProps } from "./portal";
+export { ProgressBar, type ProgressBarProps } from "./progress-bar";
 export { Select, type MultiSelectProps, type SelectProps } from "./select";
 export { Switch, type SwitchProps } from "./switch";
 export { Tabs, type TabsProps, type TabItem } from "./tabs";

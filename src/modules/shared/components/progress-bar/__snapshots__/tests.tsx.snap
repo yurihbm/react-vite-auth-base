@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProgressBar > renders correctly 1`] = `
+<div>
+  <div
+    class="flex flex-col gap-1.5"
+  >
+    <div
+      aria-valuemax="100"
+      aria-valuemin="0"
+      aria-valuenow="50"
+      class="w-full overflow-hidden rounded-full bg-background-muted h-2.5"
+      role="progressbar"
+    >
+      <div
+        class="h-full rounded-full transition-[width] duration-300 bg-primary"
+        style="width: 50%;"
+      />
+    </div>
+  </div>
+</div>
+`;
