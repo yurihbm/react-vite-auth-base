@@ -1,0 +1,84 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Pagination > renders correctly 1`] = `
+<div>
+  <nav
+    aria-label="Pagination"
+    class="flex items-center gap-1 flex-wrap"
+  >
+    <button
+      aria-label="First page"
+      class="inline-flex items-center justify-center rounded font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-50 min-w-11 h-11 px-2 text-sm text-foreground hover:bg-background-muted"
+      type="button"
+    >
+      «
+    </button>
+    <button
+      aria-label="Previous page"
+      class="inline-flex items-center justify-center rounded font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-50 min-w-11 h-11 px-2 text-sm text-foreground hover:bg-background-muted"
+      type="button"
+    >
+      ‹
+    </button>
+    <button
+      aria-label="Page 1"
+      class="inline-flex items-center justify-center rounded font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-50 min-w-11 h-11 px-2 text-sm text-foreground hover:bg-background-muted"
+      type="button"
+    >
+      1
+    </button>
+    <button
+      aria-label="Page 2"
+      class="inline-flex items-center justify-center rounded font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-50 min-w-11 h-11 px-2 text-sm text-foreground hover:bg-background-muted"
+      type="button"
+    >
+      2
+    </button>
+    <button
+      aria-current="page"
+      aria-label="Page 3"
+      class="inline-flex items-center justify-center rounded font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-50 min-w-11 h-11 px-2 text-sm bg-primary text-primary-foreground hover:bg-primary/90"
+      type="button"
+    >
+      3
+    </button>
+    <button
+      aria-label="Page 4"
+      class="inline-flex items-center justify-center rounded font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-50 min-w-11 h-11 px-2 text-sm text-foreground hover:bg-background-muted"
+      type="button"
+    >
+      4
+    </button>
+    <span
+      class="inline-flex items-center justify-center text-foreground-muted select-none min-w-11 h-11 text-sm"
+    >
+      <span
+        aria-hidden="true"
+      >
+        …
+      </span>
+    </span>
+    <button
+      aria-label="Page 10"
+      class="inline-flex items-center justify-center rounded font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-50 min-w-11 h-11 px-2 text-sm text-foreground hover:bg-background-muted"
+      type="button"
+    >
+      10
+    </button>
+    <button
+      aria-label="Next page"
+      class="inline-flex items-center justify-center rounded font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-50 min-w-11 h-11 px-2 text-sm text-foreground hover:bg-background-muted"
+      type="button"
+    >
+      ›
+    </button>
+    <button
+      aria-label="Last page"
+      class="inline-flex items-center justify-center rounded font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-50 min-w-11 h-11 px-2 text-sm text-foreground hover:bg-background-muted"
+      type="button"
+    >
+      »
+    </button>
+  </nav>
+</div>
+`;
