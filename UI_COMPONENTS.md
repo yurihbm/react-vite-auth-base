@@ -4,9 +4,9 @@ Tracks the UI components to be built for this template. Components are
 grouped by priority based on how broadly they apply to generic frontend
 projects.
 
-Already implemented: `Avatar`, `Badge`, `Button`, `Checkbox`, `Dialog`,
-`DropdownMenu`, `OptionList`, `Portal`, `Select`, `Skeleton`, `Spinner`,
-`Switch`, `Tabs`, `TextInput`, `Toast`, `Tooltip`.
+Already implemented: `Alert`, `Avatar`, `Badge`, `Breadcrumb`, `Button`, `Checkbox`, `Dialog`,
+`DropdownMenu`, `OptionList`, `Pagination`, `Portal`, `RadioGroup`, `Select`, `Skeleton`,
+`Spinner`, `Switch`, `Table`, `Tabs`, `Textarea`, `TextInput`, `Toast`, `Tooltip`.
 
 ---
 
@@ -41,26 +41,26 @@ Components that appear in nearly every application regardless of domain.
 
 Components that arise in most projects once the initial screens are in place.
 
-- [ ] **Radio Group** — Mutually exclusive selection among a small set of
+- [x] **Radio Group** — Mutually exclusive selection among a small set of
       visible options. Distinct from `Select` in that all choices are always
       visible, which suits low-count options in forms and filter panels.
 
-- [ ] **Textarea** — Multi-line text field. Extends the existing `TextInput`
+- [x] **Textarea** — Multi-line text field. Extends the existing `TextInput`
       for comments, descriptions, and other free-form long-text inputs.
 
-- [ ] **Alert / Banner** — Inline feedback for errors, warnings, info, and
+- [x] **Alert / Banner** — Inline feedback for errors, warnings, info, and
       success states. Complements `Toast` (ephemeral, floating) with persistent,
       in-context feedback anchored to the relevant section of the page.
 
-- [ ] **Breadcrumb** — Hierarchical location indicator. Useful for templates
+- [x] **Breadcrumb** — Hierarchical location indicator. Useful for templates
       that use nested routes (TanStack Router is already in place) and helps
       users orient themselves inside deep navigation trees.
 
-- [ ] **Table** — Structured data display with header, rows, and optional
+- [x] **Table** — Structured data display with header, rows, and optional
       sorting indicators. The single most common data-presentation pattern in
       admin and dashboard interfaces.
 
-- [ ] **Pagination** — Page controls for large datasets. Almost always paired
+- [x] **Pagination** — Page controls for large datasets. Almost always paired
       with `Table`; also applies to card grids and search results.
 
 ---
