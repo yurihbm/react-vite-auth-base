@@ -1,3 +1,4 @@
+export { Alert, type AlertProps } from "./alert";
 export { Avatar, type AvatarProps } from "./avatar";
 export { Badge, type BadgeProps } from "./badge";
 export { Breadcrumb, type BreadcrumbProps } from "./breadcrumb";
