@@ -1,0 +1,40 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Textarea > renders correctly 1`] = `
+<div>
+  <div
+    class="flex flex-col gap-1"
+  >
+    <label
+      class="text-sm font-medium text-foreground"
+      for="_r_0_"
+    >
+      Bio
+    </label>
+    <div
+      class="flex flex-col gap-1"
+    >
+      <div
+        class="w-full rounded border border-border bg-background-muted transition-colors duration-200 focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/40 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60 px-3 py-2"
+        data-disabled="false"
+      >
+        <textarea
+          aria-invalid="false"
+          class="w-full resize-y bg-transparent text-foreground outline-none placeholder:text-foreground-subtle disabled:cursor-not-allowed text-base"
+          id="_r_0_"
+          placeholder="Tell us about yourself"
+        />
+      </div>
+      <div
+        class="flex items-center justify-between"
+      >
+        <p
+          aria-hidden="true"
+          class="min-h-4 text-xs text-foreground-muted"
+          id="_r_1_"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

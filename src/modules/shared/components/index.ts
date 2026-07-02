@@ -29,3 +29,4 @@ export { TextInput, type TextInputProps } from "./text-input";
 export { ToastProvider, type ToastProviderProps } from "./toast";
 export { useToast } from "./toast/use-toast";
 export type { Toast, ToastOptions } from "./toast/types";
+export { Textarea, type TextareaProps } from "./textarea";
