@@ -1,5 +1,7 @@
 export { Avatar, type AvatarProps } from "./avatar";
 export { Badge, type BadgeProps } from "./badge";
+export { Breadcrumb, type BreadcrumbProps } from "./breadcrumb";
+export type { BreadcrumbItem } from "./breadcrumb/types";
 export { Button, type ButtonProps } from "./button";
 export { Checkbox, type CheckboxProps } from "./checkbox";
 export { DevTools } from "./dev-tools";
