@@ -29,4 +29,6 @@ export { TextInput, type TextInputProps } from "./text-input";
 export { ToastProvider, type ToastProviderProps } from "./toast";
 export { useToast } from "./toast/use-toast";
 export type { Toast, ToastOptions } from "./toast/types";
+export { RadioGroup, type RadioGroupProps } from "./radio-group";
+export type { RadioOption } from "./radio-group/types";
 export { Textarea, type TextareaProps } from "./textarea";
