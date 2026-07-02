@@ -3,7 +3,7 @@
 exports[`Avatar > renders correctly 1`] = `
 <div>
   <span
-    class="relative inline-flex shrink-0 items-center justify-center rounded-full overflow-hidden select-none size-10 bg-secondary text-secondary-foreground"
+    class="relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full select-none size-10 bg-secondary text-secondary-foreground"
   >
     <span
       aria-label="Ana Lima"

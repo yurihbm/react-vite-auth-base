@@ -12,7 +12,7 @@ exports[`Tabs > renders correctly 1`] = `
       <button
         aria-controls="_r_0_-panel-profile"
         aria-selected="true"
-        class="relative font-medium text-foreground-muted transition-colors duration-150 cursor-pointer select-none hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-inset aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:hover:text-foreground-muted aria-selected:text-foreground aria-selected:after:absolute aria-selected:after:inset-x-0 aria-selected:after:bottom-0 aria-selected:after:h-0.5 aria-selected:after:bg-primary aria-selected:after:content-[''] px-4 py-2.5 text-sm"
+        class="relative font-medium text-foreground-muted transition-colors duration-150 cursor-pointer select-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none focus-visible:ring-inset aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:hover:text-foreground-muted aria-selected:text-foreground aria-selected:after:absolute aria-selected:after:inset-x-0 aria-selected:after:bottom-0 aria-selected:after:h-0.5 aria-selected:after:bg-primary aria-selected:after:content-[''] px-4 py-2.5 text-sm"
         id="_r_0_-tab-profile"
         role="tab"
         tabindex="0"
@@ -23,7 +23,7 @@ exports[`Tabs > renders correctly 1`] = `
       <button
         aria-controls="_r_0_-panel-security"
         aria-selected="false"
-        class="relative font-medium text-foreground-muted transition-colors duration-150 cursor-pointer select-none hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-inset aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:hover:text-foreground-muted aria-selected:text-foreground aria-selected:after:absolute aria-selected:after:inset-x-0 aria-selected:after:bottom-0 aria-selected:after:h-0.5 aria-selected:after:bg-primary aria-selected:after:content-[''] px-4 py-2.5 text-sm"
+        class="relative font-medium text-foreground-muted transition-colors duration-150 cursor-pointer select-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none focus-visible:ring-inset aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:hover:text-foreground-muted aria-selected:text-foreground aria-selected:after:absolute aria-selected:after:inset-x-0 aria-selected:after:bottom-0 aria-selected:after:h-0.5 aria-selected:after:bg-primary aria-selected:after:content-[''] px-4 py-2.5 text-sm"
         id="_r_0_-tab-security"
         role="tab"
         tabindex="-1"
@@ -35,7 +35,7 @@ exports[`Tabs > renders correctly 1`] = `
         aria-controls="_r_0_-panel-billing"
         aria-disabled="true"
         aria-selected="false"
-        class="relative font-medium text-foreground-muted transition-colors duration-150 cursor-pointer select-none hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-inset aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:hover:text-foreground-muted aria-selected:text-foreground aria-selected:after:absolute aria-selected:after:inset-x-0 aria-selected:after:bottom-0 aria-selected:after:h-0.5 aria-selected:after:bg-primary aria-selected:after:content-[''] px-4 py-2.5 text-sm"
+        class="relative font-medium text-foreground-muted transition-colors duration-150 cursor-pointer select-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none focus-visible:ring-inset aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:hover:text-foreground-muted aria-selected:text-foreground aria-selected:after:absolute aria-selected:after:inset-x-0 aria-selected:after:bottom-0 aria-selected:after:h-0.5 aria-selected:after:bg-primary aria-selected:after:content-[''] px-4 py-2.5 text-sm"
         id="_r_0_-tab-billing"
         role="tab"
         tabindex="-1"
