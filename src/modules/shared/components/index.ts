@@ -32,4 +32,6 @@ export type { Toast, ToastOptions } from "./toast/types";
 export { Pagination, type PaginationProps } from "./pagination";
 export { RadioGroup, type RadioGroupProps } from "./radio-group";
 export type { RadioOption } from "./radio-group/types";
+export { Table, type TableProps } from "./table";
+export type { ColumnDef, RowSelectionState } from "./table/types";
 export { Textarea, type TextareaProps } from "./textarea";

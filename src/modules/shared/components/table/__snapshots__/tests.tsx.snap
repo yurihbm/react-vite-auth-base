@@ -1,0 +1,84 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Table > renders correctly 1`] = `
+<div>
+  <div
+    class="h-full min-h-0 w-full overflow-hidden rounded-lg border border-border"
+  >
+    <div
+      class="h-full min-h-0 w-full overflow-auto"
+    >
+      <table
+        class="w-full caption-bottom border-collapse text-sm"
+      >
+        <thead
+          class="bg-background-muted"
+        >
+          <tr
+            class="border-b-2 border-border"
+          >
+            <th
+              class="text-left align-middle font-semibold whitespace-nowrap text-foreground px-4 py-3 text-sm"
+              colspan="1"
+            >
+              Name
+            </th>
+            <th
+              class="text-left align-middle font-semibold whitespace-nowrap text-foreground px-4 py-3 text-sm"
+              colspan="1"
+            >
+              Age
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="[&_tr:last-child]:border-0"
+        >
+          <tr
+            class="border-b border-border transition-colors hover:bg-background-muted/50"
+          >
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              Alice
+            </td>
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              30
+            </td>
+          </tr>
+          <tr
+            class="border-b border-border transition-colors hover:bg-background-muted/50"
+          >
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              Bob
+            </td>
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              25
+            </td>
+          </tr>
+          <tr
+            class="border-b border-border transition-colors hover:bg-background-muted/50"
+          >
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              Carol
+            </td>
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              35
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;
