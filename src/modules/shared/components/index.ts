@@ -21,6 +21,13 @@ export { Dialog, type DialogProps } from "./dialog";
 export { LanguageSwitcher } from "./language-switcher";
 export { OptionList, type OptionListProps } from "./option-list";
 export type { SelectOption } from "./option-list/types";
+export {
+	Popover,
+	type PopoverProps,
+	PopoverTrigger,
+	type PopoverTriggerProps,
+	type PopoverContentProps,
+} from "./popover";
 export { Portal, type PortalProps } from "./portal";
 export { ProgressBar, type ProgressBarProps } from "./progress-bar";
 export { Select, type MultiSelectProps, type SelectProps } from "./select";

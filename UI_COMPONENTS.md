@@ -4,9 +4,10 @@ Tracks the UI components to be built for this template. Components are
 grouped by priority based on how broadly they apply to generic frontend
 projects.
 
-Already implemented: `Alert`, `Avatar`, `Badge`, `Breadcrumb`, `Button`, `Checkbox`, `Dialog`,
-`DropdownMenu`, `OptionList`, `Pagination`, `Portal`, `RadioGroup`, `Select`, `Skeleton`,
-`Spinner`, `Switch`, `Table`, `Tabs`, `Textarea`, `TextInput`, `Toast`, `Tooltip`.
+Already implemented: `Accordion`, `Alert`, `Avatar`, `Badge`, `Breadcrumb`, `Button`, `Card`,
+`Checkbox`, `Dialog`, `DropdownMenu`, `OptionList`, `Pagination`, `Popover`, `Portal`,
+`ProgressBar`, `RadioGroup`, `Select`, `Skeleton`, `Spinner`, `Switch`, `Table`, `Tabs`,
+`Textarea`, `TextInput`, `Toast`, `Tooltip`.
 
 ---
 
@@ -70,17 +71,17 @@ Components that arise in most projects once the initial screens are in place.
 Components that address specific interaction patterns common in dashboards and
 content-heavy applications.
 
-- [ ] **Accordion** — Collapsible content sections. Useful for FAQs, long
+- [x] **Accordion** — Collapsible content sections. Useful for FAQs, long
       settings pages, and mobile-friendly layouts where vertical space is limited.
 
-- [ ] **Progress Bar** — Visual indicator of task or upload completion. Needed
+- [x] **Progress Bar** — Visual indicator of task or upload completion. Needed
       for any operation that takes measurable time and should be reflected in the
       UI beyond a spinner.
 
-- [ ] **Card** — Semantic container that groups related content with a
+- [x] **Card** — Semantic container that groups related content with a
       consistent visual boundary. Provides a reusable layout primitive for feeds,
       dashboards, and product listings.
 
-- [ ] **Popover** — Floating panel anchored to a trigger, containing rich or
+- [x] **Popover** — Floating panel anchored to a trigger, containing rich or
       interactive content. Extends `Tooltip` for cases where a plain text label
       is not enough (e.g. date pickers, filter forms, preview panels).
