@@ -10,3 +10,4 @@ export type {
 	UseFilteredOptionsParams,
 	UseFilteredOptionsResult,
 } from "./use-filtered-options";
+export { usePopover, type UsePopoverResult } from "./use-popover";
