@@ -4,6 +4,7 @@ export { Badge, type BadgeProps } from "./badge";
 export { Breadcrumb, type BreadcrumbProps } from "./breadcrumb";
 export type { BreadcrumbItem } from "./breadcrumb/types";
 export { Button, type ButtonProps } from "./button";
+export { Card, type CardProps } from "./card";
 export { Checkbox, type CheckboxProps } from "./checkbox";
 export { DevTools } from "./dev-tools";
 export {

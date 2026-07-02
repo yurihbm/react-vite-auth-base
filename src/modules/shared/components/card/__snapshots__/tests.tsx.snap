@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Card > renders correctly 1`] = `
+<div>
+  <div
+    class="rounded-lg border border-border bg-background-elevated"
+  >
+    <div
+      class="p-4"
+    >
+      Content
+    </div>
+  </div>
+</div>
+`;
