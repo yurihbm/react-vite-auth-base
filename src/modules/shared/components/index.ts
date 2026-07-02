@@ -1,3 +1,5 @@
+export { Accordion, type AccordionProps } from "./accordion";
+export type { AccordionItem } from "./accordion/types";
 export { Alert, type AlertProps } from "./alert";
 export { Avatar, type AvatarProps } from "./avatar";
 export { Badge, type BadgeProps } from "./badge";

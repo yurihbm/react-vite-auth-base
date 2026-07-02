@@ -1,0 +1,92 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Accordion > renders correctly 1`] = `
+<div>
+  <div
+    class="flex flex-col divide-y divide-border border-y border-border"
+  >
+    <div>
+      <div
+        class="flex"
+      >
+        <button
+          aria-controls="_r_0_-panel-a"
+          aria-expanded="false"
+          class="flex flex-1 items-center justify-between gap-2 text-left font-medium text-foreground transition-colors duration-150 cursor-pointer select-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50 py-3 text-sm"
+          id="_r_0_-header-a"
+          type="button"
+        >
+          First
+          <svg
+            class="shrink-0 transition-transform duration-150"
+            fill="currentColor"
+            height="16"
+            viewBox="0 0 256 256"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div>
+      <div
+        class="flex"
+      >
+        <button
+          aria-controls="_r_0_-panel-b"
+          aria-expanded="false"
+          class="flex flex-1 items-center justify-between gap-2 text-left font-medium text-foreground transition-colors duration-150 cursor-pointer select-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50 py-3 text-sm"
+          id="_r_0_-header-b"
+          type="button"
+        >
+          Second
+          <svg
+            class="shrink-0 transition-transform duration-150"
+            fill="currentColor"
+            height="16"
+            viewBox="0 0 256 256"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div>
+      <div
+        class="flex"
+      >
+        <button
+          aria-controls="_r_0_-panel-c"
+          aria-disabled="true"
+          aria-expanded="false"
+          class="flex flex-1 items-center justify-between gap-2 text-left font-medium text-foreground transition-colors duration-150 cursor-pointer select-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50 py-3 text-sm"
+          id="_r_0_-header-c"
+          type="button"
+        >
+          Third
+          <svg
+            class="shrink-0 transition-transform duration-150"
+            fill="currentColor"
+            height="16"
+            viewBox="0 0 256 256"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
