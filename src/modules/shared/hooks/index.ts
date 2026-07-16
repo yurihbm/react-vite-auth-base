@@ -11,3 +11,4 @@ export type {
 	UseFilteredOptionsResult,
 } from "./use-filtered-options";
 export { usePopover, type UsePopoverResult } from "./use-popover";
+export { useTheme, type Theme, type UseThemeResult } from "./use-theme";

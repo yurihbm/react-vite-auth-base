@@ -46,3 +46,4 @@ export type { RadioOption } from "./radio-group/types";
 export { Table, type TableProps } from "./table";
 export type { ColumnDef, RowSelectionState } from "./table/types";
 export { Textarea, type TextareaProps } from "./textarea";
+export { ThemeToggle, type ThemeToggleProps } from "./theme-toggle";
