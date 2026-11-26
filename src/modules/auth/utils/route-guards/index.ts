@@ -19,11 +19,11 @@ type AuthState =
  * Attempts to resolve the user's authentication status by fetching their data.
  *
  * @param queryClient - The QueryClient instance used to perform the fetch
- * operation.
+ *   operation.
  * @returns A promise that resolves to an AuthState object indicating whether
- * the user is authenticated. If the fetch succeeds, isAuthenticated will be
- * true; if it fails (e.g., due to a 401 Unauthorized error), isAuthenticated
- * will be false.
+ *   the user is authenticated. If the fetch succeeds, isAuthenticated will be
+ *   true; if it fails (e.g., due to a 401 Unauthorized error), isAuthenticated
+ *   will be false.
  */
 async function resolveAuth(queryClient: QueryClient): Promise<AuthState> {
 	try {
@@ -36,9 +36,8 @@ async function resolveAuth(queryClient: QueryClient): Promise<AuthState> {
 
 /**
  * A route guard function that restricts access to routes intended only for
- * unauthenticated users (e.g., login or registration pages).
- * If the user is already authenticated, they will be redirected to the home
- * page.
+ * unauthenticated users (e.g., login or registration pages). If the user is
+ * already authenticated, they will be redirected to the home page.
  *
  * Use it in the beforeLoad hook of routes.
  */
@@ -58,10 +57,9 @@ export async function publicOnlyRouteBeforeLoad({
 
 /**
  * A route guard function that restricts access to routes intended only for
- * authenticated users (e.g., dashboard or profile pages).
- * If the user is not authenticated, they will be redirected to the login page,
- * with a redirect query parameter that points back to the originally requested
- * page.
+ * authenticated users (e.g., dashboard or profile pages). If the user is not
+ * authenticated, they will be redirected to the login page, with a redirect
+ * query parameter that points back to the originally requested page.
  *
  * Use it in the beforeLoad hook of routes.
  */

@@ -9,15 +9,14 @@ import {
 import { APIError } from "./error";
 
 /**
- * Parses the given endpoint and query parameters into a full URL string.
- * Adds a leading slash to the endpoint if it doesn't already have one.
+ * Parses the given endpoint and query parameters into a full URL string. Adds a
+ * leading slash to the endpoint if it doesn't already have one.
  *
  * @param endpoint - The API endpoint to be appended to the base URL.
- * @param params - An optional object containing query parameters to be
- * included in the URL.
- *
- * @return A string representing the full URL with the endpoint and query
- * parameters.
+ * @param params - An optional object containing query parameters to be included
+ *   in the URL.
+ * @returns A string representing the full URL with the endpoint and query
+ *   parameters.
  */
 function parseURL(endpoint: string, params?: RequestParams): string {
 	endpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
@@ -42,9 +41,8 @@ function parseURL(endpoint: string, params?: RequestParams): string {
  * set to `undefined` and a message indicating that the response is empty.
  *
  * @param response - The Response object returned from the fetch call.
- *
- * @return A promise that resolves to the data from the response if successful,
- * or rejects with an APIError if the response indicates an error.
+ * @returns A promise that resolves to the data from the response if successful,
+ *   or rejects with an APIError if the response indicates an error.
  */
 async function parseResponse<T>(
 	response: Response,
@@ -80,8 +78,8 @@ async function parseResponse<T>(
 }
 
 /**
- * Ensures that an AbortSignal is provided, and if not, creates a new one with
- * a default timeout.
+ * Ensures that an AbortSignal is provided, and if not, creates a new one with a
+ * default timeout.
  *
  * @param signal - An optional AbortSignal to be used for the request.
  */
@@ -96,7 +94,7 @@ function ensureSignal(signal?: AbortSignal): AbortSignal {
 /**
  * Creates an API client with methods for making HTTP requests to the API.
  *
- * @return The client object.
+ * @returns The client object.
  */
 export function createAPIClient(): APIClient {
 	return {

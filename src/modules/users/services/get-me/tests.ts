@@ -27,7 +27,7 @@ describe("useGetMe", () => {
 		});
 
 		expect(result.current.refetch).toBeTypeOf("function");
-		expect(result.current.promise).toBeDefined();
+		expect(result.current.status).toBe("pending");
 	});
 
 	test("fetches the current user and maps API fields", async () => {

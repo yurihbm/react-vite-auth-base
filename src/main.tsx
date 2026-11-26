@@ -8,7 +8,6 @@ import { ToastProvider } from "@src/modules/shared";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
-
 import "./main.css";
 
 const queryClient = new QueryClient();

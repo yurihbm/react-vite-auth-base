@@ -34,9 +34,7 @@ function createDeferredPromise() {
 	};
 }
 
-/**
- * Helper function to fill the register form and submit it.
- */
+/** Helper function to fill the register form and submit it. */
 function fillFormAndSubmit(
 	getByLabelText: ReturnType<typeof render>["getByLabelText"],
 	getByRole: ReturnType<typeof render>["getByRole"],

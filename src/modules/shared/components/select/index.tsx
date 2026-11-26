@@ -49,8 +49,8 @@ export interface SelectMultiProps extends SelectBaseProps {
 	/** Builds the trigger summary text. Defaults to `"{n} selected"`. */
 	countLabel?: (count: number) => string;
 	/**
-	 * Maximum number of selectable options. Must be ≥ 1; pass `undefined` for
-	 * no limit. Passing `0` silently blocks all selections.
+	 * Maximum number of selectable options. Must be ≥ 1; pass `undefined` for no
+	 * limit. Passing `0` silently blocks all selections.
 	 */
 	maxSelected?: number;
 }

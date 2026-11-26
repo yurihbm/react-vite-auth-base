@@ -1,15 +1,13 @@
+import type { RowData } from "@tanstack/react-table";
 import type { ChangeEventHandler, ReactNode } from "react";
 import type { TableStyles } from "./styles";
 import type { ColumnDef, RowSelectionState } from "./types";
 
 import { CheckIcon, MinusIcon } from "@phosphor-icons/react";
-import {
-	flexRender,
-	getCoreRowModel,
-	useReactTable,
-} from "@tanstack/react-table";
+import { flexRender, useTable } from "@tanstack/react-table";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 
+import { TABLE_FEATURES } from "./constants";
 import { styles } from "./styles";
 
 export type { ColumnDef, RowSelectionState };
@@ -71,19 +69,18 @@ function SelectionCheckbox({
 	);
 }
 
-function createSelectionColumn<T>(
+function createSelectionColumn<T extends RowData>(
 	mode: SelectionMode,
 	classNames?: TableStyles,
 ): ColumnDef<T, unknown> {
 	return {
 		id: "select",
-		enableSorting: false,
-		enableHiding: false,
 		header: ({ table }) => {
 			if (mode !== "multi-select") return null;
 
 			const isAllSelected = table.getIsAllRowsSelected();
-			const isSomeSelected = table.getIsSomeRowsSelected();
+			// v9's `getIsSomeRowsSelected` also covers the all-selected case.
+			const isSomeSelected = table.getIsSomeRowsSelected() && !isAllSelected;
 			const hasSelection = isAllSelected || isSomeSelected;
 
 			return (
@@ -107,7 +104,7 @@ function createSelectionColumn<T>(
 	};
 }
 
-interface TableBaseProps<T> {
+interface TableBaseProps<T extends RowData> {
 	data: T[];
 	columns: ColumnDef<T, unknown>[];
 	size?: "sm" | "md" | "lg";
@@ -123,18 +120,21 @@ interface TableBaseProps<T> {
 	classNames?: TableStyles;
 }
 
-export type TableProps<T> =
+export type TableProps<T extends RowData> =
 	| (TableBaseProps<T> & {
 			selectionMode?: "none";
 			getRowId?: (row: T, index: number) => string;
 	  })
 	| (TableBaseProps<T> & {
 			selectionMode: "select" | "multi-select";
-			/** Required for selectable tables so selection tracks the record, not its row index. */
+			/**
+			 * Required for selectable tables so selection tracks the record, not its
+			 * row index.
+			 */
 			getRowId: (row: T, index: number) => string;
 	  });
 
-export function Table<T>({
+export function Table<T extends RowData>({
 	data,
 	columns,
 	getRowId,
@@ -169,12 +169,11 @@ export function Table<T>({
 		[selectionMode, columns, classNames],
 	);
 
-	// eslint-disable-next-line react-hooks/incompatible-library
-	const table = useReactTable({
+	const table = useTable({
+		features: TABLE_FEATURES,
 		data,
 		columns: resolvedColumns,
 		getRowId,
-		getCoreRowModel: getCoreRowModel(),
 		enableRowSelection: selectionMode !== "none",
 		enableMultiRowSelection: selectionMode === "multi-select",
 		state: { rowSelection: selectionState },
@@ -266,7 +265,7 @@ export function Table<T>({
 										className: classNames?.tr,
 									})}
 								>
-									{row.getVisibleCells().map((cell) => (
+									{row.getAllCells().map((cell) => (
 										<td
 											key={cell.id}
 											className={td({

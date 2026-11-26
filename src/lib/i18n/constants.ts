@@ -1,16 +1,12 @@
-/**
- * Default namespace used for translations.
- */
+/** Default namespace used for translations. */
 export const DEFAULT_NAMESPACE = "shared" as const;
 
-/**
- * List of supported languages in the application.
- */
+/** List of supported languages in the application. */
 export const SUPPORTED_LANGUAGES = ["en", "pt"] as const;
 
 /**
- * Language code to emoji mapping for displaying flags or language indicators
- * in the UI.
+ * Language code to emoji mapping for displaying flags or language indicators in
+ * the UI.
  */
 export const SUPPORTED_LANGUAGE_EMOJI_MAP: Record<
 	(typeof SUPPORTED_LANGUAGES)[number],

@@ -13,17 +13,17 @@ testability, and incremental feature growth (especially with
 - Language: TypeScript (`strict`)
 - Routing: TanStack Router (file-based)
 - Server state: TanStack React Query
-- Styling: Tailwind CSS + `tailwind-variants` + `tailwind-merge`
+- Styling: Tailwind CSS + `tailwind-variants`
 - Testing: Vitest (`happy-dom`) + Storybook Vitest project
-- Linting: ESLint flat config
-- Formatting: Prettier + import sorting + Tailwind class sorting
+- Linting: Oxlint
+- Formatting: Oxfmt + import sorting + Tailwind class sorting
 
 Primary references:
 
 - `README.md`
 - `package.json`
-- `eslint.config.ts`
-- `prettier.config.ts`
+- `oxlint.config.ts`
+- `oxfmt.config.ts`
 - `vite.config.ts`
 - `tsconfig.app.json`
 - `.storybook/main.ts`
@@ -45,7 +45,6 @@ pnpm test:watch
 pnpm test:ci
 pnpm test:coverage
 pnpm typecheck
-pnpm typecheck:go # Uses experimental TypeScript Go (v7) for faster execution
 ```
 
 Notes:
@@ -126,7 +125,7 @@ Current module folder structure (see `src/modules/<module-name>/*`):
 
 ## Formatting, imports, and style conventions
 
-From `.editorconfig` and `prettier.config.ts`:
+From `.editorconfig` and `oxfmt.config.ts`:
 
 - Use tabs (`indent_style = tab`, `tabWidth = 2`).
 - Max line width: `80`.
@@ -134,7 +133,7 @@ From `.editorconfig` and `prettier.config.ts`:
 - Keep semicolons.
 - Use `lf` line endings and final newline.
 
-Import ordering is automated via Prettier plugin; keep groups consistent:
+Import ordering is automated via Oxfmt; keep groups consistent:
 
 1. Type imports (`import type`, node first)
 2. Built-in modules
@@ -147,7 +146,7 @@ Additional conventions observed in code:
 - Prefer `import type` for type-only symbols.
 - Keep blank lines between import groups.
 - Respect existing barrel-export boundaries.
-- Let `prettier-plugin-tailwindcss` sort class names.
+- Let Oxfmt sort class names.
 
 ## TypeScript, naming, and React guidance
 

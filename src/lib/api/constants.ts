@@ -11,9 +11,7 @@ export const DEFAULT_ERROR_MESSAGE =
  */
 export const DEFAULT_TIMEOUT = 5000; // 5 seconds
 
-/**
- * The credentials mode to be used for API requests.
- */
+/** The credentials mode to be used for API requests. */
 export const CREDENTIALS_MODE: RequestCredentials = "include";
 
 /**

@@ -4,6 +4,7 @@ exports[`Breadcrumb > renders correctly 1`] = `
 <div>
   <nav
     aria-label="Breadcrumb"
+    class=""
   >
     <ol
       class="flex flex-wrap items-center"

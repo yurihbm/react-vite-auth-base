@@ -81,7 +81,7 @@ export function PopoverTrigger({
 			| ((e: React.KeyboardEvent) => void)
 			| undefined;
 		return cloneElement(child, {
-			// eslint-disable-next-line react-hooks/refs -- composeRefs writes .current only outside render, inside a ref callback
+			// oxlint-disable-next-line react/refs -- composeRefs writes .current only outside render, inside a ref callback
 			ref: composeRefs(existingRef, triggerRef as Ref<unknown>),
 			"aria-haspopup": "dialog",
 			"aria-expanded": String(open),
@@ -157,7 +157,7 @@ export function Popover({ children, className }: PopoverProps) {
 	);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- props are read directly from the element by Popover, not invoked as a function
+// oxlint-disable-next-line no-unused-vars -- props are read directly from the element by Popover, not invoked as a function
 function PopoverContent(_props: PopoverContentProps): null {
 	return null;
 }

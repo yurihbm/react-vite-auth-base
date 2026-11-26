@@ -4,9 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { FALLBACK_LANGUAGE } from "../../constants";
 
-/**
- * A custom hook to access the current language and change it.
- */
+/** A custom hook to access the current language and change it. */
 export function useLanguage() {
 	const { i18n } = useTranslation();
 

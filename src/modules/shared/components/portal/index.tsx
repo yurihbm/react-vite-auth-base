@@ -4,9 +4,7 @@ import { createPortal } from "react-dom";
 
 export interface PortalProps {
 	children: ReactNode;
-	/**
-	 * The DOM node to render the portal into. Defaults to `document.body`.
-	 */
+	/** The DOM node to render the portal into. Defaults to `document.body`. */
 	container?: Element | null;
 }
 

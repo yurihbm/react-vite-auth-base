@@ -49,7 +49,7 @@ export function OptionList({
 }: OptionListProps) {
 	const scrollRef = useRef<HTMLDivElement>(null);
 
-	// eslint-disable-next-line
+	// oxlint-disable-next-line react/incompatible-library
 	const virtualizer = useVirtualizer({
 		count: options.length,
 		getScrollElement: () => scrollRef.current,

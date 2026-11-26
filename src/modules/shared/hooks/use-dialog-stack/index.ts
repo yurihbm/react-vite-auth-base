@@ -26,9 +26,8 @@ export interface DialogStackPosition {
 }
 
 /**
- * Tracks the order in which dialogs are opened so the most recently opened
- * one can be rendered above the others, and only it shows an interactive
- * backdrop.
+ * Tracks the order in which dialogs are opened so the most recently opened one
+ * can be rendered above the others, and only it shows an interactive backdrop.
  */
 export function useDialogStack(open: boolean): DialogStackPosition {
 	const id = useId();

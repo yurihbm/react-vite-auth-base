@@ -51,16 +51,16 @@ src/
 - **Build Tool**: Vite 8
 - **Routing**: TanStack Router (file-based)
 - **Server State**: TanStack React Query
-- **Styling**: Tailwind CSS 4 + Tailwind Variants + Tailwind Merge
-- **Linting**: ESLint 10 + TypeScript ESLint
-- **Formatting**: Prettier
+- **Styling**: Tailwind CSS 4 + Tailwind Variants
+- **Linting**: Oxlint
+- **Formatting**: Oxfmt
 - **Testing**: Vitest (`happy-dom` environment)
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js `24.14.1` or higher
+- Node.js 24 LTS or higher (see `.nvmrc`)
 - `pnpm` (recommended package manager for this repository)
 
 ### Installation
@@ -101,8 +101,8 @@ pnpm test:watch     # Run tests in watch mode
 pnpm test:ci        # CI-oriented test run (bail on first failure)
 pnpm test:coverage  # Generate coverage report
 pnpm typecheck      # Run TypeScript type checks
-pnpm typecheck:go   # Experimental TypeScript Go (v7) type checks (faster)
-pnpm lint           # Run ESLint
+pnpm lint           # Run Oxlint
+pnpm format         # Format the codebase with Oxfmt
 ```
 
 ## 🔌 Backend Integration (`go-net-http-auth-base`)

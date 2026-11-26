@@ -5,7 +5,9 @@ exports[`Accordion > renders correctly 1`] = `
   <div
     class="flex flex-col divide-y divide-border border-y border-border"
   >
-    <div>
+    <div
+      class=""
+    >
       <div
         class="flex"
       >
@@ -32,7 +34,9 @@ exports[`Accordion > renders correctly 1`] = `
         </button>
       </div>
     </div>
-    <div>
+    <div
+      class=""
+    >
       <div
         class="flex"
       >
@@ -59,7 +63,9 @@ exports[`Accordion > renders correctly 1`] = `
         </button>
       </div>
     </div>
-    <div>
+    <div
+      class=""
+    >
       <div
         class="flex"
       >

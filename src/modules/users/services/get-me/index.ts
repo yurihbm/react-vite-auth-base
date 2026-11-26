@@ -5,8 +5,8 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 import { client } from "@src/lib/api";
 
 /**
- * Internal interface representing the API response format for a user.
- * Dates are received as Unix timestamps (milliseconds).
+ * Internal interface representing the API response format for a user. Dates are
+ * received as Unix timestamps (milliseconds).
  */
 interface UserResponse extends Omit<User, "createdAt" | "updatedAt"> {
 	created_at: number;
@@ -32,9 +32,7 @@ async function getMe(signal?: AbortSignal): Promise<User> {
 	};
 }
 
-/**
- * The unique query key used for caching the "get me" request.
- */
+/** The unique query key used for caching the "get me" request. */
 export const getMeKey = "users/me";
 
 export const GET_ME_QUERY_OPTIONS = queryOptions({
@@ -52,15 +50,16 @@ export const GET_ME_QUERY_OPTIONS = queryOptions({
  * A TanStack Query hook to fetch and manage the current user's session state.
  *
  * @example
- * ```tsx
- * const { data: user, isPending, error } = useGetMe();
+ * 	```tsx
+ * 	const { data: user, isPending, error } = useGetMe();
  *
- * if (isPending) return <Spinner />;
- * if (error) return <Redirect to="/login" />;
- * return <div>Welcome, {user.name}</div>;
- * ```
+ * 	if (isPending) return <Spinner />;
+ * 	if (error) return <Redirect to="/login" />;
+ * 	return <div>Welcome, {user.name}</div>;
+ * 	```;
  *
- * @returns The standard useQuery result object containing the user data and status.
+ * @returns The standard useQuery result object containing the user data and
+ *   status.
  */
 export function useGetMe() {
 	return useQuery(GET_ME_QUERY_OPTIONS);

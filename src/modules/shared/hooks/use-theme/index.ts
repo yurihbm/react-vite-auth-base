@@ -29,8 +29,8 @@ export interface UseThemeResult {
 
 /**
  * A custom hook to read and update the current color theme, persisting the
- * preference to `localStorage` and falling back to the OS-level preference
- * when none has been chosen yet.
+ * preference to `localStorage` and falling back to the OS-level preference when
+ * none has been chosen yet.
  */
 export function useTheme(): UseThemeResult {
 	const [theme, setThemeState] = useState<Theme>(

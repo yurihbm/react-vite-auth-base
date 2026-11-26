@@ -14,9 +14,9 @@ export type ButtonProps<E extends ElementType> = ComponentPropsWithRef<E> &
  *
  * @template E - The type of the HTML element to render, defaulting to "button".
  * @param {ButtonProps<E>} props - The props for the Button component, including
- * the `as` prop to specify the element type and any additional props.
- *
- * @returns {JSX.Element} The rendered Button component as the specified element type.
+ *   the `as` prop to specify the element type and any additional props.
+ * @returns {JSX.Element} The rendered Button component as the specified element
+ *   type.
  */
 export function Button<E extends ElementType = "button">({
 	as,

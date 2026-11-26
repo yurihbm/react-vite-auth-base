@@ -15,9 +15,7 @@ vi.mock("../../services", () => ({
 	useLogin: vi.fn(),
 }));
 
-/**
- * Helper function to fill the login form and submit it.
- */
+/** Helper function to fill the login form and submit it. */
 function fillFormAndSubmit(
 	getByLabelText: ReturnType<typeof render>["getByLabelText"],
 	getByRole: ReturnType<typeof render>["getByRole"],

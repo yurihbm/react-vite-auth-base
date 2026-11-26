@@ -2,9 +2,7 @@ import type { PropsWithChildren } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-/**
- * Creates a React Query provider wrapper for hook tests.
- */
+/** Creates a React Query provider wrapper for hook tests. */
 export function createQueryClientWrapper() {
 	const queryClient = new QueryClient({
 		defaultOptions: {

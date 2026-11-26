@@ -1,8 +1,6 @@
 import { createAPIClient } from "./client";
 
-/**
- * The API client instance that can be used to make requests to the API.
- */
+/** The API client instance that can be used to make requests to the API. */
 export const client = createAPIClient();
 
 export { APIError } from "./error";

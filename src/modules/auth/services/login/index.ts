@@ -2,9 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { client } from "@src/lib/api";
 
-/**
- * Data required to perform a login request.
- */
+/** Data required to perform a login request. */
 interface LoginData {
 	/** User's email address. */
 	email: string;
@@ -27,33 +25,30 @@ async function login({ email, password }: LoginData) {
 	});
 }
 
-/**
- * Cache key used for the login mutation.
- */
+/** Cache key used for the login mutation. */
 export const loginKey = "auth/login";
 
 /**
  * Hook to manage the login mutation state using TanStack Query.
  *
  * @remarks
- * On successful login, all queries are invalidated to ensure that any
- * user-specific data is refetched, reflecting the logged-in state.
+ *   On successful login, all queries are invalidated to ensure that any
+ *   user-specific data is refetched, reflecting the logged-in state.
+ * @example
+ * 	```tsx
+ * 	const { mutate, isPending } = useLogin();
+ *
+ * 	function handleSubmit(data: LoginData) {
+ * 		mutate(data, {
+ * 			onSuccess: () => {
+ * 				// Handle successful login (e.g., redirect)
+ * 			},
+ * 		});
+ * 	}
+ * 	```;
  *
  * @returns The mutation object for managing the login process, including
- * pending, error, and success states.
- *
- * @example
- * ```tsx
- * const { mutate, isPending } = useLogin();
- *
- * function handleSubmit(data: LoginData) {
- *   mutate(data, {
- *     onSuccess: () => {
- *       // Handle successful login (e.g., redirect)
- *     }
- *   });
- * };
- * ```
+ *   pending, error, and success states.
  */
 export function useLogin() {
 	const queryClient = useQueryClient();

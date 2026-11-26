@@ -2,9 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { client } from "@src/lib/api";
 
-/**
- * Data required to perform a registration request.
- */
+/** Data required to perform a registration request. */
 interface RegisterData {
 	/** User's email address. */
 	email: string;
@@ -30,33 +28,30 @@ async function register({ email, name, password }: RegisterData) {
 	});
 }
 
-/**
- * Cache key used for the register mutation.
- */
+/** Cache key used for the register mutation. */
 export const registerKey = "auth/register";
 
 /**
  * Hook to manage the register mutation state using TanStack Query.
  *
  * @remarks
- * On successful registration, all queries are invalidated to ensure that any
- * user-specific data is refetched, reflecting the logged-in state.
+ *   On successful registration, all queries are invalidated to ensure that any
+ *   user-specific data is refetched, reflecting the logged-in state.
+ * @example
+ * 	```tsx
+ * 	const { mutate, isPending } = useRegister();
+ *
+ * 	function handleSubmit(data: RegisterData) {
+ * 		mutate(data, {
+ * 			onSuccess: () => {
+ * 				// Handle successful registration (e.g., redirect)
+ * 			},
+ * 		});
+ * 	}
+ * 	```;
  *
  * @returns The mutation object for managing the registration process, including
- * pending, error, and success states.
- *
- * @example
- * ```tsx
- * const { mutate, isPending } = useRegister();
- *
- * function handleSubmit(data: RegisterData) {
- *   mutate(data, {
- *     onSuccess: () => {
- *       // Handle successful registration (e.g., redirect)
- *     }
- *   });
- * };
- * ```
+ *   pending, error, and success states.
  */
 export function useRegister() {
 	const queryClient = useQueryClient();

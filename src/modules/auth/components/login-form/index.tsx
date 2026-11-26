@@ -18,8 +18,8 @@ interface LoginFormProps {
 }
 
 /**
- * LoginForm component is responsible for rendering the login form and
- * handling its submission.
+ * LoginForm component is responsible for rendering the login form and handling
+ * its submission.
  */
 export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 	const navigate = useNavigate();

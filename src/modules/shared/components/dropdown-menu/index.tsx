@@ -93,7 +93,7 @@ export function DropdownMenuTrigger({
 			| ((e: React.KeyboardEvent) => void)
 			| undefined;
 		return cloneElement(child, {
-			// eslint-disable-next-line react-hooks/refs -- composeRefs writes .current only outside render, inside a ref callback
+			// oxlint-disable-next-line react/refs -- composeRefs writes .current only outside render, inside a ref callback
 			ref: composeRefs(existingRef, triggerRef as Ref<unknown>),
 			"aria-haspopup": "menu",
 			"aria-expanded": String(open),

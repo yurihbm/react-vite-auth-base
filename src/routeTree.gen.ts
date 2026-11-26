@@ -10,18 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as UsersProfileRouteImport } from './routes/users/profile'
-import { Route as authRegisterRouteImport } from './routes/(auth)/register'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as authRegisterRouteImport } from './routes/(auth)/register'
+import { Route as UsersProfileRouteImport } from './routes/users/profile'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UsersProfileRoute = UsersProfileRouteImport.update({
-  id: '/users/profile',
-  path: '/users/profile',
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/(auth)/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authRegisterRoute = authRegisterRouteImport.update({
@@ -29,9 +29,9 @@ const authRegisterRoute = authRegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
-const authLoginRoute = authLoginRouteImport.update({
-  id: '/(auth)/login',
-  path: '/login',
+const UsersProfileRoute = UsersProfileRouteImport.update({
+  id: '/users/profile',
+  path: '/users/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -78,11 +78,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/users/profile': {
-      id: '/users/profile'
-      path: '/users/profile'
-      fullPath: '/users/profile'
-      preLoaderRoute: typeof UsersProfileRouteImport
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)/register': {
@@ -92,11 +92,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authRegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(auth)/login': {
-      id: '/(auth)/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLoginRouteImport
+    '/users/profile': {
+      id: '/users/profile'
+      path: '/users/profile'
+      fullPath: '/users/profile'
+      preLoaderRoute: typeof UsersProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
