@@ -147,3 +147,30 @@ Contributions are welcome. Recommended baseline before submitting changes:
 
 When extending the template, please ensure to maintain the modular structure and
 keep the `go-net-http-auth-base` contracts explicit in your documentation/PR notes.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full process.
+
+## 🧩 Using this template
+
+Checklist after creating a repository from this template:
+
+1. Update the copyright holder in `LICENSE`.
+2. Add a `CODEOWNERS` file in `.github/`.
+3. Fill in `SECURITY.md`: remove the template notice and the placeholders (contact, support policy, response times).
+4. GitHub disables scheduled workflows after 60 days without repository activity; re-enable them in the Actions tab.
+5. Finish with `pnpm lint`, `pnpm typecheck`, `pnpm test:coverage` and `pnpm build`, then delete this whole section once every step is done. In the commit, state that the template phase is over.
+
+### Leaving the template phase
+
+While this is a template, the README, `CONTRIBUTING.md` and `AGENTS.md` describe the template itself. Leave the phase when you bootstrap the real application: replace the template wording in them (the title description and "Current Status" in this README) with the project's own, and keep the backend contract notes in sync with the API you actually consume.
+
+### Recommended GitHub settings
+
+- Branch protection on `main`: require a pull request, require signed commits and require these status checks, named after the jobs in `.github/workflows`: `lint`, `test`, `i18n-drift`, `build` and `audit`.
+- `dependency-review` runs only on pull requests, so it is skipped on pushes. Require it only if you have enabled the dependency graph.
+- Allow merge commits only. Rebase and squash merges are re-created by GitHub and produce unsigned commits on `main`.
+- Enable Dependabot alerts and security updates, and private vulnerability reporting (see [SECURITY.md](SECURITY.md)).
+- Enable secret scanning with push protection, and CodeQL default setup for JavaScript/TypeScript and GitHub Actions.
+- Set the default `GITHUB_TOKEN` permissions to read-only and do not let Actions approve pull requests.
+- In the `main` ruleset, block deletion and force pushes (non-fast-forward).
+
+These are optional recommendations that mirror the companion backend's setup. Each derived project chooses its own settings. Secret scanning, push protection and code scanning are paid features for private repositories (GitHub Secret Protection and GitHub Code Security).
