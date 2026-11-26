@@ -1,0 +1,16 @@
+import type { ComponentPropsWithRef, JSX } from "react";
+import type { VariantProps } from "tailwind-variants";
+
+import { styles } from "./styles";
+
+export type {{Name}}Props = ComponentPropsWithRef<"div"> &
+	VariantProps<typeof styles>;
+
+/** TODO: describe {{Name}}. */
+export function {{Name}}({
+	size,
+	className,
+	...rest
+}: {{Name}}Props): JSX.Element {
+	return <div {...rest} className={styles({ className, size })} />;
+}
