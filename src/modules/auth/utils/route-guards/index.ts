@@ -1,4 +1,4 @@
-import type { User } from "@modules/users";
+import type { User, UserRole } from "@modules/users";
 import type { QueryClient } from "@tanstack/react-query";
 
 import { redirect } from "@tanstack/react-router";
@@ -80,4 +80,41 @@ export async function privateRouteBeforeLoad({
 			replace: true,
 		});
 	}
+}
+
+/**
+ * Builds a route guard that restricts access to users with a given role.
+ * Unauthenticated users are redirected to the login page, and authenticated
+ * users with another role are redirected to the home page.
+ *
+ * Use it in the beforeLoad hook of routes.
+ *
+ * @param role - The role the user must have.
+ */
+export function requireRoleBeforeLoad(role: UserRole) {
+	return async function beforeLoad({
+		context,
+		location,
+	}: {
+		context: { queryClient: QueryClient };
+		location: { href: string };
+	}) {
+		const auth = await resolveAuth(context.queryClient);
+		if (!auth.isAuthenticated) {
+			throw redirect({
+				to: "/login",
+				search: {
+					redirect: location.href,
+				},
+				replace: true,
+			});
+		}
+
+		if (auth.user.role !== role) {
+			throw redirect({
+				to: "/",
+				replace: true,
+			});
+		}
+	};
 }

@@ -1,9 +1,9 @@
-import type { TranslateKey } from "@lib/i18n";
 import type { SubmitEvent, SyntheticEvent } from "react";
 
 import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 
-import { APIError } from "@lib/api";
+import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate, useTranslateKeyState } from "@lib/i18n";
 import { Button, TextInput } from "@lib/ui";
 import { useLogin } from "@modules/auth/services";
@@ -29,7 +29,15 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 	const passwordMessage = useTranslateKeyState("auth");
 	const loginMessage = useTranslateKeyState("auth");
 
+	const [apiError, setApiError] = useState<APIError | null>(null);
+	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+	const apiErrorMessage = useApiErrorMessage(apiError);
+
 	const { mutate: login, isPending } = useLogin();
+
+	function clearFieldError(name: string) {
+		setFieldErrors(({ [name]: _removed, ...rest }) => rest);
+	}
 
 	function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -45,14 +53,19 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 			{
 				onError: (error) => {
 					if (error instanceof APIError) {
-						// TODO: map API errors to translation keys.
-						loginMessage.setKey(error.message as TranslateKey<"auth">);
+						loginMessage.setKey(null);
+						setApiError(error);
+						setFieldErrors(error.details ?? {});
 						return;
 					}
+					setApiError(null);
+					setFieldErrors({});
 					loginMessage.setKey("loginForm.unexpectedError");
 				},
 				onSuccess: () => {
 					form.reset();
+					setApiError(null);
+					setFieldErrors({});
 					loginMessage.setKey(null);
 					emailMessage.setKey(null);
 					passwordMessage.setKey(null);
@@ -97,17 +110,22 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 	return (
 		<form onSubmit={handleSubmit} className={base()}>
 			<p className={errorMessage()}>
-				{loginMessage.key && t(loginMessage.key)}
+				{apiError ? apiErrorMessage : loginMessage.key && t(loginMessage.key)}
 			</p>
 			<TextInput
 				name={EMAIL_INPUT_NAME}
 				label={t("loginForm.input.email.label")}
 				placeholder={t("loginForm.input.email.placeholder")}
 				type="email"
-				onChange={() => emailMessage.setKey(null)}
+				onChange={() => {
+					emailMessage.setKey(null);
+					clearFieldError(EMAIL_INPUT_NAME);
+				}}
 				onInvalid={handleInvalidEmail}
-				message={emailMessage.key ? t(emailMessage.key) : undefined}
-				isError={!!emailMessage.key}
+				message={
+					emailMessage.key ? t(emailMessage.key) : fieldErrors[EMAIL_INPUT_NAME]
+				}
+				isError={!!emailMessage.key || !!fieldErrors[EMAIL_INPUT_NAME]}
 				minLength={5}
 				required
 			/>
@@ -116,10 +134,17 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 				label={t("loginForm.input.password.label")}
 				placeholder={t("loginForm.input.password.placeholder")}
 				type="password"
-				onChange={() => passwordMessage.setKey(null)}
+				onChange={() => {
+					passwordMessage.setKey(null);
+					clearFieldError(PASSWORD_INPUT_NAME);
+				}}
 				onInvalid={handleInvalidPassword}
-				message={passwordMessage.key ? t(passwordMessage.key) : undefined}
-				isError={!!passwordMessage.key}
+				message={
+					passwordMessage.key
+						? t(passwordMessage.key)
+						: fieldErrors[PASSWORD_INPUT_NAME]
+				}
+				isError={!!passwordMessage.key || !!fieldErrors[PASSWORD_INPUT_NAME]}
 				required
 			/>
 			<Button type="submit" disabled={isPending}>

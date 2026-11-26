@@ -20,8 +20,8 @@ export const logoutKey = "auth/logout";
  * Hook to manage the logout mutation state using TanStack Query.
  *
  * @remarks
- *   On successful logout, all queries are invalidated to ensure that any
- *   user-specific data is refetched, reflecting the logged-out state.
+ *   On successful logout, all cached queries are removed so that no
+ *   user-specific data outlives the session.
  * @example
  * 	```tsx
  * 	const { mutate, isPending } = useLogout();
@@ -45,8 +45,7 @@ export function useLogout() {
 		mutationKey: [logoutKey],
 		mutationFn: logout,
 		onSuccess: () => {
-			// Invalidate all queries to ensure that any user-specific data is refetched.
-			queryClient.invalidateQueries();
+			queryClient.removeQueries();
 		},
 	});
 }

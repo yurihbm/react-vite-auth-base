@@ -4,14 +4,27 @@ import {
 	createRootRouteWithContext,
 	Link,
 	Outlet,
+	useNavigate,
 } from "@tanstack/react-router";
 
 import { DevTools } from "@lib/dev-tools";
 import { useTranslate } from "@lib/i18n";
+import { useAuth, useLogout } from "@modules/auth";
 import { LanguageSwitcher, ThemeToggle } from "@modules/shared";
 
 function RootLayout() {
 	const t = useTranslate();
+	const { isAuthenticated } = useAuth();
+	const { mutate: logout, isPending: isLoggingOut } = useLogout();
+	const navigate = useNavigate();
+
+	function handleLogout() {
+		logout(undefined, {
+			onSuccess: () => {
+				navigate({ to: "/" });
+			},
+		});
+	}
 
 	return (
 		<>
@@ -27,28 +40,53 @@ function RootLayout() {
 								{t("nav.link.home")}
 							</Link>
 						</li>
-						<li>
-							<Link
-								to="/login"
-								className="text-sm font-medium text-foreground/80 hover:text-foreground"
-								search={{
-									redirect: "/",
-								}}
-							>
-								{t("nav.link.login")}
-							</Link>
-						</li>
-						<li>
-							<Link
-								to="/register"
-								search={{
-									redirect: "/",
-								}}
-								className="text-sm font-medium text-foreground/80 hover:text-foreground"
-							>
-								{t("nav.link.register")}
-							</Link>
-						</li>
+						{isAuthenticated ? (
+							<>
+								<li>
+									<Link
+										to="/account"
+										className="text-sm font-medium text-foreground/80 hover:text-foreground"
+									>
+										{t("nav.link.account")}
+									</Link>
+								</li>
+								<li>
+									<button
+										type="button"
+										disabled={isLoggingOut}
+										onClick={handleLogout}
+										className="text-sm font-medium text-foreground/80 hover:text-foreground"
+									>
+										{t("nav.link.logout")}
+									</button>
+								</li>
+							</>
+						) : (
+							<>
+								<li>
+									<Link
+										to="/login"
+										className="text-sm font-medium text-foreground/80 hover:text-foreground"
+										search={{
+											redirect: "/",
+										}}
+									>
+										{t("nav.link.login")}
+									</Link>
+								</li>
+								<li>
+									<Link
+										to="/register"
+										search={{
+											redirect: "/",
+										}}
+										className="text-sm font-medium text-foreground/80 hover:text-foreground"
+									>
+										{t("nav.link.register")}
+									</Link>
+								</li>
+							</>
+						)}
 					</ul>
 				</nav>
 			</header>

@@ -3,9 +3,10 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-import { shouldRetryQuery } from "@lib/api";
+import { client, shouldRetryQuery } from "@lib/api";
 import { initI18n } from "@lib/i18n";
 import { ToastProvider } from "@lib/ui";
+import { handleSessionExpired } from "@modules/auth";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
@@ -29,6 +30,8 @@ declare module "@tanstack/react-router" {
 		router: typeof router;
 	}
 }
+
+client.onSessionExpired(() => handleSessionExpired(queryClient, router));
 
 await initI18n();
 

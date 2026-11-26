@@ -1,13 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { LoginForm, publicOnlyRouteBeforeLoad } from "@modules/auth";
+import { useTranslate } from "@lib/i18n";
+import { Alert } from "@lib/ui";
+import {
+	LoginForm,
+	publicOnlyRouteBeforeLoad,
+	safeRedirect,
+} from "@modules/auth";
+
+const REASONS = ["expired", "passwordReset"] as const;
+
+type LoginReason = (typeof REASONS)[number];
 
 export const Route = createFileRoute("/(auth)/login")({
 	component: LoginComponent,
 	beforeLoad: publicOnlyRouteBeforeLoad,
-	validateSearch: (search) => {
-		const redirect = search.redirect ? String(search.redirect) : "/";
-		return { redirect };
+	validateSearch: (search): { redirect: string; reason?: LoginReason } => {
+		const reason = REASONS.find((value) => value === search.reason);
+		return { redirect: safeRedirect(search.redirect), reason };
 	},
 });
 
@@ -15,6 +25,21 @@ const { useSearch } = Route;
 
 function LoginComponent() {
 	const search = useSearch();
+	const t = useTranslate("auth");
 
-	return <LoginForm redirectTo={search.redirect} />;
+	return (
+		<div className="mx-auto flex w-full flex-col gap-4 sm:max-w-sm">
+			{search.reason && (
+				<Alert
+					type={search.reason === "expired" ? "warning" : "success"}
+					description={
+						search.reason === "expired"
+							? t("loginPage.reason.expired")
+							: t("loginPage.reason.passwordReset")
+					}
+				/>
+			)}
+			<LoginForm redirectTo={search.redirect} />
+		</div>
+	);
 }

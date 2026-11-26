@@ -48,11 +48,8 @@ describe("useLogout", () => {
 		expect(logoutKey).toBe("auth/logout");
 	});
 
-	test("invalidates queries after successful logout", async () => {
-		const invalidateQueriesSpy = vi.spyOn(
-			QueryClient.prototype,
-			"invalidateQueries",
-		);
+	test("removes cached queries after successful logout", async () => {
+		const removeQueriesSpy = vi.spyOn(QueryClient.prototype, "removeQueries");
 
 		vi.mocked(client.post).mockResolvedValueOnce(
 			{} as Awaited<ReturnType<typeof client.post>>,
@@ -66,6 +63,6 @@ describe("useLogout", () => {
 			await result.current.mutateAsync();
 		});
 
-		expect(invalidateQueriesSpy).toHaveBeenCalledTimes(1);
+		expect(removeQueriesSpy).toHaveBeenCalledTimes(1);
 	});
 });

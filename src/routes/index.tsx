@@ -30,12 +30,7 @@ function Index() {
 			</Button>
 
 			{isAuthenticated && (
-				<Button
-					color="secondary"
-					as={Link}
-					to="/users/profile"
-					className="w-full"
-				>
+				<Button color="secondary" as={Link} to="/account" className="w-full">
 					{t("profile")}
 				</Button>
 			)}

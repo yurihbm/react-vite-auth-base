@@ -2,16 +2,8 @@ import type { User } from "@modules/users/types";
 
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { client } from "@lib/api";
-
-/**
- * Internal interface representing the API response format for a user. Dates are
- * received as Unix timestamps (milliseconds).
- */
-interface UserResponse extends Omit<User, "createdAt" | "updatedAt"> {
-	created_at: number;
-	updated_at: number;
-}
+import { client, request } from "@lib/api";
+import { UserSchema } from "@modules/users/schemas";
 
 /**
  * Fetches the currently authenticated user's profile information.
@@ -20,15 +12,19 @@ interface UserResponse extends Omit<User, "createdAt" | "updatedAt"> {
  * @returns A promise that resolves to a `User` object with ISO-formatted dates.
  */
 async function getMe(signal?: AbortSignal): Promise<User> {
-	const { data } = await client.get<UserResponse>("/users/me", { signal });
+	const { data } = await request(
+		UserSchema,
+		client.get("/users/me", { signal }),
+	);
 
 	return {
 		uuid: data.uuid,
 		name: data.name,
 		email: data.email,
 		role: data.role,
-		createdAt: new Date(data.created_at).toISOString(),
-		updatedAt: new Date(data.updated_at).toISOString(),
+		// The API sends unix seconds.
+		createdAt: new Date(data.created_at * 1000).toISOString(),
+		updatedAt: new Date(data.updated_at * 1000).toISOString(),
 	};
 }
 

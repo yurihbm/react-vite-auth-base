@@ -1,4 +1,7 @@
 {
+	"account": {
+		"title": "Account"
+	},
 	"en": "en",
 	"footer": {
 		"message": "Made with ❤️ by Yuri"
@@ -8,8 +11,10 @@
 	},
 	"nav": {
 		"link": {
+			"account": "Account",
 			"home": "Home",
 			"login": "Login",
+			"logout": "Logout",
 			"register": "Register"
 		}
 	},

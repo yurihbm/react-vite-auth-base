@@ -19,6 +19,12 @@ export default interface Resources {
       "submitButton": "Login",
       "unexpectedError": "An unexpected error occurred. Try again later."
     },
+    "loginPage": {
+      "reason": {
+        "expired": "loginPage.reason.expired",
+        "passwordReset": "loginPage.reason.passwordReset"
+      }
+    },
     "registerForm": {
       "input": {
         "email": {
@@ -224,6 +230,9 @@ export default interface Resources {
     "profile": "Go to profile"
   },
   "shared": {
+    "account": {
+      "title": "Account"
+    },
     "en": "en",
     "footer": {
       "message": "Made with ❤️ by Yuri"
@@ -233,8 +242,10 @@ export default interface Resources {
     },
     "nav": {
       "link": {
+        "account": "Account",
         "home": "Home",
         "login": "Login",
+        "logout": "Logout",
         "register": "Register"
       }
     },
