@@ -205,6 +205,71 @@ describe("StepUpProvider", () => {
 		await vi.waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
 	});
 
+	test("rejects and closes when verifying fails because the session expired", async () => {
+		mockFetch({
+			"POST /auth/step-up": SENT,
+			"POST /auth/step-up/verify": error("auth.unauthorized", 401),
+			"POST /auth/refresh": error("auth.refresh.missingRefreshToken", 401),
+		});
+		const { onSettled } = renderProvider();
+
+		await open();
+		await submit();
+
+		await vi.waitFor(() =>
+			expect(onSettled).toHaveBeenCalledWith(
+				expect.objectContaining({ key: "auth.unauthorized" }),
+			),
+		);
+		await vi.waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+	});
+
+	test("rejects and closes when the session expires while sending the code", async () => {
+		mockFetch({
+			"POST /auth/step-up": error("auth.unauthorized", 401),
+			"POST /auth/refresh": error("auth.refresh.missingRefreshToken", 401),
+		});
+		const { onSettled } = renderProvider();
+
+		await open();
+
+		await vi.waitFor(() => expect(onSettled).toHaveBeenCalledTimes(1));
+		await vi.waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+	});
+
+	test("rejects and closes on another 401 from verify", async () => {
+		mockFetch({
+			"POST /auth/step-up": SENT,
+			"POST /auth/step-up/verify": error("auth.invalidToken", 401),
+		});
+		const { onSettled } = renderProvider();
+
+		await open();
+		await submit();
+
+		expect(onSettled).toHaveBeenCalledWith(
+			expect.objectContaining({ key: "auth.invalidToken" }),
+		);
+		await vi.waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+	});
+
+	test("stays in the dialog when the challenge expired", async () => {
+		mockFetch({
+			"POST /auth/step-up": SENT,
+			"POST /auth/step-up/verify": error("auth.stepUp.noChallenge", 401),
+		});
+		const { onSettled } = renderProvider();
+
+		await open();
+		await submit();
+
+		expect(
+			await screen.findByText("translated:auth.stepUp.noChallenge"),
+		).toBeDefined();
+		expect(screen.getByRole("dialog")).toBeDefined();
+		expect(onSettled).not.toHaveBeenCalled();
+	});
+
 	test("rejects with a cancellation when the dialog is closed", async () => {
 		mockFetch({ "POST /auth/step-up": SENT });
 		const { onSettled } = renderProvider();

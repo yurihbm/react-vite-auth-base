@@ -14,6 +14,24 @@ import { StepUpCancelledError, StepUpContext } from "./context";
 
 const SESSION_REVOKED_KEY = "auth.stepUp.sessionRevoked";
 
+/** 401 keys the user recovers from in the dialog (retype or resend). */
+const RECOVERABLE_KEYS = new Set([
+	"auth.stepUp.invalidCode",
+	"auth.stepUp.noChallenge",
+]);
+
+/**
+ * Whether an error ends the step-up: any other 401 means the session is gone
+ * (revoked, invalid, or expired after a failed refresh).
+ */
+function endsStepUp(error: unknown): error is APIError {
+	return (
+		error instanceof APIError &&
+		error.status === 401 &&
+		!RECOVERABLE_KEYS.has(error.key)
+	);
+}
+
 interface Deferred {
 	promise: Promise<void>;
 	resolve: () => void;
@@ -47,7 +65,14 @@ export function StepUpProvider({ children }: PropsWithChildren) {
 	const cooldown = useCooldown(requestCode.error);
 
 	function sendCode() {
-		requestCode.mutate(undefined, { onSuccess: () => cooldown.start() });
+		requestCode.mutate(undefined, {
+			onSuccess: () => cooldown.start(),
+			onError: (error) => {
+				if (endsStepUp(error)) {
+					settle({ error });
+				}
+			},
+		});
 	}
 
 	function settle(outcome: { error?: unknown }) {
@@ -72,10 +97,14 @@ export function StepUpProvider({ children }: PropsWithChildren) {
 			{
 				onSuccess: () => settle({}),
 				onError: (error) => {
-					if (error instanceof APIError && error.key === SESSION_REVOKED_KEY) {
-						handleSessionExpired(queryClient, router);
-						settle({ error });
+					if (!endsStepUp(error)) {
+						return;
 					}
+
+					if (error.key === SESSION_REVOKED_KEY) {
+						handleSessionExpired(queryClient, router);
+					}
+					settle({ error });
 				},
 			},
 		);
