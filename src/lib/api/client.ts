@@ -132,17 +132,24 @@ async function parseResponse<T>(
 }
 
 /**
- * Ensures that an AbortSignal is provided, and if not, creates a new one with a
- * default timeout.
+ * Combines the caller's AbortSignal, if any, with the default timeout, so
+ * requests always time out. Without `AbortSignal.any`, the caller's signal is
+ * used alone.
  *
  * @param signal - An optional AbortSignal to be used for the request.
  */
 function ensureSignal(signal?: AbortSignal): AbortSignal {
+	const timeout = AbortSignal.timeout(DEFAULT_TIMEOUT);
+
 	if (!signal) {
-		return AbortSignal.timeout(DEFAULT_TIMEOUT);
+		return timeout;
 	}
 
-	return signal;
+	if (typeof AbortSignal.any !== "function") {
+		return signal;
+	}
+
+	return AbortSignal.any([signal, timeout]);
 }
 
 /**

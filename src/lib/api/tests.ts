@@ -152,7 +152,29 @@ describe("createAPIClient", () => {
 
 		const [, options] = fetchMock.mock.calls[0] as [string, RequestInit];
 
-		expect(options.signal).toBe(controller.signal);
+		expect(options.signal?.aborted).toBe(false);
+		controller.abort();
+		expect(options.signal?.aborted).toBe(true);
+		expect(options.signal?.reason).toMatchObject({ name: "AbortError" });
+	});
+
+	test("keeps the default timeout when a caller signal is provided", async () => {
+		const timeout = new AbortController();
+		const timeoutSpy = vi
+			.spyOn(AbortSignal, "timeout")
+			.mockReturnValue(timeout.signal);
+		fetchMock.mockResolvedValueOnce(
+			createJSONResponse({ data: { ok: true }, message: "ok" }),
+		);
+
+		await client.get("health", { signal: new AbortController().signal });
+
+		const [, options] = fetchMock.mock.calls[0] as [string, RequestInit];
+
+		timeout.abort(new DOMException("timed out", "TimeoutError"));
+		expect(options.signal?.aborted).toBe(true);
+		expect(options.signal?.reason).toMatchObject({ name: "TimeoutError" });
+		timeoutSpy.mockRestore();
 	});
 
 	test("throws APIError with the backend key, status and details", async () => {
