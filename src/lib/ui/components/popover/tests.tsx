@@ -1,8 +1,9 @@
-import { cleanup, fireEvent, render } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { createRef } from "react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { Button } from "@lib/ui/components/button";
+import { usePopoverContext } from "@lib/ui/hooks/use-popover-context";
 
 import { Popover } from ".";
 
@@ -54,6 +55,34 @@ describe("Popover", () => {
 		fireEvent.click(getByText("Open"));
 
 		expect(getByText("Popover content")).toBeTruthy();
+	});
+
+	test("usePopoverContext exposes close, callable from within Popover.Content", () => {
+		function Option() {
+			const { close } = usePopoverContext();
+			return (
+				<button type="button" onClick={close}>
+					Option
+				</button>
+			);
+		}
+
+		render(
+			<Popover>
+				<Popover.Trigger asChild>
+					<Button>Open</Button>
+				</Popover.Trigger>
+				<Popover.Content>
+					<Option />
+				</Popover.Content>
+			</Popover>,
+		);
+
+		fireEvent.click(screen.getByText("Open"));
+		expect(screen.getByText("Option")).toBeTruthy();
+
+		fireEvent.click(screen.getByText("Option"));
+		expect(screen.queryByText("Option")).toBeNull();
 	});
 
 	test("closes when clicking outside", () => {
@@ -158,6 +187,106 @@ describe("Popover", () => {
 
 		expect(trigger.tagName).toBe("BUTTON");
 		expect(trigger.getAttribute("aria-haspopup")).toBe("dialog");
+	});
+
+	describe("controlled", () => {
+		test("open prop determines visibility, independent of internal state", () => {
+			render(
+				<Popover open onOpenChange={vi.fn()}>
+					<Popover.Trigger asChild>
+						<Button>Open</Button>
+					</Popover.Trigger>
+					<Popover.Content>Popover content</Popover.Content>
+				</Popover>,
+			);
+
+			expect(screen.getByText("Popover content")).toBeTruthy();
+		});
+
+		test("clicking trigger calls onOpenChange instead of toggling internally", () => {
+			const onOpenChange = vi.fn();
+
+			render(
+				<Popover open={false} onOpenChange={onOpenChange}>
+					<Popover.Trigger asChild>
+						<Button>Open</Button>
+					</Popover.Trigger>
+					<Popover.Content>Popover content</Popover.Content>
+				</Popover>,
+			);
+
+			fireEvent.click(screen.getByText("Open"));
+
+			expect(onOpenChange).toHaveBeenCalledWith(true);
+			expect(screen.queryByText("Popover content")).toBeNull();
+		});
+
+		test("clicking outside calls onOpenChange(false) instead of closing internally", () => {
+			const onOpenChange = vi.fn();
+
+			render(
+				<div>
+					<Popover open onOpenChange={onOpenChange}>
+						<Popover.Trigger asChild>
+							<Button>Open</Button>
+						</Popover.Trigger>
+						<Popover.Content>Popover content</Popover.Content>
+					</Popover>
+					<div data-testid="outside">Outside</div>
+				</div>,
+			);
+
+			fireEvent.pointerDown(screen.getByText("Outside"));
+
+			expect(onOpenChange).toHaveBeenCalledWith(false);
+			expect(screen.getByText("Popover content")).toBeTruthy();
+		});
+
+		test("Escape calls onOpenChange(false) instead of closing internally", () => {
+			const onOpenChange = vi.fn();
+
+			render(
+				<Popover open onOpenChange={onOpenChange}>
+					<Popover.Trigger asChild>
+						<Button>Open</Button>
+					</Popover.Trigger>
+					<Popover.Content>Popover content</Popover.Content>
+				</Popover>,
+			);
+
+			fireEvent.keyDown(screen.getByText("Popover content"), { key: "Escape" });
+
+			expect(onOpenChange).toHaveBeenCalledWith(false);
+			expect(screen.getByText("Popover content")).toBeTruthy();
+		});
+
+		test("usePopoverContext close calls onOpenChange(false) in controlled mode", () => {
+			const onOpenChange = vi.fn();
+
+			function Option() {
+				const { close } = usePopoverContext();
+				return (
+					<button type="button" onClick={close}>
+						Option
+					</button>
+				);
+			}
+
+			render(
+				<Popover open onOpenChange={onOpenChange}>
+					<Popover.Trigger asChild>
+						<Button>Open</Button>
+					</Popover.Trigger>
+					<Popover.Content>
+						<Option />
+					</Popover.Content>
+				</Popover>,
+			);
+
+			fireEvent.click(screen.getByText("Option"));
+
+			expect(onOpenChange).toHaveBeenCalledWith(false);
+		});
 	});
 
 	describe("viewport clamping", () => {

@@ -7,37 +7,22 @@ import type {
 	RefObject,
 } from "react";
 
-import {
-	Children,
-	cloneElement,
-	createContext,
-	isValidElement,
-	useContext,
-} from "react";
+import { Children, cloneElement, isValidElement } from "react";
 
 import { Portal } from "@lib/ui/components/portal";
 import { usePopover } from "@lib/ui/hooks/use-popover";
+import {
+	PopoverContext,
+	usePopoverContext,
+} from "@lib/ui/hooks/use-popover-context";
 
 import { styles } from "./styles";
-
-interface PopoverContextValue {
-	open: boolean;
-	toggle: () => void;
-	triggerRef: RefObject<HTMLElement | null>;
-	handleTriggerKeyDown: (e: ReactKeyboardEvent<HTMLElement>) => void;
-}
-
-const PopoverContext = createContext<PopoverContextValue | null>(null);
-
-function usePopoverContext(): PopoverContextValue {
-	const ctx = useContext(PopoverContext);
-	if (!ctx) throw new Error("Popover.Trigger must be rendered inside Popover");
-	return ctx;
-}
 
 export interface PopoverProps {
 	children: ReactNode;
 	className?: string;
+	open?: boolean;
+	onOpenChange?: (open: boolean) => void;
 }
 
 export interface PopoverTriggerProps {
@@ -111,16 +96,22 @@ export function PopoverTrigger({
 	);
 }
 
-export function Popover({ children, className }: PopoverProps) {
+export function Popover({
+	children,
+	className,
+	open: controlledOpen,
+	onOpenChange,
+}: PopoverProps) {
 	const {
 		open,
 		triggerRef,
 		contentRef,
 		contentStyle,
 		toggle,
+		close,
 		handleTriggerKeyDown,
 		handleContentKeyDown,
-	} = usePopover();
+	} = usePopover({ open: controlledOpen, onOpenChange });
 
 	const childArray = Children.toArray(children);
 	const triggerChild = childArray.find(
@@ -134,7 +125,7 @@ export function Popover({ children, className }: PopoverProps) {
 
 	return (
 		<PopoverContext.Provider
-			value={{ open, triggerRef, toggle, handleTriggerKeyDown }}
+			value={{ open, triggerRef, toggle, close, handleTriggerKeyDown }}
 		>
 			{triggerChild}
 			{open && (

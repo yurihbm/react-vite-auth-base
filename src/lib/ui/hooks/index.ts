@@ -10,5 +10,14 @@ export type {
 	UseFilteredOptionsParams,
 	UseFilteredOptionsResult,
 } from "./use-filtered-options";
-export { usePopover, type UsePopoverResult } from "./use-popover";
+export {
+	usePopover,
+	type UsePopoverParams,
+	type UsePopoverResult,
+} from "./use-popover";
+export {
+	PopoverContext,
+	usePopoverContext,
+	type PopoverContextValue,
+} from "./use-popover-context";
 export { useTheme, type Theme, type UseThemeResult } from "./use-theme";

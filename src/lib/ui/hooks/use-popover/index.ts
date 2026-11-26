@@ -4,9 +4,14 @@ import type {
 	RefObject,
 } from "react";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { computeFloatingPosition } from "@lib/ui/utils/compute-floating-position";
+
+export interface UsePopoverParams {
+	open?: boolean;
+	onOpenChange?: (open: boolean) => void;
+}
 
 export interface UsePopoverResult {
 	open: boolean;
@@ -26,11 +31,26 @@ function computePosition(
 	return computeFloatingPosition(trigger, content);
 }
 
-export function usePopover(): UsePopoverResult {
-	const [open, setOpen] = useState(false);
+export function usePopover(params: UsePopoverParams = {}): UsePopoverResult {
+	const { open: controlledOpen, onOpenChange } = params;
+	const isControlled = controlledOpen !== undefined;
+
+	const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+	const open = isControlled ? controlledOpen : uncontrolledOpen;
+
 	const [contentStyle, setContentStyle] = useState<CSSProperties>({});
 	const triggerRef = useRef<HTMLElement>(null);
 	const contentRef = useRef<HTMLElement>(null);
+
+	const setOpen = useCallback(
+		(next: boolean) => {
+			if (!isControlled) {
+				setUncontrolledOpen(next);
+			}
+			onOpenChange?.(next);
+		},
+		[isControlled, onOpenChange],
+	);
 
 	function close() {
 		setOpen(false);
@@ -71,7 +91,7 @@ export function usePopover(): UsePopoverResult {
 		document.addEventListener("pointerdown", handlePointerDown);
 
 		return () => document.removeEventListener("pointerdown", handlePointerDown);
-	}, [open]);
+	}, [open, setOpen]);
 
 	// Move focus to the content when it opens.
 	useEffect(() => {
