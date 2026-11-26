@@ -2,16 +2,16 @@ import { useNavigate } from "@tanstack/react-router";
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { APIError } from "@src/lib/api";
+import { APIError } from "@lib/api";
+import { useLogin } from "@modules/auth/services";
 
 import { LoginForm } from ".";
-import { useLogin } from "../../services";
 
 vi.mock("@tanstack/react-router", () => ({
 	useNavigate: vi.fn(),
 }));
 
-vi.mock("../../services", () => ({
+vi.mock("@modules/auth/services", () => ({
 	useLogin: vi.fn(),
 }));
 

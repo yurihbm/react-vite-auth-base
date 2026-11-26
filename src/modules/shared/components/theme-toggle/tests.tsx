@@ -3,12 +3,12 @@ import { cleanup, fireEvent, render } from "@testing-library/react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { useTheme } from "@src/modules/shared/hooks/use-theme";
+import { useTheme } from "@lib/ui/hooks/use-theme";
 
 import { ThemeToggle } from ".";
 
-vi.mock("@src/modules/shared/hooks/use-theme", async () => ({
-	...(await vi.importActual("@src/modules/shared/hooks/use-theme")),
+vi.mock("@lib/ui/hooks/use-theme", async () => ({
+	...(await vi.importActual("@lib/ui/hooks/use-theme")),
 	useTheme: vi.fn(),
 }));
 

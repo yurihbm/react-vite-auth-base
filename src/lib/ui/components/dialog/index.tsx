@@ -4,9 +4,9 @@ import type { DialogStyles, DialogVariants } from "./styles";
 import { XIcon } from "@phosphor-icons/react";
 import { useEffect, useId, useRef, useState } from "react";
 
-import { useDialogStack } from "@src/modules/shared/hooks/use-dialog-stack";
+import { Portal } from "@lib/ui/components/portal";
+import { useDialogStack } from "@lib/ui/hooks/use-dialog-stack";
 
-import { Portal } from "../portal";
 import {
 	body,
 	closeButton,

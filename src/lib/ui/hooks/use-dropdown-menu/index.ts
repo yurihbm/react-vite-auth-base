@@ -6,6 +6,8 @@ import type {
 
 import { useEffect, useRef, useState } from "react";
 
+import { computeFloatingPosition } from "@lib/ui/utils/compute-floating-position";
+
 export interface UseDropdownMenuResult {
 	open: boolean;
 	triggerRef: RefObject<HTMLElement | null>;
@@ -25,46 +27,15 @@ function getMenuItems(menu: HTMLElement): HTMLElement[] {
 	);
 }
 
-const GAP = 4;
-const EDGE_PADDING = 8;
 const FALLBACK_MENU_WIDTH = 160;
 
 function computePosition(
 	trigger: HTMLElement,
 	menu: HTMLElement | null,
 ): CSSProperties {
-	const rect = trigger.getBoundingClientRect();
-	const vw = window.innerWidth;
-	const vh = window.innerHeight;
-
-	const menuWidth = menu?.offsetWidth || FALLBACK_MENU_WIDTH;
-	const menuHeight = menu?.offsetHeight || 0;
-
-	// Clamp horizontally so the menu stays inside the viewport
-	const left = Math.max(
-		EDGE_PADDING,
-		Math.min(rect.left, vw - menuWidth - EDGE_PADDING),
-	);
-
-	// Flip above the trigger when there is more space above than below
-	const spaceBelow = vh - rect.bottom - GAP;
-	const spaceAbove = rect.top - GAP;
-
-	if (menu && menuHeight > spaceBelow && spaceAbove > spaceBelow) {
-		return {
-			position: "fixed",
-			bottom: vh - rect.top + GAP,
-			left,
-			maxWidth: vw - 2 * EDGE_PADDING,
-		};
-	}
-
-	return {
-		position: "fixed",
-		top: rect.bottom + GAP,
-		left,
-		maxWidth: vw - 2 * EDGE_PADDING,
-	};
+	return computeFloatingPosition(trigger, menu, {
+		fallbackWidth: FALLBACK_MENU_WIDTH,
+	});
 }
 
 export function useDropdownMenu(): UseDropdownMenuResult {

@@ -1,4 +1,4 @@
-import type { SelectOption } from "@src/modules/shared/components/option-list/types";
+import type { SelectOption } from "@lib/ui/components/option-list/types";
 import type { KeyboardEvent as ReactKeyboardEvent, RefObject } from "react";
 
 import { useEffect, useRef, useState } from "react";

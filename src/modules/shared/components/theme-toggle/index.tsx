@@ -2,7 +2,7 @@ import type { ThemeToggleStyles } from "./styles";
 
 import { MoonIcon, SunIcon } from "@phosphor-icons/react";
 
-import { useTheme } from "@src/modules/shared/hooks/use-theme";
+import { useTheme } from "@lib/ui/hooks/use-theme";
 
 import { toggleButton } from "./styles";
 

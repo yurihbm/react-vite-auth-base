@@ -4,7 +4,7 @@ import {
 	SUPPORTED_LANGUAGE_EMOJI_MAP,
 	SUPPORTED_LANGUAGES,
 	useLanguage,
-} from "@src/lib/i18n";
+} from "@lib/i18n";
 
 import { base, switchButton } from "./styles";
 

@@ -6,8 +6,9 @@ import {
 	Outlet,
 } from "@tanstack/react-router";
 
-import { useTranslate } from "@src/lib/i18n";
-import { DevTools, LanguageSwitcher, ThemeToggle } from "@src/modules/shared";
+import { DevTools } from "@lib/dev-tools";
+import { useTranslate } from "@lib/i18n";
+import { LanguageSwitcher, ThemeToggle } from "@modules/shared";
 
 function RootLayout() {
 	const t = useTranslate();

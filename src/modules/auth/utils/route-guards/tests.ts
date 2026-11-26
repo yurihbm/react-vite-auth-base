@@ -3,7 +3,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { redirect } from "@tanstack/react-router";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
-import { GET_ME_QUERY_OPTIONS } from "@src/modules/users";
+import { GET_ME_QUERY_OPTIONS } from "@modules/users";
 
 import { privateRouteBeforeLoad, publicOnlyRouteBeforeLoad } from "./index";
 

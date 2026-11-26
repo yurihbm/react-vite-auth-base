@@ -1,4 +1,4 @@
-import type { SelectOption } from "@src/modules/shared/components/option-list/types";
+import type { SelectOption } from "@lib/ui/components/option-list/types";
 
 import { fireEvent, render } from "@testing-library/react";
 import { describe, expect, test } from "vitest";

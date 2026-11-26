@@ -1,13 +1,13 @@
-import type { SelectOption } from "../option-list/types";
+import type { SelectOption } from "@lib/ui/components/option-list/types";
 import type { SelectStyles, SelectVariants } from "./styles";
 
 import { CaretDownIcon } from "@phosphor-icons/react";
 import { useId, useState } from "react";
 
-import { useCombobox } from "@src/modules/shared/hooks/use-combobox";
-import { useFilteredOptions } from "@src/modules/shared/hooks/use-filtered-options";
+import { OptionList } from "@lib/ui/components/option-list";
+import { useCombobox } from "@lib/ui/hooks/use-combobox";
+import { useFilteredOptions } from "@lib/ui/hooks/use-filtered-options";
 
-import { OptionList } from "../option-list";
 import {
 	chevron,
 	labelText,

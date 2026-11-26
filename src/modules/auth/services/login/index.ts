@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { client } from "@src/lib/api";
+import { client } from "@lib/api";
 
 /** Data required to perform a login request. */
 interface LoginData {

@@ -32,6 +32,8 @@ export default defineConfig({
 	],
 	resolve: {
 		alias: {
+			"@modules": path.resolve(__dirname, "src/modules"),
+			"@lib": path.resolve(__dirname, "src/lib"),
 			"@src": path.resolve(__dirname, "src"),
 		},
 	},
@@ -47,6 +49,7 @@ export default defineConfig({
 				"**/modules/*/utils/index.ts",
 				"**/modules/*/types/index.ts",
 				"**/modules/*/index.ts",
+				"**/lib/*/components/index.ts",
 				"**/lib/*/hooks/index.ts",
 				"**/lib/*/utils/index.ts",
 				"**/lib/*/index.ts",
@@ -73,6 +76,7 @@ export default defineConfig({
 					include: ["src/**/tests.{ts,tsx}"],
 					clearMocks: true,
 					environment: "happy-dom",
+					setupFiles: ["./src/lib/tests/setup-i18n.ts"],
 				},
 			},
 			{

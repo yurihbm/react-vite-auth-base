@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { PopoverProps } from ".";
 
+import { Button } from "@lib/ui/components/button";
+import { TextInput } from "@lib/ui/components/text-input";
+
 import { Popover } from ".";
-import { Button } from "../button";
-import { TextInput } from "../text-input";
 
 const meta: Meta<PopoverProps> = {
 	component: Popover,

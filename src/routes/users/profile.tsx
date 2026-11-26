@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
-import { privateRouteBeforeLoad, useAuth, useLogout } from "@src/modules/auth";
-import { Button } from "@src/modules/shared";
+import { Button } from "@lib/ui";
+import { privateRouteBeforeLoad, useAuth, useLogout } from "@modules/auth";
 
 export const Route = createFileRoute("/users/profile")({
 	component: ProfileComponent,

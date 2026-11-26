@@ -1,5 +1,5 @@
-import type { DEFAULT_NAMESPACE } from "../../constants";
-import type { Namespace, TranslateFunction } from "../../types";
+import type { DEFAULT_NAMESPACE } from "@lib/i18n/constants";
+import type { Namespace, TranslateFunction } from "@lib/i18n/types";
 
 import { useTranslation } from "react-i18next";
 

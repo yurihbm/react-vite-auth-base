@@ -1,8 +1,8 @@
-import type { SupportedLanguage } from "../../types";
+import type { SupportedLanguage } from "@lib/i18n/types";
 
 import { useTranslation } from "react-i18next";
 
-import { FALLBACK_LANGUAGE } from "../../constants";
+import { FALLBACK_LANGUAGE } from "@lib/i18n/constants";
 
 /** A custom hook to access the current language and change it. */
 export function useLanguage() {

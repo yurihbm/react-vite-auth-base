@@ -10,7 +10,7 @@ export default defineConfig({
 		input: ["src/**/*.{ts,tsx}"],
 		output: "public/locales/{{language}}/{{namespace}}.json",
 		defaultNS: DEFAULT_NAMESPACE,
-		functions: ["t", "translate", "*.setKey"],
+		functions: ["t", "translate", "*.setKey", "translationKey"],
 		useTranslationNames: [
 			"useTranslation",
 			{

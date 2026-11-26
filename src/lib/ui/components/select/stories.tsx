@@ -1,6 +1,6 @@
+import type { SelectOption } from "@lib/ui/components/option-list/types";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { SelectProps } from ".";
-import type { SelectOption } from "../option-list/types";
 
 import { useState } from "react";
 

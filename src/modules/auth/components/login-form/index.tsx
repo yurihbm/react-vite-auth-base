@@ -1,13 +1,13 @@
-import type { TranslateKey } from "@src/lib/i18n";
+import type { TranslateKey } from "@lib/i18n";
 import type { SubmitEvent, SyntheticEvent } from "react";
 
 import { useNavigate } from "@tanstack/react-router";
 
-import { APIError } from "@src/lib/api";
-import { useTranslate, useTranslateKeyState } from "@src/lib/i18n";
-import { Button, TextInput } from "@src/modules/shared";
+import { APIError } from "@lib/api";
+import { useTranslate, useTranslateKeyState } from "@lib/i18n";
+import { Button, TextInput } from "@lib/ui";
+import { useLogin } from "@modules/auth/services";
 
-import { useLogin } from "../../services";
 import { base, errorMessage } from "./styles";
 
 const EMAIL_INPUT_NAME = "email";

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { client } from "@src/lib/api";
+import { client } from "@lib/api";
 
 /**
  * Sends a POST request to the logout endpoint to log out the current user. The

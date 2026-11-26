@@ -1,6 +1,6 @@
-import type { User } from "@src/modules/users";
+import type { User } from "@modules/users";
 
-import { useGetMe } from "@src/modules/users";
+import { useGetMe } from "@modules/users";
 
 interface AuthenticatedUserResult {
 	/** The authenticated user object. */

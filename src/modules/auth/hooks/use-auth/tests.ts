@@ -1,11 +1,11 @@
 import { renderHook } from "@testing-library/react";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
-import { useGetMe } from "@src/modules/users";
+import { useGetMe } from "@modules/users";
 
 import { useAuth } from ".";
 
-vi.mock("@src/modules/users", () => ({
+vi.mock("@modules/users", () => ({
 	useGetMe: vi.fn(),
 }));
 

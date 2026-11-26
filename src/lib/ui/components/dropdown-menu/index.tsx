@@ -16,9 +16,9 @@ import {
 	useContext,
 } from "react";
 
-import { useDropdownMenu } from "@src/modules/shared/hooks/use-dropdown-menu";
+import { Portal } from "@lib/ui/components/portal";
+import { useDropdownMenu } from "@lib/ui/hooks/use-dropdown-menu";
 
-import { Portal } from "../portal";
 import { itemStyles, menuStyles, separatorStyles } from "./styles";
 
 interface DropdownMenuContextValue {

@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { ToastProviderProps } from ".";
 
+import { Button } from "@lib/ui/components/button";
+
 import { ToastProvider } from ".";
-import { Button } from "../button";
 import { useToast } from "./use-toast";
 
 const meta: Meta<ToastProviderProps> = {

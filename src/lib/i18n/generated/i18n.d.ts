@@ -1,4 +1,4 @@
-import { DEFAULT_NAMESPACE } from "@src/lib/i18n";
+import { DEFAULT_NAMESPACE } from "@lib/i18n";
 
 import Resources from "./resources";
 

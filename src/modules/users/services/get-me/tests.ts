@@ -1,12 +1,12 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
-import { client } from "@src/lib/api";
-import { createQueryClientWrapper } from "@src/lib/tests";
+import { client } from "@lib/api";
+import { createQueryClientWrapper } from "@lib/tests";
 
 import { getMeKey, useGetMe } from ".";
 
-vi.mock("@src/lib/api", () => ({
+vi.mock("@lib/api", () => ({
 	client: {
 		get: vi.fn(),
 	},

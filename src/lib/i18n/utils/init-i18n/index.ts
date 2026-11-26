@@ -9,7 +9,7 @@ import {
 	DEFAULT_NAMESPACE,
 	FALLBACK_LANGUAGE,
 	SUPPORTED_LANGUAGES,
-} from "../../constants";
+} from "@lib/i18n/constants";
 
 /**
  * Initializes the i18n instance with the necessary plugins and configuration.
@@ -22,7 +22,7 @@ export async function initI18n() {
 		.use(LanguageDetector)
 		.use(initReactI18next)
 		.init<HttpBackendOptions>({
-			debug: import.meta.env.DEV,
+			debug: import.meta.env.DEV && import.meta.env.MODE !== "test",
 			fallbackLng: FALLBACK_LANGUAGE,
 			defaultNS: DEFAULT_NAMESPACE,
 			supportedLngs: SUPPORTED_LANGUAGES,

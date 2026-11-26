@@ -3,8 +3,8 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-import { initI18n } from "@src/lib/i18n";
-import { ToastProvider } from "@src/modules/shared";
+import { initI18n } from "@lib/i18n";
+import { ToastProvider } from "@lib/ui";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";

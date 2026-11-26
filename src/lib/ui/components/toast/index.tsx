@@ -5,7 +5,8 @@ import type { Toast, ToastContextValue, ToastOptions } from "./types";
 import { XIcon } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 
-import { Portal } from "../portal";
+import { Portal } from "@lib/ui/components/portal";
+
 import { ToastContext } from "./context";
 import {
 	closeButton,

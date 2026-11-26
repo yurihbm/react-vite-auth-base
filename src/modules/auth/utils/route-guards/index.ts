@@ -1,9 +1,9 @@
-import type { User } from "@src/modules/users";
+import type { User } from "@modules/users";
 import type { QueryClient } from "@tanstack/react-query";
 
 import { redirect } from "@tanstack/react-router";
 
-import { GET_ME_QUERY_OPTIONS } from "@src/modules/users";
+import { GET_ME_QUERY_OPTIONS } from "@modules/users";
 
 type AuthState =
 	| {

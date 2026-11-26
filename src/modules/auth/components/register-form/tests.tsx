@@ -8,16 +8,16 @@ import {
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { APIError } from "@src/lib/api";
+import { APIError } from "@lib/api";
+import { useLogin, useRegister } from "@modules/auth/services";
 
 import { RegisterForm } from ".";
-import { useLogin, useRegister } from "../../services";
 
 vi.mock("@tanstack/react-router", () => ({
 	useNavigate: vi.fn(),
 }));
 
-vi.mock("../../services", () => ({
+vi.mock("@modules/auth/services", () => ({
 	useLogin: vi.fn(),
 	useRegister: vi.fn(),
 }));

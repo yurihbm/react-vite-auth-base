@@ -6,6 +6,8 @@ import type {
 
 import { useEffect, useRef, useState } from "react";
 
+import { computeFloatingPosition } from "@lib/ui/utils/compute-floating-position";
+
 export interface UsePopoverResult {
 	open: boolean;
 	triggerRef: RefObject<HTMLElement | null>;
@@ -17,46 +19,11 @@ export interface UsePopoverResult {
 	handleContentKeyDown: (e: ReactKeyboardEvent<HTMLElement>) => void;
 }
 
-const GAP = 4;
-const EDGE_PADDING = 8;
-const FALLBACK_CONTENT_WIDTH = 240;
-
 function computePosition(
 	trigger: HTMLElement,
 	content: HTMLElement | null,
 ): CSSProperties {
-	const rect = trigger.getBoundingClientRect();
-	const vw = window.innerWidth;
-	const vh = window.innerHeight;
-
-	const contentWidth = content?.offsetWidth || FALLBACK_CONTENT_WIDTH;
-	const contentHeight = content?.offsetHeight || 0;
-
-	// Clamp horizontally so the content stays inside the viewport
-	const left = Math.max(
-		EDGE_PADDING,
-		Math.min(rect.left, vw - contentWidth - EDGE_PADDING),
-	);
-
-	// Flip above the trigger when there is more space above than below
-	const spaceBelow = vh - rect.bottom - GAP;
-	const spaceAbove = rect.top - GAP;
-
-	if (content && contentHeight > spaceBelow && spaceAbove > spaceBelow) {
-		return {
-			position: "fixed",
-			bottom: vh - rect.top + GAP,
-			left,
-			maxWidth: vw - 2 * EDGE_PADDING,
-		};
-	}
-
-	return {
-		position: "fixed",
-		top: rect.bottom + GAP,
-		left,
-		maxWidth: vw - 2 * EDGE_PADDING,
-	};
+	return computeFloatingPosition(trigger, content);
 }
 
 export function usePopover(): UsePopoverResult {

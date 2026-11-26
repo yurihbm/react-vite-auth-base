@@ -8,7 +8,6 @@ export type { BreadcrumbItem } from "./breadcrumb/types";
 export { Button, type ButtonProps } from "./button";
 export { Card, type CardProps } from "./card";
 export { Checkbox, type CheckboxProps } from "./checkbox";
-export { DevTools } from "./dev-tools";
 export {
 	DropdownMenu,
 	type DropdownMenuProps,
@@ -18,7 +17,6 @@ export {
 	type DropdownMenuSeparatorProps,
 } from "./dropdown-menu";
 export { Dialog, type DialogProps } from "./dialog";
-export { LanguageSwitcher } from "./language-switcher";
 export { OptionList, type OptionListProps } from "./option-list";
 export type { SelectOption } from "./option-list/types";
 export {
@@ -46,4 +44,3 @@ export type { RadioOption } from "./radio-group/types";
 export { Table, type TableProps } from "./table";
 export type { ColumnDef, RowSelectionState } from "./table/types";
 export { Textarea, type TextareaProps } from "./textarea";
-export { ThemeToggle, type ThemeToggleProps } from "./theme-toggle";

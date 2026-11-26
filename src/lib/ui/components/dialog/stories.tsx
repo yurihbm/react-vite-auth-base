@@ -3,8 +3,9 @@ import type { DialogProps } from ".";
 
 import { useState } from "react";
 
+import { Button } from "@lib/ui/components/button";
+
 import { Dialog } from ".";
-import { Button } from "../button";
 
 const meta: Meta<DialogProps> = {
 	component: Dialog,

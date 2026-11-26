@@ -10,7 +10,7 @@ const config: FormatConfig = {
 	tabWidth: 2,
 	singleQuote: false,
 	sortImports: {
-		internalPattern: ["@src/"],
+		internalPattern: ["@modules/", "@lib/", "@src/"],
 		newlinesBetween: false,
 		groups: [
 			"type-builtin",

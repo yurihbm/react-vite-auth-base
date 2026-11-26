@@ -1,8 +1,8 @@
-import type { User } from "../../types";
+import type { User } from "@modules/users/types";
 
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { client } from "@src/lib/api";
+import { client } from "@lib/api";
 
 /**
  * Internal interface representing the API response format for a user. Dates are

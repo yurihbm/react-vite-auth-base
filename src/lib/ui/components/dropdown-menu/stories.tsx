@@ -3,8 +3,9 @@ import type { DropdownMenuProps } from ".";
 
 import { DotsThreeIcon } from "@phosphor-icons/react";
 
+import { Button } from "@lib/ui/components/button";
+
 import { DropdownMenu } from ".";
-import { Button } from "../button";
 
 const meta: Meta<DropdownMenuProps> = {
 	component: DropdownMenu,

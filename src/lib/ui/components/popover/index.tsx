@@ -15,9 +15,9 @@ import {
 	useContext,
 } from "react";
 
-import { usePopover } from "@src/modules/shared/hooks/use-popover";
+import { Portal } from "@lib/ui/components/portal";
+import { usePopover } from "@lib/ui/hooks/use-popover";
 
-import { Portal } from "../portal";
 import { styles } from "./styles";
 
 interface PopoverContextValue {

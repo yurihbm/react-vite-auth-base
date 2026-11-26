@@ -5,7 +5,8 @@ import { CheckIcon } from "@phosphor-icons/react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useEffect, useRef } from "react";
 
-import { Checkbox } from "../checkbox";
+import { Checkbox } from "@lib/ui/components/checkbox";
+
 import { checkIcon, empty, listbox, optionSlot } from "./styles";
 
 export interface OptionListProps extends OptionListVariants {

@@ -62,8 +62,8 @@ Current unit/integration include pattern from `vite.config.ts`:
 Run a single test file:
 
 ```bash
-pnpm test --project "unit/integration" src/modules/shared/components/button/tests.tsx
-pnpm test:watch --project "unit/integration" src/modules/shared/components/text-input/tests.tsx
+pnpm test --project "unit/integration" src/lib/ui/components/button/tests.tsx
+pnpm test:watch --project "unit/integration" src/lib/ui/components/text-input/tests.tsx
 ```
 
 Run by test name:
@@ -90,9 +90,16 @@ Follow module-oriented layout under `src/`:
 
 - `src/routes/`: route definitions and route composition.
 - `src/modules/<module-name>/`: module-specific code.
-- `src/modules/shared/`: reusable UI and shared utilities.
+- `src/modules/shared/`: app-aware pieces shared across modules (e.g.
+  `ThemeToggle`, `LanguageSwitcher`).
+- `src/lib/<lib-name>/`: app-agnostic libraries (`ui`, `i18n`, `api`, `tests`,
+  `dev-tools`). Libraries never import from `src/modules/`.
 
-Current module folder structure (see `src/modules/<module-name>/*`):
+Import aliases: `@lib/*` (`src/lib`), `@modules/*` (`src/modules`) and `@src/*`
+(`src`). Prefer them over relative parent (`../`) imports.
+
+Current module folder structure (see `src/modules/<module-name>/*`; `src/lib/ui`
+follows the same components/hooks/utils layout):
 
 - components/
   - \<component-name\>/
@@ -138,7 +145,7 @@ Import ordering is automated via Oxfmt; keep groups consistent:
 1. Type imports (`import type`, node first)
 2. Built-in modules
 3. Third-party modules
-4. `@src/...` imports (if used)
+4. `@modules/...`, `@lib/...`, `@src/...` imports
 5. Relative imports
 
 Additional conventions observed in code:
@@ -189,4 +196,4 @@ Naming:
 - Docs are updated when workflow/behavior changes.
 
 When uncertain, mimic nearby patterns in `src/routes` and
-`src/modules/shared`.
+`src/lib/ui`.

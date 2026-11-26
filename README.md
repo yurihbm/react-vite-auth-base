@@ -33,11 +33,16 @@ The project follows a module-oriented structure and file-based routing.
 
 ```text
 src/
-├── modules/
+├── lib/                    # App-agnostic libraries (@lib/*)
+│   ├── api/                # HTTP client and error handling
+│   ├── dev-tools/          # Router/Query devtools
+│   ├── i18n/               # Translation hooks, utils and types
+│   ├── tests/              # Test helpers and setup
+│   └── ui/                 # Design system components, hooks, utils
+├── modules/                # App feature modules (@modules/*)
 │   ├── auth/               # Auth pages, hooks, services, guards
-│   ├── dashboard/          # Private feature module example
 │   ├── users/              # User management feature example
-│   └── shared/             # Shared UI, hooks, utils, services
+│   └── shared/             # App-aware components shared across modules
 ├── routes/                 # App routes and route-level composition
 ├── main.tsx                # Application entry point
 ├── main.css                # Global styles and Tailwind import

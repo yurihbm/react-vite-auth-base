@@ -2,8 +2,9 @@ import { cleanup, fireEvent, render } from "@testing-library/react";
 import { createRef } from "react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
+import { Button } from "@lib/ui/components/button";
+
 import { Popover } from ".";
-import { Button } from "../button";
 
 describe("Popover", () => {
 	afterEach(() => {

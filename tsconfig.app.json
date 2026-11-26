@@ -26,6 +26,8 @@
 
 		/* Path aliases */
 		"paths": {
+			"@modules/*": ["./src/modules/*"],
+			"@lib/*": ["./src/lib/*"],
 			"@src/*": ["./src/*"]
 		}
 	},

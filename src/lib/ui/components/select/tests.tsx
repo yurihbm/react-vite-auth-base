@@ -1,4 +1,4 @@
-import type { SelectOption } from "../option-list/types";
+import type { SelectOption } from "@lib/ui/components/option-list/types";
 
 import { cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import {
@@ -11,8 +11,9 @@ import {
 	vi,
 } from "vitest";
 
+import { setupVirtualizerEnv } from "@lib/ui/components/option-list/test-support";
+
 import { Select } from ".";
-import { setupVirtualizerEnv } from "../option-list/test-support";
 
 const FRUITS: SelectOption[] = [
 	{ label: "Apple", value: "apple" },

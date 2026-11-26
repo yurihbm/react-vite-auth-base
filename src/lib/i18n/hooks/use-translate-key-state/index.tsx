@@ -1,5 +1,5 @@
-import type { DEFAULT_NAMESPACE } from "../../constants";
-import type { Namespace, TranslateKey } from "../../types";
+import type { DEFAULT_NAMESPACE } from "@lib/i18n/constants";
+import type { Namespace, TranslateKey } from "@lib/i18n/types";
 
 import { useState } from "react";
 
