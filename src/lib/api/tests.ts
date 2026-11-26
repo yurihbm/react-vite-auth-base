@@ -548,6 +548,40 @@ describe("refresh on 401", () => {
 		expect(onExpired).not.toHaveBeenCalled();
 	});
 
+	test.each([429, 500, 503])(
+		"does not expire the session and throws the refresh error when refresh fails with %i",
+		async (status) => {
+			mockFetch({
+				"GET /a": unauthorized,
+				"POST /auth/refresh": jsonResponse({}, status),
+			});
+			const client = createAPIClient();
+			const onExpired = vi.fn();
+			client.onSessionExpired(onExpired);
+
+			await expect(client.get("/a")).rejects.toMatchObject({
+				status,
+				key: `http.${status}`,
+			});
+			expect(onExpired).not.toHaveBeenCalled();
+		},
+	);
+
+	test("expires the session when refresh is forbidden", async () => {
+		mockFetch({
+			"GET /a": unauthorized,
+			"POST /auth/refresh": jsonResponse({ error: "auth.forbidden" }, 403),
+		});
+		const client = createAPIClient();
+		const onExpired = vi.fn();
+		client.onSessionExpired(onExpired);
+
+		await expect(client.get("/a")).rejects.toMatchObject({
+			key: "auth.unauthorized",
+		});
+		expect(onExpired).toHaveBeenCalledTimes(1);
+	});
+
 	describe("Web Locks", () => {
 		const originalLocks = Object.getOwnPropertyDescriptor(navigator, "locks");
 

@@ -172,6 +172,11 @@ async function safeFetch(url: string, init: RequestInit): Promise<Response> {
 	}
 }
 
+/** Whether a refresh failure means the session is gone. */
+function isSessionRejection(err: unknown): boolean {
+	return err instanceof APIError && (err.status === 401 || err.status === 403);
+}
+
 interface SendOptions {
 	data?: unknown;
 	params?: RequestParams;
@@ -213,9 +218,9 @@ export function createAPIClient(): APIClient {
 				await refresh();
 			}
 		} catch (err) {
-			// Only a rejection from the API means the session is gone; a network
-			// failure may be transient.
-			if (err instanceof APIError && err.status > 0) {
+			// Only a 401/403 from the API means the session is gone; rate limits,
+			// server errors and network failures may be transient.
+			if (isSessionRejection(err)) {
 				sessionExpiredCallbacks.forEach((callback) => callback());
 			}
 			throw err;
@@ -261,10 +266,11 @@ export function createAPIClient(): APIClient {
 
 			try {
 				await refreshSession();
-			} catch {
-				// The caller gets the original 401; refresh failures are reported
-				// through onSessionExpired.
-				throw err;
+			} catch (refreshErr) {
+				// An expired session gives the caller the original 401 (and is
+				// reported through onSessionExpired); a transient refresh failure
+				// gives the caller that failure.
+				throw isSessionRejection(refreshErr) ? err : refreshErr;
 			}
 
 			return send<T>(method, endpoint, { data, params, signal }, true);
