@@ -36,6 +36,7 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Run tests
+        shell: bash
         run: |
           pnpm test:coverage | tee coverage_summary.txt
 
