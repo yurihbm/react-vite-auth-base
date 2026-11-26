@@ -3,7 +3,7 @@ import { tv } from "tailwind-variants";
 export const styles = tv({
 	base: [
 		"flex items-center justify-center gap-2 rounded px-4 py-2",
-		"transition-colors duration-200",
+		"whitespace-nowrap transition-colors duration-200",
 		"cursor-pointer disabled:cursor-not-allowed disabled:opacity-50",
 	],
 	variants: {
