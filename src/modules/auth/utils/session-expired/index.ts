@@ -24,7 +24,7 @@ interface SessionRouter {
 }
 
 /**
- * Handles a session that could not be renewed: drops every cached query and,
+ * Handles a session that could not be renewed: drops every cached result and,
  * when the user is on a private route, sends them to the login page with a
  * redirect back to it.
  *
@@ -39,7 +39,16 @@ export function handleSessionExpired(
 	queryClient: QueryClient,
 	router: SessionRouter,
 ) {
-	queryClient.removeQueries();
+	// Removing a mounted query would leave its observers on a detached copy
+	// that later invalidations never reach (e.g. the header's user after a
+	// login). Mounted queries holding data are reset instead, which refetches
+	// them; queries without data are already failing and are left as is, so a
+	// refetch that expires the session again does not loop.
+	queryClient.removeQueries({ type: "inactive" });
+	void queryClient.resetQueries({
+		type: "active",
+		predicate: (query) => query.state.data !== undefined,
+	});
 
 	const { resolvedLocation } = router.state;
 
