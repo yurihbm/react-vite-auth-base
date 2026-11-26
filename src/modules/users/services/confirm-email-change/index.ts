@@ -26,8 +26,8 @@ export const confirmEmailChangeKey = "users/confirm-email-change";
  * Hook to manage the confirm email change mutation state using TanStack Query.
  *
  * @remarks
- *   On success all cached queries are removed, since the API signed the user
- *   out of every device.
+ *   On success all cached data is dropped, since the API signed the user out of
+ *   every device.
  */
 export function useConfirmEmailChange() {
 	const queryClient = useQueryClient();
@@ -36,7 +36,14 @@ export function useConfirmEmailChange() {
 		mutationKey: [confirmEmailChangeKey],
 		mutationFn: confirmEmailChange,
 		onSuccess: () => {
-			queryClient.removeQueries();
+			// Removing a mounted query would detach its observers (e.g. the header
+			// would keep the old user), so mounted queries are reset to an empty
+			// state instead, without a refetch that would only expire the session.
+			queryClient.removeQueries({ type: "inactive" });
+			queryClient
+				.getQueryCache()
+				.findAll({ type: "active" })
+				.forEach((query) => query.reset());
 		},
 	});
 }
