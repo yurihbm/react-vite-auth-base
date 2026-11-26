@@ -48,7 +48,7 @@ function UserComponent() {
 						</dt>
 						<dd>{new Date(user.createdAt).toLocaleDateString()}</dd>
 					</dl>
-					<EditNameForm key={user.updatedAt} user={user} />
+					<EditNameForm key={user.uuid} user={user} />
 					{user.uuid === me.uuid ? (
 						<DeleteAccount uuid={user.uuid} />
 					) : (
