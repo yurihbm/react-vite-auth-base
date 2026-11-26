@@ -11,10 +11,10 @@ export interface APIResponseMeta {
 	 */
 	limit?: number;
 	/**
-	 * The offset of the first item of the next page of results, if the response
-	 * is paginated.
+	 * The cursor of the next page of results, if the response is paginated.
+	 * Absent on the last page.
 	 */
-	nextCursor?: string;
+	next_cursor?: string;
 }
 
 /**
@@ -96,4 +96,11 @@ export interface APIClient {
 			signal?: AbortSignal;
 		},
 	) => Promise<APIResponseBody<ResponseData>>;
+	/**
+	 * Registers a callback invoked once when a refresh attempt is rejected by the
+	 * API, meaning the session can no longer be restored.
+	 *
+	 * @returns A function that unregisters the callback.
+	 */
+	onSessionExpired: (callback: () => void) => () => void;
 }

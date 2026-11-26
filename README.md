@@ -126,8 +126,44 @@ Recommended local setup:
    VITE_API_BASE_URL=http://localhost:8080
    ```
 
-3. Ensure CORS is configured on backend to allow frontend origin
-   (typically `http://localhost:5173`)
+3. Configure the backend for the frontend origin:
+
+   ```bash
+   # backend .env
+   API_ENV=development
+   API_URL=http://localhost:8080
+   CORS_ALLOWED_ORIGINS=http://localhost:5173
+   CORS_ALLOWED_METHODS=GET,POST,PUT,DELETE,OPTIONS
+   OAUTH_CALLBACK_ALLOW_LIST=http://localhost:5173/oauth/callback
+   EMAIL_CHANGE_REVERT_URL=http://localhost:5173/account/email/revert
+   EMAIL_OAUTH_LINK_REVERT_URL=http://localhost:5173/account/oauth/revert
+   ```
+
+Notes:
+
+- The frontend calls the backend directly; there is no Vite proxy. The refresh
+  cookie is scoped to `Path=/auth/refresh`, which a prefixed proxy would break.
+- Always use `localhost` (never `127.0.0.1`) for both servers, so the
+  `SameSite=Strict` cookies are sent.
+
+### API client (`src/lib/api`)
+
+- `client.get/post/put/patch/delete` return the API envelope
+  (`{ data, message, meta? }`). `meta.next_cursor` carries the next page cursor.
+- Failures throw `APIError` with `status`, `key` (the backend message key, e.g.
+  `auth.unauthorized`, or `http.<status>` / `client.network` /
+  `client.timeout` / `client.invalidResponse`), optional `details` and, on 429,
+  `retryAfter` seconds when the API sends `Retry-After`.
+- A `401` with key `auth.unauthorized` triggers one `/auth/refresh` (shared
+  across concurrent requests and tabs) and a single replay. If the API rejects
+  the refresh, callbacks registered with `client.onSessionExpired(cb)` run.
+- `request(schema, client.get(...))` validates `data` with zod and throws
+  `client.invalidResponse` on mismatch.
+- `useApiErrorMessage(error)` returns the translated message from the `errors`
+  i18n namespace. Add new backend keys to `src/lib/api/error-keys.ts` and to
+  both `errors.json` files.
+- Tests can stub the network with `mockFetch({ "GET /path": jsonResponse(...) })`
+  from `@lib/tests`.
 
 ## 🧪 Testing
 

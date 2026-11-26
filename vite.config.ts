@@ -127,6 +127,7 @@ export default defineConfig({
 			"@tanstack/react-query-devtools",
 			"@tanstack/react-router",
 			"@tanstack/react-router-devtools",
+			"zod",
 		],
 	},
 	test: {

@@ -19,3 +19,15 @@ export const CREDENTIALS_MODE: RequestCredentials = "include";
  * content.
  */
 export const EMPTY_RESPONSE_MESSAGE = "The API returned no content.";
+
+/** Endpoint that renews the session. It is never refreshed itself. */
+export const REFRESH_ENDPOINT = "/auth/refresh";
+
+/** Message key of the 401 the API returns for a missing/expired access token. */
+export const UNAUTHORIZED_KEY = "auth.unauthorized";
+
+/** Name of the Web Lock that serializes refreshes across browser tabs. */
+export const REFRESH_LOCK_NAME = "auth-refresh";
+
+/** Matches dot-separated message keys such as `auth.signup.invalidCode`. */
+export const MESSAGE_KEY_PATTERN = /^[A-Za-z]\w*(\.\w+)+$/;

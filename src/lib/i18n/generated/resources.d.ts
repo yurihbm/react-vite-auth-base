@@ -45,6 +45,175 @@ export default interface Resources {
       "unexpectedError": "An unexpected error occurred. Try again later."
     }
   },
+  "errors": {
+    "audit": {
+      "list": {
+        "badRequest": "Some filters are invalid."
+      }
+    },
+    "auditLogs": {
+      "internalServerError": "Something went wrong on our side. Please try again later.",
+      "invalidActorUUID": "The actor filter is not a valid identifier.",
+      "invalidCursor": "The pagination cursor is invalid."
+    },
+    "auth": {
+      "authenticate": {
+        "invalidCredentials": "Invalid email or password.",
+        "tokenGenerationFailed": "Something went wrong on our side. Please try again later.",
+        "userFetchFailed": "Something went wrong on our side. Please try again later."
+      },
+      "email": {
+        "codeLocked": "Too many wrong codes for this email. Try again later.",
+        "internalServerError": "Something went wrong on our side. Please try again later.",
+        "sendLimit": "Too many emails sent to this address. Please wait before requesting another."
+      },
+      "forbidden": "You do not have permission to do this.",
+      "internalServerError": "Something went wrong on our side. Please try again later.",
+      "invalidToken": "Your session is invalid. Please sign in again.",
+      "login": {
+        "invalidRedirectUri": "The redirect address is not allowed."
+      },
+      "oauthLink": {
+        "staleToken": "This link was already undone or no longer exists."
+      },
+      "oauthLogin": {
+        "missingCodeVerifier": "The sign-in attempt expired. Please try again.",
+        "nonceMismatch": "The sign-in attempt could not be verified. Please try again.",
+        "providerMismatch": "The sign-in attempt does not match the provider. Please try again.",
+        "tokenGenerationFailed": "Something went wrong on our side. Please try again later."
+      },
+      "oauthProvider": {
+        "conflict": "This provider account is already linked to another user.",
+        "invalid": "Unknown sign-in provider.",
+        "notFound": "This provider is not linked to your account.",
+        "userInfoFetchFailed": "We could not get your information from the provider. Please try again."
+      },
+      "passwordReset": {
+        "codeGenerationFailed": "Something went wrong on our side. Please try again later.",
+        "internalServerError": "Something went wrong on our side. Please try again later.",
+        "invalidCode": "The code is incorrect or expired. Request a new one.",
+        "invalidUUID": "The request contains an invalid identifier.",
+        "sendFailed": "We could not send the email. Please try again later."
+      },
+      "providerCallback": {
+        "invalidProvider": "Unknown sign-in provider.",
+        "invalidStatePayload": "The sign-in attempt is invalid. Please try again.",
+        "invalidUserInfo": "The provider did not return valid account information.",
+        "missingParams": "The sign-in response is incomplete. Please try again."
+      },
+      "refresh": {
+        "missingRefreshToken": "Your session has expired. Please sign in again."
+      },
+      "refreshToken": {
+        "tokenGenerationFailed": "Something went wrong on our side. Please try again later."
+      },
+      "signup": {
+        "codeGenerationFailed": "Something went wrong on our side. Please try again later.",
+        "internalServerError": "Something went wrong on our side. Please try again later.",
+        "invalidCode": "The code is incorrect.",
+        "invalidUUID": "The request contains an invalid identifier.",
+        "noPending": "No pending sign-up found or it expired. Please start again.",
+        "sendFailed": "We could not send the email. Please try again later.",
+        "tokenGenerationFailed": "Something went wrong on our side. Please try again later."
+      },
+      "stepUp": {
+        "codeGenerationFailed": "Something went wrong on our side. Please try again later.",
+        "cooldown": "A code was sent recently. Please wait before requesting another.",
+        "internalServerError": "Something went wrong on our side. Please try again later.",
+        "invalidCode": "The code is incorrect.",
+        "noChallenge": "The code expired. Request a new one.",
+        "required": "This action requires confirming your identity.",
+        "sendFailed": "We could not send the email. Please try again later.",
+        "sessionRevoked": "Too many wrong codes. Your session was ended; please sign in again.",
+        "userLocked": "Too many wrong codes. Try again later."
+      },
+      "tokenGenerationFailed": "Something went wrong on our side. Please try again later.",
+      "unauthorized": "You need to sign in to do this.",
+      "user": {
+        "notFound": "User not found."
+      },
+      "verifyToken": {
+        "invalidTokenSigningMethod": "Your session is invalid. Please sign in again."
+      }
+    },
+    "client": {
+      "invalidResponse": "The server sent an unexpected response.",
+      "network": "Could not reach the server. Check your connection and try again.",
+      "timeout": "The request took too long. Please try again.",
+      "unknown": "An unexpected error occurred."
+    },
+    "http": {
+      "400": "The request is invalid.",
+      "401": "You need to sign in to do this.",
+      "403": "You do not have permission to do this.",
+      "404": "Not found.",
+      "409": "This conflicts with the current state. Please refresh and try again.",
+      "429": "Too many requests. Please wait a moment and try again.",
+      "500": "Something went wrong on our side. Please try again later.",
+      "502": "The server is unavailable. Please try again later.",
+      "503": "The server is unavailable. Please try again later.",
+      "504": "The server took too long to respond. Please try again."
+    },
+    "oauth": {
+      "access_denied": "Sign-in was cancelled or denied.",
+      "invalid_request": "The sign-in request was invalid. Please try again.",
+      "invalid_scope": "The requested permissions are invalid.",
+      "server_error": "The provider had an error. Please try again later.",
+      "temporarily_unavailable": "The provider is temporarily unavailable. Please try again later.",
+      "unauthorized_client": "This app is not authorized to sign in with that provider.",
+      "unsupported_response_type": "The provider does not support this sign-in method.",
+      "verification_limited": "Too many verification attempts. Please try again later."
+    },
+    "rateLimit": {
+      "exceeded": "Too many requests. Please wait a moment and try again."
+    },
+    "request": {
+      "invalid": "The request is malformed.",
+      "validation_failed": "Some fields are invalid."
+    },
+    "sessions": {
+      "internalServerError": "Something went wrong on our side. Please try again later.",
+      "invalidUUID": "The request contains an invalid identifier.",
+      "notFound": "Session not found. Please sign in again."
+    },
+    "user": {
+      "getMe": {
+        "unauthorized": "You need to sign in to do this."
+      },
+      "internalServerError": "Something went wrong on our side. Please try again later."
+    },
+    "users": {
+      "create": {
+        "passwordHashingFailed": "Something went wrong on our side. Please try again later."
+      },
+      "email": {
+        "conflict": "This email is already in use."
+      },
+      "emailChange": {
+        "codeGenerationFailed": "Something went wrong on our side. Please try again later.",
+        "cooldown": "A code was sent recently. Please wait before requesting another.",
+        "internalServerError": "Something went wrong on our side. Please try again later.",
+        "invalidCode": "The code is incorrect.",
+        "locked": "Your email was changed recently. Try again later.",
+        "noChallenge": "The code expired. Request a new one.",
+        "sendFailed": "We could not send the email. Please try again later.",
+        "staleToken": "This link is no longer valid because the email changed.",
+        "unauthorized": "You need to sign in to do this.",
+        "unchanged": "The new email is the same as the current one."
+      },
+      "forbidden": "You are not allowed to access this user.",
+      "internalServerError": "Something went wrong on our side. Please try again later.",
+      "invalidUserUUID": "The request contains an invalid identifier.",
+      "notFound": "User not found.",
+      "oauthProvider": {
+        "invalidUUID": "The request contains an invalid identifier."
+      },
+      "password": {
+        "hashingFailed": "Something went wrong on our side. Please try again later.",
+        "unauthorized": "You need to sign in to do this."
+      }
+    }
+  },
   "home": {
     "count": "Count",
     "input": {
