@@ -47,4 +47,14 @@ describe("DevTools", () => {
 		expect(ReactQueryDevtools).not.toHaveBeenCalled();
 		expect(TanStackRouterDevtools).not.toHaveBeenCalled();
 	});
+
+	test("renders the devtools if VITE_DISABLE_DEV_TOOLS is false", () => {
+		vi.stubEnv("VITE_DISABLE_DEV_TOOLS", "false");
+		vi.stubEnv("PROD", false);
+
+		render(<DevTools />);
+
+		expect(ReactQueryDevtools).toHaveBeenCalled();
+		expect(TanStackRouterDevtools).toHaveBeenCalled();
+	});
 });

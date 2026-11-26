@@ -6,10 +6,13 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
  * both React Query and TanStack Router.
  *
  * @returns The DevTools component, or null in production environment or when
- *   `VITE_DISABLE_DEV_TOOLS` is set.
+ *   `VITE_DISABLE_DEV_TOOLS` is `"true"` (env values are strings).
  */
 export function DevTools() {
-	if (import.meta.env.PROD || import.meta.env.VITE_DISABLE_DEV_TOOLS) {
+	if (
+		import.meta.env.PROD ||
+		import.meta.env.VITE_DISABLE_DEV_TOOLS === "true"
+	) {
 		return null;
 	}
 
