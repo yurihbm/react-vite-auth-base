@@ -1,15 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
-import {
-	act,
-	cleanup,
-	fireEvent,
-	render,
-	waitFor,
-} from "@testing-library/react";
+import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { APIError } from "@lib/api";
-import { useLogin, useRegister } from "@modules/auth/services";
+import { useRegister } from "@modules/auth/services";
 
 import { RegisterForm } from ".";
 
@@ -17,22 +11,20 @@ vi.mock("@tanstack/react-router", () => ({
 	useNavigate: vi.fn(),
 }));
 
+vi.mock("@lib/api", async (importOriginal) => ({
+	...(await importOriginal<typeof import("@lib/api")>()),
+	useApiErrorMessage: (error: unknown) =>
+		error instanceof Error ? `translated:${error.message}` : "unknown",
+}));
+
 vi.mock("@modules/auth/services", () => ({
-	useLogin: vi.fn(),
 	useRegister: vi.fn(),
 }));
 
-function createDeferredPromise() {
-	let resolve!: () => void;
-	const promise = new Promise<void>((resolvePromise) => {
-		resolve = resolvePromise;
-	});
-
-	return {
-		promise,
-		resolve,
-	};
-}
+type Handlers = {
+	onError: (error: unknown) => void;
+	onSuccess: () => void;
+};
 
 /** Helper function to fill the register form and submit it. */
 function fillFormAndSubmit(
@@ -53,20 +45,15 @@ function fillFormAndSubmit(
 
 describe("RegisterForm", () => {
 	const navigateMock = vi.fn();
-	const loginMutateAsyncMock = vi.fn();
-	const registerMutateAsyncMock = vi.fn();
+	const registerMutateMock = vi.fn();
 
 	beforeEach(() => {
 		vi.clearAllMocks();
 
-		vi.mocked(useLogin).mockReturnValue({
-			isPending: false,
-			mutateAsync: loginMutateAsyncMock,
-		} as unknown as ReturnType<typeof useLogin>);
 		vi.mocked(useNavigate).mockReturnValue(navigateMock);
 		vi.mocked(useRegister).mockReturnValue({
 			isPending: false,
-			mutateAsync: registerMutateAsyncMock,
+			mutate: registerMutateMock,
 		} as unknown as ReturnType<typeof useRegister>);
 	});
 
@@ -80,73 +67,89 @@ describe("RegisterForm", () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	test("submits entered data through register mutation and auto-login", async () => {
+	test("submits entered data through register mutation", () => {
 		const { getByLabelText, getByRole } = render(<RegisterForm />);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
 
-		await waitFor(() => {
-			expect(registerMutateAsyncMock).toHaveBeenCalledWith({
+		expect(registerMutateMock).toHaveBeenCalledWith(
+			{
 				email: "john@doe.com",
 				name: "John Doe",
 				password: "secretpass",
-			});
-		});
-
-		await waitFor(() => {
-			expect(loginMutateAsyncMock).toHaveBeenCalledWith({
-				email: "john@doe.com",
-				password: "secretpass",
-			});
-		});
-	});
-
-	test("shows API error message from register failure", async () => {
-		const apiErrorMessage = "auth.register.emailTaken";
-
-		registerMutateAsyncMock.mockRejectedValueOnce(
-			new APIError(apiErrorMessage),
+			},
+			expect.objectContaining({
+				onError: expect.any(Function),
+				onSuccess: expect.any(Function),
+			}),
 		);
-
-		const { getByLabelText, getByRole, getByText } = render(<RegisterForm />);
-
-		fillFormAndSubmit(getByLabelText, getByRole);
-
-		await waitFor(() => {
-			expect(getByText(apiErrorMessage)).toBeDefined();
-		});
 	});
 
-	test("shows API error message when auto-login fails", async () => {
-		const apiErrorMessage = "auth.login.invalidCredentials";
-
-		loginMutateAsyncMock.mockRejectedValueOnce(new APIError(apiErrorMessage));
-
+	test("shows the translated API error from register failure", () => {
 		const { getByLabelText, getByRole, getByText } = render(<RegisterForm />);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
 
-		await waitFor(() => {
-			expect(getByText(apiErrorMessage)).toBeDefined();
+		const [, handlers] = registerMutateMock.mock.calls[0] as [
+			unknown,
+			Handlers,
+		];
+
+		act(() => {
+			handlers.onError(new APIError("users.email.conflict", { status: 409 }));
 		});
+
+		expect(getByText("translated:users.email.conflict")).toBeDefined();
 	});
 
-	test("shows fallback message for unknown errors", async () => {
-		registerMutateAsyncMock.mockRejectedValueOnce(new Error("boom"));
-
+	test("maps API error details onto the matching inputs", () => {
 		const { getByLabelText, getByRole, getByText } = render(<RegisterForm />);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
 
-		await waitFor(() => {
-			expect(getByText("registerForm.unexpectedError")).toBeDefined();
+		const [, handlers] = registerMutateMock.mock.calls[0] as [
+			unknown,
+			Handlers,
+		];
+
+		act(() => {
+			handlers.onError(
+				new APIError("request.validation_failed", {
+					status: 400,
+					details: { password: "too weak" },
+				}),
+			);
 		});
+
+		expect(getByText("too weak")).toBeDefined();
+		expect(
+			getByLabelText("registerForm.input.password.label").getAttribute(
+				"aria-invalid",
+			),
+		).toBe("true");
+	});
+
+	test("shows fallback message for unknown errors", () => {
+		const { getByLabelText, getByRole, getByText } = render(<RegisterForm />);
+
+		fillFormAndSubmit(getByLabelText, getByRole);
+
+		const [, handlers] = registerMutateMock.mock.calls[0] as [
+			unknown,
+			Handlers,
+		];
+
+		act(() => {
+			handlers.onError(new Error("boom"));
+		});
+
+		expect(getByText("registerForm.unexpectedError")).toBeDefined();
 	});
 
 	test("disables submit button while register is pending", () => {
 		vi.mocked(useRegister).mockReturnValueOnce({
 			isPending: true,
-			mutateAsync: registerMutateAsyncMock,
+			mutate: registerMutateMock,
 		} as unknown as ReturnType<typeof useRegister>);
 
 		const { getByRole } = render(<RegisterForm />);
@@ -157,79 +160,70 @@ describe("RegisterForm", () => {
 		expect((submitButton as HTMLButtonElement).disabled).toBe(true);
 	});
 
-	test("disables submit button while auto-login is pending", () => {
-		vi.mocked(useLogin).mockReturnValueOnce({
-			isPending: true,
-			mutateAsync: loginMutateAsyncMock,
-		} as unknown as ReturnType<typeof useLogin>);
-
-		const { getByRole } = render(<RegisterForm />);
-		const submitButton = getByRole("button", {
-			name: "registerForm.submitButton",
-		});
-
-		expect((submitButton as HTMLButtonElement).disabled).toBe(true);
-	});
-
-	test("navigates to home on successful register without provided redirectTo prop", async () => {
+	test("disables submit button after a rate limit error", () => {
 		const { getByLabelText, getByRole } = render(<RegisterForm />);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
 
-		await waitFor(() => {
-			expect(navigateMock).toHaveBeenCalledWith({
-				to: "/",
-			});
+		const [, handlers] = registerMutateMock.mock.calls[0] as [
+			unknown,
+			Handlers,
+		];
+
+		act(() => {
+			handlers.onError(
+				new APIError("auth.email.sendLimit", { status: 429, retryAfter: 30 }),
+			);
 		});
+
+		expect(
+			(
+				getByRole("button", {
+					name: "registerForm.submitButton",
+				}) as HTMLButtonElement
+			).disabled,
+		).toBe(true);
 	});
 
-	test("waits for auto-login before navigating", async () => {
-		const registerPromise = createDeferredPromise();
-		const loginPromise = createDeferredPromise();
-
-		registerMutateAsyncMock.mockReturnValueOnce(registerPromise.promise);
-		loginMutateAsyncMock.mockReturnValueOnce(loginPromise.promise);
-
-		const { getByLabelText, getByRole } = render(<RegisterForm />);
-
-		fillFormAndSubmit(getByLabelText, getByRole);
-
-		expect(navigateMock).not.toHaveBeenCalled();
-
-		await act(async () => {
-			registerPromise.resolve();
-			await registerPromise.promise;
-		});
-
-		expect(loginMutateAsyncMock).toHaveBeenCalledWith({
-			email: "john@doe.com",
-			password: "secretpass",
-		});
-		expect(navigateMock).not.toHaveBeenCalled();
-
-		await act(async () => {
-			loginPromise.resolve();
-			await loginPromise.promise;
-		});
-
-		await waitFor(() => {
-			expect(navigateMock).toHaveBeenCalledWith({
-				to: "/",
-			});
-		});
-	});
-
-	test("navigates to provided redirectTo path on successful register", async () => {
+	test("goes to code verification without logging in, keeping the redirect", () => {
 		const { getByLabelText, getByRole } = render(
 			<RegisterForm redirectTo="/dashboard" />,
 		);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
 
-		await waitFor(() => {
-			expect(navigateMock).toHaveBeenCalledWith({
-				to: "/dashboard",
-			});
+		const [, handlers] = registerMutateMock.mock.calls[0] as [
+			unknown,
+			Handlers,
+		];
+
+		act(() => {
+			handlers.onSuccess();
+		});
+
+		expect(navigateMock).toHaveBeenCalledWith({
+			to: "/register/verify",
+			search: { redirect: "/dashboard" },
+		});
+	});
+
+	test("keeps the home redirect by default", () => {
+		const { getByLabelText, getByRole } = render(<RegisterForm />);
+
+		fillFormAndSubmit(getByLabelText, getByRole);
+
+		const [, handlers] = registerMutateMock.mock.calls[0] as [
+			unknown,
+			Handlers,
+		];
+
+		act(() => {
+			handlers.onSuccess();
+		});
+
+		expect(navigateMock).toHaveBeenCalledWith({
+			to: "/register/verify",
+			search: { redirect: "/" },
 		});
 	});
 });

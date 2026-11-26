@@ -7,6 +7,7 @@
 		"message": "Made with ❤️ by Yuri"
 	},
 	"loginForm": {
+		"submitButton": "loginForm.submitButton",
 		"unexpectedError": "loginForm.unexpectedError"
 	},
 	"nav": {
@@ -18,5 +19,8 @@
 			"register": "Register"
 		}
 	},
-	"pt": "pt"
+	"pt": "pt",
+	"resendButton": {
+		"cooldown": "resendButton.cooldown"
+	}
 }

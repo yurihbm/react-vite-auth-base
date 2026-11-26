@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { client } from "@lib/api";
 
@@ -13,10 +13,12 @@ interface RegisterData {
 }
 
 /**
- * Sends a POST request to the users endpoint to register a new user.
+ * Sends a POST request to the users endpoint to start a sign-up. The API only
+ * creates a pending sign-up and emails a code; the user is not logged in until
+ * the code is verified.
  *
  * @param data - The registration data (email, name, and password).
- * @returns A promise that resolves when the registration is successful.
+ * @returns A promise that resolves when the sign-up is pending.
  */
 async function register({ email, name, password }: RegisterData) {
 	await client.post("/users", {
@@ -35,8 +37,8 @@ export const registerKey = "auth/register";
  * Hook to manage the register mutation state using TanStack Query.
  *
  * @remarks
- *   On successful registration, all queries are invalidated to ensure that any
- *   user-specific data is refetched, reflecting the logged-in state.
+ *   On success the sign-up is only pending, so the user is not logged in yet
+ *   and nothing is invalidated. Continue with `useVerifySignup`.
  * @example
  * 	```tsx
  * 	const { mutate, isPending } = useRegister();
@@ -44,7 +46,7 @@ export const registerKey = "auth/register";
  * 	function handleSubmit(data: RegisterData) {
  * 		mutate(data, {
  * 			onSuccess: () => {
- * 				// Handle successful registration (e.g., redirect)
+ * 				// Handle the pending sign-up (e.g., go to code verification)
  * 			},
  * 		});
  * 	}
@@ -54,14 +56,8 @@ export const registerKey = "auth/register";
  *   pending, error, and success states.
  */
 export function useRegister() {
-	const queryClient = useQueryClient();
-
 	return useMutation({
 		mutationKey: [registerKey],
 		mutationFn: register,
-		onSuccess: () => {
-			// Invalidate all queries to ensure that any user-specific data is refetched.
-			queryClient.invalidateQueries();
-		},
 	});
 }

@@ -109,8 +109,11 @@
 	},
 	"oauth": {
 		"access_denied": "Sign-in was cancelled or denied.",
+		"account_conflict": "This provider account is already linked to another user.",
 		"invalid_request": "The sign-in request was invalid. Please try again.",
 		"invalid_scope": "The requested permissions are invalid.",
+		"invalid_user_info": "The provider did not return valid account information.",
+		"missing_code_verifier": "The sign-in attempt expired. Please try again.",
 		"server_error": "The provider had an error. Please try again later.",
 		"temporarily_unavailable": "The provider is temporarily unavailable. Please try again later.",
 		"unauthorized_client": "This app is not authorized to sign in with that provider.",

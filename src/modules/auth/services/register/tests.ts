@@ -58,7 +58,7 @@ describe("useRegister", () => {
 		expect(registerKey).toBe("auth/register");
 	});
 
-	test("invalidates queries after successful registration", async () => {
+	test("does not invalidate queries, since registration does not log in", async () => {
 		const invalidateQueriesSpy = vi.spyOn(
 			QueryClient.prototype,
 			"invalidateQueries",
@@ -80,6 +80,6 @@ describe("useRegister", () => {
 			});
 		});
 
-		expect(invalidateQueriesSpy).toHaveBeenCalledTimes(1);
+		expect(invalidateQueriesSpy).not.toHaveBeenCalled();
 	});
 });

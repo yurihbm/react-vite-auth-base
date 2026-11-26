@@ -109,8 +109,11 @@
 	},
 	"oauth": {
 		"access_denied": "O login foi cancelado ou negado.",
+		"account_conflict": "Esta conta do provedor já está vinculada a outro usuário.",
 		"invalid_request": "A solicitação de login era inválida. Tente novamente.",
 		"invalid_scope": "As permissões solicitadas são inválidas.",
+		"invalid_user_info": "O provedor não retornou informações válidas da conta.",
+		"missing_code_verifier": "A tentativa de login expirou. Tente novamente.",
 		"server_error": "O provedor teve um erro. Tente novamente mais tarde.",
 		"temporarily_unavailable": "O provedor está temporariamente indisponível. Tente novamente mais tarde.",
 		"unauthorized_client": "Este aplicativo não está autorizado a entrar com esse provedor.",

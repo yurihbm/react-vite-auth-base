@@ -1,9 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { useTranslate } from "@lib/i18n";
 import { Alert } from "@lib/ui";
 import {
 	LoginForm,
+	OAuthButtons,
 	publicOnlyRouteBeforeLoad,
 	safeRedirect,
 } from "@modules/auth";
@@ -40,6 +41,10 @@ function LoginComponent() {
 				/>
 			)}
 			<LoginForm redirectTo={search.redirect} />
+			<Link to="/password/forgot" className="text-sm underline">
+				{t("loginPage.forgotPassword")}
+			</Link>
+			<OAuthButtons redirectTo={search.redirect} />
 		</div>
 	);
 }

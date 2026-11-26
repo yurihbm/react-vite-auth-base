@@ -13,7 +13,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authRegisterRouteImport } from './routes/(auth)/register'
+import { Route as OauthCallbackRouteImport } from './routes/oauth/callback'
+import { Route as authPasswordForgotRouteImport } from './routes/(auth)/password/forgot'
+import { Route as authPasswordResetRouteImport } from './routes/(auth)/password/reset'
+import { Route as authRegisterVerifyRouteImport } from './routes/(auth)/register_.verify'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account/index'
+import { Route as AccountEmailRevertRouteImport } from './routes/account/email/revert'
+import { Route as AccountOauthRevertRouteImport } from './routes/account/oauth/revert'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,23 +40,65 @@ const authRegisterRoute = authRegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OauthCallbackRoute = OauthCallbackRouteImport.update({
+  id: '/oauth/callback',
+  path: '/oauth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authPasswordForgotRoute = authPasswordForgotRouteImport.update({
+  id: '/(auth)/password/forgot',
+  path: '/password/forgot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authPasswordResetRoute = authPasswordResetRouteImport.update({
+  id: '/(auth)/password/reset',
+  path: '/password/reset',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authRegisterVerifyRoute = authRegisterVerifyRouteImport.update({
+  id: '/(auth)/register_/verify',
+  path: '/register/verify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAccountIndexRoute =
   AuthenticatedAccountIndexRouteImport.update({
     id: '/account/',
     path: '/account/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AccountEmailRevertRoute = AccountEmailRevertRouteImport.update({
+  id: '/account/email/revert',
+  path: '/account/email/revert',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountOauthRevertRoute = AccountOauthRevertRouteImport.update({
+  id: '/account/oauth/revert',
+  path: '/account/oauth/revert',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
+  '/oauth/callback': typeof OauthCallbackRoute
+  '/password/forgot': typeof authPasswordForgotRoute
+  '/password/reset': typeof authPasswordResetRoute
+  '/register/verify': typeof authRegisterVerifyRoute
+  '/account/email/revert': typeof AccountEmailRevertRoute
+  '/account/oauth/revert': typeof AccountOauthRevertRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
+  '/oauth/callback': typeof OauthCallbackRoute
+  '/password/forgot': typeof authPasswordForgotRoute
+  '/password/reset': typeof authPasswordResetRoute
+  '/register/verify': typeof authRegisterVerifyRoute
+  '/account/email/revert': typeof AccountEmailRevertRoute
+  '/account/oauth/revert': typeof AccountOauthRevertRoute
   '/account': typeof AuthenticatedAccountIndexRoute
 }
 export interface FileRoutesById {
@@ -59,19 +107,51 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/register': typeof authRegisterRoute
+  '/oauth/callback': typeof OauthCallbackRoute
+  '/(auth)/password/forgot': typeof authPasswordForgotRoute
+  '/(auth)/password/reset': typeof authPasswordResetRoute
+  '/(auth)/register_/verify': typeof authRegisterVerifyRoute
+  '/account/email/revert': typeof AccountEmailRevertRoute
+  '/account/oauth/revert': typeof AccountOauthRevertRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/account/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/oauth/callback'
+    | '/password/forgot'
+    | '/password/reset'
+    | '/register/verify'
+    | '/account/email/revert'
+    | '/account/oauth/revert'
+    | '/account/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/account'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/oauth/callback'
+    | '/password/forgot'
+    | '/password/reset'
+    | '/register/verify'
+    | '/account/email/revert'
+    | '/account/oauth/revert'
+    | '/account'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/(auth)/login'
     | '/(auth)/register'
+    | '/oauth/callback'
+    | '/(auth)/password/forgot'
+    | '/(auth)/password/reset'
+    | '/(auth)/register_/verify'
+    | '/account/email/revert'
+    | '/account/oauth/revert'
     | '/_authenticated/account/'
   fileRoutesById: FileRoutesById
 }
@@ -80,6 +160,12 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   authLoginRoute: typeof authLoginRoute
   authRegisterRoute: typeof authRegisterRoute
+  OauthCallbackRoute: typeof OauthCallbackRoute
+  authPasswordForgotRoute: typeof authPasswordForgotRoute
+  authPasswordResetRoute: typeof authPasswordResetRoute
+  authRegisterVerifyRoute: typeof authRegisterVerifyRoute
+  AccountEmailRevertRoute: typeof AccountEmailRevertRoute
+  AccountOauthRevertRoute: typeof AccountOauthRevertRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -112,12 +198,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authRegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/oauth/callback': {
+      id: '/oauth/callback'
+      path: '/oauth/callback'
+      fullPath: '/oauth/callback'
+      preLoaderRoute: typeof OauthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/password/forgot': {
+      id: '/(auth)/password/forgot'
+      path: '/password/forgot'
+      fullPath: '/password/forgot'
+      preLoaderRoute: typeof authPasswordForgotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/password/reset': {
+      id: '/(auth)/password/reset'
+      path: '/password/reset'
+      fullPath: '/password/reset'
+      preLoaderRoute: typeof authPasswordResetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/register_/verify': {
+      id: '/(auth)/register_/verify'
+      path: '/register/verify'
+      fullPath: '/register/verify'
+      preLoaderRoute: typeof authRegisterVerifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/account/': {
       id: '/_authenticated/account/'
       path: '/account'
       fullPath: '/account/'
       preLoaderRoute: typeof AuthenticatedAccountIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/account/email/revert': {
+      id: '/account/email/revert'
+      path: '/account/email/revert'
+      fullPath: '/account/email/revert'
+      preLoaderRoute: typeof AccountEmailRevertRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/oauth/revert': {
+      id: '/account/oauth/revert'
+      path: '/account/oauth/revert'
+      fullPath: '/account/oauth/revert'
+      preLoaderRoute: typeof AccountOauthRevertRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -139,6 +267,12 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   authLoginRoute: authLoginRoute,
   authRegisterRoute: authRegisterRoute,
+  OauthCallbackRoute: OauthCallbackRoute,
+  authPasswordForgotRoute: authPasswordForgotRoute,
+  authPasswordResetRoute: authPasswordResetRoute,
+  authRegisterVerifyRoute: authRegisterVerifyRoute,
+  AccountEmailRevertRoute: AccountEmailRevertRoute,
+  AccountOauthRevertRoute: AccountOauthRevertRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -4,6 +4,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { client, request } from "@lib/api";
 import { UserSchema } from "@modules/users/schemas";
+import { toUser } from "@modules/users/utils";
 
 /**
  * Fetches the currently authenticated user's profile information.
@@ -17,15 +18,7 @@ async function getMe(signal?: AbortSignal): Promise<User> {
 		client.get("/users/me", { signal }),
 	);
 
-	return {
-		uuid: data.uuid,
-		name: data.name,
-		email: data.email,
-		role: data.role,
-		// The API sends unix seconds.
-		createdAt: new Date(data.created_at * 1000).toISOString(),
-		updatedAt: new Date(data.updated_at * 1000).toISOString(),
-	};
+	return toUser(data);
 }
 
 /** The unique query key used for caching the "get me" request. */
