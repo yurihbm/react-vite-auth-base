@@ -10,7 +10,11 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { APIError } from "@lib/api";
 import { StepUpCancelledError } from "@modules/auth/providers/step-up/context";
-import { listUsersKey, useDeleteUser } from "@modules/users/services";
+import {
+	getUserKey,
+	listUsersKey,
+	useDeleteUser,
+} from "@modules/users/services";
 
 import { DeleteUser } from ".";
 
@@ -25,6 +29,7 @@ vi.mock("@lib/api", async (importOriginal) => ({
 }));
 
 vi.mock("@modules/users/services", () => ({
+	getUserKey: "users/get",
 	listUsersKey: "users/list",
 	useDeleteUser: vi.fn(),
 }));
@@ -34,6 +39,7 @@ const UUID = "6f1f7c52-6f0c-4a52-9a43-0a3a1c2f6b11";
 describe("DeleteUser", () => {
 	const onDeleted = vi.fn();
 	const invalidateQueriesMock = vi.fn();
+	const removeQueriesMock = vi.fn();
 	const mutateMock = vi.fn();
 
 	function mockMutation(state: Record<string, unknown> = {}) {
@@ -53,6 +59,7 @@ describe("DeleteUser", () => {
 		vi.clearAllMocks();
 		vi.mocked(useQueryClient).mockReturnValue({
 			invalidateQueries: invalidateQueriesMock,
+			removeQueries: removeQueriesMock,
 		} as unknown as ReturnType<typeof useQueryClient>);
 		mockMutation();
 	});
@@ -86,7 +93,7 @@ describe("DeleteUser", () => {
 		);
 	});
 
-	test("refreshes the users list and notifies after deleting", () => {
+	test("refreshes the users list, drops the deleted user and notifies after deleting", () => {
 		render(<DeleteUser uuid={UUID} onDeleted={onDeleted} />);
 
 		openDialog();
@@ -101,6 +108,9 @@ describe("DeleteUser", () => {
 
 		expect(invalidateQueriesMock).toHaveBeenCalledWith({
 			queryKey: [listUsersKey],
+		});
+		expect(removeQueriesMock).toHaveBeenCalledWith({
+			queryKey: [getUserKey, UUID],
 		});
 		expect(onDeleted).toHaveBeenCalledTimes(1);
 	});

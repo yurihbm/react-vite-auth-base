@@ -6,7 +6,11 @@ import { useTranslate } from "@lib/i18n";
 import { Button, Dialog } from "@lib/ui";
 import { StepUpCancelledError } from "@modules/auth/providers/step-up/context";
 import { base, errorMessage } from "@modules/users/components/styles";
-import { listUsersKey, useDeleteUser } from "@modules/users/services";
+import {
+	getUserKey,
+	listUsersKey,
+	useDeleteUser,
+} from "@modules/users/services";
 
 interface DeleteUserProps {
 	/** The UUID of the user to delete. */
@@ -34,6 +38,8 @@ export function DeleteUser({ uuid, onDeleted }: DeleteUserProps) {
 			{
 				onSuccess: () => {
 					queryClient.invalidateQueries({ queryKey: [listUsersKey] });
+					// Removed, not invalidated: a refetch would only 404.
+					queryClient.removeQueries({ queryKey: [getUserKey, uuid] });
 					onDeleted();
 				},
 			},
