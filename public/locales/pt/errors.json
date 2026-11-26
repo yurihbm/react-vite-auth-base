@@ -117,6 +117,7 @@
 		"server_error": "O provedor teve um erro. Tente novamente mais tarde.",
 		"temporarily_unavailable": "O provedor está temporariamente indisponível. Tente novamente mais tarde.",
 		"unauthorized_client": "Este aplicativo não está autorizado a entrar com esse provedor.",
+		"unknown": "Não foi possível entrar com o provedor. Tente novamente.",
 		"unsupported_response_type": "O provedor não suporta este método de login.",
 		"verification_limited": "Muitas tentativas de verificação. Tente novamente mais tarde."
 	},

@@ -237,6 +237,7 @@ export default interface Resources {
       "server_error": "The provider had an error. Please try again later.",
       "temporarily_unavailable": "The provider is temporarily unavailable. Please try again later.",
       "unauthorized_client": "This app is not authorized to sign in with that provider.",
+      "unknown": "Sign-in with the provider failed. Please try again.",
       "unsupported_response_type": "The provider does not support this sign-in method.",
       "verification_limited": "Too many verification attempts. Please try again later."
     },

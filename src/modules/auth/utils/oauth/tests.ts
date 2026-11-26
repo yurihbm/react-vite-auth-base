@@ -9,6 +9,7 @@ import {
 	clearOAuthRedirect,
 	getOAuthRedirect,
 	oauthCallbackBeforeLoad,
+	oauthErrorKey,
 	startOAuthLogin,
 } from ".";
 
@@ -132,4 +133,17 @@ describe("oauth utils", () => {
 			expect(redirect).not.toHaveBeenCalled();
 		});
 	});
+});
+
+describe("oauthErrorKey", () => {
+	test("maps a known OAuth error code to its translation key", () => {
+		expect(oauthErrorKey("access_denied")).toBe("oauth.access_denied");
+	});
+
+	test.each([undefined, "", "unknown_code", "__proto__", "access_denied.x"])(
+		"resolves no key for %j",
+		(code) => {
+			expect(oauthErrorKey(code)).toBeUndefined();
+		},
+	);
 });

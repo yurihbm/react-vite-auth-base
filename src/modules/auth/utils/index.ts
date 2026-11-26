@@ -3,6 +3,7 @@ export {
 	clearOAuthRedirect,
 	getOAuthRedirect,
 	oauthCallbackBeforeLoad,
+	oauthErrorKey,
 	startOAuthLogin,
 } from "./oauth";
 export type { OAuthProvider } from "./oauth";

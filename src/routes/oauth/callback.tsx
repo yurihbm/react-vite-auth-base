@@ -1,5 +1,3 @@
-import type { TranslateKey } from "@lib/i18n";
-
 import { createFileRoute } from "@tanstack/react-router";
 
 import { useTranslate } from "@lib/i18n";
@@ -8,6 +6,7 @@ import {
 	clearOAuthRedirect,
 	getOAuthRedirect,
 	oauthCallbackBeforeLoad,
+	oauthErrorKey,
 	VerifyCodeForm,
 } from "@modules/auth";
 
@@ -26,6 +25,7 @@ const { useSearch } = Route;
 function RouteComponent() {
 	const search = useSearch();
 	const translate = useTranslate("errors");
+	const errorKey = oauthErrorKey(search.error);
 
 	if (search.verification === "required") {
 		return (
@@ -39,12 +39,7 @@ function RouteComponent() {
 	return (
 		<Alert
 			type="danger"
-			description={translate(
-				`oauth.${search.error}` as TranslateKey<"errors">,
-				{
-					defaultValue: translate("client.unknown"),
-				},
-			)}
+			description={errorKey ? translate(errorKey) : translate("oauth.unknown")}
 		/>
 	);
 }

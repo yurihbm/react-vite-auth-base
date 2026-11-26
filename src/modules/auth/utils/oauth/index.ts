@@ -1,3 +1,4 @@
+import type { TranslateKey } from "@lib/i18n";
 import type { QueryClient } from "@tanstack/react-query";
 
 import { redirect } from "@tanstack/react-router";
@@ -10,6 +11,21 @@ export type OAuthProvider = "google" | "github" | "microsoft";
 
 /** Session storage key of the in-app path to open after the OAuth login. */
 const REDIRECT_STORAGE_KEY = "oauth-redirect";
+
+/** OAuth error codes the API may send back in the callback's `error` param. */
+const OAUTH_ERROR_CODES = [
+	"access_denied",
+	"account_conflict",
+	"invalid_request",
+	"invalid_scope",
+	"invalid_user_info",
+	"missing_code_verifier",
+	"server_error",
+	"temporarily_unavailable",
+	"unauthorized_client",
+	"unsupported_response_type",
+	"verification_limited",
+] as const;
 
 /** Path of the route the provider flow returns to. */
 const CALLBACK_PATH = "/oauth/callback";
@@ -81,4 +97,18 @@ export async function oauthCallbackBeforeLoad({
 	clearOAuthRedirect();
 
 	throw redirect({ to, replace: true });
+}
+
+/**
+ * Resolves the translation key of the callback's `error` param. The param comes
+ * from the URL, so only known codes resolve.
+ *
+ * @param code - The `error` search param of the callback.
+ * @returns The `errors` key of a known code, `undefined` otherwise.
+ */
+export function oauthErrorKey(
+	code?: string,
+): TranslateKey<"errors"> | undefined {
+	const known = OAUTH_ERROR_CODES.find((value) => value === code);
+	return known && `oauth.${known}`;
 }
