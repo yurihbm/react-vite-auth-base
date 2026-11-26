@@ -16,6 +16,8 @@ vi.mock("i18next", () => {
 	const i18nextInstance = {
 		use: vi.fn(),
 		init: vi.fn().mockResolvedValue(undefined),
+		on: vi.fn(),
+		resolvedLanguage: "pt",
 	};
 
 	i18nextInstance.use.mockReturnValue(i18nextInstance);
@@ -65,5 +67,21 @@ describe("initI18n", () => {
 				loadPath: "/locales/{{lng}}/{{ns}}.json",
 			},
 		});
+	});
+
+	test("syncs the html lang attribute on init and language change", async () => {
+		document.documentElement.lang = "en";
+
+		await initI18n();
+
+		expect(document.documentElement.lang).toBe("pt");
+
+		const [event, onLanguageChanged] = vi.mocked(i18next.on).mock.calls[0];
+		expect(event).toBe("languageChanged");
+
+		Object.assign(i18next, { resolvedLanguage: "en" });
+		(onLanguageChanged as () => void)();
+
+		expect(document.documentElement.lang).toBe("en");
 	});
 });

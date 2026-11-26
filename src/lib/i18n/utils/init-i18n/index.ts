@@ -14,9 +14,12 @@ import {
 /**
  * Initializes the i18n instance with the necessary plugins and configuration.
  *
- * Call it at the application entry point (e.g., main.tsx).
+ * Call it at the application entry point (e.g., main.tsx). Keeps the `<html
+ * lang>` attribute in sync with the resolved language.
  */
 export async function initI18n() {
+	i18next.on("languageChanged", syncDocumentLanguage);
+
 	await i18next
 		.use(HttpBackend)
 		.use(LanguageDetector)
@@ -31,4 +34,10 @@ export async function initI18n() {
 				loadPath: "/locales/{{lng}}/{{ns}}.json",
 			},
 		});
+
+	syncDocumentLanguage();
+}
+
+function syncDocumentLanguage() {
+	document.documentElement.lang = i18next.resolvedLanguage ?? FALLBACK_LANGUAGE;
 }
