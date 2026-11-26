@@ -20,6 +20,10 @@ describe("DevTools", () => {
 	});
 
 	test("renders ReactQueryDevtools and TanStackRouterDevtools", () => {
+		// undefined works as false
+		vi.stubEnv("VITE_DISABLE_DEV_TOOLS", undefined);
+		vi.stubEnv("PROD", false);
+
 		render(<DevTools />);
 
 		expect(ReactQueryDevtools).toHaveBeenCalled();
@@ -32,5 +36,15 @@ describe("DevTools", () => {
 		const { container } = render(<DevTools />);
 
 		expect(container.firstChild).toBeNull();
+	});
+
+	test("returns null if VITE_DISABLE_DEV_TOOLS is true", () => {
+		vi.stubEnv("VITE_DISABLE_DEV_TOOLS", "true");
+
+		const { container } = render(<DevTools />);
+
+		expect(container.firstChild).toBeNull();
+		expect(ReactQueryDevtools).not.toHaveBeenCalled();
+		expect(TanStackRouterDevtools).not.toHaveBeenCalled();
 	});
 });
