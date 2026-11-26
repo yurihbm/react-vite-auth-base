@@ -100,9 +100,12 @@ export function rename(root: string, options: RenameOptions): string[] {
 	if (!options.title.trim()) {
 		throw new Error("title must not be empty");
 	}
-	for (const value of [options.shortName, options.description]) {
+	// They are written inside double-quoted string literals.
+	for (const value of [options.title, options.shortName, options.description]) {
 		if (value?.includes('"') || value?.includes("\\")) {
-			throw new Error("short name and description must not contain quotes");
+			throw new Error(
+				"title, short name and description must not contain quotes",
+			);
 		}
 	}
 

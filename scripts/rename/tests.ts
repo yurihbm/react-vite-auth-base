@@ -99,6 +99,13 @@ describe("rename", () => {
 		);
 	});
 
+	test.each(['Acme "App"', "Acme \\ App"])(
+		"rejects quotes in the title (%s)",
+		(title) => {
+			expect(() => rename(root, { ...OPTIONS, title })).toThrow("quotes");
+		},
+	);
+
 	test("fails when a file is missing", () => {
 		fs.rmSync(path.join(root, "index.html"));
 
