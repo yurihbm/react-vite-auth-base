@@ -53,16 +53,24 @@ for (const file of ["index.tsx", "styles.ts", "stories.tsx", "tests.tsx"]) {
 	);
 }
 
-// Insert the export in alphabetical position among the `from "./x"` lines.
+// Insert the export in alphabetical position among the export statements.
 const exportLine = `export { ${name}, type ${name}Props } from "./${kebab}";`;
-const lines = fs.readFileSync(barrelPath, "utf-8").trimEnd().split("\n");
-const fromPath = (line: string) => /from "\.\/([^"/]+)/.exec(line)?.[1];
-const next = lines.findIndex((line) => {
-	const other = fromPath(line);
+const barrel = fs.readFileSync(barrelPath, "utf-8");
+const statements = barrel.match(/^export[\s\S]*?;$/gm) ?? [];
+if (statements.join("").replace(/\s/g, "") !== barrel.replace(/\s/g, "")) {
+	console.error(
+		`${barrelPath} has more than export statements; add the export by hand.`,
+	);
+	process.exit(1);
+}
+const fromPath = (statement: string) =>
+	/from "\.\/([^"/]+)/.exec(statement)?.[1];
+const next = statements.findIndex((statement) => {
+	const other = fromPath(statement);
 	return other !== undefined && other > kebab;
 });
-lines.splice(next === -1 ? lines.length : next, 0, exportLine);
-fs.writeFileSync(barrelPath, `${lines.join("\n")}\n`);
+statements.splice(next === -1 ? statements.length : next, 0, exportLine);
+fs.writeFileSync(barrelPath, `${statements.join("\n")}\n`);
 
 console.log(`Created ${path.join(scope, kebab)}/ and exported it from ${path.join(scope, "index.ts")}.
 

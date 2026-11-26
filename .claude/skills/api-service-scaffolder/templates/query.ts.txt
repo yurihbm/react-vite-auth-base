@@ -1,0 +1,37 @@
+import { queryOptions, useQuery } from "@tanstack/react-query";
+import { z } from "zod";
+
+import { client, request } from "@lib/api";
+
+/** TODO: replace with the real shape of the response `data`. */
+const {{Name}}Schema = z.object({
+	uuid: z.uuid(),
+	name: z.string(),
+});
+
+/**
+ * TODO: describe what {{Name}} fetches.
+ *
+ * @param signal - An optional AbortSignal to cancel the request.
+ */
+async function {{name}}(signal?: AbortSignal) {
+	const { data } = await request(
+		{{Name}}Schema,
+		client.get("{{path}}", { signal }),
+	);
+
+	return data;
+}
+
+/** The unique query key used for caching the {{name}} request. */
+export const {{name}}Key = "{{module}}/{{kebab}}";
+
+export const {{CONST}}_QUERY_OPTIONS = queryOptions({
+	queryKey: [{{name}}Key],
+	queryFn: ({ signal }) => {{name}}(signal),
+});
+
+/** A TanStack Query hook to fetch {{name}}. */
+export function use{{Name}}() {
+	return useQuery({{CONST}}_QUERY_OPTIONS);
+}

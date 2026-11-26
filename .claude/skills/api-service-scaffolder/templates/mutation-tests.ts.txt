@@ -1,0 +1,50 @@
+import { act, renderHook } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+
+import { createQueryClientWrapper, jsonResponse, mockFetch } from "@lib/tests";
+
+import { use{{Name}} } from ".";
+
+describe("use{{Name}}", () => {
+	beforeEach(() => {
+		vi.stubEnv("VITE_API_BASE_URL", "http://localhost:8080");
+	});
+
+	afterEach(() => {
+		vi.unstubAllEnvs();
+		vi.unstubAllGlobals();
+	});
+
+	test("posts the data to the endpoint", async () => {
+		const fetchMock = mockFetch({
+			"POST {{path}}": jsonResponse({ data: null, message: "ok" }),
+		});
+
+		const { result } = renderHook(() => use{{Name}}(), {
+			wrapper: createQueryClientWrapper(),
+		});
+
+		await act(async () => {
+			await result.current.mutateAsync({ value: "example" });
+		});
+
+		const [call] = fetchMock.callsTo("POST {{path}}");
+		expect(JSON.parse(String(call.init.body))).toEqual({ value: "example" });
+	});
+
+	test("rejects with the API error key on failure", async () => {
+		mockFetch({
+			"POST {{path}}": jsonResponse({ message: "auth.forbidden" }, 403),
+		});
+
+		const { result } = renderHook(() => use{{Name}}(), {
+			wrapper: createQueryClientWrapper(),
+		});
+
+		await act(async () => {
+			await expect(
+				result.current.mutateAsync({ value: "example" }),
+			).rejects.toMatchObject({ key: "auth.forbidden" });
+		});
+	});
+});
