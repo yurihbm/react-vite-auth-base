@@ -14,6 +14,7 @@
 		"lighthouse": "node scripts/lighthouse.js",
 		"lint": "oxlint -c oxlint.config.ts .",
 		"prepare": "node .husky/install.mjs",
+		"rename": "node scripts/rename/main.ts",
 		"preview": "vite preview",
 		"storybook": "storybook dev -p 6006",
 		"test": "vitest run",

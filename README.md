@@ -189,11 +189,20 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full process.
 
 Checklist after creating a repository from this template:
 
-1. Update the copyright holder in `LICENSE`.
-2. Add a `CODEOWNERS` file in `.github/`.
-3. Fill in `SECURITY.md`: remove the template notice and the placeholders (contact, support policy, response times).
-4. GitHub disables scheduled workflows after 60 days without repository activity; re-enable them in the Actions tab.
-5. Finish with `pnpm lint`, `pnpm typecheck`, `pnpm test:coverage` and `pnpm build`, then delete this whole section once every step is done. In the commit, state that the template phase is over.
+1. **Rename the app.**
+
+   ```bash
+   pnpm rename --name foo --title "Foo App" --short-name Foo --description "Foo web app."
+   ```
+
+   `name` is a lowercase slug and `title` the human-readable name; `--short-name` and `--description` are optional and left unchanged when omitted. The command rewrites the `package.json` name, the `<title>` in `index.html`, the `APP_NAME`, `APP_SHORT_NAME` and `APP_DESCRIPTION` constants in `vite.config.ts` (PWA manifest), the title in `README.md`, `CONTRIBUTING.md` and the root route header, and the package name in `AGENTS.md`. The backend template references are not touched. Running it again with the same arguments changes nothing.
+
+2. Update the copyright holder in `LICENSE`.
+3. Add a `CODEOWNERS` file in `.github/`.
+4. Fill in `SECURITY.md`: remove the template notice and the placeholders (contact, support policy, response times).
+5. GitHub disables scheduled workflows after 60 days without repository activity; re-enable them in the Actions tab.
+6. Remove the rename tool, which is only needed once: delete `scripts/rename/`, the `rename` script in `package.json`, `scripts/rename` from `tsconfig.node.json` and `scripts/**/tests.ts` from the `unit/integration` include in `vite.config.ts`, and step 1 of this checklist.
+7. Finish with `pnpm lint`, `pnpm typecheck`, `pnpm test:coverage` and `pnpm build`, then delete this whole section once every step is done. In the commit, state that the template phase is over.
 
 ### Leaving the template phase
 

@@ -166,7 +166,7 @@ export default defineConfig({
 				extends: true,
 				test: {
 					name: "unit/integration",
-					include: ["src/**/tests.{ts,tsx}"],
+					include: ["src/**/tests.{ts,tsx}", "scripts/**/tests.ts"],
 					clearMocks: true,
 					environment: "happy-dom",
 					setupFiles: ["./src/lib/tests/setup-i18n.ts"],
