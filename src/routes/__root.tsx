@@ -9,7 +9,7 @@ import {
 
 import { DevTools } from "@lib/dev-tools";
 import { useTranslate } from "@lib/i18n";
-import { useAuth, useLogout } from "@modules/auth";
+import { StepUpProvider, useAuth, useLogout } from "@modules/auth";
 import { LanguageSwitcher, ThemeToggle } from "@modules/shared";
 
 function RootLayout() {
@@ -27,7 +27,7 @@ function RootLayout() {
 	}
 
 	return (
-		<>
+		<StepUpProvider>
 			<header className="flex h-16 items-center justify-between px-4">
 				<h1 className="text-xl font-bold">React Vite Auth Base</h1>
 				<nav>
@@ -101,7 +101,7 @@ function RootLayout() {
 				</div>
 			</footer>
 			<DevTools />
-		</>
+		</StepUpProvider>
 	);
 }
 

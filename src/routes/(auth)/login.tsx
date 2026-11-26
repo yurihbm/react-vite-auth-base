@@ -9,7 +9,7 @@ import {
 	safeRedirect,
 } from "@modules/auth";
 
-const REASONS = ["expired", "passwordReset"] as const;
+const REASONS = ["expired", "passwordReset", "emailChanged"] as const;
 
 type LoginReason = (typeof REASONS)[number];
 
@@ -27,17 +27,18 @@ const { useSearch } = Route;
 function LoginComponent() {
 	const search = useSearch();
 	const t = useTranslate("auth");
+	const reasonMessages = {
+		expired: t("loginPage.reason.expired"),
+		passwordReset: t("loginPage.reason.passwordReset"),
+		emailChanged: t("loginPage.reason.emailChanged"),
+	};
 
 	return (
 		<div className="mx-auto flex w-full flex-col gap-4 sm:max-w-sm">
 			{search.reason && (
 				<Alert
 					type={search.reason === "expired" ? "warning" : "success"}
-					description={
-						search.reason === "expired"
-							? t("loginPage.reason.expired")
-							: t("loginPage.reason.passwordReset")
-					}
+					description={reasonMessages[search.reason]}
 				/>
 			)}
 			<LoginForm redirectTo={search.redirect} />

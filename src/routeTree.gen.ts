@@ -18,6 +18,7 @@ import { Route as authPasswordForgotRouteImport } from './routes/(auth)/password
 import { Route as authPasswordResetRouteImport } from './routes/(auth)/password/reset'
 import { Route as authRegisterVerifyRouteImport } from './routes/(auth)/register_.verify'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account/index'
+import { Route as AuthenticatedAccountSecurityRouteImport } from './routes/_authenticated/account/security'
 import { Route as AccountEmailRevertRouteImport } from './routes/account/email/revert'
 import { Route as AccountOauthRevertRouteImport } from './routes/account/oauth/revert'
 
@@ -66,6 +67,12 @@ const AuthenticatedAccountIndexRoute =
     path: '/account/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedAccountSecurityRoute =
+  AuthenticatedAccountSecurityRouteImport.update({
+    id: '/account/security',
+    path: '/account/security',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AccountEmailRevertRoute = AccountEmailRevertRouteImport.update({
   id: '/account/email/revert',
   path: '/account/email/revert',
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/password/forgot': typeof authPasswordForgotRoute
   '/password/reset': typeof authPasswordResetRoute
   '/register/verify': typeof authRegisterVerifyRoute
+  '/account/security': typeof AuthenticatedAccountSecurityRoute
   '/account/email/revert': typeof AccountEmailRevertRoute
   '/account/oauth/revert': typeof AccountOauthRevertRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
@@ -97,6 +105,7 @@ export interface FileRoutesByTo {
   '/password/forgot': typeof authPasswordForgotRoute
   '/password/reset': typeof authPasswordResetRoute
   '/register/verify': typeof authRegisterVerifyRoute
+  '/account/security': typeof AuthenticatedAccountSecurityRoute
   '/account/email/revert': typeof AccountEmailRevertRoute
   '/account/oauth/revert': typeof AccountOauthRevertRoute
   '/account': typeof AuthenticatedAccountIndexRoute
@@ -111,6 +120,7 @@ export interface FileRoutesById {
   '/(auth)/password/forgot': typeof authPasswordForgotRoute
   '/(auth)/password/reset': typeof authPasswordResetRoute
   '/(auth)/register_/verify': typeof authRegisterVerifyRoute
+  '/_authenticated/account/security': typeof AuthenticatedAccountSecurityRoute
   '/account/email/revert': typeof AccountEmailRevertRoute
   '/account/oauth/revert': typeof AccountOauthRevertRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/password/forgot'
     | '/password/reset'
     | '/register/verify'
+    | '/account/security'
     | '/account/email/revert'
     | '/account/oauth/revert'
     | '/account/'
@@ -137,6 +148,7 @@ export interface FileRouteTypes {
     | '/password/forgot'
     | '/password/reset'
     | '/register/verify'
+    | '/account/security'
     | '/account/email/revert'
     | '/account/oauth/revert'
     | '/account'
@@ -150,6 +162,7 @@ export interface FileRouteTypes {
     | '/(auth)/password/forgot'
     | '/(auth)/password/reset'
     | '/(auth)/register_/verify'
+    | '/_authenticated/account/security'
     | '/account/email/revert'
     | '/account/oauth/revert'
     | '/_authenticated/account/'
@@ -233,6 +246,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/account/security': {
+      id: '/_authenticated/account/security'
+      path: '/account/security'
+      fullPath: '/account/security'
+      preLoaderRoute: typeof AuthenticatedAccountSecurityRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/account/email/revert': {
       id: '/account/email/revert'
       path: '/account/email/revert'
@@ -251,10 +271,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAccountSecurityRoute: typeof AuthenticatedAccountSecurityRoute
   AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAccountSecurityRoute: AuthenticatedAccountSecurityRoute,
   AuthenticatedAccountIndexRoute: AuthenticatedAccountIndexRoute,
 }
 

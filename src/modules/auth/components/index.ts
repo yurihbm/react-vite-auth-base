@@ -6,4 +6,5 @@ export { RegisterForm } from "./register-form";
 export { ResendButton } from "./resend-button";
 export { ResetPasswordForm } from "./reset-password-form";
 export { RevertConfirm } from "./revert-confirm";
+export { StepUpDialog } from "./step-up-dialog";
 export { VerifyCodeForm } from "./verify-code-form";

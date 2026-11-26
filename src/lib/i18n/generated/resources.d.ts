@@ -35,6 +35,7 @@ export default interface Resources {
     "loginPage": {
       "forgotPassword": "Forgot your password?",
       "reason": {
+        "emailChanged": "Your email was changed. Sign in with the new address.",
         "expired": "Your session has expired. Please sign in again.",
         "passwordReset": "Your password was reset. Sign in with the new password."
       }
@@ -103,6 +104,17 @@ export default interface Resources {
       "description": "This unlinks the provider account that was just linked to your account and signs you out of every device.",
       "success": "The provider was unlinked and you were signed out of every device.",
       "title": "Unlink provider"
+    },
+    "stepUpDialog": {
+      "description": "We emailed you a 6-digit code. Enter it to continue with this action.",
+      "input": {
+        "code": {
+          "label": "Code",
+          "placeholder": "6-digit code"
+        }
+      },
+      "submitButton": "Confirm",
+      "title": "Confirm it's you"
     },
     "verifyCodeForm": {
       "description": "We emailed you a 6-digit code. Enter it to finish signing up.",
@@ -301,9 +313,6 @@ export default interface Resources {
     "profile": "Go to profile"
   },
   "shared": {
-    "account": {
-      "title": "Account"
-    },
     "en": "en",
     "footer": {
       "message": "Made with ❤️ by Yuri"
@@ -324,6 +333,79 @@ export default interface Resources {
     "pt": "pt",
     "resendButton": {
       "cooldown": "resendButton.cooldown"
+    }
+  },
+  "users": {
+    "accountPage": {
+      "profile": {
+        "email": "Email",
+        "memberSince": "Member since",
+        "role": "Role"
+      },
+      "securityLink": "Security settings",
+      "title": "Account"
+    },
+    "changeEmailForm": {
+      "codeDescription": "We emailed a 6-digit code to the new address. Enter it to finish. You will be signed out of every device.",
+      "confirmButton": "Change email",
+      "description": "Enter the new email address. We will confirm it with a code and your identity first.",
+      "input": {
+        "code": {
+          "label": "Code",
+          "placeholder": "6-digit code"
+        },
+        "email": {
+          "label": "New email",
+          "placeholder": "Enter the new email"
+        }
+      },
+      "requestButton": "Send code"
+    },
+    "changePasswordForm": {
+      "description": "Choose a new password. You will stay signed in here and be signed out of your other devices.",
+      "input": {
+        "password": {
+          "label": "New password",
+          "placeholder": "Enter your new password"
+        }
+      },
+      "submitButton": "Change password",
+      "success": "Your password was changed."
+    },
+    "deleteAccount": {
+      "button": "Delete account",
+      "confirm": {
+        "cancelButton": "Cancel",
+        "confirmButton": "Delete account",
+        "description": "This cannot be undone.",
+        "title": "Delete your account?"
+      },
+      "description": "Permanently delete your account and its data."
+    },
+    "editNameForm": {
+      "input": {
+        "name": {
+          "label": "Name",
+          "placeholder": "Enter your name"
+        }
+      },
+      "submitButton": "Save",
+      "success": "Your name was updated."
+    },
+    "logoutOthers": {
+      "button": "Sign out other devices",
+      "description": "Sign out of every device except this one.",
+      "success": "Your other devices were signed out."
+    },
+    "securityPage": {
+      "back": "Back to account",
+      "sections": {
+        "delete": "Delete account",
+        "email": "Change email",
+        "password": "Change password",
+        "sessions": "Other devices"
+      },
+      "title": "Security"
     }
   }
 }
