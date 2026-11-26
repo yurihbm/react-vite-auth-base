@@ -1,6 +1,9 @@
 import { defineConfig } from "i18next-cli";
 
-import { DEFAULT_NAMESPACE, SUPPORTED_LANGUAGES } from "./src/lib/i18n";
+import {
+	DEFAULT_NAMESPACE,
+	SUPPORTED_LANGUAGES,
+} from "./src/lib/i18n/constants";
 
 export default defineConfig({
 	// .map call is for type coercion to string[] since SUPPORTED_LANGUAGES is
