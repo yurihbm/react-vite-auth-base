@@ -10,10 +10,17 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
+
+// Single place to rename the app: also update the <title> in index.html.
+const APP_NAME = "React Vite Auth Base";
+const APP_SHORT_NAME = "Auth Base";
+const APP_DESCRIPTION =
+	"A modular React frontend template with authentication.";
 
 const dirname =
-	typeof __dirname !== "undefined"
-		? __dirname
+	typeof import.meta.dirname !== "undefined"
+		? import.meta.dirname
 		: path.dirname(fileURLToPath(import.meta.url));
 
 // https://vite.dev/config/
@@ -29,13 +36,98 @@ export default defineConfig({
 		babel({
 			presets: [reactCompilerPreset()],
 		}),
+		VitePWA({
+			registerType: "autoUpdate",
+			manifest: {
+				id: "/",
+				name: APP_NAME,
+				short_name: APP_SHORT_NAME,
+				description: APP_DESCRIPTION,
+				start_url: "/",
+				scope: "/",
+				display: "standalone",
+				theme_color: "#000000",
+				background_color: "#000000",
+				icons: [
+					{
+						src: "pwa-192x192.png",
+						sizes: "192x192",
+						type: "image/png",
+					},
+					{
+						src: "pwa-512x512.png",
+						sizes: "512x512",
+						type: "image/png",
+					},
+					{
+						src: "pwa-512x512.png",
+						sizes: "512x512",
+						type: "image/png",
+						purpose: "any",
+					},
+					{
+						src: "pwa-512x512.png",
+						sizes: "512x512",
+						type: "image/png",
+						purpose: "maskable",
+					},
+				],
+			},
+			devOptions: {
+				enabled: true,
+			},
+		}),
 	],
 	resolve: {
 		alias: {
-			"@modules": path.resolve(__dirname, "src/modules"),
-			"@lib": path.resolve(__dirname, "src/lib"),
-			"@src": path.resolve(__dirname, "src"),
+			"@modules": path.resolve(dirname, "src/modules"),
+			"@lib": path.resolve(dirname, "src/lib"),
+			"@src": path.resolve(dirname, "src"),
 		},
+	},
+	build: {
+		rolldownOptions: {
+			output: {
+				// Split the libraries every route loads at startup into their own
+				// chunks, so no shared chunk exceeds the 500 kB warning limit and each
+				// one stays cached across app deploys. Recharts and its dependency
+				// tree get one chunk, loaded only by the routes with charts. Other
+				// route-specific libraries (TanStack Table/Virtual) keep the automatic
+				// splitting.
+				codeSplitting: {
+					groups: [
+						{
+							name: "vendor-react",
+							test: /node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+						},
+						{
+							name: "vendor-tanstack",
+							test: /node_modules[\\/]@tanstack[\\/](history|query-core|react-query|react-router|react-store|router-core|store)[\\/]/,
+						},
+						{
+							name: "vendor-i18n",
+							test: /node_modules[\\/](i18next[^\\/]*|react-i18next)[\\/]/,
+						},
+						{
+							name: "vendor-charts",
+							test: /node_modules[\\/](recharts|d3-[^\\/]+|internmap|victory-vendor|@reduxjs[\\/]toolkit|redux|react-redux|reselect|immer|es-toolkit|decimal\.js-light|eventemitter3)[\\/]/,
+						},
+					],
+				},
+			},
+		},
+	},
+	optimizeDeps: {
+		// Only reachable through lazily code-split routes (`autoCodeSplitting`
+		// above), so Vite's static crawler misses them until a test imports that
+		// route, forcing a mid-run re-optimization. Listing them here makes Vite
+		// pre-bundle them upfront instead.
+		include: [
+			"@tanstack/react-query",
+			"@tanstack/react-query-devtools",
+			"@tanstack/react-router",
+			"@tanstack/react-router-devtools",
+		],
 	},
 	test: {
 		coverage: {

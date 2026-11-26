@@ -35,6 +35,7 @@ The project follows a module-oriented structure and file-based routing.
 src/
 ├── lib/                    # App-agnostic libraries (@lib/*)
 │   ├── api/                # HTTP client and error handling
+│   ├── charts/             # Lazy-loaded Recharts wrappers
 │   ├── dev-tools/          # Router/Query devtools
 │   ├── i18n/               # Translation hooks, utils and types
 │   ├── tests/              # Test helpers and setup

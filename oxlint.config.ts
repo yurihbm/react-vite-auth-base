@@ -11,6 +11,7 @@ export default defineConfig({
 	ignorePatterns: [
 		"coverage",
 		"dist",
+		"dev-dist",
 		"src/lib/i18n/generated/**",
 		"./src/routeTree.gen.ts",
 	],
@@ -164,6 +165,11 @@ export default defineConfig({
 						],
 						patterns: [
 							{
+								group: ["../*"],
+								message:
+									'Use @modules/@lib/@src absolute imports instead of relative parent ("../") imports.',
+							},
+							{
 								group: ["react-i18next/*", "i18next/*"],
 								message: "Use the @lib/i18n facade instead.",
 							},
@@ -175,7 +181,18 @@ export default defineConfig({
 		{
 			files: ["src/lib/i18n/**/*.{ts,tsx}"],
 			rules: {
-				"no-restricted-imports": "off",
+				"no-restricted-imports": [
+					"error",
+					{
+						patterns: [
+							{
+								group: ["../*"],
+								message:
+									'Use @modules/@lib/@src absolute imports instead of relative parent ("../") imports.',
+							},
+						],
+					},
+				],
 			},
 		},
 		{

@@ -92,8 +92,8 @@ Follow module-oriented layout under `src/`:
 - `src/modules/<module-name>/`: module-specific code.
 - `src/modules/shared/`: app-aware pieces shared across modules (e.g.
   `ThemeToggle`, `LanguageSwitcher`).
-- `src/lib/<lib-name>/`: app-agnostic libraries (`ui`, `i18n`, `api`, `tests`,
-  `dev-tools`). Libraries never import from `src/modules/`.
+- `src/lib/<lib-name>/`: app-agnostic libraries (`ui`, `charts`, `i18n`, `api`,
+  `tests`, `dev-tools`). Libraries never import from `src/modules/`.
 
 Import aliases: `@lib/*` (`src/lib`), `@modules/*` (`src/modules`) and `@src/*`
 (`src`). Prefer them over relative parent (`../`) imports.
