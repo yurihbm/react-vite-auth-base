@@ -20,8 +20,8 @@ export const logoutKey = "auth/logout";
  * Hook to manage the logout mutation state using TanStack Query.
  *
  * @remarks
- *   On successful logout, all cached queries are removed so that no
- *   user-specific data outlives the session.
+ *   On successful logout, all cached data is dropped so that no user-specific
+ *   data outlives the session.
  * @example
  * 	```tsx
  * 	const { mutate, isPending } = useLogout();
@@ -45,7 +45,14 @@ export function useLogout() {
 		mutationKey: [logoutKey],
 		mutationFn: logout,
 		onSuccess: () => {
-			queryClient.removeQueries();
+			// Removing a mounted query would detach its observers, and the next
+			// render would rebuild and refetch it (me, then a failing refresh). The
+			// mounted queries are reset to an empty state instead, without a refetch.
+			queryClient.removeQueries({ type: "inactive" });
+			queryClient
+				.getQueryCache()
+				.findAll({ type: "active" })
+				.forEach((query) => query.reset());
 		},
 	});
 }
