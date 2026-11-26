@@ -10,6 +10,8 @@
 	"nav": {
 		"link": {
 			"account": "Account",
+			"adminAuditLogs": "Audit logs",
+			"adminUsers": "Users",
 			"home": "Home",
 			"login": "Login",
 			"logout": "Logout",

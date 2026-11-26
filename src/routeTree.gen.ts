@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authRegisterRouteImport } from './routes/(auth)/register'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/_admin'
 import { Route as OauthCallbackRouteImport } from './routes/oauth/callback'
 import { Route as authPasswordForgotRouteImport } from './routes/(auth)/password/forgot'
 import { Route as authPasswordResetRouteImport } from './routes/(auth)/password/reset'
@@ -21,6 +22,9 @@ import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authent
 import { Route as AuthenticatedAccountSecurityRouteImport } from './routes/_authenticated/account/security'
 import { Route as AccountEmailRevertRouteImport } from './routes/account/email/revert'
 import { Route as AccountOauthRevertRouteImport } from './routes/account/oauth/revert'
+import { Route as AuthenticatedAdminAdminAuditLogsIndexRouteImport } from './routes/_authenticated/_admin/admin/audit-logs/index'
+import { Route as AuthenticatedAdminAdminUsersIndexRouteImport } from './routes/_authenticated/_admin/admin/users/index'
+import { Route as AuthenticatedAdminAdminUsersUuidRouteImport } from './routes/_authenticated/_admin/admin/users/$uuid'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +44,10 @@ const authRegisterRoute = authRegisterRouteImport.update({
   id: '/(auth)/register',
   path: '/register',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/_admin',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const OauthCallbackRoute = OauthCallbackRouteImport.update({
   id: '/oauth/callback',
@@ -83,6 +91,24 @@ const AccountOauthRevertRoute = AccountOauthRevertRouteImport.update({
   path: '/account/oauth/revert',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminAdminAuditLogsIndexRoute =
+  AuthenticatedAdminAdminAuditLogsIndexRouteImport.update({
+    id: '/admin/audit-logs/',
+    path: '/admin/audit-logs/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminUsersIndexRoute =
+  AuthenticatedAdminAdminUsersIndexRouteImport.update({
+    id: '/admin/users/',
+    path: '/admin/users/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminUsersUuidRoute =
+  AuthenticatedAdminAdminUsersUuidRouteImport.update({
+    id: '/admin/users/$uuid',
+    path: '/admin/users/$uuid',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -96,6 +122,9 @@ export interface FileRoutesByFullPath {
   '/account/email/revert': typeof AccountEmailRevertRoute
   '/account/oauth/revert': typeof AccountOauthRevertRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
+  '/admin/users/$uuid': typeof AuthenticatedAdminAdminUsersUuidRoute
+  '/admin/audit-logs/': typeof AuthenticatedAdminAdminAuditLogsIndexRoute
+  '/admin/users/': typeof AuthenticatedAdminAdminUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -109,6 +138,9 @@ export interface FileRoutesByTo {
   '/account/email/revert': typeof AccountEmailRevertRoute
   '/account/oauth/revert': typeof AccountOauthRevertRoute
   '/account': typeof AuthenticatedAccountIndexRoute
+  '/admin/users/$uuid': typeof AuthenticatedAdminAdminUsersUuidRoute
+  '/admin/audit-logs': typeof AuthenticatedAdminAdminAuditLogsIndexRoute
+  '/admin/users': typeof AuthenticatedAdminAdminUsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,6 +148,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/register': typeof authRegisterRoute
+  '/_authenticated/_admin': typeof AuthenticatedAdminRouteWithChildren
   '/oauth/callback': typeof OauthCallbackRoute
   '/(auth)/password/forgot': typeof authPasswordForgotRoute
   '/(auth)/password/reset': typeof authPasswordResetRoute
@@ -124,6 +157,9 @@ export interface FileRoutesById {
   '/account/email/revert': typeof AccountEmailRevertRoute
   '/account/oauth/revert': typeof AccountOauthRevertRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
+  '/_authenticated/_admin/admin/users/$uuid': typeof AuthenticatedAdminAdminUsersUuidRoute
+  '/_authenticated/_admin/admin/audit-logs/': typeof AuthenticatedAdminAdminAuditLogsIndexRoute
+  '/_authenticated/_admin/admin/users/': typeof AuthenticatedAdminAdminUsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -139,6 +175,9 @@ export interface FileRouteTypes {
     | '/account/email/revert'
     | '/account/oauth/revert'
     | '/account/'
+    | '/admin/users/$uuid'
+    | '/admin/audit-logs/'
+    | '/admin/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -152,12 +191,16 @@ export interface FileRouteTypes {
     | '/account/email/revert'
     | '/account/oauth/revert'
     | '/account'
+    | '/admin/users/$uuid'
+    | '/admin/audit-logs'
+    | '/admin/users'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/(auth)/login'
     | '/(auth)/register'
+    | '/_authenticated/_admin'
     | '/oauth/callback'
     | '/(auth)/password/forgot'
     | '/(auth)/password/reset'
@@ -166,6 +209,9 @@ export interface FileRouteTypes {
     | '/account/email/revert'
     | '/account/oauth/revert'
     | '/_authenticated/account/'
+    | '/_authenticated/_admin/admin/users/$uuid'
+    | '/_authenticated/_admin/admin/audit-logs/'
+    | '/_authenticated/_admin/admin/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -210,6 +256,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/register'
       preLoaderRoute: typeof authRegisterRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/_admin': {
+      id: '/_authenticated/_admin'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/oauth/callback': {
       id: '/oauth/callback'
@@ -267,15 +320,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountOauthRevertRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/_admin/admin/audit-logs/': {
+      id: '/_authenticated/_admin/admin/audit-logs/'
+      path: '/admin/audit-logs'
+      fullPath: '/admin/audit-logs/'
+      preLoaderRoute: typeof AuthenticatedAdminAdminAuditLogsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/users/': {
+      id: '/_authenticated/_admin/admin/users/'
+      path: '/admin/users'
+      fullPath: '/admin/users/'
+      preLoaderRoute: typeof AuthenticatedAdminAdminUsersIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/users/$uuid': {
+      id: '/_authenticated/_admin/admin/users/$uuid'
+      path: '/admin/users/$uuid'
+      fullPath: '/admin/users/$uuid'
+      preLoaderRoute: typeof AuthenticatedAdminAdminUsersUuidRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAdminUsersUuidRoute: typeof AuthenticatedAdminAdminUsersUuidRoute
+  AuthenticatedAdminAdminAuditLogsIndexRoute: typeof AuthenticatedAdminAdminAuditLogsIndexRoute
+  AuthenticatedAdminAdminUsersIndexRoute: typeof AuthenticatedAdminAdminUsersIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAdminUsersUuidRoute: AuthenticatedAdminAdminUsersUuidRoute,
+  AuthenticatedAdminAdminAuditLogsIndexRoute:
+    AuthenticatedAdminAdminAuditLogsIndexRoute,
+  AuthenticatedAdminAdminUsersIndexRoute:
+    AuthenticatedAdminAdminUsersIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
 interface AuthenticatedRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedAccountSecurityRoute: typeof AuthenticatedAccountSecurityRoute
   AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedAccountSecurityRoute: AuthenticatedAccountSecurityRoute,
   AuthenticatedAccountIndexRoute: AuthenticatedAccountIndexRoute,
 }

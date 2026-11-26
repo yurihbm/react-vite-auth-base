@@ -160,7 +160,11 @@
 		},
 		"forbidden": "You are not allowed to access this user.",
 		"internalServerError": "Something went wrong on our side. Please try again later.",
+		"invalidCursor": "The pagination cursor is invalid.",
 		"invalidUserUUID": "The request contains an invalid identifier.",
+		"list": {
+			"badRequest": "Some filters are invalid."
+		},
 		"notFound": "User not found.",
 		"oauthProvider": {
 			"invalidUUID": "The request contains an invalid identifier."

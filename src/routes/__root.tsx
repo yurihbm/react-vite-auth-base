@@ -14,7 +14,7 @@ import { LanguageSwitcher, ThemeToggle } from "@modules/shared";
 
 function RootLayout() {
 	const t = useTranslate();
-	const { isAuthenticated } = useAuth();
+	const { isAuthenticated, user } = useAuth();
 	const { mutate: logout, isPending: isLoggingOut } = useLogout();
 	const navigate = useNavigate();
 
@@ -50,6 +50,28 @@ function RootLayout() {
 										{t("nav.link.account")}
 									</Link>
 								</li>
+								{user?.role === "admin" && (
+									<>
+										<li>
+											<Link
+												to="/admin/users"
+												search={{}}
+												className="text-sm font-medium text-foreground/80 hover:text-foreground"
+											>
+												{t("nav.link.adminUsers")}
+											</Link>
+										</li>
+										<li>
+											<Link
+												to="/admin/audit-logs"
+												search={{}}
+												className="text-sm font-medium text-foreground/80 hover:text-foreground"
+											>
+												{t("nav.link.adminAuditLogs")}
+											</Link>
+										</li>
+									</>
+								)}
 								<li>
 									<button
 										type="button"

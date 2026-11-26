@@ -1,0 +1,45 @@
+{
+	"auditLogsList": {
+		"action": {
+			"all": "Todas as ações",
+			"label": "Ação"
+		},
+		"actor": {
+			"label": "UUID do autor",
+			"placeholder": "Filtrar por UUID do autor"
+		},
+		"columns": {
+			"action": "Ação",
+			"actor": "Autor",
+			"createdAt": "Data",
+			"resource": "Recurso",
+			"status": "Status"
+		},
+		"empty": "Nenhum log de auditoria encontrado.",
+		"endDate": {
+			"label": "Até (exclusivo)"
+		},
+		"resource": {
+			"all": "Todos os recursos",
+			"auth": "Autenticação",
+			"label": "Tipo de recurso",
+			"user": "Usuário"
+		},
+		"startDate": {
+			"label": "De"
+		},
+		"status": {
+			"all": "Todos os status",
+			"failure": "Falha",
+			"label": "Status",
+			"success": "Sucesso"
+		},
+		"summary": {
+			"title": "Logs carregados por status"
+		},
+		"total": "{{total}} logs"
+	},
+	"auditPage": {
+		"title": "Logs de auditoria"
+	}
+}

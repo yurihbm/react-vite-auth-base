@@ -10,7 +10,8 @@ import {
 	MinusIcon,
 } from "@phosphor-icons/react";
 import { flexRender, useTable } from "@tanstack/react-table";
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { TABLE_FEATURES } from "./constants";
 import { styles } from "./styles";
@@ -110,6 +111,16 @@ function createSelectionColumn<T extends RowData>(
 	};
 }
 
+interface TableVirtualizeOptions {
+	/** Fixed height of every body row, in pixels. */
+	rowHeight: number;
+	/**
+	 * Called while the last row is within the rendered window, so callers can
+	 * load more data. It may fire repeatedly; guard it against in-flight loads.
+	 */
+	onEndReached?: () => void;
+}
+
 interface TableBaseProps<T extends RowData> {
 	data: T[];
 	columns: ColumnDef<T, unknown>[];
@@ -124,6 +135,11 @@ interface TableBaseProps<T extends RowData> {
 	onRowSelectionChange?: (selection: RowSelectionState) => void;
 	sorting?: SortingState;
 	onSortingChange?: (sorting: SortingState) => void;
+	/**
+	 * Renders only the rows near the viewport. The table must have a bounded
+	 * height (e.g. through `className`) so the scroll area can scroll.
+	 */
+	virtualize?: TableVirtualizeOptions;
 	className?: string;
 	classNames?: TableStyles;
 }
@@ -158,6 +174,7 @@ export function Table<T extends RowData>({
 	onRowSelectionChange,
 	sorting,
 	onSortingChange,
+	virtualize,
 	className,
 	classNames,
 }: TableProps<T>) {
@@ -230,9 +247,38 @@ export function Table<T extends RowData>({
 	const rows = table.getRowModel().rows;
 	const columnCount = resolvedColumns.length;
 
+	const scrollRef = useRef<HTMLDivElement>(null);
+	// oxlint-disable-next-line react/incompatible-library
+	const virtualizer = useVirtualizer({
+		count: virtualize ? rows.length : 0,
+		getScrollElement: () => scrollRef.current,
+		estimateSize: () => virtualize?.rowHeight ?? 0,
+		overscan: 8,
+	});
+	const virtualRows = virtualize ? virtualizer.getVirtualItems() : [];
+	const lastVirtualIndex = virtualRows.at(-1)?.index ?? -1;
+	const onEndReached = virtualize?.onEndReached;
+
+	useEffect(() => {
+		if (rows.length > 0 && lastVirtualIndex >= rows.length - 1) {
+			onEndReached?.();
+		}
+	}, [lastVirtualIndex, rows.length, onEndReached]);
+
+	const visibleRows = virtualize
+		? virtualRows.flatMap((virtualRow) => rows[virtualRow.index] ?? [])
+		: rows;
+	const paddingTop = virtualRows[0]?.start ?? 0;
+	const paddingBottom = virtualRows.length
+		? virtualizer.getTotalSize() - (virtualRows.at(-1)?.end ?? 0)
+		: 0;
+
 	return (
 		<div className={root({ className })}>
-			<div className={scrollArea({ className: classNames?.scrollArea })}>
+			<div
+				ref={scrollRef}
+				className={scrollArea({ className: classNames?.scrollArea })}
+			>
 				<table
 					className={tableSlot({ bordered, className: classNames?.table })}
 				>
@@ -335,33 +381,42 @@ export function Table<T extends RowData>({
 								</td>
 							</tr>
 						) : (
-							rows.map((row) => (
-								<tr
-									key={row.id}
-									aria-selected={row.getIsSelected() ? true : undefined}
-									className={tr({
-										striped,
-										selected: row.getIsSelected(),
-										className: classNames?.tr,
-									})}
-								>
-									{row.getAllCells().map((cell) => (
-										<td
-											key={cell.id}
-											className={td({
-												size,
-												bordered,
-												className: classNames?.td,
-											})}
-										>
-											{flexRender(
-												cell.column.columnDef.cell,
-												cell.getContext(),
-											)}
-										</td>
-									))}
-								</tr>
-							))
+							<>
+								{paddingTop > 0 && (
+									<tr aria-hidden="true" style={{ height: paddingTop }} />
+								)}
+								{visibleRows.map((row) => (
+									<tr
+										key={row.id}
+										style={virtualize && { height: virtualize.rowHeight }}
+										aria-selected={row.getIsSelected() ? true : undefined}
+										className={tr({
+											striped,
+											selected: row.getIsSelected(),
+											className: classNames?.tr,
+										})}
+									>
+										{row.getAllCells().map((cell) => (
+											<td
+												key={cell.id}
+												className={td({
+													size,
+													bordered,
+													className: classNames?.td,
+												})}
+											>
+												{flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext(),
+												)}
+											</td>
+										))}
+									</tr>
+								))}
+								{paddingBottom > 0 && (
+									<tr aria-hidden="true" style={{ height: paddingBottom }} />
+								)}
+							</>
 						)}
 					</tbody>
 					{footer && (

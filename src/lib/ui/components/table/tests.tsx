@@ -9,7 +9,17 @@ import {
 	within,
 } from "@testing-library/react";
 import { useState } from "react";
-import { afterEach, describe, expect, test, vi } from "vitest";
+import {
+	afterAll,
+	afterEach,
+	beforeAll,
+	describe,
+	expect,
+	test,
+	vi,
+} from "vitest";
+
+import { setupVirtualizerEnv } from "@lib/ui/components/option-list/test-support";
 
 import { Table } from ".";
 
@@ -528,5 +538,60 @@ describe("Table sorting", () => {
 		const header = screen.getByRole("columnheader", { name: "Name" });
 		fireEvent.click(within(header).getByTestId("table-sort-button"));
 		expect(header.getAttribute("aria-sort")).toBe("ascending");
+	});
+
+	describe("virtualized", () => {
+		const manyPeople: Person[] = Array.from({ length: 200 }, (_, index) => ({
+			name: `Person ${index}`,
+			age: index,
+		}));
+		let restoreVirtualizerEnv: () => void;
+
+		beforeAll(() => {
+			restoreVirtualizerEnv = setupVirtualizerEnv();
+		});
+
+		afterAll(() => {
+			restoreVirtualizerEnv();
+		});
+
+		test("renders only the rows near the viewport", () => {
+			render(
+				<Table
+					data={manyPeople}
+					columns={columns}
+					virtualize={{ rowHeight: 40 }}
+				/>,
+			);
+
+			expect(screen.getByText("Person 0")).toBeTruthy();
+			expect(screen.queryByText("Person 150")).toBeNull();
+		});
+
+		test("calls onEndReached when the last row is within the window", () => {
+			const onEndReached = vi.fn();
+			render(
+				<Table
+					data={data}
+					columns={columns}
+					virtualize={{ rowHeight: 40, onEndReached }}
+				/>,
+			);
+
+			expect(onEndReached).toHaveBeenCalled();
+		});
+
+		test("does not call onEndReached while the end is far away", () => {
+			const onEndReached = vi.fn();
+			render(
+				<Table
+					data={manyPeople}
+					columns={columns}
+					virtualize={{ rowHeight: 40, onEndReached }}
+				/>,
+			);
+
+			expect(onEndReached).not.toHaveBeenCalled();
+		});
 	});
 });

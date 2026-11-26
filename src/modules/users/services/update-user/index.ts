@@ -5,6 +5,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client, request } from "@lib/api";
 import { UserSchema } from "@modules/users/schemas";
 import { getMeKey } from "@modules/users/services/get-me";
+import { getUserKey } from "@modules/users/services/get-user";
+import { listUsersKey } from "@modules/users/services/list-users";
 import { toUser } from "@modules/users/utils";
 
 /** Data required to update a user. */
@@ -38,6 +40,7 @@ export const updateUserKey = "users/update";
  *
  * @remarks
  *   When the updated user is the current user, the cached profile is replaced.
+ *   The cached user detail is replaced and the users list is refetched.
  */
 export function useUpdateUser() {
 	const queryClient = useQueryClient();
@@ -49,6 +52,8 @@ export function useUpdateUser() {
 			queryClient.setQueryData<User>([getMeKey], (me) =>
 				me?.uuid === user.uuid ? user : me,
 			);
+			queryClient.setQueryData<User>([getUserKey, user.uuid], user);
+			queryClient.invalidateQueries({ queryKey: [listUsersKey] });
 		},
 	});
 }

@@ -1,0 +1,24 @@
+/** Actions the API records, used as the action filter options. */
+export const AUDIT_ACTIONS = [
+	"USER_CREATE",
+	"USER_UPDATE",
+	"USER_DELETE",
+	"USER_ROLE_CHANGE",
+	"LOGIN",
+	"OAUTH_LOGIN",
+	"LOGOUT",
+	"SIGNUP_REQUEST",
+	"EMAIL_CHANGE_REQUEST",
+	"EMAIL_CHANGE",
+	"EMAIL_CHANGE_REVERT",
+	"OAUTH_LINK_REVERT",
+	"STEP_UP_REQUEST",
+	"STEP_UP_VERIFY",
+	"LOGOUT_OTHERS",
+	"PASSWORD_RESET_REQUEST",
+	"PASSWORD_RESET",
+	"PASSWORD_CHANGE",
+] as const;
+
+export const ROW_HEIGHT = 48;
+export const ALL = "all";

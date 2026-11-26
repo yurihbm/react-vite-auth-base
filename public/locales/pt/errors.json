@@ -160,7 +160,11 @@
 		},
 		"forbidden": "Você não tem permissão para acessar este usuário.",
 		"internalServerError": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+		"invalidCursor": "O cursor de paginação é inválido.",
 		"invalidUserUUID": "A requisição contém um identificador inválido.",
+		"list": {
+			"badRequest": "Alguns filtros são inválidos."
+		},
 		"notFound": "Usuário não encontrado.",
 		"oauthProvider": {
 			"invalidUUID": "A requisição contém um identificador inválido."

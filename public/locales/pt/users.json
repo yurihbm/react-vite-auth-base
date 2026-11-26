@@ -45,6 +45,16 @@
 		},
 		"description": "Exclua permanentemente sua conta e seus dados."
 	},
+	"deleteUser": {
+		"button": "Excluir usuário",
+		"confirm": {
+			"cancelButton": "Cancelar",
+			"confirmButton": "Excluir usuário",
+			"description": "A conta e as sessões serão removidas. Antes, vamos confirmar sua identidade.",
+			"title": "Excluir este usuário?"
+		},
+		"description": "Exclui este usuário permanentemente. Esta ação não pode ser desfeita."
+	},
 	"editNameForm": {
 		"input": {
 			"name": {
@@ -69,5 +79,32 @@
 			"sessions": "Outros dispositivos"
 		},
 		"title": "Segurança"
+	},
+	"userPage": {
+		"back": "Voltar para usuários",
+		"title": "Usuário"
+	},
+	"usersList": {
+		"columns": {
+			"createdAt": "Criado em",
+			"email": "E-mail",
+			"name": "Nome",
+			"role": "Perfil"
+		},
+		"empty": "Nenhum usuário encontrado.",
+		"role": {
+			"admin": "Administrador",
+			"all": "Todos os perfis",
+			"label": "Perfil",
+			"user": "Usuário"
+		},
+		"search": {
+			"label": "Buscar",
+			"placeholder": "Prefixo do nome ou e-mail"
+		},
+		"total": "{{total}} usuários"
+	},
+	"usersPage": {
+		"title": "Usuários"
 	}
 }

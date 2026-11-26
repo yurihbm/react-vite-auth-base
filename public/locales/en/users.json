@@ -45,6 +45,16 @@
 		},
 		"description": "Permanently delete your account and its data."
 	},
+	"deleteUser": {
+		"button": "Delete user",
+		"confirm": {
+			"cancelButton": "Cancel",
+			"confirmButton": "Delete user",
+			"description": "The account and its sessions will be removed. We will confirm your identity first.",
+			"title": "Delete this user?"
+		},
+		"description": "Permanently delete this user. This cannot be undone."
+	},
 	"editNameForm": {
 		"input": {
 			"name": {
@@ -69,5 +79,32 @@
 			"sessions": "Other devices"
 		},
 		"title": "Security"
+	},
+	"userPage": {
+		"back": "Back to users",
+		"title": "User"
+	},
+	"usersList": {
+		"columns": {
+			"createdAt": "Created",
+			"email": "Email",
+			"name": "Name",
+			"role": "Role"
+		},
+		"empty": "No users found.",
+		"role": {
+			"admin": "Admin",
+			"all": "All roles",
+			"label": "Role",
+			"user": "User"
+		},
+		"search": {
+			"label": "Search",
+			"placeholder": "Name or email prefix"
+		},
+		"total": "{{total}} users"
+	},
+	"usersPage": {
+		"title": "Users"
 	}
 }

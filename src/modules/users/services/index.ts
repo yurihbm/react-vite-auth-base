@@ -14,3 +14,6 @@ export {
 	revertEmailChangeKey,
 } from "./revert-email-change";
 export { useUpdateUser, updateUserKey } from "./update-user";
+export { useGetUser, getUserKey } from "./get-user";
+export { useUsersList, listUsersKey } from "./list-users";
+export type { UsersListFilters } from "./list-users";

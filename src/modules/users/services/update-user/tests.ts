@@ -4,6 +4,8 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { createQueryClientWrapper, jsonResponse, mockFetch } from "@lib/tests";
 import { getMeKey } from "@modules/users/services/get-me";
+import { getUserKey } from "@modules/users/services/get-user";
+import { listUsersKey } from "@modules/users/services/list-users";
 
 import { updateUserKey, useUpdateUser } from ".";
 
@@ -49,6 +51,28 @@ describe("useUpdateUser", () => {
 			expect.any(Function),
 		);
 		expect(updateUserKey).toBe("users/update");
+	});
+
+	test("refreshes the cached user detail and the users list", async () => {
+		const setQueryDataSpy = vi.spyOn(QueryClient.prototype, "setQueryData");
+		const invalidateSpy = vi.spyOn(QueryClient.prototype, "invalidateQueries");
+		mockFetch({
+			[`PUT /users/${UUID}`]: jsonResponse({ data: USER, message: "ok" }),
+		});
+
+		const { result } = renderHook(() => useUpdateUser(), {
+			wrapper: createQueryClientWrapper(),
+		});
+
+		await act(async () => {
+			await result.current.mutateAsync({ uuid: UUID, name: "New Name" });
+		});
+
+		expect(setQueryDataSpy).toHaveBeenCalledWith(
+			[getUserKey, UUID],
+			expect.objectContaining({ uuid: UUID, name: "New Name" }),
+		);
+		expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: [listUsersKey] });
 	});
 
 	test("rejects with the API error key and details", async () => {

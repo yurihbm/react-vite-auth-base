@@ -19,7 +19,7 @@ export interface TextInputProps
 			"type" | "className" | "color" | "size"
 		>,
 		TextInputVariants {
-	type?: "text" | "email" | "password";
+	type?: "text" | "email" | "password" | "datetime-local";
 	ref?: Ref<HTMLInputElement>;
 	startIcon?: ReactNode;
 	endIcon?: ReactNode;
