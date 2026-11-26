@@ -1,16 +1,21 @@
 import type { RowData } from "@tanstack/react-table";
 import type { ChangeEventHandler, ReactNode } from "react";
 import type { TableStyles } from "./styles";
-import type { ColumnDef, RowSelectionState } from "./types";
+import type { ColumnDef, RowSelectionState, SortingState } from "./types";
 
-import { CheckIcon, MinusIcon } from "@phosphor-icons/react";
+import {
+	CaretDownIcon,
+	CaretUpIcon,
+	CheckIcon,
+	MinusIcon,
+} from "@phosphor-icons/react";
 import { flexRender, useTable } from "@tanstack/react-table";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { TABLE_FEATURES } from "./constants";
 import { styles } from "./styles";
 
-export type { ColumnDef, RowSelectionState };
+export type { ColumnDef, RowSelectionState, SortingState };
 
 type SelectionMode = "none" | "select" | "multi-select";
 
@@ -75,6 +80,7 @@ function createSelectionColumn<T extends RowData>(
 ): ColumnDef<T, unknown> {
 	return {
 		id: "select",
+		enableSorting: false,
 		header: ({ table }) => {
 			if (mode !== "multi-select") return null;
 
@@ -116,6 +122,8 @@ interface TableBaseProps<T extends RowData> {
 	emptyState?: ReactNode;
 	rowSelection?: RowSelectionState;
 	onRowSelectionChange?: (selection: RowSelectionState) => void;
+	sorting?: SortingState;
+	onSortingChange?: (sorting: SortingState) => void;
 	className?: string;
 	classNames?: TableStyles;
 }
@@ -148,6 +156,8 @@ export function Table<T extends RowData>({
 	selectionMode = "none",
 	rowSelection,
 	onRowSelectionChange,
+	sorting,
+	onSortingChange,
 	className,
 	classNames,
 }: TableProps<T>) {
@@ -158,6 +168,12 @@ export function Table<T extends RowData>({
 	const selectionState = isControlled
 		? (rowSelection as RowSelectionState)
 		: internalSelection;
+
+	const isSortingControlled = sorting !== undefined;
+	const [internalSorting, setInternalSorting] = useState<SortingState>([]);
+	const sortingState = isSortingControlled
+		? (sorting as SortingState)
+		: internalSorting;
 
 	// TanStack Table requires a stable `columns` reference: a new array
 	// identity on every render resets its internal row-selection tracking.
@@ -176,13 +192,20 @@ export function Table<T extends RowData>({
 		getRowId,
 		enableRowSelection: selectionMode !== "none",
 		enableMultiRowSelection: selectionMode === "multi-select",
-		state: { rowSelection: selectionState },
+		state: { rowSelection: selectionState, sorting: sortingState },
 		onRowSelectionChange: (updater) => {
 			const next =
 				typeof updater === "function" ? updater(selectionState) : updater;
 
 			if (!isControlled) setInternalSelection(next);
 			onRowSelectionChange?.(next);
+		},
+		onSortingChange: (updater) => {
+			const next =
+				typeof updater === "function" ? updater(sortingState) : updater;
+
+			if (!isSortingControlled) setInternalSorting(next);
+			onSortingChange?.(next);
 		},
 	});
 
@@ -199,6 +222,9 @@ export function Table<T extends RowData>({
 		th,
 		td,
 		emptyCell,
+		thSortButton,
+		sortIconGroup,
+		sortIcon,
 	} = styles();
 
 	const rows = table.getRowModel().rows;
@@ -223,24 +249,78 @@ export function Table<T extends RowData>({
 								key={headerGroup.id}
 								className={theadRow({ className: classNames?.theadRow })}
 							>
-								{headerGroup.headers.map((header) => (
-									<th
-										key={header.id}
-										colSpan={header.colSpan}
-										className={th({
-											size,
-											bordered,
-											className: classNames?.th,
-										})}
-									>
-										{header.isPlaceholder
-											? null
-											: flexRender(
-													header.column.columnDef.header,
-													header.getContext(),
-												)}
-									</th>
-								))}
+								{headerGroup.headers.map((header) => {
+									const canSort = header.column.getCanSort();
+									const sortDirection = header.column.getIsSorted();
+									const headerContent = header.isPlaceholder
+										? null
+										: flexRender(
+												header.column.columnDef.header,
+												header.getContext(),
+											);
+
+									return (
+										<th
+											key={header.id}
+											colSpan={header.colSpan}
+											aria-sort={
+												sortDirection === "asc"
+													? "ascending"
+													: sortDirection === "desc"
+														? "descending"
+														: canSort
+															? "none"
+															: undefined
+											}
+											className={th({
+												size,
+												bordered,
+												className: classNames?.th,
+											})}
+										>
+											{canSort ? (
+												<button
+													type="button"
+													data-testid="table-sort-button"
+													className={thSortButton({
+														className: classNames?.thSortButton,
+													})}
+													onClick={header.column.getToggleSortingHandler()}
+												>
+													{headerContent}
+													<span
+														data-testid="table-sort-icon"
+														aria-hidden="true"
+														className={sortIconGroup({
+															className: classNames?.sortIconGroup,
+														})}
+													>
+														<CaretUpIcon
+															data-testid="table-sort-icon-asc"
+															size={10}
+															weight="bold"
+															className={sortIcon({
+																sorted: sortDirection === "asc",
+																className: classNames?.sortIcon,
+															})}
+														/>
+														<CaretDownIcon
+															data-testid="table-sort-icon-desc"
+															size={10}
+															weight="bold"
+															className={sortIcon({
+																sorted: sortDirection === "desc",
+																className: classNames?.sortIcon,
+															})}
+														/>
+													</span>
+												</button>
+											) : (
+												headerContent
+											)}
+										</th>
+									);
+								})}
 							</tr>
 						))}
 					</thead>

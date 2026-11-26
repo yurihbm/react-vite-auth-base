@@ -1,7 +1,13 @@
 import type { TableProps } from ".";
-import type { ColumnDef, RowSelectionState } from "./types";
+import type { ColumnDef, RowSelectionState, SortingState } from "./types";
 
-import { cleanup, fireEvent, render } from "@testing-library/react";
+import {
+	cleanup,
+	fireEvent,
+	render,
+	screen,
+	within,
+} from "@testing-library/react";
 import { useState } from "react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
@@ -414,5 +420,113 @@ describe("Table selection identity", () => {
 		) as HTMLInputElement | null;
 
 		expect(aliceCheckbox?.checked).toBe(true);
+	});
+});
+
+describe("Table sorting", () => {
+	afterEach(() => cleanup());
+
+	test("renders a sort trigger in headers for columns with an accessorKey", () => {
+		render(<Table data={data} columns={columns} />);
+		expect(screen.getAllByTestId("table-sort-button")).toHaveLength(2);
+	});
+
+	test("does not render a sort trigger for columns without an accessorKey", () => {
+		const customColumns: ColumnDef<Person>[] = [
+			{ id: "custom", header: "Custom", cell: () => "x" },
+		];
+		render(<Table data={data} columns={customColumns} />);
+		const header = screen.getByRole("columnheader", { name: "Custom" });
+		expect(within(header).queryByTestId("table-sort-button")).toBeNull();
+		expect(header.getAttribute("aria-sort")).toBeNull();
+	});
+
+	test("clicking a sortable header cycles aria-sort: none -> ascending -> descending -> none", () => {
+		render(<Table data={data} columns={columns} />);
+		const header = screen.getByRole("columnheader", { name: "Name" });
+		const sortButton = within(header).getByTestId("table-sort-button");
+
+		expect(header.getAttribute("aria-sort")).toBe("none");
+
+		fireEvent.click(sortButton);
+		expect(header.getAttribute("aria-sort")).toBe("ascending");
+
+		fireEvent.click(sortButton);
+		expect(header.getAttribute("aria-sort")).toBe("descending");
+
+		fireEvent.click(sortButton);
+		expect(header.getAttribute("aria-sort")).toBe("none");
+	});
+
+	test("sorting ascending reorders rows by the sorted column", () => {
+		render(<Table data={data} columns={columns} />);
+		const header = screen.getByRole("columnheader", { name: "Name" });
+		fireEvent.click(within(header).getByTestId("table-sort-button"));
+
+		const rows = screen.getAllByRole("row").slice(1);
+		expect(rows.map((row) => row.textContent)).toEqual([
+			"Alice30",
+			"Bob25",
+			"Carol35",
+		]);
+	});
+
+	test("always renders both caret-up and caret-down icons for sortable columns", () => {
+		render(<Table data={data} columns={columns} />);
+		const nameHeader = screen.getByRole("columnheader", { name: "Name" });
+
+		expect(within(nameHeader).getByTestId("table-sort-icon-asc")).toBeTruthy();
+		expect(within(nameHeader).getByTestId("table-sort-icon-desc")).toBeTruthy();
+	});
+
+	test("highlights only the caret icon matching the active sort direction", () => {
+		render(<Table data={data} columns={columns} />);
+		const nameHeader = screen.getByRole("columnheader", { name: "Name" });
+		const ageHeader = screen.getByRole("columnheader", { name: "Age" });
+
+		fireEvent.click(within(nameHeader).getByTestId("table-sort-button"));
+
+		const nameUp = within(nameHeader).getByTestId("table-sort-icon-asc");
+		const nameDown = within(nameHeader).getByTestId("table-sort-icon-desc");
+		const ageUp = within(ageHeader).getByTestId("table-sort-icon-asc");
+		const ageDown = within(ageHeader).getByTestId("table-sort-icon-desc");
+
+		expect(nameUp.classList.contains("text-foreground")).toBe(true);
+		expect(nameDown.classList.contains("text-foreground-subtle")).toBe(true);
+		expect(ageUp.classList.contains("text-foreground-subtle")).toBe(true);
+		expect(ageDown.classList.contains("text-foreground-subtle")).toBe(true);
+	});
+
+	test("supports controlled sorting + onSortingChange", () => {
+		const onSortingChange = vi.fn();
+
+		function Controlled() {
+			const [sorting, setSorting] = useState<SortingState>([]);
+			return (
+				<Table
+					data={data}
+					columns={columns}
+					sorting={sorting}
+					onSortingChange={(next) => {
+						setSorting(next);
+						onSortingChange(next);
+					}}
+				/>
+			);
+		}
+
+		render(<Controlled />);
+		const header = screen.getByRole("columnheader", { name: "Name" });
+		fireEvent.click(within(header).getByTestId("table-sort-button"));
+
+		expect(onSortingChange).toHaveBeenCalledTimes(1);
+		expect(header.getAttribute("aria-sort")).toBe("ascending");
+	});
+
+	test("manages sorting internally when uncontrolled", () => {
+		render(<Table data={data} columns={columns} />);
+		const header = screen.getByRole("columnheader", { name: "Name" });
+		fireEvent.click(within(header).getByTestId("table-sort-button"));
+		expect(header.getAttribute("aria-sort")).toBe("ascending");
 	});
 });

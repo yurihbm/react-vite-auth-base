@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import type { ColumnDef, RowSelectionState } from "./types";
+import type { ColumnDef, RowSelectionState, SortingState } from "./types";
 
 import { useState } from "react";
 
@@ -149,6 +149,22 @@ export const WithMultiSelect: TableStory = {
 					onRowSelectionChange={setRowSelection}
 				/>
 			</div>
+		);
+	},
+};
+
+export const WithSorting: TableStory = {
+	render: function Render(args) {
+		const [sorting, setSorting] = useState<SortingState>([]);
+
+		return (
+			<Table
+				{...args}
+				data={people}
+				columns={columns}
+				sorting={sorting}
+				onSortingChange={setSorting}
+			/>
 		);
 	},
 };

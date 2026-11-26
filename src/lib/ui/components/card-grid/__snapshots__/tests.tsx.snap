@@ -1,0 +1,76 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CardGrid > renders correctly 1`] = `
+<div>
+  <div
+    class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
+  >
+    <div
+      class="rounded-lg border border-border bg-background-elevated"
+      data-testid="card"
+    >
+      <div
+        class="p-4"
+      >
+        CardGrid - Card 
+        1
+      </div>
+    </div>
+    <div
+      class="rounded-lg border border-border bg-background-elevated"
+      data-testid="card"
+    >
+      <div
+        class="p-4"
+      >
+        CardGrid - Card 
+        2
+      </div>
+    </div>
+    <div
+      class="rounded-lg border border-border bg-background-elevated"
+      data-testid="card"
+    >
+      <div
+        class="p-4"
+      >
+        CardGrid - Card 
+        3
+      </div>
+    </div>
+    <div
+      class="rounded-lg border border-border bg-background-elevated"
+      data-testid="card"
+    >
+      <div
+        class="p-4"
+      >
+        CardGrid - Card 
+        4
+      </div>
+    </div>
+    <div
+      class="rounded-lg border border-border bg-background-elevated"
+      data-testid="card"
+    >
+      <div
+        class="p-4"
+      >
+        CardGrid - Card 
+        5
+      </div>
+    </div>
+    <div
+      class="rounded-lg border border-border bg-background-elevated"
+      data-testid="card"
+    >
+      <div
+        class="p-4"
+      >
+        CardGrid - Card 
+        6
+      </div>
+    </div>
+  </div>
+</div>
+`;

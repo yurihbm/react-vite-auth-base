@@ -38,6 +38,13 @@ const styles = tv({
 			"peer-focus-visible:ring-2 peer-focus-visible:ring-ring/40",
 			"peer-disabled:cursor-not-allowed peer-disabled:opacity-60",
 		],
+		thSortButton: [
+			"flex w-full cursor-pointer items-center justify-between gap-1 select-none",
+			"hover:text-foreground focus-visible:outline-none",
+			"rounded-sm focus-visible:ring-2 focus-visible:ring-ring/40",
+		],
+		sortIconGroup: ["flex flex-col items-center justify-center gap-px"],
+		sortIcon: ["size-2 text-foreground-subtle transition-colors"],
 	},
 	variants: {
 		size: {
@@ -60,6 +67,9 @@ const styles = tv({
 		},
 		selected: {
 			true: { tr: "bg-primary/10" },
+		},
+		sorted: {
+			true: { sortIcon: "text-foreground" },
 		},
 	},
 	defaultVariants: {

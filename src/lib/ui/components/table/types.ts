@@ -4,7 +4,7 @@ import type {
 } from "@tanstack/react-table";
 import type { TABLE_FEATURES } from "./constants";
 
-export type { RowSelectionState } from "@tanstack/react-table";
+export type { RowSelectionState, SortingState } from "@tanstack/react-table";
 
 export type TableFeatures = typeof TABLE_FEATURES;
 

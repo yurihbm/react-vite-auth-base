@@ -7,6 +7,7 @@ export { Breadcrumb, type BreadcrumbProps } from "./breadcrumb";
 export type { BreadcrumbItem } from "./breadcrumb/types";
 export { Button, type ButtonProps } from "./button";
 export { Card, type CardProps } from "./card";
+export { CardGrid, type CardGridProps } from "./card-grid";
 export { Checkbox, type CheckboxProps } from "./checkbox";
 export {
 	DropdownMenu,
@@ -42,5 +43,5 @@ export { Pagination, type PaginationProps } from "./pagination";
 export { RadioGroup, type RadioGroupProps } from "./radio-group";
 export type { RadioOption } from "./radio-group/types";
 export { Table, type TableProps } from "./table";
-export type { ColumnDef, RowSelectionState } from "./table/types";
+export type { ColumnDef, RowSelectionState, SortingState } from "./table/types";
 export { Textarea, type TextareaProps } from "./textarea";
