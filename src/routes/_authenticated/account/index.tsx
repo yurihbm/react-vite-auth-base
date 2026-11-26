@@ -23,7 +23,7 @@ function AccountComponent() {
 				<dt className="font-medium">{t("accountPage.profile.memberSince")}</dt>
 				<dd>{new Date(user.createdAt).toLocaleDateString()}</dd>
 			</dl>
-			<EditNameForm key={user.updatedAt} user={user} />
+			<EditNameForm key={user.uuid} user={user} />
 			<Link to="/account/security" className="text-sm underline">
 				{t("accountPage.securityLink")}
 			</Link>
