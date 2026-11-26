@@ -33,7 +33,11 @@ const config: FormatConfig = {
 		stylesheet: "./src/main.css",
 		functions: ["tv"],
 	},
-	ignorePatterns: ["routeTree.gen.ts", "pnpm-lock.yaml", "resources.d.ts"],
+	ignorePatterns: [
+		"routeTree.gen.ts",
+		"pnpm-lock.yaml",
+		"src/lib/i18n/generated/**",
+	],
 };
 
 export default config;

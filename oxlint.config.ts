@@ -11,7 +11,7 @@ export default defineConfig({
 	ignorePatterns: [
 		"coverage",
 		"dist",
-		"./src/types/resources.d.ts",
+		"src/lib/i18n/generated/**",
 		"./src/routeTree.gen.ts",
 	],
 	rules: {
@@ -155,17 +155,17 @@ export default defineConfig({
 						paths: [
 							{
 								name: "react-i18next",
-								message: "Use @src/lib/i18n facade instead.",
+								message: "Use the @lib/i18n facade instead.",
 							},
 							{
 								name: "i18next",
-								message: "Use @src/lib/i18n facade instead.",
+								message: "Use the @lib/i18n facade instead.",
 							},
 						],
 						patterns: [
 							{
 								group: ["react-i18next/*", "i18next/*"],
-								message: "Use @src/lib/i18n facade instead.",
+								message: "Use the @lib/i18n facade instead.",
 							},
 						],
 					},
