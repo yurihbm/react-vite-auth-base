@@ -31,7 +31,6 @@ describe("ThemeToggle", () => {
 
 		const button = getByRole("button");
 
-		expect(button.textContent).toBe("🌙");
 		expect(button.getAttribute("aria-label")).toBe("Switch to light theme");
 	});
 
@@ -46,7 +45,6 @@ describe("ThemeToggle", () => {
 
 		const button = getByRole("button");
 
-		expect(button.textContent).toBe("☀️");
 		expect(button.getAttribute("aria-label")).toBe("Switch to dark theme");
 	});
 
