@@ -3,6 +3,7 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
+import { shouldRetryQuery } from "@lib/api";
 import { initI18n } from "@lib/i18n";
 import { ToastProvider } from "@lib/ui";
 
@@ -10,7 +11,9 @@ import { ToastProvider } from "@lib/ui";
 import { routeTree } from "./routeTree.gen";
 import "./main.css";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: { queries: { retry: shouldRetryQuery } },
+});
 
 // Create a new router instance
 const router = createRouter({

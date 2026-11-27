@@ -6,6 +6,7 @@ import { jsonResponse, mockFetch } from "@lib/tests";
 import { createAPIClient } from "./client";
 import { DEFAULT_ERROR_MESSAGE, EMPTY_RESPONSE_MESSAGE } from "./constants";
 import { APIError } from "./error";
+import { shouldRetryQuery } from "./retry";
 import { request } from "./schemas";
 
 const createJSONResponse = jsonResponse;
@@ -663,5 +664,27 @@ describe("request", () => {
 		);
 
 		expect(result.data).toBeUndefined();
+	});
+});
+
+describe("shouldRetryQuery", () => {
+	test.each([400, 403, 404, 405, 429, 499])(
+		"does not retry %i errors",
+		(status) => {
+			expect(shouldRetryQuery(0, new APIError("fail", { status }))).toBe(false);
+		},
+	);
+
+	test.each([0, 500, 503])("retries %i errors up to 3 times", (status) => {
+		const error = new APIError("fail", { status });
+
+		expect(shouldRetryQuery(0, error)).toBe(true);
+		expect(shouldRetryQuery(2, error)).toBe(true);
+		expect(shouldRetryQuery(3, error)).toBe(false);
+	});
+
+	test("retries unknown errors up to 3 times", () => {
+		expect(shouldRetryQuery(1, new Error("boom"))).toBe(true);
+		expect(shouldRetryQuery(3, new Error("boom"))).toBe(false);
 	});
 });
