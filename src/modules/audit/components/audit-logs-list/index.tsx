@@ -159,7 +159,7 @@ export function AuditLogsList({
 
 	return (
 		<div className="flex flex-col gap-4">
-			<div className="flex flex-wrap items-end gap-4">
+			<div className="flex flex-wrap items-start gap-4">
 				<Select
 					label={t("auditLogsList.action.label")}
 					options={actionOptions}
@@ -227,7 +227,7 @@ export function AuditLogsList({
 					}
 				/>
 				{total !== undefined && (
-					<p className="text-sm text-foreground-muted">
+					<p className="mt-6 flex h-[42px] items-center text-sm text-foreground-muted">
 						{t("auditLogsList.total", { total })}
 					</p>
 				)}

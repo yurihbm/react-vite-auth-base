@@ -130,7 +130,7 @@ export function UsersList({ search, role, onFiltersChange }: UsersListProps) {
 
 	return (
 		<div className="flex flex-col gap-4">
-			<div className="flex flex-wrap items-end gap-4">
+			<div className="flex flex-wrap items-start gap-4">
 				<TextInput
 					label={t("usersList.search.label")}
 					placeholder={t("usersList.search.placeholder")}
@@ -149,7 +149,7 @@ export function UsersList({ search, role, onFiltersChange }: UsersListProps) {
 					}
 				/>
 				{total !== undefined && (
-					<p className="text-sm text-foreground-muted">
+					<p className="mt-6 flex h-[42px] items-center text-sm text-foreground-muted">
 						{t("usersList.total", { total })}
 					</p>
 				)}
