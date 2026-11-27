@@ -6,6 +6,11 @@
 
 -
 
+## Visual changes
+
+<!-- Optional. For PRs that change the UI: screenshots or a short recording
+(before/after when relevant). Remove this section otherwise. -->
+
 ## Testing
 
 - [ ] `pnpm lint`, `pnpm format --check` and `pnpm typecheck`

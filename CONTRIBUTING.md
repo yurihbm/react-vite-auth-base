@@ -56,7 +56,7 @@ Examples:
 7.  **Update docs**: README and AGENTS.md when a convention, flow or command changes.
 8.  **Commit your changes** using the conventional commit format.
 9.  **Push to your fork** and submit a Pull Request.
-10. **Description**: Provide a clear description of your changes and link to any relevant issues.
+10. **Description**: Provide a clear description of your changes and link to any relevant issues. For UI changes, add screenshots or a short recording to the "Visual changes" section (`gh pr create --attach ./screenshot.png` uploads them from the CLI).
 
 ## 🪝 Git Hooks
 

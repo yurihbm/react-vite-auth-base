@@ -194,6 +194,10 @@ Naming:
 - Tests are added/updated for behavior changes.
 - `pnpm lint`, `pnpm typecheck`, and relevant test commands pass.
 - Docs are updated when workflow/behavior changes.
+- For UI changes, the PR's "Visual changes" section has screenshots: capture
+  them with the Playwright MCP browser tools against `pnpm dev` or Storybook,
+  then attach them with `gh pr create --attach '<file>#<alt text>'` (also
+  `gh pr edit` and `gh pr comment`).
 
 When uncertain, mimic nearby patterns in `src/routes` and
 `src/lib/ui`.
