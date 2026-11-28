@@ -1,0 +1,21 @@
+{
+	"line": {
+		"title": "Vendas por região"
+	},
+	"page": {
+		"description": "Componentes de gráfico e a paleta categórica, com dados ilustrativos.",
+		"title": "Gráficos"
+	},
+	"palette": {
+		"description": "Cores categóricas para gráficos com várias séries, separadas das cores semânticas. Use como text-chart-1 a text-chart-5 ou bg-chart-1 a bg-chart-5.",
+		"title": "Paleta de gráficos"
+	},
+	"pie": {
+		"title": "Gastos por categoria"
+	},
+	"table": {
+		"category": "Categoria",
+		"month": "Mês",
+		"value": "Valor"
+	}
+}

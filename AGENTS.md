@@ -144,6 +144,10 @@ variables). Use the Tailwind utilities they generate, never arbitrary values:
 - Color: semantic tokens only (`bg-surface` for cards and sections,
   `bg-scrim` behind dialogs, `border-border-control` for form controls and
   outline buttons, `text-foreground-muted`, `bg-primary`, ...).
+- Chart color: categorical `chart-1` to `chart-5` (`text-chart-1`,
+  `bg-chart-1`, ...), separate from the semantic colors and at least 3:1
+  against `background` and `surface` in both themes. Pass them to `@lib/charts`
+  as `className`. The `/charts` page shows the palette and sample charts.
 - Focus: one global `:focus-visible` outline built from `--color-ring`; for
   composite controls use the `focus-outline` utility
   (`focus-within:focus-outline`, `peer-focus-visible:focus-outline`) instead

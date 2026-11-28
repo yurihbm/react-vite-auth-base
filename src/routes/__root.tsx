@@ -83,7 +83,12 @@ function RootLayout() {
 							areDevToolsEnabled() ? "pb-16" : "",
 						].join(" ")}
 					>
-						<p>{t("footer.message")}</p>
+						<div className="flex items-center gap-3">
+							<p>{t("footer.message")}</p>
+							<Link to="/charts" className="underline hover:text-foreground">
+								{t("footer.charts")}
+							</Link>
+						</div>
 						<div className="flex items-center gap-3">
 							<LanguageSwitcher />
 							<ThemeToggle />

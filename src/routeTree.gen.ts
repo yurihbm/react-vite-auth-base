@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
+import { Route as ChartsRouteImport } from './routes/charts'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authRegisterRouteImport } from './routes/(auth)/register'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/_admin'
@@ -33,6 +34,11 @@ const IndexRoute = IndexRouteImport.update({
 } as any)
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChartsRoute = ChartsRouteImport.update({
+  id: '/charts',
+  path: '/charts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authLoginRoute = authLoginRouteImport.update({
@@ -112,6 +118,7 @@ const AuthenticatedAdminAdminUsersUuidRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/charts': typeof ChartsRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/oauth/callback': typeof OauthCallbackRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/charts': typeof ChartsRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/oauth/callback': typeof OauthCallbackRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/charts': typeof ChartsRoute
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/register': typeof authRegisterRoute
   '/_authenticated/_admin': typeof AuthenticatedAdminRouteWithChildren
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/charts'
     | '/login'
     | '/register'
     | '/oauth/callback'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/charts'
     | '/login'
     | '/register'
     | '/oauth/callback'
@@ -198,6 +209,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/charts'
     | '/(auth)/login'
     | '/(auth)/register'
     | '/_authenticated/_admin'
@@ -217,6 +229,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  ChartsRoute: typeof ChartsRoute
   authLoginRoute: typeof authLoginRoute
   authRegisterRoute: typeof authRegisterRoute
   OauthCallbackRoute: typeof OauthCallbackRoute
@@ -241,6 +254,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/charts': {
+      id: '/charts'
+      path: '/charts'
+      fullPath: '/charts'
+      preLoaderRoute: typeof ChartsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)/login': {
@@ -380,6 +400,7 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  ChartsRoute: ChartsRoute,
   authLoginRoute: authLoginRoute,
   authRegisterRoute: authRegisterRoute,
   OauthCallbackRoute: OauthCallbackRoute,

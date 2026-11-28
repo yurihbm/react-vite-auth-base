@@ -258,6 +258,27 @@ export default interface Resources {
       "title": "Verify your email"
     }
   },
+  "charts": {
+    "line": {
+      "title": "Sales by region"
+    },
+    "page": {
+      "description": "Chart components and the categorical palette, with illustrative data.",
+      "title": "Charts"
+    },
+    "palette": {
+      "description": "Categorical colors for multi-series charts, separate from the semantic colors. Use them as text-chart-1 to text-chart-5 or bg-chart-1 to bg-chart-5.",
+      "title": "Chart palette"
+    },
+    "pie": {
+      "title": "Spending by category"
+    },
+    "table": {
+      "category": "Category",
+      "month": "Month",
+      "value": "Value"
+    }
+  },
   "errors": {
     "audit": {
       "list": {
@@ -468,6 +489,7 @@ export default interface Resources {
   "shared": {
     "en": "en",
     "footer": {
+      "charts": "Chart examples",
       "message": "Made with ❤️ by Yuri"
     },
     "languageSwitcher": {
