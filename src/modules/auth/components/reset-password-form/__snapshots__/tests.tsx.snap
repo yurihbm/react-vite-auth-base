@@ -5,12 +5,6 @@ exports[`ResetPasswordForm > renders correctly 1`] = `
   <form
     class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
   >
-    <p>
-      resetPasswordForm.description
-    </p>
-    <p
-      class="min-h-12 text-danger"
-    />
     <div
       class="flex flex-col gap-1"
     >

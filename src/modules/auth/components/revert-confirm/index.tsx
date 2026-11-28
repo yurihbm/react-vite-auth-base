@@ -4,7 +4,6 @@ import { base } from "@modules/auth/components/login-form/styles";
 import { useCooldown } from "@modules/auth/hooks";
 
 interface RevertConfirmProps {
-	title: string;
 	description: string;
 	confirmLabel: string;
 	successMessage: string;
@@ -18,10 +17,10 @@ interface RevertConfirmProps {
 
 /**
  * RevertConfirm asks for an explicit click before undoing a change from an
- * emailed link, since mail scanners prefetch links and must not trigger it.
+ * emailed link, since mail scanners prefetch links and must not trigger it. The
+ * page title belongs to the surrounding layout.
  */
 export function RevertConfirm({
-	title,
 	description,
 	confirmLabel,
 	successMessage,
@@ -36,7 +35,6 @@ export function RevertConfirm({
 
 	return (
 		<div className={base()}>
-			<h2 className="text-lg font-bold">{title}</h2>
 			{isSuccess ? (
 				<Alert color="success" description={successMessage} />
 			) : (

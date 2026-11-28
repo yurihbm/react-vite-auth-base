@@ -12,7 +12,6 @@ vi.mock("@lib/api", async (importOriginal) => ({
 }));
 
 const baseProps = {
-	title: "Undo change",
 	description: "This will undo the change.",
 	confirmLabel: "Undo it",
 	successMessage: "Done.",
@@ -82,5 +81,11 @@ describe("RevertConfirm", () => {
 		);
 
 		expect((getByRole("button") as HTMLButtonElement).disabled).toBe(true);
+	});
+
+	test("leaves the page heading to the layout", () => {
+		const { queryByRole } = render(<RevertConfirm {...baseProps} />);
+
+		expect(queryByRole("heading")).toBeNull();
 	});
 });

@@ -130,4 +130,18 @@ describe("Button", () => {
 		expect(button.className).toContain("text-foreground");
 		expect(button.className).not.toContain("bg-primary");
 	});
+
+	test("renders the ghost variant without a fill or border", () => {
+		const { container } = render(
+			<Button color="primary" variant="ghost">
+				Resend code
+			</Button>,
+		);
+
+		const button = container.querySelector("button") as HTMLButtonElement;
+
+		expect(button.className).toContain("bg-transparent");
+		expect(button.className).not.toContain("border");
+		expect(button.className).not.toContain("bg-primary");
+	});
 });

@@ -105,9 +105,11 @@ describe("ResendButton", () => {
 			error: new APIError("auth.signup.noPending", { status: 401 }),
 		});
 
-		const { getByText } = render(<ResendButton />);
+		const { getByRole } = render(<ResendButton />);
 
-		expect(getByText("translated:auth.signup.noPending")).toBeDefined();
+		expect(getByRole("alert").textContent).toContain(
+			"translated:auth.signup.noPending",
+		);
 	});
 
 	test("is disabled while the request is pending", () => {
@@ -116,5 +118,15 @@ describe("ResendButton", () => {
 		const { getByRole } = render(<ResendButton />);
 
 		expect((getByRole("button") as HTMLButtonElement).disabled).toBe(true);
+	});
+
+	test("renders as a ghost button", () => {
+		mockResend();
+
+		const { getByRole } = render(<ResendButton />);
+
+		expect(
+			getByRole("button", { name: "resendButton.label" }).className,
+		).toContain("bg-transparent");
 	});
 });

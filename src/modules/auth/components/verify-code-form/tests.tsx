@@ -133,7 +133,7 @@ describe("VerifyCodeForm", () => {
 	});
 
 	test("shows the translated API error", () => {
-		const { getByLabelText, getByRole, getByText } = render(<VerifyCodeForm />);
+		const { getByLabelText, getByRole } = render(<VerifyCodeForm />);
 
 		fillCodeAndSubmit(getByLabelText, getByRole);
 
@@ -144,7 +144,9 @@ describe("VerifyCodeForm", () => {
 			);
 		});
 
-		expect(getByText("translated:auth.signup.invalidCode")).toBeDefined();
+		expect(getByRole("alert").textContent).toContain(
+			"translated:auth.signup.invalidCode",
+		);
 	});
 
 	test("maps API error details onto the code input", () => {
@@ -199,5 +201,11 @@ describe("VerifyCodeForm", () => {
 				}) as HTMLButtonElement
 			).disabled,
 		).toBe(true);
+	});
+
+	test("leaves the page description to the layout", () => {
+		const { queryByText } = render(<VerifyCodeForm />);
+
+		expect(queryByText("verifyCodeForm.description")).toBeNull();
 	});
 });

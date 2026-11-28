@@ -5,11 +5,6 @@ exports[`RevertConfirm > renders correctly 1`] = `
   <div
     class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
   >
-    <h2
-      class="text-lg font-bold"
-    >
-      Undo change
-    </h2>
     <p>
       This will undo the change.
     </p>

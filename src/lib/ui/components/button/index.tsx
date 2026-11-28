@@ -11,7 +11,8 @@ export type ButtonProps<E extends ElementType> = ComponentPropsWithRef<E> &
 /**
  * A versatile Button component that can render as different HTML elements based
  * on the `as` prop. `variant="outline"` renders a bordered neutral button (for
- * secondary actions such as Cancel) and ignores `color`.
+ * secondary actions such as Cancel) and `variant="ghost"` a borderless one (for
+ * low-emphasis actions such as Resend code); both ignore `color`.
  *
  * @template E - The type of the HTML element to render, defaulting to "button".
  * @param {ButtonProps<E>} props - The props for the Button component, including

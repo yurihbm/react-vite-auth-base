@@ -12,12 +12,17 @@ export const styles = tv({
 			md: "h-10 px-4 text-base",
 			lg: "h-12 px-5 text-lg",
 		},
-		// Outline is neutral; colors apply to solid buttons only.
+		// Outline and ghost are neutral; colors apply to solid buttons only.
 		variant: {
 			solid: "",
 			outline: [
 				"border border-border-control bg-transparent text-foreground",
 				"hover:bg-subtle-hover active:bg-subtle-active",
+				"disabled:hover:bg-transparent disabled:active:bg-transparent",
+			],
+			ghost: [
+				"bg-transparent text-foreground-muted",
+				"hover:bg-subtle-hover hover:text-foreground active:bg-subtle-active",
 				"disabled:hover:bg-transparent disabled:active:bg-transparent",
 			],
 		},

@@ -1,7 +1,6 @@
 import { useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
-import { Button } from "@lib/ui";
-import { errorMessage } from "@modules/auth/components/login-form/styles";
+import { Button, InlineError } from "@lib/ui";
 import { useCooldown } from "@modules/auth/hooks";
 import { useResendSignup } from "@modules/auth/services";
 
@@ -19,9 +18,9 @@ export function ResendButton() {
 
 	return (
 		<>
-			{error && <p className={errorMessage()}>{apiErrorMessage}</p>}
+			{error && <InlineError>{apiErrorMessage}</InlineError>}
 			<Button
-				color="secondary"
+				variant="ghost"
 				disabled={isPending || cooldown.remaining > 0}
 				onClick={() => resend(undefined, { onSuccess: () => cooldown.start() })}
 			>

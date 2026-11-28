@@ -5,15 +5,9 @@ exports[`VerifyCodeForm > renders correctly 1`] = `
   <div
     class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
   >
-    <p>
-      verifyCodeForm.description
-    </p>
     <form
       class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
     >
-      <p
-        class="min-h-12 text-danger"
-      />
       <div
         class="flex flex-col gap-1"
       >

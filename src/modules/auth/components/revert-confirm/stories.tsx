@@ -7,7 +7,6 @@ import { RevertConfirm } from ".";
 const meta: Meta<typeof RevertConfirm> = {
 	component: RevertConfirm,
 	args: {
-		title: "Undo email change",
 		description:
 			"This restores your previous email address and signs you out of every device.",
 		confirmLabel: "Undo email change",

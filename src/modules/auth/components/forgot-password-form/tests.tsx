@@ -90,9 +90,7 @@ describe("ForgotPasswordForm", () => {
 	});
 
 	test("shows the translated API error", () => {
-		const { getByLabelText, getByRole, getByText } = render(
-			<ForgotPasswordForm />,
-		);
+		const { getByLabelText, getByRole } = render(<ForgotPasswordForm />);
 
 		fillAndSubmit(getByLabelText, getByRole);
 
@@ -103,7 +101,9 @@ describe("ForgotPasswordForm", () => {
 			);
 		});
 
-		expect(getByText("translated:auth.passwordReset.sendFailed")).toBeDefined();
+		expect(getByRole("alert").textContent).toContain(
+			"translated:auth.passwordReset.sendFailed",
+		);
 	});
 
 	test("maps API error details onto the email input", () => {
@@ -143,5 +143,11 @@ describe("ForgotPasswordForm", () => {
 				}) as HTMLButtonElement
 			).disabled,
 		).toBe(true);
+	});
+
+	test("leaves the page description to the layout", () => {
+		const { queryByText } = render(<ForgotPasswordForm />);
+
+		expect(queryByText("forgotPasswordForm.description")).toBeNull();
 	});
 });

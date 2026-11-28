@@ -1,8 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { useTranslate } from "@lib/i18n";
 import { Alert } from "@lib/ui";
 import {
+	AuthLayout,
 	clearOAuthRedirect,
 	getOAuthRedirect,
 	oauthCallbackBeforeLoad,
@@ -24,22 +25,43 @@ const { useSearch } = Route;
 
 function RouteComponent() {
 	const search = useSearch();
+	const t = useTranslate("auth");
 	const translate = useTranslate("errors");
 	const errorKey = oauthErrorKey(search.error);
 
 	if (search.verification === "required") {
 		return (
-			<VerifyCodeForm
-				redirectTo={getOAuthRedirect()}
-				onVerified={clearOAuthRedirect}
-			/>
+			<AuthLayout
+				title={t("verifyPage.title")}
+				description={t("verifyCodeForm.description")}
+			>
+				<VerifyCodeForm
+					redirectTo={getOAuthRedirect()}
+					onVerified={clearOAuthRedirect}
+				/>
+			</AuthLayout>
 		);
 	}
 
 	return (
-		<Alert
-			color="danger"
-			description={errorKey ? translate(errorKey) : translate("oauth.unknown")}
-		/>
+		<AuthLayout
+			title={t("oauthCallbackPage.errorTitle")}
+			footer={
+				<Link
+					to="/login"
+					search={{ redirect: "/" }}
+					className="font-medium text-foreground underline"
+				>
+					{t("oauthCallbackPage.backToLogin")}
+				</Link>
+			}
+		>
+			<Alert
+				color="danger"
+				description={
+					errorKey ? translate(errorKey) : translate("oauth.unknown")
+				}
+			/>
+		</AuthLayout>
 	);
 }

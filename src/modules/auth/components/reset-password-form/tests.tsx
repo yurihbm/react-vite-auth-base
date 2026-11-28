@@ -104,9 +104,7 @@ describe("ResetPasswordForm", () => {
 	});
 
 	test("shows the translated API error", () => {
-		const { getByLabelText, getByRole, getByText } = render(
-			<ResetPasswordForm />,
-		);
+		const { getByLabelText, getByRole } = render(<ResetPasswordForm />);
 
 		fillAndSubmit(getByLabelText, getByRole);
 
@@ -117,9 +115,9 @@ describe("ResetPasswordForm", () => {
 			);
 		});
 
-		expect(
-			getByText("translated:auth.passwordReset.invalidCode"),
-		).toBeDefined();
+		expect(getByRole("alert").textContent).toContain(
+			"translated:auth.passwordReset.invalidCode",
+		);
 	});
 
 	test("maps API error details onto the matching inputs", () => {
@@ -159,5 +157,11 @@ describe("ResetPasswordForm", () => {
 				}) as HTMLButtonElement
 			).disabled,
 		).toBe(true);
+	});
+
+	test("leaves the page description to the layout", () => {
+		const { queryByText } = render(<ResetPasswordForm />);
+
+		expect(queryByText("resetPasswordForm.description")).toBeNull();
 	});
 });

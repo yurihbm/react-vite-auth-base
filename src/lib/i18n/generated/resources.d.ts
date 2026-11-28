@@ -64,6 +64,11 @@ export default interface Resources {
       "submitButton": "Send code",
       "unexpectedError": "An unexpected error occurred. Try again later."
     },
+    "forgotPasswordPage": {
+      "logIn": "Log in",
+      "remember": "Remember your password?",
+      "title": "Reset your password"
+    },
     "loginForm": {
       "input": {
         "email": {
@@ -99,6 +104,10 @@ export default interface Resources {
       "github": "Continue with GitHub",
       "google": "Continue with Google",
       "microsoft": "Continue with Microsoft"
+    },
+    "oauthCallbackPage": {
+      "backToLogin": "Back to log in",
+      "errorTitle": "We couldn't sign you in"
     },
     "registerForm": {
       "input": {
@@ -154,6 +163,11 @@ export default interface Resources {
       "submitButton": "Reset password",
       "unexpectedError": "An unexpected error occurred. Try again later."
     },
+    "resetPasswordPage": {
+      "noCode": "Didn't get a code?",
+      "requestAgain": "Request a new one",
+      "title": "Choose a new password"
+    },
     "revertEmailChange": {
       "confirmButton": "Undo email change",
       "description": "This restores your previous email address and signs you out of every device.",
@@ -189,6 +203,9 @@ export default interface Resources {
       },
       "submitButton": "Verify",
       "unexpectedError": "An unexpected error occurred. Try again later."
+    },
+    "verifyPage": {
+      "title": "Verify your email"
     }
   },
   "errors": {

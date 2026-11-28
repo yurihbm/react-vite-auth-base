@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { useTranslate } from "@lib/i18n";
 import {
+	AuthLayout,
 	publicOnlyRouteBeforeLoad,
 	safeRedirect,
 	VerifyCodeForm,
@@ -18,6 +20,14 @@ const { useSearch } = Route;
 
 function RouteComponent() {
 	const search = useSearch();
+	const t = useTranslate("auth");
 
-	return <VerifyCodeForm redirectTo={search.redirect} />;
+	return (
+		<AuthLayout
+			title={t("verifyPage.title")}
+			description={t("verifyCodeForm.description")}
+		>
+			<VerifyCodeForm redirectTo={search.redirect} />
+		</AuthLayout>
+	);
 }
