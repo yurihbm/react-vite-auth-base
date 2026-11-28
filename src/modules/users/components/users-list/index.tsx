@@ -1,6 +1,7 @@
 import type { ColumnDef } from "@lib/ui";
 import type { User, UserRole } from "@modules/users/types";
 
+import { MagnifyingGlassIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -8,16 +9,23 @@ import { useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
 import {
 	Badge,
+	Button,
+	Card,
+	EmptyState,
 	InlineError,
 	Select,
 	Skeleton,
+	Spinner,
 	Table,
+	Text,
 	TextInput,
 	useDebouncedValue,
 } from "@lib/ui";
 import { useUsersList } from "@modules/users/services";
 
-const ROW_HEIGHT = 48;
+import { styles } from "./styles";
+
+const SKELETON_ROWS = 3;
 const ALL_ROLES = "all";
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -32,8 +40,9 @@ interface UsersListProps extends UsersListFilters {
 }
 
 /**
- * UsersList is the admin users table: filters, total and an infinite,
- * virtualized list that loads the next page when the scroll reaches the end.
+ * UsersList is the admin users list: a filter toolbar, the total, the users (a
+ * table from `md`, cards below) and a button that loads the next page. While
+ * new filters load, the current rows stay on screen, dimmed.
  */
 export function UsersList({ search, role, onFiltersChange }: UsersListProps) {
 	const t = useTranslate("users");
@@ -70,8 +79,10 @@ export function UsersList({ search, role, onFiltersChange }: UsersListProps) {
 		error,
 		fetchNextPage,
 		hasNextPage,
+		isFetching,
 		isFetchingNextPage,
 		isPending,
+		isPlaceholderData,
 	} = useUsersList({ search, role });
 	const apiErrorMessage = useApiErrorMessage(error);
 
@@ -122,50 +133,153 @@ export function UsersList({ search, role, onFiltersChange }: UsersListProps) {
 		{ label: t("usersList.role.user"), value: "user" },
 	];
 
-	function handleEndReached() {
-		if (hasNextPage && !isFetchingNextPage) {
-			fetchNextPage();
+	const hasFilters = !!search || !!role;
+	const {
+		root,
+		toolbar,
+		search: searchSlot,
+		role: roleSlot,
+		noMessage,
+		resultsBar,
+		results,
+		table,
+		cards,
+		card,
+		cardName,
+		cardMeta,
+		skeletons,
+		footer,
+	} = styles({ stale: isPlaceholderData });
+
+	function renderResults() {
+		if (isPending) {
+			return (
+				<div className={skeletons()}>
+					{Array.from({ length: SKELETON_ROWS }, (_, index) => (
+						<Skeleton key={index} variant="rect" className="h-12" />
+					))}
+				</div>
+			);
 		}
+
+		if (users.length === 0) {
+			if (error) {
+				return null;
+			}
+
+			return hasFilters ? (
+				<EmptyState
+					icon={<MagnifyingGlassIcon size={24} />}
+					title={t("usersList.emptyFiltered.title")}
+					description={t("usersList.emptyFiltered.description")}
+					action={
+						<Button
+							size="sm"
+							variant="outline"
+							onClick={() => onFiltersChange({})}
+						>
+							{t("usersList.clearFilters")}
+						</Button>
+					}
+				/>
+			) : (
+				<EmptyState title={t("usersList.empty")} />
+			);
+		}
+
+		return (
+			<>
+				<Table data={users} columns={columns} className={table()} />
+				<ul className={cards()}>
+					{users.map((user) => (
+						<li key={user.uuid}>
+							<Link
+								to="/admin/users/$uuid"
+								params={{ uuid: user.uuid }}
+								className={card()}
+							>
+								<span className={cardName()}>{user.name}</span>
+								<Text as="span" variant="muted">
+									{user.email}
+								</Text>
+								<span className={cardMeta()}>
+									<Badge
+										size="sm"
+										color={user.role === "admin" ? "primary" : "subtle"}
+									>
+										{user.role}
+									</Badge>
+									<Text as="span" variant="caption">
+										{new Date(user.createdAt).toLocaleDateString()}
+									</Text>
+								</span>
+							</Link>
+						</li>
+					))}
+				</ul>
+			</>
+		);
 	}
 
 	return (
-		<div className="flex flex-col gap-4">
-			<div className="flex flex-wrap items-start gap-4">
-				<TextInput
-					label={t("usersList.search.label")}
-					placeholder={t("usersList.search.placeholder")}
-					value={searchInput}
-					onChange={(event) => setSearchInput(event.target.value)}
-				/>
-				<Select
-					label={t("usersList.role.label")}
-					options={roleOptions}
-					value={role ?? ALL_ROLES}
-					onChange={(value) =>
-						onFiltersChange({
-							search,
-							role: value === "admin" || value === "user" ? value : undefined,
-						})
-					}
-				/>
+		<div className={root()}>
+			<Card>
+				<div className={toolbar()}>
+					<TextInput
+						type="text"
+						label={t("usersList.search.label")}
+						placeholder={t("usersList.search.placeholder")}
+						startIcon={<MagnifyingGlassIcon aria-hidden="true" size={18} />}
+						value={searchInput}
+						onChange={(event) => setSearchInput(event.target.value)}
+						classNames={{
+							labelContainer: searchSlot(),
+							inputMessage: noMessage(),
+						}}
+					/>
+					<Select
+						label={t("usersList.role.label")}
+						options={roleOptions}
+						value={role ?? ALL_ROLES}
+						onChange={(value) =>
+							onFiltersChange({
+								search,
+								role: value === "admin" || value === "user" ? value : undefined,
+							})
+						}
+						classNames={{ root: roleSlot(), message: noMessage() }}
+					/>
+				</div>
+			</Card>
+			<div className={resultsBar()}>
 				{total !== undefined && (
-					<p className="mt-6 flex h-[42px] items-center text-sm text-foreground-muted">
+					<Text as="p" variant="muted" aria-live="polite">
 						{t("usersList.total", { total })}
-					</p>
+					</Text>
+				)}
+				{isFetching && !isPending && !isFetchingNextPage && (
+					<Spinner size="sm" label={t("usersList.loading")} />
 				)}
 			</div>
 			{!!error && <InlineError>{apiErrorMessage}</InlineError>}
-			{isPending ? (
-				<Skeleton variant="rect" className="h-[60vh]" />
-			) : (
-				<Table
-					data={users}
-					columns={columns}
-					sticky
-					className="h-[60vh]"
-					emptyState={t("usersList.empty")}
-					virtualize={{ rowHeight: ROW_HEIGHT, onEndReached: handleEndReached }}
-				/>
+			<div aria-busy={isPending || isPlaceholderData} className={results()}>
+				{renderResults()}
+			</div>
+			{hasNextPage && (
+				<div className={footer()}>
+					<Text variant="muted">
+						{t("usersList.showing", { count: users.length, total })}
+					</Text>
+					<Button
+						variant="outline"
+						disabled={isFetchingNextPage}
+						onClick={() => fetchNextPage()}
+					>
+						{isFetchingNextPage
+							? t("usersList.loadingMore")
+							: t("usersList.loadMore")}
+					</Button>
+				</div>
 			)}
 		</div>
 	);

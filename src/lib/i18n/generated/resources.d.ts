@@ -544,6 +544,7 @@ export default interface Resources {
       "title": "User"
     },
     "usersList": {
+      "clearFilters": "Clear filters",
       "columns": {
         "createdAt": "Created",
         "email": "Email",
@@ -551,6 +552,13 @@ export default interface Resources {
         "role": "Role"
       },
       "empty": "No users found.",
+      "emptyFiltered": {
+        "description": "Try another search or role.",
+        "title": "No users match these filters"
+      },
+      "loadMore": "Load more",
+      "loading": "Loading users",
+      "loadingMore": "Loading…",
       "role": {
         "admin": "Admin",
         "all": "All roles",
@@ -561,9 +569,12 @@ export default interface Resources {
         "label": "Search",
         "placeholder": "Name or email prefix"
       },
+      "showing_one": "usersList.showing",
+      "showing_other": "usersList.showing",
       "total": "{{total}} users"
     },
     "usersPage": {
+      "description": "Find people, change their name or remove their account.",
       "title": "Users"
     }
   }

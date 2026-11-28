@@ -101,6 +101,7 @@
 		"title": "User"
 	},
 	"usersList": {
+		"clearFilters": "Clear filters",
 		"columns": {
 			"createdAt": "Created",
 			"email": "Email",
@@ -108,6 +109,13 @@
 			"role": "Role"
 		},
 		"empty": "No users found.",
+		"emptyFiltered": {
+			"description": "Try another search or role.",
+			"title": "No users match these filters"
+		},
+		"loading": "Loading users",
+		"loadingMore": "Loading…",
+		"loadMore": "Load more",
 		"role": {
 			"admin": "Admin",
 			"all": "All roles",
@@ -118,9 +126,12 @@
 			"label": "Search",
 			"placeholder": "Name or email prefix"
 		},
+		"showing_one": "usersList.showing",
+		"showing_other": "usersList.showing",
 		"total": "{{total}} users"
 	},
 	"usersPage": {
+		"description": "Find people, change their name or remove their account.",
 		"title": "Users"
 	}
 }

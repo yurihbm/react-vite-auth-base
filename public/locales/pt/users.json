@@ -101,6 +101,7 @@
 		"title": "Usuário"
 	},
 	"usersList": {
+		"clearFilters": "Limpar filtros",
 		"columns": {
 			"createdAt": "Criado em",
 			"email": "E-mail",
@@ -108,6 +109,13 @@
 			"role": "Perfil"
 		},
 		"empty": "Nenhum usuário encontrado.",
+		"emptyFiltered": {
+			"description": "Tente outra busca ou outro papel.",
+			"title": "Nenhum usuário com esses filtros"
+		},
+		"loading": "Carregando usuários",
+		"loadingMore": "Carregando…",
+		"loadMore": "Carregar mais",
 		"role": {
 			"admin": "Administrador",
 			"all": "Todos os perfis",
@@ -118,9 +126,13 @@
 			"label": "Buscar",
 			"placeholder": "Prefixo do nome ou e-mail"
 		},
+		"showing_one": "",
+		"showing_many": "",
+		"showing_other": "",
 		"total": "{{total}} usuários"
 	},
 	"usersPage": {
+		"description": "Encontre pessoas, altere o nome ou remova a conta.",
 		"title": "Usuários"
 	}
 }

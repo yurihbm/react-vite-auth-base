@@ -123,4 +123,25 @@ describe("useUsersList", () => {
 		await waitFor(() => expect(result.current.isError).toBe(true));
 		expect(result.current.error).toMatchObject({ key: "users.invalidCursor" });
 	});
+
+	test("keeps the previous results while new filters load", async () => {
+		mockFetch({
+			"GET /users": (request) =>
+				request.url.searchParams.get("search") === "next"
+					? new Promise<Response>(() => {})
+					: jsonResponse({ data: [USER], message: "ok", meta: { total: 1 } }),
+		});
+
+		const { result, rerender } = renderHook(
+			({ search }: { search?: string }) => useUsersList({ search }),
+			{ wrapper: createQueryClientWrapper(), initialProps: {} },
+		);
+		await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+		rerender({ search: "next" });
+
+		await waitFor(() => expect(result.current.isFetching).toBe(true));
+		expect(result.current.isPlaceholderData).toBe(true);
+		expect(result.current.data?.pages[0].users).toHaveLength(1);
+	});
 });
