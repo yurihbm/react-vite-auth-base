@@ -1,0 +1,110 @@
+{
+	"accountPage": {
+		"profile": {
+			"email": "E-mail",
+			"memberSince": "Membro desde",
+			"role": "Perfil"
+		},
+		"securityLink": "Configurações de segurança",
+		"title": "Conta"
+	},
+	"changeEmailForm": {
+		"codeDescription": "Enviamos um código de 6 dígitos para o novo endereço. Insira-o para concluir. Você será desconectado de todos os dispositivos.",
+		"confirmButton": "Alterar e-mail",
+		"description": "Informe o novo e-mail. Antes, vamos confirmar sua identidade e o novo endereço com um código.",
+		"input": {
+			"code": {
+				"label": "Código",
+				"placeholder": "Código de 6 dígitos"
+			},
+			"email": {
+				"label": "Novo e-mail",
+				"placeholder": "Digite o novo e-mail"
+			}
+		},
+		"requestButton": "Enviar código"
+	},
+	"changePasswordForm": {
+		"description": "Escolha uma nova senha. Você continuará conectado aqui e será desconectado dos outros dispositivos.",
+		"input": {
+			"password": {
+				"label": "Nova senha",
+				"placeholder": "Digite sua nova senha"
+			}
+		},
+		"submitButton": "Alterar senha",
+		"success": "Sua senha foi alterada."
+	},
+	"deleteAccount": {
+		"button": "Excluir conta",
+		"confirm": {
+			"cancelButton": "Cancelar",
+			"confirmButton": "Excluir conta",
+			"description": "Esta ação não pode ser desfeita.",
+			"title": "Excluir sua conta?"
+		},
+		"description": "Exclua permanentemente sua conta e seus dados."
+	},
+	"deleteUser": {
+		"button": "Excluir usuário",
+		"confirm": {
+			"cancelButton": "Cancelar",
+			"confirmButton": "Excluir usuário",
+			"description": "A conta e as sessões serão removidas. Antes, vamos confirmar sua identidade.",
+			"title": "Excluir este usuário?"
+		},
+		"description": "Exclui este usuário permanentemente. Esta ação não pode ser desfeita."
+	},
+	"editNameForm": {
+		"input": {
+			"name": {
+				"label": "Nome",
+				"placeholder": "Digite seu nome"
+			}
+		},
+		"submitButton": "Salvar",
+		"success": "Seu nome foi atualizado."
+	},
+	"logoutOthers": {
+		"button": "Sair dos outros dispositivos",
+		"description": "Encerre a sessão em todos os dispositivos, exceto este.",
+		"success": "Os outros dispositivos foram desconectados."
+	},
+	"securityPage": {
+		"back": "Voltar para a conta",
+		"sections": {
+			"delete": "Excluir conta",
+			"email": "Alterar e-mail",
+			"password": "Alterar senha",
+			"sessions": "Outros dispositivos"
+		},
+		"title": "Segurança"
+	},
+	"userPage": {
+		"back": "Voltar para usuários",
+		"title": "Usuário"
+	},
+	"usersList": {
+		"columns": {
+			"createdAt": "Criado em",
+			"email": "E-mail",
+			"name": "Nome",
+			"role": "Perfil"
+		},
+		"empty": "Nenhum usuário encontrado.",
+		"role": {
+			"admin": "Administrador",
+			"all": "Todos os perfis",
+			"label": "Perfil",
+			"user": "Usuário"
+		},
+		"search": {
+			"label": "Buscar",
+			"placeholder": "Prefixo do nome ou e-mail"
+		},
+		"total": "{{total}} usuários"
+	},
+	"usersPage": {
+		"title": "Usuários"
+	}
+}

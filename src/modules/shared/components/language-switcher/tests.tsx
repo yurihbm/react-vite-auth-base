@@ -1,12 +1,12 @@
 import { cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { SUPPORTED_LANGUAGE_EMOJI_MAP, useLanguage } from "@src/lib/i18n";
+import { SUPPORTED_LANGUAGE_EMOJI_MAP, useLanguage } from "@lib/i18n";
 
 import { LanguageSwitcher } from ".";
 
-vi.mock("@src/lib/i18n", async () => ({
-	...(await vi.importActual("@src/lib/i18n")),
+vi.mock("@lib/i18n", async () => ({
+	...(await vi.importActual("@lib/i18n")),
 	useLanguage: vi.fn(),
 }));
 

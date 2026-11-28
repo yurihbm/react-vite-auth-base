@@ -1,0 +1,31 @@
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, describe, expect, test } from "vitest";
+
+import { {{Name}} } from ".";
+
+describe("{{Name}}", () => {
+	afterEach(() => {
+		cleanup();
+	});
+
+	test("renders its children with the default variant classes", () => {
+		const { getByText } = render(<{{Name}}>Content</{{Name}}>);
+
+		const element = getByText("Content");
+
+		expect(element.className).toContain("p-4");
+	});
+
+	test("applies the size variant and merges custom className", () => {
+		const { getByText } = render(
+			<{{Name}} className="custom" size="sm">
+				Content
+			</{{Name}}>,
+		);
+
+		const element = getByText("Content");
+
+		expect(element.className).toContain("custom");
+		expect(element.className).toContain("p-2");
+	});
+});

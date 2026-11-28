@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { useTranslate } from "@src/lib/i18n";
-import { useAuth } from "@src/modules/auth";
-
-import { Button, TextInput } from "../modules/shared";
+import { useTranslate } from "@lib/i18n";
+import { Button, TextInput } from "@lib/ui";
+import { useAuth } from "@modules/auth";
 
 export const Route = createFileRoute("/")({
 	component: Index,
@@ -31,12 +30,7 @@ function Index() {
 			</Button>
 
 			{isAuthenticated && (
-				<Button
-					color="secondary"
-					as={Link}
-					to="/users/profile"
-					className="w-full"
-				>
+				<Button color="secondary" as={Link} to="/account" className="w-full">
 					{t("profile")}
 				</Button>
 			)}

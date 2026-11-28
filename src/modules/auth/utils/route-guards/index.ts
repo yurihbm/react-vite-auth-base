@@ -1,9 +1,9 @@
-import type { User } from "@src/modules/users";
+import type { User, UserRole } from "@modules/users";
 import type { QueryClient } from "@tanstack/react-query";
 
 import { redirect } from "@tanstack/react-router";
 
-import { GET_ME_QUERY_OPTIONS } from "@src/modules/users";
+import { GET_ME_QUERY_OPTIONS } from "@modules/users";
 
 type AuthState =
 	| {
@@ -19,11 +19,11 @@ type AuthState =
  * Attempts to resolve the user's authentication status by fetching their data.
  *
  * @param queryClient - The QueryClient instance used to perform the fetch
- * operation.
+ *   operation.
  * @returns A promise that resolves to an AuthState object indicating whether
- * the user is authenticated. If the fetch succeeds, isAuthenticated will be
- * true; if it fails (e.g., due to a 401 Unauthorized error), isAuthenticated
- * will be false.
+ *   the user is authenticated. If the fetch succeeds, isAuthenticated will be
+ *   true; if it fails (e.g., due to a 401 Unauthorized error), isAuthenticated
+ *   will be false.
  */
 async function resolveAuth(queryClient: QueryClient): Promise<AuthState> {
 	try {
@@ -36,9 +36,8 @@ async function resolveAuth(queryClient: QueryClient): Promise<AuthState> {
 
 /**
  * A route guard function that restricts access to routes intended only for
- * unauthenticated users (e.g., login or registration pages).
- * If the user is already authenticated, they will be redirected to the home
- * page.
+ * unauthenticated users (e.g., login or registration pages). If the user is
+ * already authenticated, they will be redirected to the home page.
  *
  * Use it in the beforeLoad hook of routes.
  */
@@ -58,10 +57,9 @@ export async function publicOnlyRouteBeforeLoad({
 
 /**
  * A route guard function that restricts access to routes intended only for
- * authenticated users (e.g., dashboard or profile pages).
- * If the user is not authenticated, they will be redirected to the login page,
- * with a redirect query parameter that points back to the originally requested
- * page.
+ * authenticated users (e.g., dashboard or profile pages). If the user is not
+ * authenticated, they will be redirected to the login page, with a redirect
+ * query parameter that points back to the originally requested page.
  *
  * Use it in the beforeLoad hook of routes.
  */
@@ -82,4 +80,41 @@ export async function privateRouteBeforeLoad({
 			replace: true,
 		});
 	}
+}
+
+/**
+ * Builds a route guard that restricts access to users with a given role.
+ * Unauthenticated users are redirected to the login page, and authenticated
+ * users with another role are redirected to the home page.
+ *
+ * Use it in the beforeLoad hook of routes.
+ *
+ * @param role - The role the user must have.
+ */
+export function requireRoleBeforeLoad(role: UserRole) {
+	return async function beforeLoad({
+		context,
+		location,
+	}: {
+		context: { queryClient: QueryClient };
+		location: { href: string };
+	}) {
+		const auth = await resolveAuth(context.queryClient);
+		if (!auth.isAuthenticated) {
+			throw redirect({
+				to: "/login",
+				search: {
+					redirect: location.href,
+				},
+				replace: true,
+			});
+		}
+
+		if (auth.user.role !== role) {
+			throw redirect({
+				to: "/",
+				replace: true,
+			});
+		}
+	};
 }

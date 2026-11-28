@@ -3,9 +3,13 @@ import type { QueryClient } from "@tanstack/react-query";
 import { redirect } from "@tanstack/react-router";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
-import { GET_ME_QUERY_OPTIONS } from "@src/modules/users";
+import { GET_ME_QUERY_OPTIONS } from "@modules/users";
 
-import { privateRouteBeforeLoad, publicOnlyRouteBeforeLoad } from "./index";
+import {
+	privateRouteBeforeLoad,
+	publicOnlyRouteBeforeLoad,
+	requireRoleBeforeLoad,
+} from "./index";
 
 vi.mock("@tanstack/react-router", () => ({
 	redirect: vi.fn(),
@@ -113,6 +117,63 @@ describe("privateRouteBeforeLoad", () => {
 			search: {
 				redirect: "https://app.example/settings",
 			},
+			replace: true,
+		});
+	});
+});
+
+describe("requireRoleBeforeLoad", () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
+
+	function createArgs(fetchQuery: ReturnType<typeof vi.fn>) {
+		return {
+			context: { queryClient: { fetchQuery } as unknown as QueryClient },
+			location: { href: "/admin/users" },
+		};
+	}
+
+	test("allows users with the required role", async () => {
+		const fetchQuery = vi.fn().mockResolvedValueOnce({ role: "admin" });
+
+		await expect(
+			requireRoleBeforeLoad("admin")(createArgs(fetchQuery)),
+		).resolves.toBeUndefined();
+
+		expect(redirect).not.toHaveBeenCalled();
+	});
+
+	test("redirects users with another role to home", async () => {
+		const fetchQuery = vi.fn().mockResolvedValueOnce({ role: "user" });
+		const redirectResult = { reason: "forbidden" };
+
+		vi.mocked(redirect).mockReturnValueOnce(
+			redirectResult as unknown as ReturnType<typeof redirect>,
+		);
+
+		await expect(
+			requireRoleBeforeLoad("admin")(createArgs(fetchQuery)),
+		).rejects.toBe(redirectResult);
+
+		expect(redirect).toHaveBeenCalledWith({ to: "/", replace: true });
+	});
+
+	test("redirects unauthenticated users to login", async () => {
+		const fetchQuery = vi.fn().mockRejectedValueOnce(new Error("unauthorized"));
+		const redirectResult = { reason: "not-authenticated" };
+
+		vi.mocked(redirect).mockReturnValueOnce(
+			redirectResult as unknown as ReturnType<typeof redirect>,
+		);
+
+		await expect(
+			requireRoleBeforeLoad("admin")(createArgs(fetchQuery)),
+		).rejects.toBe(redirectResult);
+
+		expect(redirect).toHaveBeenCalledWith({
+			to: "/login",
+			search: { redirect: "/admin/users" },
 			replace: true,
 		});
 	});

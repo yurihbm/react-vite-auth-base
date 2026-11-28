@@ -2,12 +2,12 @@ import { QueryClient } from "@tanstack/react-query";
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { client } from "@src/lib/api";
-import { createQueryClientWrapper } from "@src/lib/tests";
+import { client } from "@lib/api";
+import { createQueryClientWrapper } from "@lib/tests";
 
 import { registerKey, useRegister } from ".";
 
-vi.mock("@src/lib/api", () => ({
+vi.mock("@lib/api", () => ({
 	client: {
 		post: vi.fn(),
 	},
@@ -58,7 +58,7 @@ describe("useRegister", () => {
 		expect(registerKey).toBe("auth/register");
 	});
 
-	test("invalidates queries after successful registration", async () => {
+	test("does not invalidate queries, since registration does not log in", async () => {
 		const invalidateQueriesSpy = vi.spyOn(
 			QueryClient.prototype,
 			"invalidateQueries",
@@ -80,6 +80,6 @@ describe("useRegister", () => {
 			});
 		});
 
-		expect(invalidateQueriesSpy).toHaveBeenCalledTimes(1);
+		expect(invalidateQueriesSpy).not.toHaveBeenCalled();
 	});
 });

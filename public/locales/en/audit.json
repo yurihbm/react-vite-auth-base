@@ -1,0 +1,45 @@
+{
+	"auditLogsList": {
+		"action": {
+			"all": "All actions",
+			"label": "Action"
+		},
+		"actor": {
+			"label": "Actor UUID",
+			"placeholder": "Filter by actor UUID"
+		},
+		"columns": {
+			"action": "Action",
+			"actor": "Actor",
+			"createdAt": "Date",
+			"resource": "Resource",
+			"status": "Status"
+		},
+		"empty": "No audit logs found.",
+		"endDate": {
+			"label": "Until (exclusive)"
+		},
+		"resource": {
+			"all": "All resources",
+			"auth": "Auth",
+			"label": "Resource type",
+			"user": "User"
+		},
+		"startDate": {
+			"label": "From"
+		},
+		"status": {
+			"all": "All statuses",
+			"failure": "Failure",
+			"label": "Status",
+			"success": "Success"
+		},
+		"summary": {
+			"title": "Loaded logs by status"
+		},
+		"total": "{{total}} logs"
+	},
+	"auditPage": {
+		"title": "Audit logs"
+	}
+}

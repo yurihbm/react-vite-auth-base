@@ -1,13 +1,14 @@
-import type { TranslateKey } from "@src/lib/i18n";
 import type { SubmitEvent, SyntheticEvent } from "react";
 
 import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 
-import { APIError } from "@src/lib/api";
-import { useTranslate, useTranslateKeyState } from "@src/lib/i18n";
-import { Button, TextInput } from "@src/modules/shared";
+import { APIError, useApiErrorMessage } from "@lib/api";
+import { useTranslate, useTranslateKeyState } from "@lib/i18n";
+import { Button, TextInput } from "@lib/ui";
+import { useCooldown } from "@modules/auth/hooks";
+import { useRegister } from "@modules/auth/services";
 
-import { useLogin, useRegister } from "../../services";
 import { base, errorMessage } from "./styles";
 
 const EMAIL_INPUT_NAME = "email";
@@ -31,49 +32,58 @@ export function RegisterForm({ redirectTo = "/" }: RegisterFormProps) {
 	const passwordMessage = useTranslateKeyState("auth");
 	const registerMessage = useTranslateKeyState("auth");
 
-	const { mutateAsync: register, isPending: isRegisterPending } = useRegister();
-	const { mutateAsync: login, isPending: isLoginPending } = useLogin();
+	const [apiError, setApiError] = useState<APIError | null>(null);
+	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+	const apiErrorMessage = useApiErrorMessage(apiError);
+	const cooldown = useCooldown(apiError);
 
-	const isPending = isRegisterPending || isLoginPending;
+	const { mutate: register, isPending } = useRegister();
 
-	async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+	function clearFieldError(name: string) {
+		setFieldErrors(({ [name]: _removed, ...rest }) => rest);
+	}
+
+	function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
 		event.preventDefault();
 
 		const form = event.currentTarget;
 		const formData = new FormData(form);
 
-		try {
-			const email = String(formData.get(EMAIL_INPUT_NAME));
-			const name = String(formData.get(NAME_INPUT_NAME));
-			const password = String(formData.get(PASSWORD_INPUT_NAME));
-
-			await register({
-				email,
-				name,
-				password,
-			});
-
-			await login({
-				email,
-				password,
-			});
-
-			form.reset();
-			registerMessage.setKey(null);
-			emailMessage.setKey(null);
-			nameMessage.setKey(null);
-			passwordMessage.setKey(null);
-			navigate({
-				to: redirectTo,
-			});
-		} catch (error) {
-			if (error instanceof APIError) {
-				// TODO: map API errors to translation keys.
-				registerMessage.setKey(error.message as TranslateKey<"auth">);
-				return;
-			}
-			registerMessage.setKey("registerForm.unexpectedError");
-		}
+		register(
+			{
+				email: String(formData.get(EMAIL_INPUT_NAME)),
+				name: String(formData.get(NAME_INPUT_NAME)),
+				password: String(formData.get(PASSWORD_INPUT_NAME)),
+			},
+			{
+				onError: (error) => {
+					if (error instanceof APIError) {
+						registerMessage.setKey(null);
+						setApiError(error);
+						setFieldErrors(error.details ?? {});
+						return;
+					}
+					setApiError(null);
+					setFieldErrors({});
+					registerMessage.setKey("registerForm.unexpectedError");
+				},
+				onSuccess: () => {
+					// The sign-up is only pending: the emailed code must be verified
+					// before the user is logged in.
+					form.reset();
+					setApiError(null);
+					setFieldErrors({});
+					registerMessage.setKey(null);
+					emailMessage.setKey(null);
+					nameMessage.setKey(null);
+					passwordMessage.setKey(null);
+					navigate({
+						to: "/register/verify",
+						search: { redirect: redirectTo },
+					});
+				},
+			},
+		);
 	}
 
 	function handleInvalidEmail(event: SyntheticEvent<HTMLInputElement>) {
@@ -129,17 +139,24 @@ export function RegisterForm({ redirectTo = "/" }: RegisterFormProps) {
 	return (
 		<form onSubmit={handleSubmit} className={base()}>
 			<p className={errorMessage()}>
-				{registerMessage.key && t(registerMessage.key)}
+				{apiError
+					? apiErrorMessage
+					: registerMessage.key && t(registerMessage.key)}
 			</p>
 			<TextInput
 				name={EMAIL_INPUT_NAME}
 				label={t("registerForm.input.email.label")}
 				placeholder={t("registerForm.input.email.placeholder")}
 				type="email"
-				onChange={() => emailMessage.setKey(null)}
+				onChange={() => {
+					emailMessage.setKey(null);
+					clearFieldError(EMAIL_INPUT_NAME);
+				}}
 				onInvalid={handleInvalidEmail}
-				message={emailMessage.key ? t(emailMessage.key) : undefined}
-				isError={!!emailMessage.key}
+				message={
+					emailMessage.key ? t(emailMessage.key) : fieldErrors[EMAIL_INPUT_NAME]
+				}
+				isError={!!emailMessage.key || !!fieldErrors[EMAIL_INPUT_NAME]}
 				minLength={5}
 				required
 			/>
@@ -148,10 +165,15 @@ export function RegisterForm({ redirectTo = "/" }: RegisterFormProps) {
 				label={t("registerForm.input.name.label")}
 				placeholder={t("registerForm.input.name.placeholder")}
 				type="text"
-				onChange={() => nameMessage.setKey(null)}
+				onChange={() => {
+					nameMessage.setKey(null);
+					clearFieldError(NAME_INPUT_NAME);
+				}}
 				onInvalid={handleInvalidName}
-				message={nameMessage.key ? t(nameMessage.key) : undefined}
-				isError={!!nameMessage.key}
+				message={
+					nameMessage.key ? t(nameMessage.key) : fieldErrors[NAME_INPUT_NAME]
+				}
+				isError={!!nameMessage.key || !!fieldErrors[NAME_INPUT_NAME]}
 				minLength={2}
 				required
 			/>
@@ -160,14 +182,21 @@ export function RegisterForm({ redirectTo = "/" }: RegisterFormProps) {
 				label={t("registerForm.input.password.label")}
 				placeholder={t("registerForm.input.password.placeholder")}
 				type="password"
-				onChange={() => passwordMessage.setKey(null)}
+				onChange={() => {
+					passwordMessage.setKey(null);
+					clearFieldError(PASSWORD_INPUT_NAME);
+				}}
 				onInvalid={handleInvalidPassword}
-				message={passwordMessage.key ? t(passwordMessage.key) : undefined}
-				isError={!!passwordMessage.key}
+				message={
+					passwordMessage.key
+						? t(passwordMessage.key)
+						: fieldErrors[PASSWORD_INPUT_NAME]
+				}
+				isError={!!passwordMessage.key || !!fieldErrors[PASSWORD_INPUT_NAME]}
 				minLength={8}
 				required
 			/>
-			<Button type="submit" disabled={isPending}>
+			<Button type="submit" disabled={isPending || cooldown.remaining > 0}>
 				{t("registerForm.submitButton")}
 			</Button>
 		</form>

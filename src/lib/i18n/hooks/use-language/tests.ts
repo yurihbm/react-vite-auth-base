@@ -1,11 +1,12 @@
-import type { SupportedLanguage } from "../../types";
+import type { SupportedLanguage } from "@lib/i18n/types";
 
 import { renderHook } from "@testing-library/react";
 import { useTranslation } from "react-i18next";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
+import { FALLBACK_LANGUAGE } from "@lib/i18n/constants";
+
 import { useLanguage } from ".";
-import { FALLBACK_LANGUAGE } from "../../constants";
 
 vi.mock("react-i18next", () => ({
 	useTranslation: vi.fn(),

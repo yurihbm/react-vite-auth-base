@@ -2,22 +2,26 @@ import { useNavigate } from "@tanstack/react-router";
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { APIError } from "@src/lib/api";
+import { APIError } from "@lib/api";
+import { useLogin } from "@modules/auth/services";
 
 import { LoginForm } from ".";
-import { useLogin } from "../../services";
 
 vi.mock("@tanstack/react-router", () => ({
 	useNavigate: vi.fn(),
 }));
 
-vi.mock("../../services", () => ({
+vi.mock("@lib/api", async (importOriginal) => ({
+	...(await importOriginal<typeof import("@lib/api")>()),
+	useApiErrorMessage: (error: unknown) =>
+		error instanceof Error ? `translated:${error.message}` : "unknown",
+}));
+
+vi.mock("@modules/auth/services", () => ({
 	useLogin: vi.fn(),
 }));
 
-/**
- * Helper function to fill the login form and submit it.
- */
+/** Helper function to fill the login form and submit it. */
 function fillFormAndSubmit(
 	getByLabelText: ReturnType<typeof render>["getByLabelText"],
 	getByRole: ReturnType<typeof render>["getByRole"],
@@ -72,7 +76,7 @@ describe("LoginForm", () => {
 		);
 	});
 
-	test("shows API error message from login failure", () => {
+	test("shows the translated API error from login failure", () => {
 		const { getByLabelText, getByRole, getByText } = render(<LoginForm />);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
@@ -84,16 +88,18 @@ describe("LoginForm", () => {
 			},
 		];
 
-		const apiErrorMessage = "auth.login.invalidCredentials";
-
 		act(() => {
-			handlers.onError(new APIError(apiErrorMessage));
+			handlers.onError(
+				new APIError("auth.authenticate.invalidCredentials", { status: 401 }),
+			);
 		});
 
-		expect(getByText(apiErrorMessage)).toBeDefined();
+		expect(
+			getByText("translated:auth.authenticate.invalidCredentials"),
+		).toBeDefined();
 	});
 
-	test("shows fallback message for unknown errors", () => {
+	test("maps API error details onto the matching inputs", () => {
 		const { getByLabelText, getByRole, getByText } = render(<LoginForm />);
 
 		fillFormAndSubmit(getByLabelText, getByRole);
@@ -106,10 +112,21 @@ describe("LoginForm", () => {
 		];
 
 		act(() => {
-			handlers.onError(new Error("boom"));
+			handlers.onError(
+				new APIError("request.validation_failed", {
+					status: 400,
+					details: { email: "email must be valid", password: "too short" },
+				}),
+			);
 		});
 
-		expect(getByText("loginForm.unexpectedError")).toBeDefined();
+		expect(getByText("email must be valid")).toBeDefined();
+		expect(getByText("too short")).toBeDefined();
+		expect(
+			getByLabelText("loginForm.input.email.label").getAttribute(
+				"aria-invalid",
+			),
+		).toBe("true");
 	});
 
 	test("disables submit button while login is pending", () => {

@@ -79,4 +79,16 @@ describe("useTranslateKeyState", () => {
 		expect(result1.current.key).toBe("en");
 		expect(result2.current.key).toBe("loginForm.unexpectedError");
 	});
+
+	test("only accepts keys that translate without variables", () => {
+		const { result } = renderHook(() => useTranslateKeyState("auth"));
+
+		act(() => {
+			result.current.setKey("loginForm.submitButton");
+			// @ts-expect-error `resendButton.cooldown` needs a `seconds` variable.
+			result.current.setKey("resendButton.cooldown");
+		});
+
+		expect(result.current.key).toBe("resendButton.cooldown");
+	});
 });

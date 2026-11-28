@@ -1,0 +1,162 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Table > renders correctly 1`] = `
+<div>
+  <div
+    class="h-full min-h-0 w-full overflow-hidden rounded-lg border border-border"
+  >
+    <div
+      class="h-full min-h-0 w-full overflow-auto"
+    >
+      <table
+        class="w-full caption-bottom border-collapse text-sm"
+      >
+        <thead
+          class="bg-background-muted"
+        >
+          <tr
+            class="border-b-2 border-border"
+          >
+            <th
+              aria-sort="none"
+              class="text-left align-middle font-semibold whitespace-nowrap text-foreground px-4 py-3 text-sm"
+              colspan="1"
+            >
+              <button
+                class="flex w-full cursor-pointer items-center justify-between gap-1 select-none hover:text-foreground focus-visible:outline-none rounded-sm focus-visible:ring-2 focus-visible:ring-ring/40"
+                data-testid="table-sort-button"
+                type="button"
+              >
+                Name
+                <span
+                  aria-hidden="true"
+                  class="flex flex-col items-center justify-center gap-px"
+                  data-testid="table-sort-icon"
+                >
+                  <svg
+                    class="size-2 text-foreground-subtle transition-colors"
+                    data-testid="table-sort-icon-asc"
+                    fill="currentColor"
+                    height="10"
+                    viewBox="0 0 256 256"
+                    width="10"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M216.49,168.49a12,12,0,0,1-17,0L128,97,56.49,168.49a12,12,0,0,1-17-17l80-80a12,12,0,0,1,17,0l80,80A12,12,0,0,1,216.49,168.49Z"
+                    />
+                  </svg>
+                  <svg
+                    class="size-2 text-foreground-subtle transition-colors"
+                    data-testid="table-sort-icon-desc"
+                    fill="currentColor"
+                    height="10"
+                    viewBox="0 0 256 256"
+                    width="10"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </th>
+            <th
+              aria-sort="none"
+              class="text-left align-middle font-semibold whitespace-nowrap text-foreground px-4 py-3 text-sm"
+              colspan="1"
+            >
+              <button
+                class="flex w-full cursor-pointer items-center justify-between gap-1 select-none hover:text-foreground focus-visible:outline-none rounded-sm focus-visible:ring-2 focus-visible:ring-ring/40"
+                data-testid="table-sort-button"
+                type="button"
+              >
+                Age
+                <span
+                  aria-hidden="true"
+                  class="flex flex-col items-center justify-center gap-px"
+                  data-testid="table-sort-icon"
+                >
+                  <svg
+                    class="size-2 text-foreground-subtle transition-colors"
+                    data-testid="table-sort-icon-asc"
+                    fill="currentColor"
+                    height="10"
+                    viewBox="0 0 256 256"
+                    width="10"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M216.49,168.49a12,12,0,0,1-17,0L128,97,56.49,168.49a12,12,0,0,1-17-17l80-80a12,12,0,0,1,17,0l80,80A12,12,0,0,1,216.49,168.49Z"
+                    />
+                  </svg>
+                  <svg
+                    class="size-2 text-foreground-subtle transition-colors"
+                    data-testid="table-sort-icon-desc"
+                    fill="currentColor"
+                    height="10"
+                    viewBox="0 0 256 256"
+                    width="10"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="[&_tr:last-child]:border-0"
+        >
+          <tr
+            class="border-b border-border transition-colors hover:bg-background-muted/50"
+          >
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              Alice
+            </td>
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              30
+            </td>
+          </tr>
+          <tr
+            class="border-b border-border transition-colors hover:bg-background-muted/50"
+          >
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              Bob
+            </td>
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              25
+            </td>
+          </tr>
+          <tr
+            class="border-b border-border transition-colors hover:bg-background-muted/50"
+          >
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              Carol
+            </td>
+            <td
+              class="align-middle px-4 py-3 text-sm"
+            >
+              35
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;

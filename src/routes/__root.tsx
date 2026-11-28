@@ -4,16 +4,30 @@ import {
 	createRootRouteWithContext,
 	Link,
 	Outlet,
+	useNavigate,
 } from "@tanstack/react-router";
 
-import { useTranslate } from "@src/lib/i18n";
-import { DevTools, LanguageSwitcher, ThemeToggle } from "@src/modules/shared";
+import { DevTools } from "@lib/dev-tools";
+import { useTranslate } from "@lib/i18n";
+import { StepUpProvider, useAuth, useLogout } from "@modules/auth";
+import { LanguageSwitcher, ThemeToggle } from "@modules/shared";
 
 function RootLayout() {
 	const t = useTranslate();
+	const { isAuthenticated, user } = useAuth();
+	const { mutate: logout, isPending: isLoggingOut } = useLogout();
+	const navigate = useNavigate();
+
+	function handleLogout() {
+		logout(undefined, {
+			onSuccess: () => {
+				navigate({ to: "/" });
+			},
+		});
+	}
 
 	return (
-		<>
+		<StepUpProvider>
 			<header className="flex h-16 items-center justify-between px-4">
 				<h1 className="text-xl font-bold">React Vite Auth Base</h1>
 				<nav>
@@ -26,28 +40,75 @@ function RootLayout() {
 								{t("nav.link.home")}
 							</Link>
 						</li>
-						<li>
-							<Link
-								to="/login"
-								className="text-sm font-medium text-foreground/80 hover:text-foreground"
-								search={{
-									redirect: "/",
-								}}
-							>
-								{t("nav.link.login")}
-							</Link>
-						</li>
-						<li>
-							<Link
-								to="/register"
-								search={{
-									redirect: "/",
-								}}
-								className="text-sm font-medium text-foreground/80 hover:text-foreground"
-							>
-								{t("nav.link.register")}
-							</Link>
-						</li>
+						{isAuthenticated ? (
+							<>
+								<li>
+									<Link
+										to="/account"
+										className="text-sm font-medium text-foreground/80 hover:text-foreground"
+									>
+										{t("nav.link.account")}
+									</Link>
+								</li>
+								{user?.role === "admin" && (
+									<>
+										<li>
+											<Link
+												to="/admin/users"
+												search={{}}
+												className="text-sm font-medium text-foreground/80 hover:text-foreground"
+											>
+												{t("nav.link.adminUsers")}
+											</Link>
+										</li>
+										<li>
+											<Link
+												to="/admin/audit-logs"
+												search={{}}
+												className="text-sm font-medium text-foreground/80 hover:text-foreground"
+											>
+												{t("nav.link.adminAuditLogs")}
+											</Link>
+										</li>
+									</>
+								)}
+								<li>
+									<button
+										type="button"
+										disabled={isLoggingOut}
+										onClick={handleLogout}
+										className="text-sm font-medium text-foreground/80 hover:text-foreground"
+									>
+										{t("nav.link.logout")}
+									</button>
+								</li>
+							</>
+						) : (
+							<>
+								<li>
+									<Link
+										to="/login"
+										className="text-sm font-medium text-foreground/80 hover:text-foreground"
+										search={{
+											redirect: "/",
+										}}
+									>
+										{t("nav.link.login")}
+									</Link>
+								</li>
+								<li>
+									<Link
+										to="/register"
+										search={{
+											redirect: "/",
+										}}
+										className="text-sm font-medium text-foreground/80 hover:text-foreground"
+									>
+										{t("nav.link.register")}
+									</Link>
+								</li>
+							</>
+						)}
 					</ul>
 				</nav>
 			</header>
@@ -62,7 +123,7 @@ function RootLayout() {
 				</div>
 			</footer>
 			<DevTools />
-		</>
+		</StepUpProvider>
 	);
 }
 

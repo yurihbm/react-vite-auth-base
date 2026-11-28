@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`RevertConfirm > renders correctly 1`] = `
+<div>
+  <div
+    class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
+  >
+    <h2
+      class="text-lg font-bold"
+    >
+      Undo change
+    </h2>
+    <p>
+      This will undo the change.
+    </p>
+    <button
+      class="flex items-center justify-center gap-2 rounded px-4 py-2 whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 text-base bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active disabled:hover:bg-primary disabled:active:bg-primary"
+      type="button"
+    >
+      Undo it
+    </button>
+  </div>
+</div>
+`;

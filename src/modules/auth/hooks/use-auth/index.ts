@@ -1,6 +1,6 @@
-import type { User } from "@src/modules/users";
+import type { User } from "@modules/users";
 
-import { useGetMe } from "@src/modules/users";
+import { useGetMe } from "@modules/users";
 
 interface AuthenticatedUserResult {
 	/** The authenticated user object. */
@@ -20,9 +20,7 @@ interface UnauthenticatedUserResult {
 	isAuthenticated: false;
 }
 
-/**
- * Represents the authentication state returned by the `useAuth` hook.
- */
+/** Represents the authentication state returned by the `useAuth` hook. */
 type UseAuthResult<Authenticated extends boolean = false> =
 	Authenticated extends true
 		? AuthenticatedUserResult
@@ -35,25 +33,25 @@ type UseAuthResult<Authenticated extends boolean = false> =
  * normalizes query states into an auth-focused shape.
  *
  * @remarks
- * - `isAuthenticated` is only `true` when a valid `user` is available.
- * - Request errors are treated as unauthenticated states.
- * - During request failure, `isPending` is forced to `false`.
- *
- * @template Authenticated - A boolean type parameter that indicates whether
- * the user is authenticated. Useful for private routes where the user must
- * be authenticated, allowing for more precise typing of the returned object.
- *
- * @returns {UseAuthResult} An object containing the user data, loading state, and authentication status.
+ *   - `isAuthenticated` is only `true` when a valid `user` is available.
+ *   - Request errors are treated as unauthenticated states.
+ *   - During request failure, `isPending` is forced to `false`.
  *
  * @example
- * ```tsx
- * const { user, isAuthenticated, isPending } = useAuth();
+ * 	```tsx
+ * 	const { user, isAuthenticated, isPending } = useAuth();
  *
- * if (isPending) return <Loading />;
- * if (!isAuthenticated) return <LoginRedirect />;
+ * 	if (isPending) return <Loading />;
+ * 	if (!isAuthenticated) return <LoginRedirect />;
  *
- * return <div>Welcome, {user.name}!</div>;
- * ```
+ * 	return <div>Welcome, {user.name}!</div>;
+ * 	```;
+ *
+ * @template Authenticated - A boolean type parameter that indicates whether the
+ *   user is authenticated. Useful for private routes where the user must be
+ *   authenticated, allowing for more precise typing of the returned object.
+ * @returns {UseAuthResult} An object containing the user data, loading state,
+ *   and authentication status.
  */
 export function useAuth<
 	Authenticated extends boolean = false,

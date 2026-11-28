@@ -3,3 +3,13 @@ allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:
   - esbuild@0.28.1
+permissions:
+  "@tanstack/react-router":
+    skills: false
+  "@tanstack/react-table":
+    skills: false
+  "@tanstack/router-plugin":
+    skills: false
+peerDependencyRules:
+  allowedVersions:
+    "@typescript-eslint/typescript-estree>@typescript/native": "7"

@@ -1,47 +1,45 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { client } from "@src/lib/api";
-import { createQueryClientWrapper } from "@src/lib/tests";
+import { createQueryClientWrapper, jsonResponse, mockFetch } from "@lib/tests";
 
 import { getMeKey, useGetMe } from ".";
 
-vi.mock("@src/lib/api", () => ({
-	client: {
-		get: vi.fn(),
-	},
-}));
-
 describe("useGetMe", () => {
 	beforeEach(() => {
-		vi.clearAllMocks();
+		vi.stubEnv("VITE_API_BASE_URL", "http://localhost:8080");
+	});
+
+	afterEach(() => {
+		vi.unstubAllEnvs();
+		vi.unstubAllGlobals();
 	});
 
 	test("returns a query object", () => {
-		vi.mocked(client.get).mockResolvedValueOnce(
-			{} as Awaited<ReturnType<typeof client.get>>,
-		);
+		mockFetch({ "GET /users/me": jsonResponse({ data: {}, message: "ok" }) });
 
 		const { result } = renderHook(() => useGetMe(), {
 			wrapper: createQueryClientWrapper(),
 		});
 
 		expect(result.current.refetch).toBeTypeOf("function");
-		expect(result.current.promise).toBeDefined();
+		expect(result.current.status).toBe("pending");
 	});
 
-	test("fetches the current user and maps API fields", async () => {
-		vi.mocked(client.get).mockResolvedValueOnce({
-			data: {
-				uuid: "user-1",
-				name: "John Doe",
-				email: "john@doe.com",
-				role: "admin",
-				created_at: 1_710_000_000_000,
-				updated_at: 1_710_100_000_000,
-			},
-			message: "ok",
-		} as Awaited<ReturnType<typeof client.get>>);
+	test("fetches the current user and converts unix-second timestamps", async () => {
+		mockFetch({
+			"GET /users/me": jsonResponse({
+				data: {
+					uuid: "6f1f7c52-6f0c-4a52-9a43-0a3a1c2f6b11",
+					name: "John Doe",
+					email: "john@doe.com",
+					role: "admin",
+					created_at: 1_710_000_000,
+					updated_at: 1_710_100_000,
+				},
+				message: "ok",
+			}),
+		});
 
 		const { result } = renderHook(() => useGetMe(), {
 			wrapper: createQueryClientWrapper(),
@@ -51,11 +49,8 @@ describe("useGetMe", () => {
 			expect(result.current.isSuccess).toBe(true);
 		});
 
-		expect(client.get).toHaveBeenCalledWith("/users/me", {
-			signal: expect.any(AbortSignal),
-		});
 		expect(result.current.data).toEqual({
-			uuid: "user-1",
+			uuid: "6f1f7c52-6f0c-4a52-9a43-0a3a1c2f6b11",
 			name: "John Doe",
 			email: "john@doe.com",
 			role: "admin",
@@ -63,5 +58,26 @@ describe("useGetMe", () => {
 			updatedAt: new Date(1_710_100_000_000).toISOString(),
 		});
 		expect(getMeKey).toBe("users/me");
+	});
+
+	test("fails with client.invalidResponse when the payload is malformed", async () => {
+		mockFetch({
+			"GET /users/me": jsonResponse({
+				data: { uuid: "not-a-uuid" },
+				message: "ok",
+			}),
+		});
+
+		const { result } = renderHook(() => useGetMe(), {
+			wrapper: createQueryClientWrapper(),
+		});
+
+		await waitFor(() => {
+			expect(result.current.isError).toBe(true);
+		});
+
+		expect(result.current.error).toMatchObject({
+			key: "client.invalidResponse",
+		});
 	});
 });

@@ -3,18 +3,18 @@
  * response body of the API.
  */
 export interface APIResponseMeta {
-	/**
-	 * The total number of items available, if the response is paginated.
-	 */
+	/** The total number of items available, if the response is paginated. */
 	total?: number;
 	/**
-	 * The number of items included in the current response, if the response is paginated.
+	 * The number of items included in the current response, if the response is
+	 * paginated.
 	 */
 	limit?: number;
 	/**
-	 * The offset of the first item of the next page of results, if the response is paginated.
+	 * The cursor of the next page of results, if the response is paginated.
+	 * Absent on the last page.
 	 */
-	nextCursor?: string;
+	next_cursor?: string;
 }
 
 /**
@@ -36,12 +36,11 @@ export interface APIResponseBody<T = unknown> {
 	 * success or error details.
 	 */
 	message: string;
-	/**
-	 * Metadata about the response, such as pagination information.
-	 */
+	/** Metadata about the response, such as pagination information. */
 	meta?: APIResponseMeta;
 	/**
-	 * An optional error message included in the response if the API request failed.
+	 * An optional error message included in the response if the API request
+	 * failed.
 	 */
 	error?: string;
 	/**
@@ -52,13 +51,14 @@ export interface APIResponseBody<T = unknown> {
 }
 
 /**
- * RequestParams is a type representing the query parameters for a GET or DELETE request.
+ * RequestParams is a type representing the query parameters for a GET or DELETE
+ * request.
  */
 export type RequestParams = Record<string, string | number>;
 
 /**
- * APIClient is an interface representing the methods available for making
- * API requests.
+ * APIClient is an interface representing the methods available for making API
+ * requests.
  */
 export interface APIClient {
 	post: <Body, ResponseData>(
@@ -96,4 +96,11 @@ export interface APIClient {
 			signal?: AbortSignal;
 		},
 	) => Promise<APIResponseBody<ResponseData>>;
+	/**
+	 * Registers a callback invoked once when a refresh attempt is rejected by the
+	 * API, meaning the session can no longer be restored.
+	 *
+	 * @returns A function that unregisters the callback.
+	 */
+	onSessionExpired: (callback: () => void) => () => void;
 }

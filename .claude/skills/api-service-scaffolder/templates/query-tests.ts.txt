@@ -1,0 +1,57 @@
+import { renderHook, waitFor } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+
+import { createQueryClientWrapper, jsonResponse, mockFetch } from "@lib/tests";
+
+import { {{name}}Key, use{{Name}} } from ".";
+
+describe("use{{Name}}", () => {
+	beforeEach(() => {
+		vi.stubEnv("VITE_API_BASE_URL", "http://localhost:8080");
+	});
+
+	afterEach(() => {
+		vi.unstubAllEnvs();
+		vi.unstubAllGlobals();
+	});
+
+	test("fetches and validates the response data", async () => {
+		const data = {
+			uuid: "6f1f7c52-6f0c-4a52-9a43-0a3a1c2f6b11",
+			name: "Example",
+		};
+		mockFetch({ "GET {{path}}": jsonResponse({ data, message: "ok" }) });
+
+		const { result } = renderHook(() => use{{Name}}(), {
+			wrapper: createQueryClientWrapper(),
+		});
+
+		await waitFor(() => {
+			expect(result.current.isSuccess).toBe(true);
+		});
+
+		expect(result.current.data).toEqual(data);
+		expect({{name}}Key).toBe("{{module}}/{{kebab}}");
+	});
+
+	test("fails with client.invalidResponse when the payload is malformed", async () => {
+		mockFetch({
+			"GET {{path}}": jsonResponse({
+				data: { uuid: "not-a-uuid" },
+				message: "ok",
+			}),
+		});
+
+		const { result } = renderHook(() => use{{Name}}(), {
+			wrapper: createQueryClientWrapper(),
+		});
+
+		await waitFor(() => {
+			expect(result.current.isError).toBe(true);
+		});
+
+		expect(result.current.error).toMatchObject({
+			key: "client.invalidResponse",
+		});
+	});
+});

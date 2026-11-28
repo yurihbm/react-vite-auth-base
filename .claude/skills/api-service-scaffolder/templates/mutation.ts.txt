@@ -1,0 +1,34 @@
+import { useMutation } from "@tanstack/react-query";
+
+import { client } from "@lib/api";
+
+/** TODO: replace with the real request body. */
+interface {{Name}}Data {
+	/** TODO: describe the field. */
+	value: string;
+}
+
+/**
+ * TODO: describe what {{Name}} sends.
+ *
+ * @param data - The request body.
+ * @returns A promise that resolves when the request is accepted.
+ */
+async function {{name}}(data: {{Name}}Data) {
+	await client.post("{{path}}", { data });
+}
+
+/** Cache key used for the {{name}} mutation. */
+export const {{name}}Key = "{{module}}/{{kebab}}";
+
+/**
+ * Hook to manage the {{name}} mutation state using TanStack Query.
+ *
+ * @returns The mutation object for managing the request process.
+ */
+export function use{{Name}}() {
+	return useMutation({
+		mutationKey: [{{name}}Key],
+		mutationFn: {{name}},
+	});
+}

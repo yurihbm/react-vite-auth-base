@@ -1,0 +1,57 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Breadcrumb > renders correctly 1`] = `
+<div>
+  <nav
+    aria-label="Breadcrumb"
+    class=""
+  >
+    <ol
+      class="flex flex-wrap items-center"
+    >
+      <li
+        class="flex items-center"
+      >
+        <a
+          class="inline-flex min-h-11 items-center px-1 py-1.5 text-sm text-foreground-muted transition-colors duration-150 hover:text-foreground rounded focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
+          href="/"
+        >
+          Home
+        </a>
+      </li>
+      <li
+        aria-hidden="true"
+        class="px-1.5 text-sm text-foreground-muted"
+      >
+        /
+      </li>
+      <li
+        class="flex items-center"
+      >
+        <a
+          class="inline-flex min-h-11 items-center px-1 py-1.5 text-sm text-foreground-muted transition-colors duration-150 hover:text-foreground rounded focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
+          href="/library"
+        >
+          Library
+        </a>
+      </li>
+      <li
+        aria-hidden="true"
+        class="px-1.5 text-sm text-foreground-muted"
+      >
+        /
+      </li>
+      <li
+        class="flex items-center"
+      >
+        <span
+          aria-current="page"
+          class="text-sm font-medium text-foreground"
+        >
+          Data
+        </span>
+      </li>
+    </ol>
+  </nav>
+</div>
+`;

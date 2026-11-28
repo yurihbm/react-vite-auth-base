@@ -1,17 +1,10 @@
-import type { User } from "../../types";
+import type { User } from "@modules/users/types";
 
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { client } from "@src/lib/api";
-
-/**
- * Internal interface representing the API response format for a user.
- * Dates are received as Unix timestamps (milliseconds).
- */
-interface UserResponse extends Omit<User, "createdAt" | "updatedAt"> {
-	created_at: number;
-	updated_at: number;
-}
+import { client, request } from "@lib/api";
+import { UserSchema } from "@modules/users/schemas";
+import { toUser } from "@modules/users/utils";
 
 /**
  * Fetches the currently authenticated user's profile information.
@@ -20,21 +13,15 @@ interface UserResponse extends Omit<User, "createdAt" | "updatedAt"> {
  * @returns A promise that resolves to a `User` object with ISO-formatted dates.
  */
 async function getMe(signal?: AbortSignal): Promise<User> {
-	const { data } = await client.get<UserResponse>("/users/me", { signal });
+	const { data } = await request(
+		UserSchema,
+		client.get("/users/me", { signal }),
+	);
 
-	return {
-		uuid: data.uuid,
-		name: data.name,
-		email: data.email,
-		role: data.role,
-		createdAt: new Date(data.created_at).toISOString(),
-		updatedAt: new Date(data.updated_at).toISOString(),
-	};
+	return toUser(data);
 }
 
-/**
- * The unique query key used for caching the "get me" request.
- */
+/** The unique query key used for caching the "get me" request. */
 export const getMeKey = "users/me";
 
 export const GET_ME_QUERY_OPTIONS = queryOptions({
@@ -52,15 +39,16 @@ export const GET_ME_QUERY_OPTIONS = queryOptions({
  * A TanStack Query hook to fetch and manage the current user's session state.
  *
  * @example
- * ```tsx
- * const { data: user, isPending, error } = useGetMe();
+ * 	```tsx
+ * 	const { data: user, isPending, error } = useGetMe();
  *
- * if (isPending) return <Spinner />;
- * if (error) return <Redirect to="/login" />;
- * return <div>Welcome, {user.name}</div>;
- * ```
+ * 	if (isPending) return <Spinner />;
+ * 	if (error) return <Redirect to="/login" />;
+ * 	return <div>Welcome, {user.name}</div>;
+ * 	```;
  *
- * @returns The standard useQuery result object containing the user data and status.
+ * @returns The standard useQuery result object containing the user data and
+ *   status.
  */
 export function useGetMe() {
 	return useQuery(GET_ME_QUERY_OPTIONS);

@@ -1,13 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { publicOnlyRouteBeforeLoad, RegisterForm } from "@src/modules/auth";
+import {
+	OAuthButtons,
+	publicOnlyRouteBeforeLoad,
+	RegisterForm,
+	safeRedirect,
+} from "@modules/auth";
 
 export const Route = createFileRoute("/(auth)/register")({
 	component: RouteComponent,
 	beforeLoad: publicOnlyRouteBeforeLoad,
 	validateSearch: (search) => {
-		const redirect = search.redirect ? String(search.redirect) : "/";
-		return { redirect };
+		return { redirect: safeRedirect(search.redirect) };
 	},
 });
 
@@ -16,5 +20,10 @@ const { useSearch } = Route;
 function RouteComponent() {
 	const search = useSearch();
 
-	return <RegisterForm redirectTo={search.redirect} />;
+	return (
+		<div className="mx-auto flex w-full flex-col gap-4 sm:max-w-sm">
+			<RegisterForm redirectTo={search.redirect} />
+			<OAuthButtons redirectTo={search.redirect} />
+		</div>
+	);
 }

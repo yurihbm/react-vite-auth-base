@@ -1,0 +1,177 @@
+{
+	"audit": {
+		"list": {
+			"badRequest": "Alguns filtros são inválidos."
+		}
+	},
+	"auditLogs": {
+		"internalServerError": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+		"invalidActorUUID": "O filtro de autor não é um identificador válido.",
+		"invalidCursor": "O cursor de paginação é inválido."
+	},
+	"auth": {
+		"authenticate": {
+			"invalidCredentials": "E-mail ou senha inválidos.",
+			"tokenGenerationFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+			"userFetchFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde."
+		},
+		"email": {
+			"codeLocked": "Muitos códigos incorretos para este e-mail. Tente novamente mais tarde.",
+			"internalServerError": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+			"sendLimit": "Muitos e-mails enviados para este endereço. Aguarde antes de solicitar outro."
+		},
+		"forbidden": "Você não tem permissão para fazer isso.",
+		"internalServerError": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+		"invalidToken": "Sua sessão é inválida. Entre novamente.",
+		"login": {
+			"invalidRedirectUri": "O endereço de redirecionamento não é permitido."
+		},
+		"oauthLink": {
+			"staleToken": "Este vínculo já foi desfeito ou não existe mais."
+		},
+		"oauthLogin": {
+			"missingCodeVerifier": "A tentativa de login expirou. Tente novamente.",
+			"nonceMismatch": "Não foi possível verificar a tentativa de login. Tente novamente.",
+			"providerMismatch": "A tentativa de login não corresponde ao provedor. Tente novamente.",
+			"tokenGenerationFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde."
+		},
+		"oauthProvider": {
+			"conflict": "Esta conta do provedor já está vinculada a outro usuário.",
+			"invalid": "Provedor de login desconhecido.",
+			"notFound": "Este provedor não está vinculado à sua conta.",
+			"userInfoFetchFailed": "Não foi possível obter suas informações do provedor. Tente novamente."
+		},
+		"passwordReset": {
+			"codeGenerationFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+			"internalServerError": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+			"invalidCode": "O código está incorreto ou expirou. Solicite um novo.",
+			"invalidUUID": "A requisição contém um identificador inválido.",
+			"sendFailed": "Não foi possível enviar o e-mail. Tente novamente mais tarde."
+		},
+		"providerCallback": {
+			"invalidProvider": "Provedor de login desconhecido.",
+			"invalidStatePayload": "A tentativa de login é inválida. Tente novamente.",
+			"invalidUserInfo": "O provedor não retornou informações válidas da conta.",
+			"missingParams": "A resposta de login está incompleta. Tente novamente."
+		},
+		"refresh": {
+			"missingRefreshToken": "Sua sessão expirou. Entre novamente."
+		},
+		"refreshToken": {
+			"tokenGenerationFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde."
+		},
+		"signup": {
+			"codeGenerationFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+			"internalServerError": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+			"invalidCode": "O código está incorreto.",
+			"invalidUUID": "A requisição contém um identificador inválido.",
+			"noPending": "Nenhum cadastro pendente ou ele expirou. Comece novamente.",
+			"sendFailed": "Não foi possível enviar o e-mail. Tente novamente mais tarde.",
+			"tokenGenerationFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde."
+		},
+		"stepUp": {
+			"codeGenerationFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+			"cooldown": "Um código foi enviado recentemente. Aguarde antes de solicitar outro.",
+			"internalServerError": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+			"invalidCode": "O código está incorreto.",
+			"noChallenge": "O código expirou. Solicite um novo.",
+			"required": "Esta ação exige a confirmação da sua identidade.",
+			"sendFailed": "Não foi possível enviar o e-mail. Tente novamente mais tarde.",
+			"sessionRevoked": "Muitos códigos incorretos. Sua sessão foi encerrada; entre novamente.",
+			"userLocked": "Muitos códigos incorretos. Tente novamente mais tarde."
+		},
+		"tokenGenerationFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+		"unauthorized": "Você precisa entrar para fazer isso.",
+		"user": {
+			"notFound": "Usuário não encontrado."
+		},
+		"verifyToken": {
+			"invalidTokenSigningMethod": "Sua sessão é inválida. Entre novamente."
+		}
+	},
+	"client": {
+		"invalidResponse": "O servidor enviou uma resposta inesperada.",
+		"network": "Não foi possível acessar o servidor. Verifique sua conexão e tente novamente.",
+		"timeout": "A requisição demorou demais. Tente novamente.",
+		"unknown": "Ocorreu um erro inesperado."
+	},
+	"http": {
+		"400": "A requisição é inválida.",
+		"401": "Você precisa entrar para fazer isso.",
+		"403": "Você não tem permissão para fazer isso.",
+		"404": "Não encontrado.",
+		"409": "Isso conflita com o estado atual. Atualize e tente novamente.",
+		"429": "Muitas requisições. Aguarde um momento e tente novamente.",
+		"500": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+		"502": "O servidor está indisponível. Tente novamente mais tarde.",
+		"503": "O servidor está indisponível. Tente novamente mais tarde.",
+		"504": "O servidor demorou demais para responder. Tente novamente."
+	},
+	"oauth": {
+		"access_denied": "O login foi cancelado ou negado.",
+		"account_conflict": "Esta conta do provedor já está vinculada a outro usuário.",
+		"invalid_request": "A solicitação de login era inválida. Tente novamente.",
+		"invalid_scope": "As permissões solicitadas são inválidas.",
+		"invalid_user_info": "O provedor não retornou informações válidas da conta.",
+		"missing_code_verifier": "A tentativa de login expirou. Tente novamente.",
+		"server_error": "O provedor teve um erro. Tente novamente mais tarde.",
+		"temporarily_unavailable": "O provedor está temporariamente indisponível. Tente novamente mais tarde.",
+		"unauthorized_client": "Este aplicativo não está autorizado a entrar com esse provedor.",
+		"unknown": "Não foi possível entrar com o provedor. Tente novamente.",
+		"unsupported_response_type": "O provedor não suporta este método de login.",
+		"verification_limited": "Muitas tentativas de verificação. Tente novamente mais tarde."
+	},
+	"rateLimit": {
+		"exceeded": "Muitas requisições. Aguarde um momento e tente novamente."
+	},
+	"request": {
+		"invalid": "A requisição está malformada.",
+		"validation_failed": "Alguns campos são inválidos."
+	},
+	"sessions": {
+		"internalServerError": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+		"invalidUUID": "A requisição contém um identificador inválido.",
+		"notFound": "Sessão não encontrada. Entre novamente."
+	},
+	"user": {
+		"getMe": {
+			"unauthorized": "Você precisa entrar para fazer isso."
+		},
+		"internalServerError": "Algo deu errado do nosso lado. Tente novamente mais tarde."
+	},
+	"users": {
+		"create": {
+			"passwordHashingFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde."
+		},
+		"email": {
+			"conflict": "Este e-mail já está em uso."
+		},
+		"emailChange": {
+			"codeGenerationFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+			"cooldown": "Um código foi enviado recentemente. Aguarde antes de solicitar outro.",
+			"internalServerError": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+			"invalidCode": "O código está incorreto.",
+			"locked": "Seu e-mail foi alterado recentemente. Tente novamente mais tarde.",
+			"noChallenge": "O código expirou. Solicite um novo.",
+			"sendFailed": "Não foi possível enviar o e-mail. Tente novamente mais tarde.",
+			"staleToken": "Este link não é mais válido porque o e-mail foi alterado.",
+			"unauthorized": "Você precisa entrar para fazer isso.",
+			"unchanged": "O novo e-mail é igual ao atual."
+		},
+		"forbidden": "Você não tem permissão para acessar este usuário.",
+		"internalServerError": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+		"invalidCursor": "O cursor de paginação é inválido.",
+		"invalidUserUUID": "A requisição contém um identificador inválido.",
+		"list": {
+			"badRequest": "Alguns filtros são inválidos."
+		},
+		"notFound": "Usuário não encontrado.",
+		"oauthProvider": {
+			"invalidUUID": "A requisição contém um identificador inválido."
+		},
+		"password": {
+			"hashingFailed": "Algo deu errado do nosso lado. Tente novamente mais tarde.",
+			"unauthorized": "Você precisa entrar para fazer isso."
+		}
+	}
+}

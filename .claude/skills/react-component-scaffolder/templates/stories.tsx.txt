@@ -1,0 +1,31 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { {{Name}}Props } from ".";
+
+import { {{Name}} } from ".";
+
+const meta: Meta<{{Name}}Props> = {
+	component: {{Name}},
+	args: {
+		children: "{{Name}}",
+	},
+	argTypes: {
+		size: {
+			options: ["sm", "md"],
+			control: {
+				type: "select",
+			},
+		},
+	},
+};
+
+export default meta;
+
+type {{Name}}Story = StoryObj<{{Name}}Props>;
+
+export const Default: {{Name}}Story = {};
+
+export const Small: {{Name}}Story = {
+	args: {
+		size: "sm",
+	},
+};

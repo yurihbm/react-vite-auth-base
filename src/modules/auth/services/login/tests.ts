@@ -2,12 +2,12 @@ import { QueryClient } from "@tanstack/react-query";
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { client } from "@src/lib/api";
-import { createQueryClientWrapper } from "@src/lib/tests";
+import { client } from "@lib/api";
+import { createQueryClientWrapper } from "@lib/tests";
 
 import { loginKey, useLogin } from ".";
 
-vi.mock("@src/lib/api", () => ({
+vi.mock("@lib/api", () => ({
 	client: {
 		post: vi.fn(),
 	},

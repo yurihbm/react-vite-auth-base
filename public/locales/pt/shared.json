@@ -4,14 +4,22 @@
 		"message": "Feito com ❤️ por Yuri"
 	},
 	"loginForm": {
+		"submitButton": "",
 		"unexpectedError": ""
 	},
 	"nav": {
 		"link": {
+			"account": "Conta",
+			"adminAuditLogs": "Logs de auditoria",
+			"adminUsers": "Usuários",
 			"home": "Início",
 			"login": "Entrar",
+			"logout": "Sair",
 			"register": "Registrar"
 		}
 	},
-	"pt": "pt"
+	"pt": "pt",
+	"resendButton": {
+		"cooldown": ""
+	}
 }

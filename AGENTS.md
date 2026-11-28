@@ -13,17 +13,17 @@ testability, and incremental feature growth (especially with
 - Language: TypeScript (`strict`)
 - Routing: TanStack Router (file-based)
 - Server state: TanStack React Query
-- Styling: Tailwind CSS + `tailwind-variants` + `tailwind-merge`
+- Styling: Tailwind CSS + `tailwind-variants`
 - Testing: Vitest (`happy-dom`) + Storybook Vitest project
-- Linting: ESLint flat config
-- Formatting: Prettier + import sorting + Tailwind class sorting
+- Linting: Oxlint
+- Formatting: Oxfmt + import sorting + Tailwind class sorting
 
 Primary references:
 
 - `README.md`
 - `package.json`
-- `eslint.config.ts`
-- `prettier.config.ts`
+- `oxlint.config.ts`
+- `oxfmt.config.ts`
 - `vite.config.ts`
 - `tsconfig.app.json`
 - `.storybook/main.ts`
@@ -45,7 +45,6 @@ pnpm test:watch
 pnpm test:ci
 pnpm test:coverage
 pnpm typecheck
-pnpm typecheck:go # Uses experimental TypeScript Go (v7) for faster execution
 ```
 
 Notes:
@@ -63,8 +62,8 @@ Current unit/integration include pattern from `vite.config.ts`:
 Run a single test file:
 
 ```bash
-pnpm test --project "unit/integration" src/modules/shared/components/button/tests.tsx
-pnpm test:watch --project "unit/integration" src/modules/shared/components/text-input/tests.tsx
+pnpm test --project "unit/integration" src/lib/ui/components/button/tests.tsx
+pnpm test:watch --project "unit/integration" src/lib/ui/components/text-input/tests.tsx
 ```
 
 Run by test name:
@@ -91,9 +90,16 @@ Follow module-oriented layout under `src/`:
 
 - `src/routes/`: route definitions and route composition.
 - `src/modules/<module-name>/`: module-specific code.
-- `src/modules/shared/`: reusable UI and shared utilities.
+- `src/modules/shared/`: app-aware pieces shared across modules (e.g.
+  `ThemeToggle`, `LanguageSwitcher`).
+- `src/lib/<lib-name>/`: app-agnostic libraries (`ui`, `charts`, `i18n`, `api`,
+  `tests`, `dev-tools`). Libraries never import from `src/modules/`.
 
-Current module folder structure (see `src/modules/<module-name>/*`):
+Import aliases: `@lib/*` (`src/lib`), `@modules/*` (`src/modules`) and `@src/*`
+(`src`). Prefer them over relative parent (`../`) imports.
+
+Current module folder structure (see `src/modules/<module-name>/*`; `src/lib/ui`
+follows the same components/hooks/utils layout):
 
 - components/
   - \<component-name\>/
@@ -126,7 +132,7 @@ Current module folder structure (see `src/modules/<module-name>/*`):
 
 ## Formatting, imports, and style conventions
 
-From `.editorconfig` and `prettier.config.ts`:
+From `.editorconfig` and `oxfmt.config.ts`:
 
 - Use tabs (`indent_style = tab`, `tabWidth = 2`).
 - Max line width: `80`.
@@ -134,12 +140,12 @@ From `.editorconfig` and `prettier.config.ts`:
 - Keep semicolons.
 - Use `lf` line endings and final newline.
 
-Import ordering is automated via Prettier plugin; keep groups consistent:
+Import ordering is automated via Oxfmt; keep groups consistent:
 
 1. Type imports (`import type`, node first)
 2. Built-in modules
 3. Third-party modules
-4. `@src/...` imports (if used)
+4. `@modules/...`, `@lib/...`, `@src/...` imports
 5. Relative imports
 
 Additional conventions observed in code:
@@ -147,7 +153,7 @@ Additional conventions observed in code:
 - Prefer `import type` for type-only symbols.
 - Keep blank lines between import groups.
 - Respect existing barrel-export boundaries.
-- Let `prettier-plugin-tailwindcss` sort class names.
+- Let Oxfmt sort class names.
 
 ## TypeScript, naming, and React guidance
 
@@ -176,6 +182,39 @@ Naming:
 - Do not swallow errors silently; handle async failures explicitly.
 - Preserve accessibility semantics (`label`, `aria-*`, disabled behavior).
 
+## API client
+
+- Use `client` from `@lib/api`; never call `fetch` directly. Errors are
+  `APIError` with a `key`; show them with `useApiErrorMessage(error)` (`errors`
+  i18n namespace) instead of `error.message`.
+- Validate response data with `request(schema, client.get(...))`.
+- Session renewal (refresh on `auth.unauthorized`) is inside the client;
+  register `client.onSessionExpired(cb)` at the app entry point, since libs
+  never import modules.
+- Dev integration: `VITE_API_BASE_URL=http://localhost:8080`, no proxy (refresh
+  cookie `Path=/auth/refresh`), always `localhost`, never `127.0.0.1`. Backend
+  env values are listed in `README.md`.
+- In tests use `mockFetch` / `jsonResponse` from `@lib/tests`; no MSW.
+
+## Skills and path-scoped rules
+
+Prefer these project skills (`.claude/skills/`) over writing the boilerplate by hand:
+
+- `react-component-scaffolder`: `node .claude/skills/react-component-scaffolder/scripts/scaffold.ts <ComponentName> [--module <name>]` creates `index.tsx`, `styles.ts`, `stories.tsx`, `tests.tsx` and the barrel export in `src/lib/ui` or a module.
+- `api-service-scaffolder`: `node .claude/skills/api-service-scaffolder/scripts/scaffold.ts <ServiceName> --module <name> --kind <query|mutation> --path </endpoint>` creates a React Query service over `@lib/api` with a `mockFetch` test and the barrel export.
+- `route-checklist`: checklist for adding a route (guard, services and components, i18n, route tree, tests).
+
+Area-specific conventions live in `.claude/rules/`, loaded when matching files are read or edited:
+
+| Topic                       | File                                | Loaded for                                                          |
+| --------------------------- | ----------------------------------- | ------------------------------------------------------------------- |
+| Components, styles, stories | `.claude/rules/ui-components.md`    | `src/lib/ui/**`, `src/lib/charts/**`, `src/modules/*/components/**` |
+| Modules and services        | `.claude/rules/modules-services.md` | `src/modules/**`                                                    |
+| Routes and guards           | `.claude/rules/routes.md`           | `src/routes/**`                                                     |
+| API client                  | `.claude/rules/api.md`              | `src/lib/api/**`                                                    |
+| i18n                        | `.claude/rules/i18n.md`             | `src/lib/i18n/**`, `public/locales/**`                              |
+| Tests and stories           | `.claude/rules/testing.md`          | `**/tests.ts(x)`, `**/stories.tsx`, `src/lib/tests/**`              |
+
 ## Generated files and non-editable artifacts
 
 - `src/routeTree.gen.ts` is generated by TanStack Router tooling.
@@ -188,6 +227,10 @@ Naming:
 - Tests are added/updated for behavior changes.
 - `pnpm lint`, `pnpm typecheck`, and relevant test commands pass.
 - Docs are updated when workflow/behavior changes.
+- For UI changes, the PR's "Visual changes" section has screenshots: capture
+  them with the Playwright MCP browser tools against `pnpm dev` or Storybook,
+  then attach them with `gh pr create --attach '<file>#<alt text>'` (also
+  `gh pr edit` and `gh pr comment`).
 
 When uncertain, mimic nearby patterns in `src/routes` and
-`src/modules/shared`.
+`src/lib/ui`.

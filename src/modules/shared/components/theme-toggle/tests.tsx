@@ -1,12 +1,14 @@
+import { MoonIcon, SunIcon } from "@phosphor-icons/react";
 import { cleanup, fireEvent, render } from "@testing-library/react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { useTheme } from "@src/modules/shared/hooks/use-theme";
+import { useTheme } from "@lib/ui/hooks/use-theme";
 
 import { ThemeToggle } from ".";
 
-vi.mock("@src/modules/shared/hooks/use-theme", async () => ({
-	...(await vi.importActual("@src/modules/shared/hooks/use-theme")),
+vi.mock("@lib/ui/hooks/use-theme", async () => ({
+	...(await vi.importActual("@lib/ui/hooks/use-theme")),
 	useTheme: vi.fn(),
 }));
 
@@ -31,7 +33,7 @@ describe("ThemeToggle", () => {
 
 		const button = getByRole("button");
 
-		expect(button.textContent).toBe("🌙");
+		expect(button.innerHTML).toBe(renderToStaticMarkup(<MoonIcon size={18} />));
 		expect(button.getAttribute("aria-label")).toBe("Switch to light theme");
 	});
 
@@ -46,7 +48,7 @@ describe("ThemeToggle", () => {
 
 		const button = getByRole("button");
 
-		expect(button.textContent).toBe("☀️");
+		expect(button.innerHTML).toBe(renderToStaticMarkup(<SunIcon size={18} />));
 		expect(button.getAttribute("aria-label")).toBe("Switch to dark theme");
 	});
 
