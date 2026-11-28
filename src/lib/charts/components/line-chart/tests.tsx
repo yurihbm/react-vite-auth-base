@@ -17,7 +17,19 @@ vi.mock("recharts", () => ({
 			{children}
 		</div>
 	),
-	CartesianGrid: () => <div data-testid="cartesian-grid" />,
+	CartesianGrid: ({
+		stroke,
+		className,
+	}: {
+		stroke?: string;
+		className?: string;
+	}) => (
+		<div
+			data-testid="cartesian-grid"
+			data-stroke={stroke}
+			className={className}
+		/>
+	),
 	XAxis: ({ dataKey }: { dataKey: string }) => (
 		<div data-testid="x-axis" data-key={dataKey} />
 	),
@@ -104,6 +116,21 @@ describe("LineChart", () => {
 		expect(
 			screen.getByTestId("recharts-line-chart").getAttribute("data-length"),
 		).toBe("2");
+	});
+
+	test("colors the grid from a theme token instead of a fixed color", () => {
+		render(
+			<LineChart
+				data={DATA}
+				xKey="month"
+				series={[{ key: "income", label: "Income" }]}
+			/>,
+		);
+
+		const grid = screen.getByTestId("cartesian-grid");
+
+		expect(grid.getAttribute("data-stroke")).toBe("currentColor");
+		expect(grid.className).toContain("text-border");
 	});
 
 	test("merges a custom className into the root", () => {

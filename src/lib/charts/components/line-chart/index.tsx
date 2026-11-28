@@ -44,7 +44,11 @@ export function LineChart({
 		>
 			<ResponsiveContainer width="100%" height="100%">
 				<RechartsLineChart data={data}>
-					<CartesianGrid strokeDasharray="3 3" />
+					<CartesianGrid
+						strokeDasharray="3 3"
+						stroke="currentColor"
+						className="text-border"
+					/>
 					<XAxis dataKey={xKey} />
 					<YAxis />
 					<Tooltip
