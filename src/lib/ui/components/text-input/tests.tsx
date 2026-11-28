@@ -176,4 +176,13 @@ describe("TextInput", () => {
 			link.parentElement,
 		);
 	});
+
+	test("uses the shared focus outline on the field box", () => {
+		const { getByRole } = render(<TextInput label="Name" />);
+
+		const container = getByRole("textbox", { name: "Name" }).parentElement;
+
+		expect(container?.className).toContain("focus-within:focus-outline");
+		expect(container?.className).not.toContain("ring-");
+	});
 });

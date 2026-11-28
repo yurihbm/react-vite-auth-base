@@ -11,7 +11,6 @@ const styles = tv({
 			"flex flex-1 items-center justify-between gap-2 py-3 text-left text-sm font-medium",
 			"text-foreground transition-colors duration-150",
 			"cursor-pointer select-none",
-			"focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
 			"aria-disabled:cursor-not-allowed aria-disabled:opacity-50",
 		],
 		icon: ["shrink-0 transition-transform duration-150"],

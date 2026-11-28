@@ -108,6 +108,11 @@ describe("EditNameForm", () => {
 		expect(
 			screen.getByText("translated:request.validation_failed"),
 		).toBeDefined();
+		expect(
+			screen
+				.getByText("translated:request.validation_failed")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
 		expect(screen.getByText("name is too short")).toBeDefined();
 	});
 

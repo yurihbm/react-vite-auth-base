@@ -208,4 +208,40 @@ describe("VerifyCodeForm", () => {
 
 		expect(queryByText("verifyCodeForm.description")).toBeNull();
 	});
+
+	test("focuses the first invalid field when the browser rejects the submit", () => {
+		const { getByLabelText } = render(<VerifyCodeForm />);
+
+		const input = getByLabelText("verifyCodeForm.input.code.label");
+
+		act(() => {
+			fireEvent.invalid(input);
+		});
+
+		expect(document.activeElement).toBe(input);
+	});
+
+	test("focuses the first field the API rejected", () => {
+		const { getByLabelText, getByRole } = render(<VerifyCodeForm />);
+
+		fillCodeAndSubmit(getByLabelText, getByRole);
+
+		const [, handlers] = verifyMutateMock.mock.calls[0] as [
+			unknown,
+			{ onError: (error: unknown) => void },
+		];
+
+		act(() => {
+			handlers.onError(
+				new APIError("request.validation_failed", {
+					status: 400,
+					details: { code: "rejected" },
+				}),
+			);
+		});
+
+		expect(document.activeElement).toBe(
+			getByLabelText("verifyCodeForm.input.code.label"),
+		);
+	});
 });

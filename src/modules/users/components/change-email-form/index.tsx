@@ -5,10 +5,10 @@ import { useState } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
-import { Button, TextInput } from "@lib/ui";
+import { Button, InlineError, TextInput } from "@lib/ui";
 import { useCooldown } from "@modules/auth/hooks/use-cooldown";
 import { StepUpCancelledError } from "@modules/auth/providers/step-up/context";
-import { base, errorMessage } from "@modules/users/components/styles";
+import { base } from "@modules/users/components/styles";
 import {
 	useConfirmEmailChange,
 	useRequestEmailChange,
@@ -81,7 +81,7 @@ export function ChangeEmailForm() {
 					: t("changeEmailForm.description")}
 			</p>
 			{!!error && !(error instanceof StepUpCancelledError) && (
-				<p className={errorMessage()}>{errorText}</p>
+				<InlineError>{errorText}</InlineError>
 			)}
 			{isRequested ? (
 				<>

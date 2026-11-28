@@ -16,7 +16,7 @@ const styles = tv({
 			"bg-background-muted text-transparent transition-colors duration-200",
 			"peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground",
 			"peer-indeterminate:border-primary peer-indeterminate:bg-primary peer-indeterminate:text-primary-foreground",
-			"peer-focus-visible:ring-2 peer-focus-visible:ring-ring/40",
+			"peer-focus-visible:focus-outline",
 			"peer-disabled:cursor-not-allowed peer-disabled:opacity-60",
 		],
 		indicator: ["peer-checked:block"],

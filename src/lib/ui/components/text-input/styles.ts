@@ -12,7 +12,7 @@ const styles = tv({
 		inputContainer: [
 			"flex items-center gap-2 rounded-control border border-border-control bg-background-muted",
 			"transition-colors duration-200",
-			"focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/40",
+			"focus-within:border-ring focus-within:focus-outline",
 			"data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60",
 		],
 		innerInput: [
@@ -37,44 +37,32 @@ const styles = tv({
 		},
 		color: {
 			primary: {
-				inputContainer: [
-					"focus-within:border-primary focus-within:ring-primary/40",
-				],
+				inputContainer: ["focus-within:border-primary"],
 			},
 			secondary: {
-				inputContainer: [
-					"focus-within:border-secondary focus-within:ring-secondary/40",
-				],
+				inputContainer: ["focus-within:border-secondary"],
 			},
 			subtle: {
-				inputContainer: [
-					"focus-within:border-foreground-muted focus-within:ring-ring/40",
-				],
+				inputContainer: ["focus-within:border-foreground-muted"],
 			},
 			info: {
-				inputContainer: ["focus-within:border-info focus-within:ring-info/40"],
+				inputContainer: ["focus-within:border-info"],
 			},
 			success: {
-				inputContainer: [
-					"focus-within:border-success focus-within:ring-success/40",
-				],
+				inputContainer: ["focus-within:border-success"],
 			},
 			warning: {
-				inputContainer: [
-					"focus-within:border-warning focus-within:ring-warning/40",
-				],
+				inputContainer: ["focus-within:border-warning"],
 			},
 			danger: {
-				inputContainer: [
-					"focus-within:border-danger focus-within:ring-danger/40",
-				],
+				inputContainer: ["focus-within:border-danger"],
 			},
 		},
 		isError: {
 			true: {
 				inputContainer: [
 					"border-danger bg-danger-subtle/20",
-					"focus-within:border-danger focus-within:ring-danger/40",
+					"focus-within:border-danger",
 				],
 				inputMessage: ["text-danger"],
 			},
@@ -83,7 +71,7 @@ const styles = tv({
 			true: {
 				inputContainer: [
 					"border-success bg-success-subtle/20",
-					"focus-within:border-success focus-within:ring-success/40",
+					"focus-within:border-success",
 				],
 				inputMessage: ["text-success"],
 			},

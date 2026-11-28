@@ -124,6 +124,11 @@ describe("DeleteUser", () => {
 		openDialog();
 
 		expect(screen.getByText("translated:auth.stepUp.required")).toBeDefined();
+		expect(
+			screen
+				.getByText("translated:auth.stepUp.required")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
 	});
 
 	test("shows nothing when the step-up was cancelled", () => {

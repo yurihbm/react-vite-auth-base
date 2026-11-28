@@ -152,6 +152,11 @@ describe("ChangeEmailForm", () => {
 			screen.getByText("translated:users.emailChange.cooldown"),
 		).toBeDefined();
 		expect(
+			screen
+				.getByText("translated:users.emailChange.cooldown")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
+		expect(
 			(
 				screen.getByRole("button", {
 					name: "changeEmailForm.requestButton",

@@ -3,7 +3,7 @@
 exports[`RevertConfirm > renders correctly 1`] = `
 <div>
   <div
-    class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
+    class="mx-auto flex w-full flex-col justify-center gap-5 sm:max-w-sm"
   >
     <p>
       This will undo the change.

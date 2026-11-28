@@ -30,7 +30,6 @@ const styles = tv({
 		closeButton: [
 			"shrink-0 rounded-control p-0.5 opacity-70 transition-opacity duration-200",
 			"hover:opacity-100",
-			"focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
 		],
 	},
 	variants: {

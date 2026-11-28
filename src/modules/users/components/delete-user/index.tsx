@@ -3,9 +3,9 @@ import { useState } from "react";
 
 import { useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
-import { Button, Dialog } from "@lib/ui";
+import { Button, Dialog, InlineError } from "@lib/ui";
 import { StepUpCancelledError } from "@modules/auth/providers/step-up/context";
-import { base, errorMessage } from "@modules/users/components/styles";
+import { base } from "@modules/users/components/styles";
 import {
 	getUserKey,
 	listUsersKey,
@@ -70,7 +70,7 @@ export function DeleteUser({ uuid, onDeleted }: DeleteUserProps) {
 				}
 			>
 				{!!error && !(error instanceof StepUpCancelledError) && (
-					<p className={errorMessage()}>{apiErrorMessage}</p>
+					<InlineError>{apiErrorMessage}</InlineError>
 				)}
 			</Dialog>
 		</div>

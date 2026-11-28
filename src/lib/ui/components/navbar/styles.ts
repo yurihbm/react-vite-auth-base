@@ -13,7 +13,6 @@ export const styles = tv({
 			"inline-flex size-10 cursor-pointer items-center justify-center rounded-control",
 			"text-foreground-muted transition-colors duration-200",
 			"hover:bg-subtle-hover hover:text-foreground",
-			"focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
 			"md:hidden",
 		],
 		panel: [

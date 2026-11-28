@@ -225,5 +225,8 @@ describe("UsersList", () => {
 		renderList();
 
 		expect(screen.getByText("translated:x")).toBeTruthy();
+		expect(
+			screen.getByText("translated:x").closest('[role="alert"]'),
+		).not.toBeNull();
 	});
 });

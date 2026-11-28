@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate, useTranslateKeyState } from "@lib/i18n";
-import { Alert, Button, TextInput } from "@lib/ui";
+import { Alert, Button, TextInput, useFocusFirstInvalid } from "@lib/ui";
 import { useLogin } from "@modules/auth/services";
 
 import { base, forgotPasswordLink } from "./styles";
@@ -31,6 +31,8 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 
 	const [apiError, setApiError] = useState<APIError | null>(null);
 	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+	const { ref: formRef, focusFirstInvalid } =
+		useFocusFirstInvalid<HTMLFormElement>();
 	const apiErrorMessage = useApiErrorMessage(apiError);
 
 	const { mutate: login, isPending } = useLogin();
@@ -60,6 +62,7 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 						loginMessage.setKey(null);
 						setApiError(error);
 						setFieldErrors(error.details ?? {});
+						focusFirstInvalid();
 						return;
 					}
 					setApiError(null);
@@ -112,7 +115,12 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className={base()}>
+		<form
+			ref={formRef}
+			onSubmit={handleSubmit}
+			onInvalidCapture={focusFirstInvalid}
+			className={base()}
+		>
 			{formError && <Alert color="danger" description={formError} />}
 			<TextInput
 				name={EMAIL_INPUT_NAME}

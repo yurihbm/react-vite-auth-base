@@ -76,4 +76,12 @@ describe("Checkbox", () => {
 		expect(ref.current?.tagName).toBe("INPUT");
 		expect(ref.current?.getAttribute("type")).toBe("checkbox");
 	});
+
+	test("uses the shared focus outline on the visible box", () => {
+		const { container } = render(<Checkbox label="Accept" />);
+
+		const box = container.querySelector("input")?.nextElementSibling;
+
+		expect(box?.className).toContain("peer-focus-visible:focus-outline");
+	});
 });

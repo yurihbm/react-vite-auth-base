@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate, useTranslateKeyState } from "@lib/i18n";
-import { Alert, Button, TextInput } from "@lib/ui";
+import { Alert, Button, TextInput, useFocusFirstInvalid } from "@lib/ui";
 import { base } from "@modules/auth/components/login-form/styles";
 import { ResendButton } from "@modules/auth/components/resend-button";
 import { useCooldown } from "@modules/auth/hooks";
@@ -35,6 +35,8 @@ export function VerifyCodeForm({
 
 	const [apiError, setApiError] = useState<APIError | null>(null);
 	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+	const { ref: formRef, focusFirstInvalid } =
+		useFocusFirstInvalid<HTMLFormElement>();
 	const apiErrorMessage = useApiErrorMessage(apiError);
 	const verifyMessage = useTranslateKeyState("auth");
 	const cooldown = useCooldown(apiError);
@@ -62,6 +64,7 @@ export function VerifyCodeForm({
 						verifyMessage.setKey(null);
 						setApiError(error);
 						setFieldErrors(error.details ?? {});
+						focusFirstInvalid();
 						return;
 					}
 					setApiError(null);
@@ -93,7 +96,12 @@ export function VerifyCodeForm({
 
 	return (
 		<div className={base()}>
-			<form onSubmit={handleSubmit} className={base()}>
+			<form
+				ref={formRef}
+				onSubmit={handleSubmit}
+				onInvalidCapture={focusFirstInvalid}
+				className={base()}
+			>
 				{formError && <Alert color="danger" description={formError} />}
 				<TextInput
 					name={CODE_INPUT_NAME}

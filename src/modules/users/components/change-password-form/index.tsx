@@ -2,9 +2,9 @@ import type { SubmitEvent } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
-import { Alert, Button, TextInput } from "@lib/ui";
+import { Alert, Button, InlineError, TextInput } from "@lib/ui";
 import { StepUpCancelledError } from "@modules/auth/providers/step-up/context";
-import { base, errorMessage } from "@modules/users/components/styles";
+import { base } from "@modules/users/components/styles";
 import { useChangePassword } from "@modules/users/services";
 
 const PASSWORD_INPUT_NAME = "password";
@@ -45,7 +45,7 @@ export function ChangePasswordForm() {
 				<Alert color="success" description={t("changePasswordForm.success")} />
 			)}
 			{!!error && !(error instanceof StepUpCancelledError) && (
-				<p className={errorMessage()}>{apiErrorMessage}</p>
+				<InlineError>{apiErrorMessage}</InlineError>
 			)}
 			<TextInput
 				name={PASSWORD_INPUT_NAME}

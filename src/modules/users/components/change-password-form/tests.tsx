@@ -84,6 +84,11 @@ describe("ChangePasswordForm", () => {
 		expect(
 			screen.getByText("translated:auth.stepUp.sessionRevoked"),
 		).toBeDefined();
+		expect(
+			screen
+				.getByText("translated:auth.stepUp.sessionRevoked")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
 	});
 
 	test("shows nothing when the step-up was cancelled", () => {

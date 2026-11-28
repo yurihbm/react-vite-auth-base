@@ -8,7 +8,7 @@ const styles = tv({
 		link: [
 			"inline-flex min-h-11 items-center px-1 py-1.5",
 			"text-sm text-foreground-muted transition-colors duration-150 hover:text-foreground",
-			"rounded-control focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
+			"rounded-control",
 		],
 		currentPage: ["text-sm font-medium text-foreground"],
 		separator: ["px-1.5 text-sm text-foreground-muted"],

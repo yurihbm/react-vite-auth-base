@@ -16,7 +16,7 @@ const styles = tv({
 			"absolute inset-0 rounded-full transition-colors duration-200",
 			"bg-border",
 			"peer-checked:bg-primary",
-			"peer-focus-visible:ring-2 peer-focus-visible:ring-ring/40",
+			"peer-focus-visible:focus-outline",
 			"peer-disabled:opacity-60",
 		],
 		// Absolutely-positioned circle — sibling of nativeInput, so

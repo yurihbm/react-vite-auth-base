@@ -125,6 +125,11 @@ describe("DeleteAccount", () => {
 		expect(
 			screen.getByText("translated:users.emailChange.locked"),
 		).toBeDefined();
+		expect(
+			screen
+				.getByText("translated:users.emailChange.locked")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
 	});
 
 	test("shows nothing when the step-up was cancelled", () => {

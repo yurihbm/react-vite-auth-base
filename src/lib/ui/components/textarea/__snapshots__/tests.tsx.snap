@@ -15,7 +15,7 @@ exports[`Textarea > renders correctly 1`] = `
       class="flex flex-col gap-1"
     >
       <div
-        class="w-full rounded-control border border-border-control bg-background-muted transition-colors duration-200 focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/40 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60 px-3 py-2"
+        class="w-full rounded-control border border-border-control bg-background-muted transition-colors duration-200 focus-within:border-ring focus-within:focus-outline data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60 px-3 py-2"
         data-disabled="false"
       >
         <textarea

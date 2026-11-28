@@ -13,7 +13,6 @@ const styles = tv({
 			"shrink-0 rounded-control opacity-70 transition-opacity",
 			"inline-flex min-h-11 min-w-11 items-center justify-center",
 			"hover:opacity-100",
-			"focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
 		],
 	},
 	variants: {

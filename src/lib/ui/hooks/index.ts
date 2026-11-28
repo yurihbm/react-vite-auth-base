@@ -6,6 +6,10 @@ export {
 	useDropdownMenu,
 	type UseDropdownMenuResult,
 } from "./use-dropdown-menu";
+export {
+	useFocusFirstInvalid,
+	type UseFocusFirstInvalidResult,
+} from "./use-focus-first-invalid";
 export { useFilteredOptions } from "./use-filtered-options";
 export type {
 	UseFilteredOptionsParams,

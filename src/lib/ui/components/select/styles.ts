@@ -9,7 +9,7 @@ const styles = tv({
 		trigger: [
 			"flex w-full items-center justify-between gap-2 rounded-control border border-border-control",
 			"bg-background-muted text-left text-foreground transition-colors duration-200",
-			"focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
+			"focus-visible:border-ring",
 			"disabled:cursor-not-allowed disabled:opacity-60",
 		],
 		triggerText: ["truncate"],
@@ -24,9 +24,8 @@ const styles = tv({
 		],
 		searchWrapper: ["border-b border-border p-2"],
 		searchInput: [
-			"w-full rounded-control bg-background px-2 py-1 text-sm text-foreground outline-none",
+			"w-full rounded-control bg-background px-2 py-1 text-sm text-foreground",
 			"placeholder:text-foreground-subtle",
-			"focus-visible:ring-2 focus-visible:ring-ring/40",
 		],
 		message: ["min-h-4 text-xs text-foreground-muted"],
 	},
@@ -38,22 +37,20 @@ const styles = tv({
 		},
 		color: {
 			primary: {
-				trigger: "focus-visible:border-primary focus-visible:ring-primary/40",
+				trigger: "focus-visible:border-primary",
 			},
 			secondary: {
-				trigger:
-					"focus-visible:border-secondary focus-visible:ring-secondary/40",
+				trigger: "focus-visible:border-secondary",
 			},
 			subtle: {
-				trigger:
-					"focus-visible:border-foreground-muted focus-visible:ring-ring/40",
+				trigger: "focus-visible:border-foreground-muted",
 			},
 		},
 		isError: {
 			true: {
 				trigger: [
 					"border-danger bg-danger-subtle/20",
-					"focus-visible:border-danger focus-visible:ring-danger/40",
+					"focus-visible:border-danger",
 				],
 				message: "text-danger",
 			},

@@ -7,7 +7,6 @@ export const styles = tv({
 		"transition-colors duration-200",
 		"hover:bg-subtle-hover hover:text-foreground",
 		"aria-[current=page]:bg-subtle aria-[current=page]:text-foreground",
-		"focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
 		"disabled:cursor-not-allowed disabled:opacity-50",
 	],
 });

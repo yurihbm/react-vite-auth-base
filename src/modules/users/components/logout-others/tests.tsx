@@ -77,5 +77,10 @@ describe("LogoutOthers", () => {
 		expect(
 			screen.getByText("translated:auth.internalServerError"),
 		).toBeDefined();
+		expect(
+			screen
+				.getByText("translated:auth.internalServerError")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
 	});
 });

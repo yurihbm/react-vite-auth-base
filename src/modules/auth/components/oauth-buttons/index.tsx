@@ -9,8 +9,9 @@ import {
 
 import { useTranslate } from "@lib/i18n";
 import { Button } from "@lib/ui";
-import { base } from "@modules/auth/components/login-form/styles";
 import { startOAuthLogin } from "@modules/auth/utils";
+
+import { base } from "./styles";
 
 const PROVIDERS: OAuthProvider[] = ["google", "github", "microsoft"];
 

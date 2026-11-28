@@ -3,10 +3,10 @@
 exports[`VerifyCodeForm > renders correctly 1`] = `
 <div>
   <div
-    class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
+    class="mx-auto flex w-full flex-col justify-center gap-5 sm:max-w-sm"
   >
     <form
-      class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
+      class="mx-auto flex w-full flex-col justify-center gap-5 sm:max-w-sm"
     >
       <div
         class="flex flex-col gap-1"
@@ -25,7 +25,7 @@ exports[`VerifyCodeForm > renders correctly 1`] = `
           class="flex flex-col gap-1"
         >
           <div
-            class="flex items-center gap-2 rounded-control border border-border-control bg-background-muted transition-colors duration-200 focus-within:ring-2 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60 h-10 px-3 focus-within:border-primary focus-within:ring-primary/40"
+            class="flex items-center gap-2 rounded-control border border-border-control bg-background-muted transition-colors duration-200 focus-within:focus-outline data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60 h-10 px-3 focus-within:border-primary"
             data-disabled="false"
           >
             <input

@@ -25,7 +25,6 @@ const styles = tv({
 			"absolute top-4 right-4 rounded-control p-1 text-foreground-subtle",
 			"transition-colors duration-200",
 			"hover:bg-background-elevated hover:text-foreground",
-			"focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
 			"cursor-pointer",
 		],
 	},

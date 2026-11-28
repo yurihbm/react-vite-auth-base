@@ -8,13 +8,13 @@ import { useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
 import {
 	Badge,
+	InlineError,
 	Select,
 	Skeleton,
 	Table,
 	TextInput,
 	useDebouncedValue,
 } from "@lib/ui";
-import { errorMessage } from "@modules/users/components/styles";
 import { useUsersList } from "@modules/users/services";
 
 const ROW_HEIGHT = 48;
@@ -154,7 +154,7 @@ export function UsersList({ search, role, onFiltersChange }: UsersListProps) {
 					</p>
 				)}
 			</div>
-			{!!error && <p className={errorMessage()}>{apiErrorMessage}</p>}
+			{!!error && <InlineError>{apiErrorMessage}</InlineError>}
 			{isPending ? (
 				<Skeleton variant="rect" className="h-[60vh]" />
 			) : (

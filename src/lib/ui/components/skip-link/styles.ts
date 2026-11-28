@@ -7,6 +7,5 @@ export const styles = tv({
 		"rounded-control bg-background-elevated focus:px-4 focus:py-2",
 		"text-sm font-medium",
 		"text-foreground shadow-overlay",
-		"focus:ring-2 focus:ring-ring focus:outline-none",
 	],
 });
