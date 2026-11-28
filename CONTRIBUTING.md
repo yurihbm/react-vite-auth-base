@@ -35,7 +35,8 @@ Examples:
 
 ## 🧪 Testing Requirements
 
-- **Coverage**: We aim for **80%+ test coverage**.
+- **Coverage**: Minimum thresholds in `vite.config.ts` (`test.coverage.thresholds`) work as a ratchet. `pnpm test:coverage` fails if coverage drops below them, and raises them automatically when a run beats them, so commit the updated values. Prefer tests that assert behavior over tests that only hit lines.
+- **React Compiler and coverage**: the compiler's generated memoization code (`const $ = _c(n)`, `if ($[0] !== x)`) counts as branches no test can exercise ([facebook/react#32950](https://github.com/facebook/react/issues/32950)), so `coverage.ignoreNode` in `vite.config.ts` filters it out. The filter matches the compiler's current output: if branch coverage drops after upgrading the compiler, check it first.
 - **Tests**: Write tests for all new components, hooks, services and utilities, co-located with the code in `tests.ts` / `tests.tsx`. Components also get Storybook stories (`stories.tsx`), which run as browser tests.
 - **Running Tests**:
   ```bash
