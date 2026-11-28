@@ -98,6 +98,20 @@
 	},
 	"userPage": {
 		"back": "Voltar para usuários",
+		"dangerZone": {
+			"title": "Zona de perigo"
+		},
+		"details": {
+			"title": "Detalhes"
+		},
+		"name": {
+			"title": "Nome"
+		},
+		"notFound": {
+			"back": "Voltar para usuários",
+			"description": "Este usuário não existe ou foi removido.",
+			"title": "Usuário não encontrado"
+		},
 		"title": "Usuário"
 	},
 	"usersList": {

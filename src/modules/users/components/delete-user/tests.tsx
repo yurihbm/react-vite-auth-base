@@ -151,4 +151,13 @@ describe("DeleteUser", () => {
 
 		expect(cancel.className).toContain("border-border-control");
 	});
+
+	test("is a compact danger button without its own description", () => {
+		render(<DeleteUser uuid={UUID} onDeleted={onDeleted} />);
+
+		expect(screen.queryByText("deleteUser.description")).toBeNull();
+		expect(
+			screen.getByRole("button", { name: "deleteUser.button" }).className,
+		).toContain("self-end");
+	});
 });

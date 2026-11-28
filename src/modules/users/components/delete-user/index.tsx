@@ -48,8 +48,7 @@ export function DeleteUser({ uuid, onDeleted }: DeleteUserProps) {
 
 	return (
 		<div className={base()}>
-			<p>{t("deleteUser.description")}</p>
-			<Button color="danger" onClick={() => setOpen(true)}>
+			<Button color="danger" className="self-end" onClick={() => setOpen(true)}>
 				{t("deleteUser.button")}
 			</Button>
 			<Dialog

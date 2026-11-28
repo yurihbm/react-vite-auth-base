@@ -98,6 +98,20 @@
 	},
 	"userPage": {
 		"back": "Back to users",
+		"dangerZone": {
+			"title": "Danger zone"
+		},
+		"details": {
+			"title": "Details"
+		},
+		"name": {
+			"title": "Name"
+		},
+		"notFound": {
+			"back": "Back to users",
+			"description": "This user doesn't exist or was deleted.",
+			"title": "User not found"
+		},
 		"title": "User"
 	},
 	"usersList": {
