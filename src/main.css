@@ -122,6 +122,13 @@
 	--color-danger-active: var(--theme-danger-active);
 	--color-danger-subtle: var(--theme-danger-subtle);
 	--color-danger-subtle-foreground: var(--theme-danger-subtle-foreground);
+
+	/* Chart categorical palette, separate from the semantic colors */
+	--color-chart-1: var(--theme-chart-1);
+	--color-chart-2: var(--theme-chart-2);
+	--color-chart-3: var(--theme-chart-3);
+	--color-chart-4: var(--theme-chart-4);
+	--color-chart-5: var(--theme-chart-5);
 }
 
 /* Dark theme (default) */
@@ -187,6 +194,13 @@
 	--theme-danger-active: var(--color-rose-200);
 	--theme-danger-subtle: var(--color-rose-950);
 	--theme-danger-subtle-foreground: var(--color-rose-200);
+
+	/* Chart (categorical, >= 3:1 against background and surface) */
+	--theme-chart-1: var(--color-blue-500);
+	--theme-chart-2: var(--color-orange-600);
+	--theme-chart-3: var(--color-violet-500);
+	--theme-chart-4: var(--color-lime-600);
+	--theme-chart-5: var(--color-fuchsia-500);
 }
 
 /* Light theme */
@@ -251,6 +265,13 @@
 	--theme-danger-active: var(--color-rose-800);
 	--theme-danger-subtle: var(--color-rose-50);
 	--theme-danger-subtle-foreground: var(--color-rose-700);
+
+	/* Chart (categorical, >= 3:1 against background and surface) */
+	--theme-chart-1: var(--color-blue-600);
+	--theme-chart-2: var(--color-orange-600);
+	--theme-chart-3: var(--color-violet-600);
+	--theme-chart-4: var(--color-lime-600);
+	--theme-chart-5: var(--color-fuchsia-600);
 }
 
 html,
