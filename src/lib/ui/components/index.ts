@@ -10,6 +10,11 @@ export { Card, type CardProps } from "./card";
 export { CardGrid, type CardGridProps } from "./card-grid";
 export { Checkbox, type CheckboxProps } from "./checkbox";
 export { Container, type ContainerProps } from "./container";
+export {
+	DescriptionList,
+	type DescriptionListItem,
+	type DescriptionListProps,
+} from "./description-list";
 export { Divider, type DividerProps } from "./divider";
 export {
 	DropdownMenu,
@@ -20,8 +25,10 @@ export {
 	type DropdownMenuSeparatorProps,
 } from "./dropdown-menu";
 export { Dialog, type DialogProps } from "./dialog";
+export { EmptyState, type EmptyStateProps } from "./empty-state";
 export { Heading, type HeadingProps } from "./heading";
 export { Inline, type InlineProps } from "./inline";
+export { InlineError, type InlineErrorProps } from "./inline-error";
 export { OptionList, type OptionListProps } from "./option-list";
 export type { SelectOption } from "./option-list/types";
 export { PageHeader, type PageHeaderProps } from "./page-header";
