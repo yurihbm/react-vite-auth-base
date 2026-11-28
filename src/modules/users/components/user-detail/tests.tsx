@@ -144,4 +144,22 @@ describe("UserDetail", () => {
 
 		expect(container.querySelector('[aria-busy="true"]')).not.toBeNull();
 	});
+
+	test("titles the browser tab with the person's name", () => {
+		mockUser({ data: USER });
+
+		render(<UserDetail uuid={USER.uuid} onDeleted={onDeleted} />);
+
+		expect(document.title).toBe(`John Doe | ${import.meta.env.VITE_APP_NAME}`);
+	});
+
+	test("titles the browser tab when the user is missing", () => {
+		mockUser({ error: new APIError("users.notFound", { status: 404 }) });
+
+		render(<UserDetail uuid="missing" onDeleted={onDeleted} />);
+
+		expect(document.title).toBe(
+			`userPage.notFound.title | ${import.meta.env.VITE_APP_NAME}`,
+		);
+	});
 });

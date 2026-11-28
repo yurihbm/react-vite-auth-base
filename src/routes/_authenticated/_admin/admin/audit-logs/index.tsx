@@ -4,6 +4,7 @@ import { z } from "zod";
 import { useTranslate } from "@lib/i18n";
 import { Container, PageHeader, Stack } from "@lib/ui";
 import { AuditLogsList } from "@modules/audit";
+import { usePageTitle } from "@modules/shared";
 
 const searchSchema = z.object({
 	action: z.string().optional().catch(undefined),
@@ -27,6 +28,8 @@ function AuditLogsComponent() {
 	const filters = useSearch();
 	const navigate = useNavigate();
 	const t = useTranslate("audit");
+
+	usePageTitle(t("auditPage.title"));
 
 	return (
 		<Container size="wide">

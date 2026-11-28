@@ -84,6 +84,10 @@ export default interface Resources {
     }
   },
   "auth": {
+    "accessDenied": {
+      "description": "It's only available to administrators.",
+      "title": "You don't have access to that page"
+    },
     "accountMenu": {
       "account": "Account",
       "logout": "Log out",

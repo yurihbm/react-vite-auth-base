@@ -26,6 +26,10 @@ const dirname =
 // https://vite.dev/config/
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
+	define: {
+		// The app name for document titles (`usePageTitle`).
+		"import.meta.env.VITE_APP_NAME": JSON.stringify(APP_NAME),
+	},
 	plugins: [
 		tanstackRouter({
 			target: "react",

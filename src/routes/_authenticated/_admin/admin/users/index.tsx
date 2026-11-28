@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { useTranslate } from "@lib/i18n";
 import { Container, PageHeader, Stack } from "@lib/ui";
+import { usePageTitle } from "@modules/shared";
 import { UsersList } from "@modules/users";
 
 const searchSchema = z.object({
@@ -21,6 +22,8 @@ function UsersComponent() {
 	const { search, role } = useSearch();
 	const navigate = useNavigate();
 	const t = useTranslate("users");
+
+	usePageTitle(t("usersPage.title"));
 
 	return (
 		<Container size="wide">

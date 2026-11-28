@@ -2,6 +2,7 @@ export { useDebouncedValue } from "./use-debounced-value";
 export { useCombobox } from "./use-combobox";
 export type { UseComboboxParams, UseComboboxResult } from "./use-combobox";
 export { useDialogStack } from "./use-dialog-stack";
+export { useDocumentTitle } from "./use-document-title";
 export {
 	useDropdownMenu,
 	type UseDropdownMenuResult,

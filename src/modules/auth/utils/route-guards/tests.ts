@@ -144,7 +144,7 @@ describe("requireRoleBeforeLoad", () => {
 		expect(redirect).not.toHaveBeenCalled();
 	});
 
-	test("redirects users with another role to home", async () => {
+	test("redirects users with another role home, saying why", async () => {
 		const fetchQuery = vi.fn().mockResolvedValueOnce({ role: "user" });
 		const redirectResult = { reason: "forbidden" };
 
@@ -156,7 +156,11 @@ describe("requireRoleBeforeLoad", () => {
 			requireRoleBeforeLoad("admin")(createArgs(fetchQuery)),
 		).rejects.toBe(redirectResult);
 
-		expect(redirect).toHaveBeenCalledWith({ to: "/", replace: true });
+		expect(redirect).toHaveBeenCalledWith({
+			to: "/",
+			search: { reason: "forbidden" },
+			replace: true,
+		});
 	});
 
 	test("redirects unauthenticated users to login", async () => {

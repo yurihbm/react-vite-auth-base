@@ -15,6 +15,7 @@ import {
 	Stack,
 } from "@lib/ui";
 import { useAuth } from "@modules/auth";
+import { usePageTitle } from "@modules/shared/hooks";
 import { DeleteAccount } from "@modules/users/components/delete-account";
 import { DeleteUser } from "@modules/users/components/delete-user";
 import { EditNameForm } from "@modules/users/components/edit-name-form";
@@ -38,6 +39,12 @@ export function UserDetail({ uuid, onDeleted }: UserDetailProps) {
 	const { user: me } = useAuth<true>();
 	const { data: user, error, isPending } = useGetUser(uuid);
 	const apiErrorMessage = useApiErrorMessage(error);
+	const notFound = error instanceof APIError && error.status === 404;
+
+	usePageTitle(
+		user?.name ??
+			(notFound ? t("userPage.notFound.title") : t("userPage.title")),
+	);
 
 	const backLink = (
 		<Link to="/admin/users" search={{}} className={BACK_LINK_CLASS}>
@@ -55,7 +62,7 @@ export function UserDetail({ uuid, onDeleted }: UserDetailProps) {
 		);
 	}
 
-	if (error instanceof APIError && error.status === 404) {
+	if (notFound) {
 		return (
 			<EmptyState
 				icon={<UserCircleIcon size={24} />}

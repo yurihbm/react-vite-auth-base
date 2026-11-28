@@ -63,4 +63,10 @@ describe("AuthLayout", () => {
 		expect(container.querySelector("p")).toBeNull();
 		expect(screen.queryByRole("alert")).toBeNull();
 	});
+
+	test("titles the browser tab with the page title", () => {
+		render(<AuthLayout title="Sign in">x</AuthLayout>);
+
+		expect(document.title).toBe(`Sign in | ${import.meta.env.VITE_APP_NAME}`);
+	});
 });

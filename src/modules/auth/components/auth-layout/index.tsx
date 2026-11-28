@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
 
 import { Container, Heading, Text } from "@lib/ui";
+import { usePageTitle } from "@modules/shared/hooks";
 
 import { styles } from "./styles";
 
 export interface AuthLayoutProps {
-	/** The page's h1. */
-	title: ReactNode;
+	/** The page's h1, also used for the browser tab title. */
+	title: string;
 	/** One line under the title. */
 	description?: ReactNode;
 	/** A page-level message above the content, e.g. an `Alert`. */
@@ -29,6 +30,8 @@ export function AuthLayout({
 	children,
 }: AuthLayoutProps) {
 	const { root, card, header, footer: footerSlot } = styles();
+
+	usePageTitle(title);
 
 	return (
 		<Container className={root()} size="narrow">

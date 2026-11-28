@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@lib/i18n";
 import { Container, PageHeader, Section, Stack } from "@lib/ui";
 import { useAuth } from "@modules/auth";
-import { ButtonLink } from "@modules/shared";
+import { ButtonLink, usePageTitle } from "@modules/shared";
 import { ProfileCard } from "@modules/users";
 
 export const Route = createFileRoute("/_authenticated/account/")({
@@ -13,6 +13,8 @@ export const Route = createFileRoute("/_authenticated/account/")({
 function AccountComponent() {
 	const { user } = useAuth<true>();
 	const t = useTranslate("users");
+
+	usePageTitle(t("accountPage.title"));
 
 	return (
 		<Container>

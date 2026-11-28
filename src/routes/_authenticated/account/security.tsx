@@ -4,6 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslate } from "@lib/i18n";
 import { Container, PageHeader, Section, SettingRow, Stack } from "@lib/ui";
 import { useAuth } from "@modules/auth";
+import { usePageTitle } from "@modules/shared";
 import {
 	ChangeEmailForm,
 	ChangePasswordForm,
@@ -18,6 +19,8 @@ export const Route = createFileRoute("/_authenticated/account/security")({
 function SecurityComponent() {
 	const { user } = useAuth<true>();
 	const t = useTranslate("users");
+
+	usePageTitle(t("securityPage.title"));
 
 	return (
 		<Container>
