@@ -11,7 +11,47 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      app: ${{ steps.filter.outputs.app }}
+      i18n: ${{ steps.filter.outputs.i18n }}
+    steps:
+      - name: Filter changed files
+        id: filter
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          # Required checks must still report, so jobs are skipped (counts as
+          # passing) instead of filtering the workflow with `paths`.
+          files=
+          if [ "$EVENT" = pull_request ]; then
+            if ! files=$(gh api "repos/$REPO/pulls/$PR/files" --paginate --jq '.[].filename'); then
+              files=
+              echo "::warning::Could not list changed files; running all checks"
+            fi
+          fi
+          check() {
+            if [ -z "$files" ] || grep -Eq "$2" <<< "$files"; then
+              echo "$1=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "$1=false" >> "$GITHUB_OUTPUT"
+            fi
+          }
+          check app '^(src/|public/|scripts/|\.storybook/|index\.html$|package\.json$|pnpm-lock\.yaml$|pnpm-workspace\.yaml$|\.nvmrc$|tsconfig[^/]*\.json$|vite\.config\.ts$|vitest\.shims\.d\.ts$|i18next\.config\.ts$|\.github/workflows/test\.yml$)'
+          check i18n '^(src/|public/locales/|i18next\.config\.ts$|package\.json$|pnpm-lock\.yaml$|pnpm-workspace\.yaml$|\.nvmrc$|\.github/workflows/test\.yml$)'
+
   test:
+    needs: changes
+    if: needs.changes.outputs.app == 'true'
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -32,8 +72,24 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Get Playwright version
+        id: playwright
+        run: echo "version=$(pnpm exec playwright --version)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browser
+        id: playwright-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
       - name: Install Playwright browser
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps chromium
+
+      - name: Install Playwright system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
 
       - name: Run tests
         shell: bash
@@ -57,6 +113,9 @@ jobs:
           path: comment.md
 
   i18n-drift:
+    needs: changes
+    if: needs.changes.outputs.i18n == 'true'
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     permissions:
       contents: read
