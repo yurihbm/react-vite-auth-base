@@ -20,7 +20,10 @@ import {
 
 import { APIError } from "@lib/api";
 import { setupVirtualizerEnv } from "@lib/ui/components/option-list/test-support";
-import { useAuditLogsList } from "@modules/audit/services";
+import {
+	useAuditLogsList,
+	useAuditStatusCounts,
+} from "@modules/audit/services";
 
 import { AuditLogsList } from ".";
 
@@ -29,20 +32,35 @@ vi.mock("@tanstack/react-router", () => ({
 		to,
 		params,
 		children,
+		title,
 	}: {
 		to: string;
 		params: { uuid: string };
 		children: React.ReactNode;
-	}) => <a href={to.replace("$uuid", params.uuid)}>{children}</a>,
-}));
-
-vi.mock("@lib/charts", () => ({
-	PieChart: ({ data }: { data: Array<{ key: string; value: number }> }) => (
-		<div data-testid="pie-chart">
-			{data.map((slice) => `${slice.key}:${slice.value}`).join(",")}
-		</div>
+		title?: string;
+	}) => (
+		<a href={to.replace("$uuid", params.uuid)} title={title}>
+			{children}
+		</a>
 	),
 }));
+
+// Translates one action label so the test can tell it from the raw fallback.
+vi.mock("@lib/i18n", async (importOriginal) => {
+	const actual = await importOriginal<typeof import("@lib/i18n")>();
+
+	return {
+		...actual,
+		useTranslate: ((namespace: "audit") => {
+			const t = actual.useTranslate(namespace);
+
+			return ((key: string, options?: object) =>
+				key === "auditLogsList.actions.USER_UPDATE"
+					? "User updated"
+					: t(key as never, options as never)) as unknown as typeof t;
+		}) as typeof actual.useTranslate,
+	};
+});
 
 vi.mock("@lib/api", async (importOriginal) => ({
 	...(await importOriginal<typeof import("@lib/api")>()),
@@ -52,6 +70,7 @@ vi.mock("@lib/api", async (importOriginal) => ({
 
 vi.mock("@modules/audit/services", () => ({
 	useAuditLogsList: vi.fn(),
+	useAuditStatusCounts: vi.fn(),
 }));
 
 const ACTOR = "6f1f7c52-6f0c-4a52-9a43-0a3a1c2f6b11";
@@ -88,10 +107,14 @@ describe("AuditLogsList", () => {
 			hasNextPage: false,
 			isFetchingNextPage: false,
 			isPending: false,
+			isPlaceholderData: false,
 			error: null,
 			fetchNextPage,
 			...state,
 		} as unknown as ReturnType<typeof useAuditLogsList>);
+		vi.mocked(useAuditStatusCounts).mockReturnValue({
+			data: { success: 38, failure: 2 },
+		} as unknown as ReturnType<typeof useAuditStatusCounts>);
 	}
 
 	function renderList(
@@ -130,17 +153,48 @@ describe("AuditLogsList", () => {
 		expect(useAuditLogsList).toHaveBeenCalledWith(filters);
 	});
 
-	test("renders a row per log with actor and resource linking to the user", () => {
+	test("links the actor and user resources to the user, in the table and the cards", () => {
 		renderList();
 
-		const links = screen.getAllByRole("link");
-		expect(links.map((link) => link.getAttribute("href"))).toEqual([
-			`/admin/users/${ACTOR}`,
-			`/admin/users/${OK_LOG.resourceUuid}`,
-		]);
-		expect(screen.getByText("USER_UPDATE")).toBeTruthy();
-		expect(screen.getByText("SUCCESS")).toBeTruthy();
-		expect(screen.getByText("FAILURE")).toBeTruthy();
+		const hrefs = screen
+			.getAllByRole("link")
+			.map((link) => link.getAttribute("href"));
+
+		expect(
+			hrefs.filter((href) => href === `/admin/users/${ACTOR}`),
+		).toHaveLength(2);
+		expect(
+			hrefs.filter((href) => href === `/admin/users/${OK_LOG.resourceUuid}`),
+		).toHaveLength(2);
+		expect(screen.getAllByTitle(ACTOR).length).toBeGreaterThan(0);
+	});
+
+	test("names actions and statuses in the user's language", () => {
+		renderList();
+
+		expect(screen.getAllByText("User updated").length).toBeGreaterThan(0);
+		expect(
+			screen.getAllByText("auditLogsList.status.success").length,
+		).toBeGreaterThan(0);
+		expect(
+			screen.getAllByText(
+				new Intl.DateTimeFormat("en", {
+					dateStyle: "medium",
+					timeStyle: "short",
+				}).format(new Date(OK_LOG.createdAt)),
+			).length,
+		).toBeGreaterThan(0);
+	});
+
+	test("falls back to the raw action when it has no translation", () => {
+		mockQuery({
+			data: {
+				pages: [{ logs: [{ ...OK_LOG, action: "FUTURE_ACTION" }], total: 1 }],
+			},
+		});
+		renderList();
+
+		expect(screen.getAllByText("FUTURE_ACTION").length).toBeGreaterThan(0);
 	});
 
 	test("shows the total", () => {
@@ -149,12 +203,37 @@ describe("AuditLogsList", () => {
 		expect(screen.getByText("auditLogsList.total")).toBeTruthy();
 	});
 
-	test("summarizes the loaded logs by status", () => {
+	test("summarizes successes and failures for the current filters", () => {
+		renderList({ filters: { action: "LOGIN" } });
+
+		expect(useAuditStatusCounts).toHaveBeenCalledWith({ action: "LOGIN" });
+
+		const summary = screen.getByRole("group", {
+			name: "auditLogsList.summary.title",
+		});
+
+		expect(summary.textContent).toContain("38");
+		expect(summary.textContent).toContain("2");
+	});
+
+	test("collapses the filters behind a toggle on small screens", () => {
 		renderList();
 
-		expect(screen.getByTestId("pie-chart").textContent).toBe(
-			"SUCCESS:1,FAILURE:1",
-		);
+		const toggle = screen.getByRole("button", {
+			name: /auditLogsList\.filters\.toggle/,
+		});
+		const panel = document.getElementById(
+			toggle.getAttribute("aria-controls") as string,
+		) as HTMLElement;
+
+		expect(toggle.getAttribute("aria-expanded")).toBe("false");
+		expect(panel.className).toContain("hidden");
+		expect(panel.className).toContain("md:grid");
+
+		fireEvent.click(toggle);
+
+		expect(toggle.getAttribute("aria-expanded")).toBe("true");
+		expect(panel.className).not.toContain("hidden");
 	});
 
 	test("reports the selected status and keeps the other filters", () => {
@@ -251,21 +330,61 @@ describe("AuditLogsList", () => {
 		).toBe("2026-02-01T10:00");
 	});
 
-	test("loads the next page when the end is reached", () => {
+	test("marks empty date inputs so they do not look filled in", () => {
+		renderList();
+
+		expect(
+			screen
+				.getByLabelText("auditLogsList.startDate.label")
+				.getAttribute("data-empty"),
+		).toBe("true");
+	});
+
+	test("loads the next page from the load more button", () => {
 		mockQuery({ hasNextPage: true });
 		renderList();
 
-		expect(fetchNextPage).toHaveBeenCalled();
+		fireEvent.click(
+			screen.getByRole("button", { name: "auditLogsList.loadMore" }),
+		);
+
+		expect(fetchNextPage).toHaveBeenCalledTimes(1);
 	});
 
-	test("does not load more while fetching", () => {
+	test("disables load more while fetching", () => {
 		mockQuery({ hasNextPage: true, isFetchingNextPage: true });
 		renderList();
 
-		expect(fetchNextPage).not.toHaveBeenCalled();
+		expect(
+			(
+				screen.getByRole("button", {
+					name: "auditLogsList.loadingMore",
+				}) as HTMLButtonElement
+			).disabled,
+		).toBe(true);
 	});
 
-	test("shows the empty state", () => {
+	test("dims the current rows while new filters load", () => {
+		mockQuery({ isPlaceholderData: true, isFetching: true });
+		const { container } = renderList();
+
+		expect(container.querySelector('[aria-busy="true"]')).not.toBeNull();
+	});
+
+	test("offers to clear the filters when they match nothing", () => {
+		mockQuery({ data: { pages: [{ logs: [], total: 0 }] } });
+		renderList({ filters: { action: "LOGIN" } });
+
+		expect(screen.getByText("auditLogsList.emptyFiltered.title")).toBeTruthy();
+
+		fireEvent.click(
+			screen.getAllByRole("button", { name: "auditLogsList.clearFilters" })[0],
+		);
+
+		expect(onFiltersChange).toHaveBeenCalledWith({});
+	});
+
+	test("shows a plain empty state without filters", () => {
 		mockQuery({ data: { pages: [{ logs: [], total: 0 }] } });
 		renderList();
 
@@ -279,6 +398,6 @@ describe("AuditLogsList", () => {
 		});
 		renderList();
 
-		expect(screen.getByText("translated:x")).toBeTruthy();
+		expect(screen.getByRole("alert").textContent).toContain("translated:x");
 	});
 });

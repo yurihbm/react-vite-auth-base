@@ -67,11 +67,10 @@ function RootLayout() {
 						</>
 					)}
 				</Navbar>
-				{/* Pages add their own horizontal padding once they use Container. */}
 				<main
 					id={MAIN_CONTENT_ID}
 					tabIndex={-1}
-					className="flex flex-1 flex-col gap-4 px-4 py-6 outline-none sm:px-6"
+					className="flex flex-1 flex-col gap-4 py-6 outline-none"
 				>
 					<Outlet />
 				</main>

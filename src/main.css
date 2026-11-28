@@ -289,4 +289,9 @@ body {
 	:focus-visible {
 		@apply focus-outline;
 	}
+
+	/* Empty date inputs show no placeholder date (WebKit fills one in). */
+	input[data-empty="true"]:not(:focus)::-webkit-datetime-edit {
+		opacity: 0;
+	}
 }

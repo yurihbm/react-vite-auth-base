@@ -594,4 +594,18 @@ describe("Table sorting", () => {
 			expect(onEndReached).not.toHaveBeenCalled();
 		});
 	});
+
+	test("lets the page scroll the table so a sticky header follows the window", () => {
+		const { container } = render(
+			<Table columns={columns} data={data} scroll="page" sticky />,
+		);
+
+		const root = container.firstElementChild as HTMLElement;
+		const scrollArea = root.firstElementChild as HTMLElement;
+
+		expect(root.className).toContain("overflow-clip");
+		expect(root.className).not.toContain("overflow-hidden");
+		expect(scrollArea.className).not.toContain("overflow-auto");
+		expect(container.querySelector("thead")?.className).toContain("sticky");
+	});
 });

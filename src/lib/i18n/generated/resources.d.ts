@@ -6,10 +6,31 @@ export default interface Resources {
         "all": "All actions",
         "label": "Action"
       },
+      "actions": {
+        "EMAIL_CHANGE": "Email changed",
+        "EMAIL_CHANGE_REQUEST": "Email change requested",
+        "EMAIL_CHANGE_REVERT": "Email change undone",
+        "LOGIN": "Log in",
+        "LOGOUT": "Log out",
+        "LOGOUT_OTHERS": "Other devices signed out",
+        "OAUTH_LINK_REVERT": "Provider unlinked",
+        "OAUTH_LOGIN": "Social log in",
+        "PASSWORD_CHANGE": "Password changed",
+        "PASSWORD_RESET": "Password reset",
+        "PASSWORD_RESET_REQUEST": "Password reset requested",
+        "SIGNUP_REQUEST": "Sign-up requested",
+        "STEP_UP_REQUEST": "Identity check requested",
+        "STEP_UP_VERIFY": "Identity verified",
+        "USER_CREATE": "User created",
+        "USER_DELETE": "User deleted",
+        "USER_ROLE_CHANGE": "Role changed",
+        "USER_UPDATE": "User updated"
+      },
       "actor": {
         "label": "Actor UUID",
         "placeholder": "Filter by actor UUID"
       },
+      "clearFilters": "Clear filters",
       "columns": {
         "action": "Action",
         "actor": "Actor",
@@ -17,16 +38,30 @@ export default interface Resources {
         "resource": "Resource",
         "status": "Status"
       },
+      "copiedId": "Copied",
+      "copyId": "Copy ID",
       "empty": "No audit logs found.",
+      "emptyFiltered": {
+        "description": "Try other filters or a wider date range.",
+        "title": "No logs match these filters"
+      },
       "endDate": {
         "label": "Until (exclusive)"
       },
+      "filters": {
+        "title": "Filters",
+        "toggle": "Filters"
+      },
+      "loadMore": "Load more",
+      "loading": "Loading logs",
+      "loadingMore": "Loading…",
       "resource": {
         "all": "All resources",
         "auth": "Auth",
         "label": "Resource type",
         "user": "User"
       },
+      "showing": "Showing {{loaded}} of {{total}}",
       "startDate": {
         "label": "From"
       },
@@ -37,11 +72,14 @@ export default interface Resources {
         "success": "Success"
       },
       "summary": {
-        "title": "Loaded logs by status"
+        "failed": "failed",
+        "succeeded": "succeeded",
+        "title": "Status for these filters"
       },
       "total": "{{total}} logs"
     },
     "auditPage": {
+      "description": "Who did what and when, across the app.",
       "title": "Audit logs"
     }
   },

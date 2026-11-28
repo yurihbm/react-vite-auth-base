@@ -112,4 +112,25 @@ describe("useAuditLogsList", () => {
 		await waitFor(() => expect(result.current.isSuccess).toBe(true));
 		expect(result.current.data?.pages[0].logs[0].actorUuid).toBeUndefined();
 	});
+
+	test("keeps the previous results while new filters load", async () => {
+		mockFetch({
+			"GET /audit-logs": (request) =>
+				request.url.searchParams.get("action") === "LOGOUT"
+					? new Promise<Response>(() => {})
+					: jsonResponse({ data: [LOG], message: "ok", meta: { total: 1 } }),
+		});
+
+		const { result, rerender } = renderHook(
+			({ action }: { action?: string }) => useAuditLogsList({ action }),
+			{ wrapper: createQueryClientWrapper(), initialProps: {} },
+		);
+		await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+		rerender({ action: "LOGOUT" });
+
+		await waitFor(() => expect(result.current.isFetching).toBe(true));
+		expect(result.current.isPlaceholderData).toBe(true);
+		expect(result.current.data?.pages[0].logs).toHaveLength(1);
+	});
 });

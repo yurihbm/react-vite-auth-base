@@ -3,7 +3,7 @@
 exports[`Table > renders correctly 1`] = `
 <div>
   <div
-    class="h-full min-h-0 w-full overflow-hidden rounded-surface border border-border"
+    class="h-full min-h-0 w-full rounded-surface border border-border overflow-hidden"
   >
     <div
       class="h-full min-h-0 w-full overflow-auto"

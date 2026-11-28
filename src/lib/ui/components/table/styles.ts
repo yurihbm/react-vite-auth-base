@@ -4,10 +4,8 @@ import { tv } from "tailwind-variants";
 
 const styles = tv({
 	slots: {
-		root: [
-			"h-full min-h-0 w-full overflow-hidden rounded-surface border border-border",
-		],
-		scrollArea: ["h-full min-h-0 w-full overflow-auto"],
+		root: ["h-full min-h-0 w-full rounded-surface border border-border"],
+		scrollArea: ["h-full min-h-0 w-full"],
 		table: ["w-full caption-bottom border-collapse text-sm"],
 		caption: ["mt-4 text-sm text-foreground-muted"],
 		thead: ["bg-background-muted"],
@@ -61,6 +59,13 @@ const styles = tv({
 		sticky: {
 			true: { thead: "sticky top-0 z-10" },
 		},
+		// `container` scrolls inside the table; `page` lets the window scroll
+		// it, so a sticky header follows the page (clip, unlike hidden or
+		// auto, does not create a scroll container).
+		scroll: {
+			container: { root: "overflow-hidden", scrollArea: "overflow-auto" },
+			page: { root: "overflow-clip", scrollArea: "overflow-x-clip" },
+		},
 		striped: {
 			true: { tr: "[&:nth-child(even)]:bg-background-muted/30" },
 		},
@@ -73,6 +78,7 @@ const styles = tv({
 	},
 	defaultVariants: {
 		size: "md",
+		scroll: "container",
 	},
 });
 

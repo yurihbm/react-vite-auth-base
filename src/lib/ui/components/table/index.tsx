@@ -140,6 +140,12 @@ interface TableBaseProps<T extends RowData> {
 	 * height (e.g. through `className`) so the scroll area can scroll.
 	 */
 	virtualize?: TableVirtualizeOptions;
+	/**
+	 * `container` (default) scrolls inside the table; `page` lets the window
+	 * scroll it so a `sticky` header follows the page. Wide content is clipped in
+	 * `page` mode, so pair it with a narrow-screen alternative.
+	 */
+	scroll?: "container" | "page";
 	className?: string;
 	classNames?: TableStyles;
 }
@@ -175,6 +181,7 @@ export function Table<T extends RowData>({
 	sorting,
 	onSortingChange,
 	virtualize,
+	scroll,
 	className,
 	classNames,
 }: TableProps<T>) {
@@ -274,10 +281,10 @@ export function Table<T extends RowData>({
 		: 0;
 
 	return (
-		<div className={root({ className })}>
+		<div className={root({ scroll, className })}>
 			<div
 				ref={scrollRef}
-				className={scrollArea({ className: classNames?.scrollArea })}
+				className={scrollArea({ scroll, className: classNames?.scrollArea })}
 			>
 				<table
 					className={tableSlot({ bordered, className: classNames?.table })}
