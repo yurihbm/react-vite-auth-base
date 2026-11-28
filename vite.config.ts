@@ -192,10 +192,10 @@ export default defineConfig({
 			// when a run beats them, so commit the updated values.
 			thresholds: {
 				autoUpdate: true,
-				statements: 98.07,
-				branches: 91.82,
-				functions: 98.19,
-				lines: 98.34,
+				statements: 98.1,
+				branches: 92.01,
+				functions: 98.22,
+				lines: 98.37,
 			},
 			exclude: [
 				// Storybook folder

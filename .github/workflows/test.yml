@@ -101,15 +101,20 @@ jobs:
         id: coverage-report
         if: always() && hashFiles('coverage/coverage-summary.json') != ''
         env:
+          GH_TOKEN: ${{ github.token }}
           EVENT: ${{ github.event_name }}
-          BASE_REF: ${{ github.base_ref }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
         run: |
           # `autoUpdate` rewrites vite.config.ts in the workspace during the
           # test run, so read the committed version from git.
           git show HEAD:vite.config.ts > pr.vite.config.ts
           base_args=()
           if [ "$EVENT" = pull_request ]; then
-            git fetch --depth=1 origin "$BASE_REF"
+            # `github.base_ref` is the stack trunk for stacked PRs; the API has
+            # the branch this PR actually targets.
+            base_ref=$(gh api "repos/$REPO/pulls/$PR" --jq .base.ref)
+            git fetch --depth=1 origin "$base_ref"
             git show FETCH_HEAD:vite.config.ts > base.vite.config.ts
             base_args=(--base-config base.vite.config.ts)
           fi
