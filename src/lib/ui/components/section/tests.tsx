@@ -55,7 +55,7 @@ describe("Section", () => {
 
 		expect(region.className).toContain("rounded-surface");
 		expect(region.className).toContain("border-border");
-		expect(region.className).toContain("bg-background-elevated");
+		expect(region.className).toContain("bg-surface");
 		expect(region.className).toContain("custom");
 	});
 });

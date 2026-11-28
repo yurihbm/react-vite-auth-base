@@ -8,10 +8,7 @@ export const styles = tv({
 	variants: {
 		surface: {
 			true: {
-				root: [
-					"rounded-surface border border-border bg-background-elevated",
-					"p-4 sm:p-6",
-				],
+				root: ["rounded-surface border border-border bg-surface", "p-4 sm:p-6"],
 			},
 		},
 	},

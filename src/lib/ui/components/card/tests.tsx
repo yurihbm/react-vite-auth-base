@@ -84,4 +84,12 @@ describe("Card", () => {
 			"extra",
 		);
 	});
+
+	test("sits on the surface color", () => {
+		const { container } = render(<Card>Body</Card>);
+
+		expect((container.firstElementChild as HTMLElement).className).toContain(
+			"bg-surface",
+		);
+	});
 });

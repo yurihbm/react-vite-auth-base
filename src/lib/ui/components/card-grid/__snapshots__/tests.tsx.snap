@@ -6,7 +6,7 @@ exports[`CardGrid > renders correctly 1`] = `
     class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
   >
     <div
-      class="rounded-surface border border-border bg-background-elevated"
+      class="rounded-surface border border-border bg-surface"
       data-testid="card"
     >
       <div
@@ -17,7 +17,7 @@ exports[`CardGrid > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="rounded-surface border border-border bg-background-elevated"
+      class="rounded-surface border border-border bg-surface"
       data-testid="card"
     >
       <div
@@ -28,7 +28,7 @@ exports[`CardGrid > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="rounded-surface border border-border bg-background-elevated"
+      class="rounded-surface border border-border bg-surface"
       data-testid="card"
     >
       <div
@@ -39,7 +39,7 @@ exports[`CardGrid > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="rounded-surface border border-border bg-background-elevated"
+      class="rounded-surface border border-border bg-surface"
       data-testid="card"
     >
       <div
@@ -50,7 +50,7 @@ exports[`CardGrid > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="rounded-surface border border-border bg-background-elevated"
+      class="rounded-surface border border-border bg-surface"
       data-testid="card"
     >
       <div
@@ -61,7 +61,7 @@ exports[`CardGrid > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="rounded-surface border border-border bg-background-elevated"
+      class="rounded-surface border border-border bg-surface"
       data-testid="card"
     >
       <div

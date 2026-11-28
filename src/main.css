@@ -67,6 +67,7 @@
 	--color-background-muted: var(--theme-background-muted);
 	--color-background-elevated: var(--theme-background-elevated);
 	--color-background-inverse: var(--theme-background-inverse);
+	--color-surface: var(--theme-surface);
 
 	--color-foreground: var(--theme-foreground);
 	--color-foreground-muted: var(--theme-foreground-muted);
@@ -137,6 +138,7 @@
 	--theme-background: var(--color-neutral-950);
 	--theme-background-muted: var(--color-neutral-900);
 	--theme-background-elevated: var(--color-neutral-800);
+	--theme-surface: var(--color-neutral-900);
 	--theme-background-inverse: var(--color-neutral-50);
 
 	--theme-foreground: var(--color-neutral-50);
@@ -207,6 +209,7 @@
 	--theme-background: var(--color-white);
 	--theme-background-muted: var(--color-neutral-100);
 	--theme-background-elevated: var(--color-neutral-200);
+	--theme-surface: var(--color-white);
 	--theme-background-inverse: var(--color-neutral-950);
 
 	--theme-foreground: var(--color-neutral-950);
