@@ -13,23 +13,29 @@ also be adapted to other backends.
 The repository currently provides:
 
 - Vite + React + TypeScript base setup
-- File-based routing with TanStack Router
-- Server-state foundation with TanStack React Query
-- Tailwind CSS v4 setup
-- Linting, formatting, and test tooling configuration
+- File-based routing with TanStack Router, with route guards for signed-in,
+  signed-out and admin-only pages
+- Server-state foundation with TanStack React Query and an API client for
+  `go-net-http-auth-base` (session renewal, typed errors, response validation)
+- Auth flows: login, register with email verification, password reset, OAuth
+  login, step-up confirmation and emailed revert links
+- Account pages (profile, email, password, other devices, account deletion)
+  and an admin area (users, audit logs)
+- A design system in `src/lib/ui`: tokens, typography, layout and state
+  primitives, and an app shell (navbar, skip link, footer) with light and
+  dark themes
+- i18n (English and Portuguese) with typed keys
+- Linting, formatting, unit and Storybook test tooling
 
 Planned template capabilities (incremental):
 
-- Auth flow module (login, register, token/session handling)
 - Global app state management patterns
-- Reusable design system primitives and app layout
-- Integration-ready API layer for `go-net-http-auth-base`
 
 ## 📂 Project Structure
 
 The project follows a module-oriented structure and file-based routing.
 
-### Directory Layout (goal)
+### Directory Layout
 
 ```text
 src/
@@ -41,12 +47,14 @@ src/
 │   ├── tests/              # Test helpers and setup
 │   └── ui/                 # Design system components, hooks, utils
 ├── modules/                # App feature modules (@modules/*)
+│   ├── audit/              # Admin audit log
 │   ├── auth/               # Auth pages, hooks, services, guards
-│   ├── users/              # User management feature example
-│   └── shared/             # App-aware components shared across modules
+│   ├── home/               # Home page
+│   ├── users/              # Account and admin user management
+│   └── shared/             # App-aware components and hooks shared across modules
 ├── routes/                 # App routes and route-level composition
 ├── main.tsx                # Application entry point
-├── main.css                # Global styles and Tailwind import
+├── main.css                # Design tokens, themes and global styles
 └── routeTree.gen.ts        # Auto-generated route tree
 ```
 
@@ -61,6 +69,26 @@ src/
 - **Linting**: Oxlint
 - **Formatting**: Oxfmt
 - **Testing**: Vitest (`happy-dom` environment)
+
+## 🎨 Design System and Page Layout
+
+Design tokens are defined in `src/main.css`: the Inter Variable font, a type
+scale (`text-2xs` to `text-4xl`), radius (`rounded-control`,
+`rounded-surface`), shadows (`shadow-raised`, `shadow-overlay`) and semantic
+colors for both themes (including `surface`, `scrim` and `border-control`).
+Components use these utilities only, without arbitrary values.
+
+`src/lib/ui` provides the building blocks: `Heading` and `Text`; `Container`,
+`Stack` and `Inline`; `PageHeader`, `Section`, `SettingRow` and `Divider`;
+`EmptyState`, `InlineError` and `DescriptionList`; `Navbar`, `NavLink` and
+`SkipLink`; plus the existing controls (`Button`, `TextInput`, `Select`,
+`Table`, `Dialog`, `Toast`, ...). Browse them with `pnpm storybook`.
+
+Every page renders one `h1` through `PageHeader` inside a `Container` (or
+`AuthLayout` for sign-in and recovery pages) and titles the browser tab with
+`usePageTitle`. Destructive actions sit in a "Danger zone" section, and
+paginated lists use a "Load more" pattern. The full conventions are in
+[`AGENTS.md`](AGENTS.md#ui-composition-and-design-tokens).
 
 ## 🚀 Getting Started
 

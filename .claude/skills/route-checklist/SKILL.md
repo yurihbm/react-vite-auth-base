@@ -44,13 +44,37 @@ export const Route = createFileRoute("/_authenticated/things/")({
 
 The path string must match the file location. Search params are validated with `validateSearch`; any redirect target goes through `safeRedirect` (see `(auth)/login.tsx`). Use `useAuth<true>()` for the user inside private routes.
 
+Give the page its shape and tab title (see "UI composition and design tokens" in `AGENTS.md`):
+
+```tsx
+function ThingsComponent() {
+	const t = useTranslate("things");
+
+	usePageTitle(t("thingsPage.title"));
+
+	return (
+		<Container>
+			<Stack gap="lg" className="py-6">
+				<PageHeader
+					title={t("thingsPage.title")}
+					description={t("thingsPage.description")}
+				/>
+				<ThingsList />
+			</Stack>
+		</Container>
+	);
+}
+```
+
+Sign-in and recovery pages use `AuthLayout` (`@modules/auth`) instead, which renders the `h1` and sets the title.
+
 ## 5. Route Tree
 
 `src/routeTree.gen.ts` is generated, never edited by hand. Run `pnpm dev` (or `pnpm build`), let the router plugin rewrite it, and commit the change. Typecheck fails on a `Link to` or `createFileRoute` path that is missing from it.
 
 ## 6. Navigation
 
-Add the link where users reach it (`src/routes/__root.tsx` nav, with a `nav.link.*` key in the `shared` namespace, or the page that leads there) using `Link` from `@tanstack/react-router`.
+Add the link where users reach it: the app bar in `src/routes/__root.tsx` (a `RouterNavLink` inside `Navbar`, with a `nav.link.*` key in the `shared` namespace; it collapses into the mobile menu on its own), a shortcut card on the home page (`@modules/home`), or the page that leads there (`Link` from `@tanstack/react-router`, or `ButtonLink` from `@modules/shared` for a button-styled link).
 
 ## 7. Validate
 

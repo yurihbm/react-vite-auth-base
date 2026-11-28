@@ -91,7 +91,7 @@ Follow module-oriented layout under `src/`:
 - `src/routes/`: route definitions and route composition.
 - `src/modules/<module-name>/`: module-specific code.
 - `src/modules/shared/`: app-aware pieces shared across modules (e.g.
-  `ThemeToggle`, `LanguageSwitcher`).
+  `ThemeToggle`, `LanguageSwitcher`, `ButtonLink`, `usePageTitle`).
 - `src/lib/<lib-name>/`: app-agnostic libraries (`ui`, `charts`, `i18n`, `api`,
   `tests`, `dev-tools`). Libraries never import from `src/modules/`.
 
@@ -129,6 +129,58 @@ follows the same components/hooks/utils layout):
     - `tests.ts` for Vitest tests.
   - `index.ts` for barrel exports of all utilities.
 - `index.ts` for barrel exports of all module code.
+
+## UI composition and design tokens
+
+Design tokens live in `src/main.css` (`@theme` plus per-theme `--theme-*`
+variables). Use the Tailwind utilities they generate, never arbitrary values:
+
+- Font `font-sans` (self-hosted Inter Variable) and the type scale `text-2xs`
+  to `text-4xl`.
+- Radius: `rounded-control` (buttons, fields, small icon buttons) and
+  `rounded-surface` (cards, alerts, overlays, tables).
+- Shadow: `shadow-raised` (small floating elements) and `shadow-overlay`
+  (popovers, menus, dialogs, toasts).
+- Color: semantic tokens only (`bg-surface` for cards and sections,
+  `bg-scrim` behind dialogs, `border-border-control` for form controls and
+  outline buttons, `text-foreground-muted`, `bg-primary`, ...).
+- Focus: one global `:focus-visible` outline built from `--color-ring`; for
+  composite controls use the `focus-outline` utility
+  (`focus-within:focus-outline`, `peer-focus-visible:focus-outline`) instead
+  of `ring-*` classes.
+
+Building blocks in `@lib/ui`: `Heading` (level and size set separately) and
+`Text`; `Container` (`narrow`, `default`, `wide`), `Stack` and `Inline`;
+`PageHeader`, `Section` (`surface`, `tone="danger"`), `SettingRow`, `Divider`;
+`EmptyState`, `InlineError`, `DescriptionList`; `Navbar`, `NavLink`,
+`SkipLink`; `Button` variants `solid`, `outline` and `ghost`. App-aware ones:
+`AuthLayout` (`@modules/auth`), `ButtonLink` and `usePageTitle`
+(`@modules/shared`).
+
+Page conventions:
+
+- Every page renders one `h1`: `PageHeader` inside a `Container` (`Stack` with
+  `py-6` for spacing), or `AuthLayout` for sign-in and recovery pages. Do not
+  copy wrapper classes such as `mx-auto flex w-full flex-col gap-4
+  sm:max-w-sm` into routes. `<main>` adds no padding of its own.
+- Every page titles the tab with `usePageTitle(t("..."))` ("Page | App");
+  `AuthLayout` does it from its `title`.
+- Group related controls in `Section surface` cards; one setting per
+  `SettingRow` (label and description left, control right, stacked on
+  mobile). Buttons keep their own width (`self-end`) instead of `w-full`.
+- Destructive actions go in a separate `Section surface tone="danger"`
+  ("Danger zone") with a compact `color="danger"` button and a confirm
+  `Dialog` whose Cancel is `variant="outline"`.
+- Form-level errors use `Alert` (auth pages) or `InlineError`, both
+  `role="alert"`; never bare red text. Forms focus the first invalid field
+  after a failed submit with `useFocusFirstInvalid`.
+- Lists over the API's forward-only cursor use the "Load more" pattern: a
+  filter toolbar card, the total, the results (a `Table` from `md`, cards
+  below), `keepPreviousData` so rows stay dimmed while filters change, an
+  `EmptyState` with "Clear filters", and a Load more button with "Showing X
+  of Y". See `UsersList` and `AuditLogsList`.
+- Targets: at least 24px for links and small buttons, 44px for icon buttons
+  where the layout allows.
 
 ## Formatting, imports, and style conventions
 
