@@ -28,7 +28,6 @@ export const styles = tv({
 		},
 		color: {
 			primary: "",
-			secondary: "",
 			subtle: "",
 			info: "",
 			success: "",
@@ -44,15 +43,6 @@ export const styles = tv({
 				"bg-primary text-primary-foreground",
 				"hover:bg-primary-hover active:bg-primary-active",
 				"disabled:hover:bg-primary disabled:active:bg-primary",
-			],
-		},
-		{
-			variant: "solid",
-			color: "secondary",
-			class: [
-				"bg-secondary text-secondary-foreground",
-				"hover:bg-secondary-hover active:bg-secondary-active",
-				"disabled:hover:bg-secondary disabled:active:bg-secondary",
 			],
 		},
 		{

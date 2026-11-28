@@ -39,9 +39,6 @@ const styles = tv({
 			primary: {
 				inputContainer: ["focus-within:border-primary"],
 			},
-			secondary: {
-				inputContainer: ["focus-within:border-secondary"],
-			},
 			subtle: {
 				inputContainer: ["focus-within:border-foreground-muted"],
 			},

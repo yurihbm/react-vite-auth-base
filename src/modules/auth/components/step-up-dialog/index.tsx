@@ -111,7 +111,7 @@ export function StepUpDialog({
 							</Button>
 						</form>
 						<Button
-							color="secondary"
+							variant="ghost"
 							disabled={isSending || resendIn > 0}
 							onClick={onResend}
 						>

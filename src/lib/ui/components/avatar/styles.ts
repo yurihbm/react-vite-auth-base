@@ -21,7 +21,6 @@ const styles = tv({
 		},
 		color: {
 			primary: { root: "bg-primary text-primary-foreground" },
-			secondary: { root: "bg-secondary text-secondary-foreground" },
 			info: { root: "bg-info text-info-foreground" },
 			success: { root: "bg-success text-success-foreground" },
 			warning: { root: "bg-warning text-warning-foreground" },

@@ -10,7 +10,7 @@ const DATA = [
 		value: 420,
 		className: "text-primary",
 	},
-	{ key: "rent", label: "Rent", value: 1200, className: "text-secondary" },
+	{ key: "rent", label: "Rent", value: 1200, className: "text-success" },
 	{ key: "leisure", label: "Leisure", value: 180, className: "text-warning" },
 ];
 

@@ -13,7 +13,6 @@ export const styles = tv({
 		},
 		color: {
 			primary: "text-primary",
-			secondary: "text-secondary",
 			subtle: "text-foreground-subtle",
 			info: "text-info",
 			success: "text-success",

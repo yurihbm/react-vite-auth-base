@@ -12,7 +12,6 @@ export const styles = tv({
 		},
 		color: {
 			primary: "bg-primary-subtle text-primary-subtle-foreground",
-			secondary: "bg-secondary-subtle text-secondary-subtle-foreground",
 			subtle: "bg-subtle text-subtle-foreground",
 			info: "bg-info-subtle text-info-subtle-foreground",
 			success: "bg-success-subtle text-success-subtle-foreground",

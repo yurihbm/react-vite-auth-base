@@ -39,9 +39,6 @@ const styles = tv({
 			primary: {
 				trigger: "focus-visible:border-primary",
 			},
-			secondary: {
-				trigger: "focus-visible:border-secondary",
-			},
 			subtle: {
 				trigger: "focus-visible:border-foreground-muted",
 			},

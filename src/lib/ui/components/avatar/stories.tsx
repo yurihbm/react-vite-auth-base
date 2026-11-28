@@ -15,7 +15,7 @@ const meta: Meta<AvatarProps> = {
 			control: { type: "select" },
 		},
 		color: {
-			options: ["primary", "secondary", "info", "success", "warning", "danger"],
+			options: ["primary", "info", "success", "warning", "danger"],
 			control: { type: "select" },
 		},
 	},

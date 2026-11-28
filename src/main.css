@@ -88,13 +88,6 @@
 	--color-primary-subtle: var(--theme-primary-subtle);
 	--color-primary-subtle-foreground: var(--theme-primary-subtle-foreground);
 
-	--color-secondary: var(--theme-secondary);
-	--color-secondary-foreground: var(--theme-secondary-foreground);
-	--color-secondary-hover: var(--theme-secondary-hover);
-	--color-secondary-active: var(--theme-secondary-active);
-	--color-secondary-subtle: var(--theme-secondary-subtle);
-	--color-secondary-subtle-foreground: var(--theme-secondary-subtle-foreground);
-
 	/* Neutral interaction */
 	--color-subtle: var(--theme-subtle);
 	--color-subtle-foreground: var(--theme-subtle-foreground);
@@ -160,13 +153,6 @@
 	--theme-primary-subtle: var(--color-blue-950);
 	--theme-primary-subtle-foreground: var(--color-blue-200);
 
-	--theme-secondary: var(--color-indigo-500);
-	--theme-secondary-foreground: var(--color-white);
-	--theme-secondary-hover: var(--color-indigo-600);
-	--theme-secondary-active: var(--color-indigo-700);
-	--theme-secondary-subtle: var(--color-indigo-950);
-	--theme-secondary-subtle-foreground: var(--color-indigo-200);
-
 	/* Neutral interaction */
 	--theme-subtle: var(--color-neutral-800);
 	--theme-subtle-foreground: var(--color-neutral-200);
@@ -230,13 +216,6 @@
 	--theme-primary-active: var(--color-blue-800);
 	--theme-primary-subtle: var(--color-blue-50);
 	--theme-primary-subtle-foreground: var(--color-blue-700);
-
-	--theme-secondary: var(--color-indigo-600);
-	--theme-secondary-foreground: var(--color-white);
-	--theme-secondary-hover: var(--color-indigo-700);
-	--theme-secondary-active: var(--color-indigo-800);
-	--theme-secondary-subtle: var(--color-indigo-50);
-	--theme-secondary-subtle-foreground: var(--color-indigo-700);
 
 	/* Neutral interaction */
 	--theme-subtle: var(--color-neutral-100);

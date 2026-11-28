@@ -15,7 +15,7 @@ const meta: Meta<SelectProps> = {
 	argTypes: {
 		size: { options: ["sm", "md", "lg"], control: { type: "select" } },
 		color: {
-			options: ["primary", "secondary", "subtle"],
+			options: ["primary", "subtle"],
 			control: { type: "select" },
 		},
 	},
