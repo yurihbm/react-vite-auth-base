@@ -1,4 +1,7 @@
+import { Link } from "@tanstack/react-router";
+
 import { useApiErrorMessage } from "@lib/api";
+import { useTranslate } from "@lib/i18n";
 import { Alert, Button } from "@lib/ui";
 import { base } from "@modules/auth/components/login-form/styles";
 import { useCooldown } from "@modules/auth/hooks";
@@ -10,8 +13,8 @@ interface RevertConfirmProps {
 	onConfirm: () => void;
 	isPending?: boolean;
 	isSuccess?: boolean;
-	/** Disables the action, e.g. when the link has no token. */
-	isDisabled?: boolean;
+	/** The link lacks its token: explain that instead of offering the action. */
+	isLinkInvalid?: boolean;
 	error?: unknown;
 }
 
@@ -27,11 +30,27 @@ export function RevertConfirm({
 	onConfirm,
 	isPending = false,
 	isSuccess = false,
-	isDisabled = false,
+	isLinkInvalid = false,
 	error,
 }: RevertConfirmProps) {
+	const t = useTranslate("auth");
 	const apiErrorMessage = useApiErrorMessage(error);
 	const cooldown = useCooldown(error);
+
+	if (isLinkInvalid) {
+		return (
+			<div className={base()}>
+				<Alert
+					color="warning"
+					title={t("revertLink.invalid.title")}
+					description={t("revertLink.invalid.description")}
+				/>
+				<Link to="/" className="self-start text-sm underline">
+					{t("revertLink.invalid.action")}
+				</Link>
+			</div>
+		);
+	}
 
 	return (
 		<div className={base()}>
@@ -42,7 +61,7 @@ export function RevertConfirm({
 					<p>{description}</p>
 					{!!error && <Alert color="danger" description={apiErrorMessage} />}
 					<Button
-						disabled={isPending || isDisabled || cooldown.remaining > 0}
+						disabled={isPending || cooldown.remaining > 0}
 						onClick={onConfirm}
 					>
 						{confirmLabel}

@@ -146,6 +146,11 @@ interface TableBaseProps<T extends RowData> {
 	 * `page` mode, so pair it with a narrow-screen alternative.
 	 */
 	scroll?: "container" | "page";
+	/**
+	 * Accessible name of the table. In `container` mode it also names the scroll
+	 * area, which becomes a focusable region so keyboard users can scroll it.
+	 */
+	label?: string;
 	className?: string;
 	classNames?: TableStyles;
 }
@@ -181,7 +186,8 @@ export function Table<T extends RowData>({
 	sorting,
 	onSortingChange,
 	virtualize,
-	scroll,
+	scroll = "container",
+	label,
 	className,
 	classNames,
 }: TableProps<T>) {
@@ -284,9 +290,13 @@ export function Table<T extends RowData>({
 		<div className={root({ scroll, className })}>
 			<div
 				ref={scrollRef}
+				{...(scroll === "container" && label
+					? { role: "region", "aria-label": label, tabIndex: 0 }
+					: {})}
 				className={scrollArea({ scroll, className: classNames?.scrollArea })}
 			>
 				<table
+					aria-label={label}
 					className={tableSlot({ bordered, className: classNames?.table })}
 				>
 					{caption && (

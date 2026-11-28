@@ -245,4 +245,16 @@ describe("Dialog", () => {
 
 		expect(overlay.className).toContain("bg-scrim");
 	});
+
+	test("gives the close button a 44px target", () => {
+		const { getByRole } = render(
+			<Dialog open onClose={() => {}} title="Target">
+				Body
+			</Dialog>,
+		);
+
+		expect(getByRole("button", { name: "Close" }).className).toContain(
+			"size-11",
+		);
+	});
 });

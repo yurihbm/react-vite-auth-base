@@ -93,4 +93,10 @@ describe("Navbar", () => {
 
 		expect(toggle.getAttribute("aria-expanded")).toBe("false");
 	});
+
+	test("gives the menu toggle a 44px target", () => {
+		renderNavbar();
+
+		expect(getToggle().className).toContain("size-11");
+	});
 });

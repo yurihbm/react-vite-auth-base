@@ -26,7 +26,7 @@ function RouteComponent() {
 				onConfirm={() => token && revert({ token })}
 				isPending={isPending}
 				isSuccess={isSuccess}
-				isDisabled={!token}
+				isLinkInvalid={!token}
 				error={error}
 			/>
 		</AuthLayout>

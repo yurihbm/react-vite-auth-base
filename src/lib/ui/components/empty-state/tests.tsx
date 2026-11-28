@@ -52,4 +52,14 @@ describe("EmptyState", () => {
 		expect(root?.querySelector("[aria-hidden='true']")).toBeNull();
 		expect(root?.childElementCount).toBe(1);
 	});
+
+	test("can render the title as a heading when it heads the page", () => {
+		const { getByRole } = render(
+			<EmptyState title="User not found" titleAs="h1" />,
+		);
+
+		expect(
+			getByRole("heading", { level: 1, name: "User not found" }),
+		).toBeTruthy();
+	});
 });

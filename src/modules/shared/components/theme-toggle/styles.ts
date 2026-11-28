@@ -3,8 +3,8 @@ import { tv } from "tailwind-variants";
 const styles = tv({
 	slots: {
 		toggleButton: [
-			"cursor-pointer rounded p-2 text-base",
-			"hover:bg-background-elevated active:bg-background-muted",
+			"inline-flex size-11 cursor-pointer items-center justify-center rounded-control",
+			"text-base hover:bg-subtle-hover active:bg-subtle-active",
 			"disabled:cursor-not-allowed disabled:opacity-50",
 			"disabled:hover:bg-transparent disabled:active:bg-transparent",
 		],

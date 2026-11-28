@@ -3,6 +3,9 @@
 	"footer": {
 		"message": "Made with ❤️ by Yuri"
 	},
+	"languageSwitcher": {
+		"label": "Language"
+	},
 	"loginForm": {
 		"submitButton": "loginForm.submitButton",
 		"unexpectedError": "loginForm.unexpectedError"

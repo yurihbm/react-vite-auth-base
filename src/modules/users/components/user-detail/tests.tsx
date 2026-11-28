@@ -118,7 +118,12 @@ describe("UserDetail", () => {
 
 		render(<UserDetail uuid="missing" onDeleted={onDeleted} />);
 
-		expect(screen.getByText("userPage.notFound.title")).toBeTruthy();
+		expect(
+			screen.getByRole("heading", {
+				level: 1,
+				name: "userPage.notFound.title",
+			}),
+		).toBeTruthy();
 		expect(
 			screen
 				.getByRole("link", { name: "userPage.notFound.back" })

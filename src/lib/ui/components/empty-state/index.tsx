@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, JSX, ReactNode } from "react";
+import type { ComponentPropsWithRef, ElementType, JSX, ReactNode } from "react";
 
 import { styles } from "./styles";
 
@@ -9,6 +9,8 @@ export type EmptyStateProps = Omit<ComponentPropsWithRef<"div">, "title"> & {
 	action?: ReactNode;
 	/** A decorative icon shown above the title. */
 	icon?: ReactNode;
+	/** The title's element, e.g. `h1` when the empty state is the whole page. */
+	titleAs?: ElementType;
 };
 
 /**
@@ -20,6 +22,7 @@ export function EmptyState({
 	description,
 	action,
 	icon,
+	titleAs: Title = "p",
 	className,
 	...rest
 }: EmptyStateProps): JSX.Element {
@@ -38,7 +41,7 @@ export function EmptyState({
 					{icon}
 				</div>
 			)}
-			<p className={titleSlot()}>{title}</p>
+			<Title className={titleSlot()}>{title}</Title>
 			{description && <p className={descriptionSlot()}>{description}</p>}
 			{action && <div className={actionSlot()}>{action}</div>}
 		</div>

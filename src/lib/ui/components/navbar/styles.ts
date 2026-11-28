@@ -10,7 +10,7 @@ export const styles = tv({
 		nav: ["hidden flex-1 items-center gap-1 md:flex"],
 		actions: ["ml-auto flex items-center gap-2"],
 		toggle: [
-			"inline-flex size-10 cursor-pointer items-center justify-center rounded-control",
+			"inline-flex size-11 cursor-pointer items-center justify-center rounded-control",
 			"text-foreground-muted transition-colors duration-200",
 			"hover:bg-subtle-hover hover:text-foreground",
 			"md:hidden",

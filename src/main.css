@@ -177,14 +177,14 @@
 	--theme-info: var(--color-sky-500);
 	--theme-info-foreground: var(--color-sky-950);
 	--theme-info-hover: var(--color-sky-400);
-	--theme-info-active: var(--color-sky-600);
+	--theme-info-active: var(--color-sky-300);
 	--theme-info-subtle: var(--color-sky-950);
 	--theme-info-subtle-foreground: var(--color-sky-200);
 
 	--theme-success: var(--color-emerald-500);
 	--theme-success-foreground: var(--color-emerald-950);
 	--theme-success-hover: var(--color-emerald-400);
-	--theme-success-active: var(--color-emerald-600);
+	--theme-success-active: var(--color-emerald-300);
 	--theme-success-subtle: var(--color-emerald-950);
 	--theme-success-subtle-foreground: var(--color-emerald-200);
 
@@ -198,7 +198,7 @@
 	--theme-danger: var(--color-rose-400);
 	--theme-danger-foreground: var(--color-rose-950);
 	--theme-danger-hover: var(--color-rose-300);
-	--theme-danger-active: var(--color-rose-500);
+	--theme-danger-active: var(--color-rose-200);
 	--theme-danger-subtle: var(--color-rose-950);
 	--theme-danger-subtle-foreground: var(--color-rose-200);
 }
@@ -288,6 +288,18 @@ body {
 @layer base {
 	:focus-visible {
 		@apply focus-outline;
+	}
+
+	/* Honor reduced motion everywhere, including third-party animations. */
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
 	}
 
 	/* Empty date inputs show no placeholder date (WebKit fills one in). */

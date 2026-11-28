@@ -67,4 +67,10 @@ describe("ThemeToggle", () => {
 
 		expect(getByRole("button").className).toContain("text-info");
 	});
+
+	test("gives the toggle a 44px target", () => {
+		const { getByRole } = render(<ThemeToggle />);
+
+		expect(getByRole("button").className).toContain("size-11");
+	});
 });

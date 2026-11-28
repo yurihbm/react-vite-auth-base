@@ -274,6 +274,7 @@ export function AuditLogsList({
 					columns={columns}
 					sticky
 					scroll="page"
+					label={t("auditPage.title")}
 					className={table()}
 				/>
 				<ul className={cards()}>
@@ -413,7 +414,7 @@ export function AuditLogsList({
 				<div className={totalGroup()}>
 					{total !== undefined && (
 						<Text as="p" variant="muted" aria-live="polite">
-							{t("auditLogsList.total", { total })}
+							{t("auditLogsList.total", { count: total })}
 						</Text>
 					)}
 					{isFetching && !isPending && !isFetchingNextPage && (

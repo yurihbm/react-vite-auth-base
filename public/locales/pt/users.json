@@ -141,7 +141,9 @@
 			"placeholder": "Prefixo do nome ou e-mail"
 		},
 		"showing": "Mostrando {{loaded}} de {{total}}",
-		"total": "{{total}} usuários"
+		"total_one": "{{count}} usuário",
+		"total_many": "{{count}} usuários",
+		"total_other": "{{count}} usuários"
 	},
 	"usersPage": {
 		"description": "Encontre pessoas, altere o nome ou remova a conta.",

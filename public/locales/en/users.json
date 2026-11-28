@@ -141,7 +141,8 @@
 			"placeholder": "Name or email prefix"
 		},
 		"showing": "Showing {{loaded}} of {{total}}",
-		"total": "{{total}} users"
+		"total_one": "{{count}} user",
+		"total_other": "{{count}} users"
 	},
 	"usersPage": {
 		"description": "Find people, change their name or remove their account.",

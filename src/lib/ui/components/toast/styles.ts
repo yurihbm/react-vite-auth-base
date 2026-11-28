@@ -28,7 +28,8 @@ const styles = tv({
 		title: ["text-sm font-semibold"],
 		description: ["text-sm opacity-90"],
 		closeButton: [
-			"shrink-0 rounded-control p-0.5 opacity-70 transition-opacity duration-200",
+			"inline-flex size-8 shrink-0 items-center justify-center rounded-control",
+			"opacity-70 transition-opacity duration-200",
 			"hover:opacity-100",
 		],
 	},

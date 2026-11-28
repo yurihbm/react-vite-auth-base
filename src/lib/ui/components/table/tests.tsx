@@ -441,6 +441,13 @@ describe("Table sorting", () => {
 		expect(screen.getAllByTestId("table-sort-button")).toHaveLength(2);
 	});
 
+	test("gives sort triggers at least a 24px target", () => {
+		render(<Table data={data} columns={columns} />);
+		expect(screen.getAllByTestId("table-sort-button")[0].className).toContain(
+			"min-h-6",
+		);
+	});
+
 	test("does not render a sort trigger for columns without an accessorKey", () => {
 		const customColumns: ColumnDef<Person>[] = [
 			{ id: "custom", header: "Custom", cell: () => "x" },
@@ -607,5 +614,25 @@ describe("Table sorting", () => {
 		expect(root.className).not.toContain("overflow-hidden");
 		expect(scrollArea.className).not.toContain("overflow-auto");
 		expect(container.querySelector("thead")?.className).toContain("sticky");
+	});
+
+	test("makes the scroll area a focusable, labelled region", () => {
+		const { getByRole } = render(
+			<Table columns={columns} data={data} label="People" />,
+		);
+
+		const region = getByRole("region", { name: "People" });
+
+		expect(region.getAttribute("tabindex")).toBe("0");
+		expect(getByRole("table", { name: "People" })).toBeTruthy();
+	});
+
+	test("does not make a page-scrolled table a focus stop", () => {
+		const { getByRole, queryByRole } = render(
+			<Table columns={columns} data={data} label="People" scroll="page" />,
+		);
+
+		expect(queryByRole("region")).toBeNull();
+		expect(getByRole("table", { name: "People" })).toBeTruthy();
 	});
 });

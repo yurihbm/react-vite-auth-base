@@ -189,7 +189,12 @@ export function UsersList({ search, role, onFiltersChange }: UsersListProps) {
 
 		return (
 			<>
-				<Table data={users} columns={columns} className={table()} />
+				<Table
+					data={users}
+					columns={columns}
+					label={t("usersPage.title")}
+					className={table()}
+				/>
 				<ul className={cards()}>
 					{users.map((user) => (
 						<li key={user.uuid}>
@@ -254,7 +259,7 @@ export function UsersList({ search, role, onFiltersChange }: UsersListProps) {
 			<div className={resultsBar()}>
 				{total !== undefined && (
 					<Text as="p" variant="muted" aria-live="polite">
-						{t("usersList.total", { total })}
+						{t("usersList.total", { count: total })}
 					</Text>
 				)}
 				{isFetching && !isPending && !isFetchingNextPage && (

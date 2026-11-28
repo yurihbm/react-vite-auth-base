@@ -74,7 +74,9 @@
 			"succeeded": "com sucesso",
 			"title": "Status para esses filtros"
 		},
-		"total": "{{total}} logs"
+		"total_one": "{{count}} log",
+		"total_many": "{{count}} logs",
+		"total_other": "{{count}} logs"
 	},
 	"auditPage": {
 		"description": "Quem fez o quê e quando, em todo o app.",

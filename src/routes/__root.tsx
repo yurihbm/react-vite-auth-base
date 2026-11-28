@@ -70,7 +70,7 @@ function RootLayout() {
 				<main
 					id={MAIN_CONTENT_ID}
 					tabIndex={-1}
-					className="flex flex-1 flex-col gap-4 py-6 outline-none"
+					className="flex flex-1 flex-col outline-none"
 				>
 					<Outlet />
 				</main>

@@ -22,7 +22,8 @@ const styles = tv({
 			"flex items-center justify-end gap-2 border-t border-border px-6 py-4",
 		],
 		closeButton: [
-			"absolute top-4 right-4 rounded-control p-1 text-foreground-subtle",
+			"absolute top-2 right-2 inline-flex size-11 items-center justify-center",
+			"rounded-control text-foreground-subtle",
 			"transition-colors duration-200",
 			"hover:bg-background-elevated hover:text-foreground",
 			"cursor-pointer",

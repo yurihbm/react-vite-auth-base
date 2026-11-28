@@ -37,7 +37,7 @@ const styles = tv({
 			"peer-disabled:cursor-not-allowed peer-disabled:opacity-60",
 		],
 		thSortButton: [
-			"flex w-full cursor-pointer items-center justify-between gap-1 select-none",
+			"flex min-h-6 w-full cursor-pointer items-center justify-between gap-1 select-none",
 			"rounded-control hover:text-foreground",
 		],
 		sortIconGroup: ["flex flex-col items-center justify-center gap-px"],

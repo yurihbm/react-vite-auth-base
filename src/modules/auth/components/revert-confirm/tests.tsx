@@ -5,6 +5,12 @@ import { APIError } from "@lib/api";
 
 import { RevertConfirm } from ".";
 
+vi.mock("@tanstack/react-router", () => ({
+	Link: ({ to, children }: { to: string; children: React.ReactNode }) => (
+		<a href={to}>{children}</a>
+	),
+}));
+
 vi.mock("@lib/api", async (importOriginal) => ({
 	...(await importOriginal<typeof import("@lib/api")>()),
 	useApiErrorMessage: (error: unknown) =>
@@ -66,12 +72,6 @@ describe("RevertConfirm", () => {
 		expect((getByRole("button") as HTMLButtonElement).disabled).toBe(true);
 	});
 
-	test("disables the button when there is no token", () => {
-		const { getByRole } = render(<RevertConfirm {...baseProps} isDisabled />);
-
-		expect((getByRole("button") as HTMLButtonElement).disabled).toBe(true);
-	});
-
 	test("disables the button after a rate limit error", () => {
 		const { getByRole } = render(
 			<RevertConfirm
@@ -87,5 +87,21 @@ describe("RevertConfirm", () => {
 		const { queryByRole } = render(<RevertConfirm {...baseProps} />);
 
 		expect(queryByRole("heading")).toBeNull();
+	});
+
+	test("explains an incomplete link instead of offering a dead button", () => {
+		const { getByRole, queryByRole } = render(
+			<RevertConfirm {...baseProps} isLinkInvalid />,
+		);
+
+		expect(getByRole("alert").textContent).toContain(
+			"revertLink.invalid.description",
+		);
+		expect(
+			getByRole("link", { name: "revertLink.invalid.action" }).getAttribute(
+				"href",
+			),
+		).toBe("/");
+		expect(queryByRole("button", { name: "Undo it" })).toBeNull();
 	});
 });

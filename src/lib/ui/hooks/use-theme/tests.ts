@@ -73,4 +73,20 @@ describe("useTheme", () => {
 
 		expect(result.current.theme).toBe(initial);
 	});
+
+	test("matches the browser theme color to the theme", () => {
+		const meta = document.createElement("meta");
+		meta.name = "theme-color";
+		document.head.append(meta);
+
+		const { result } = renderHook(() => useTheme());
+
+		act(() => result.current.setTheme("light"));
+		expect(meta.content).toBe("#ffffff");
+
+		act(() => result.current.setTheme("dark"));
+		expect(meta.content).toBe("#0a0a0a");
+
+		meta.remove();
+	});
 });

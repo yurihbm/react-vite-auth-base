@@ -76,7 +76,8 @@ export default interface Resources {
         "succeeded": "succeeded",
         "title": "Status for these filters"
       },
-      "total": "{{total}} logs"
+      "total_one": "{{count}} log",
+      "total_other": "{{count}} logs"
     },
     "auditPage": {
       "description": "Who did what and when, across the app.",
@@ -215,6 +216,13 @@ export default interface Resources {
       "description": "This restores your previous email address and signs you out of every device.",
       "success": "Your previous email was restored and you were signed out of every device.",
       "title": "Undo email change"
+    },
+    "revertLink": {
+      "invalid": {
+        "action": "Go to the home page",
+        "description": "It is missing the code that confirms the change. Open the link from the email again, or copy the whole address.",
+        "title": "This link is incomplete"
+      }
     },
     "revertOAuthLink": {
       "confirmButton": "Unlink provider",
@@ -462,6 +470,9 @@ export default interface Resources {
     "footer": {
       "message": "Made with ❤️ by Yuri"
     },
+    "languageSwitcher": {
+      "label": "Language"
+    },
     "loginForm": {
       "submitButton": "loginForm.submitButton",
       "unexpectedError": "loginForm.unexpectedError"
@@ -626,7 +637,8 @@ export default interface Resources {
         "placeholder": "Name or email prefix"
       },
       "showing": "Showing {{loaded}} of {{total}}",
-      "total": "{{total}} users"
+      "total_one": "{{count}} user",
+      "total_other": "{{count}} users"
     },
     "usersPage": {
       "description": "Find people, change their name or remove their account.",

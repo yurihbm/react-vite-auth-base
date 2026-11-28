@@ -3,6 +3,9 @@
 	"footer": {
 		"message": "Feito com ❤️ por Yuri"
 	},
+	"languageSwitcher": {
+		"label": "Idioma"
+	},
 	"loginForm": {
 		"submitButton": "",
 		"unexpectedError": ""

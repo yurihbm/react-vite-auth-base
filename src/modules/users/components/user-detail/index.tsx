@@ -67,6 +67,7 @@ export function UserDetail({ uuid, onDeleted }: UserDetailProps) {
 			<EmptyState
 				icon={<UserCircleIcon size={24} />}
 				title={t("userPage.notFound.title")}
+				titleAs="h1"
 				description={t("userPage.notFound.description")}
 				action={
 					<Link to="/admin/users" search={{}} className="underline">
