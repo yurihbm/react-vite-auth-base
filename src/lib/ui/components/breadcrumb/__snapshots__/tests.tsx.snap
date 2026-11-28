@@ -13,7 +13,7 @@ exports[`Breadcrumb > renders correctly 1`] = `
         class="flex items-center"
       >
         <a
-          class="inline-flex min-h-11 items-center px-1 py-1.5 text-sm text-foreground-muted transition-colors duration-150 hover:text-foreground rounded focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
+          class="inline-flex min-h-11 items-center px-1 py-1.5 text-sm text-foreground-muted transition-colors duration-150 hover:text-foreground rounded-control focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
           href="/"
         >
           Home
@@ -29,7 +29,7 @@ exports[`Breadcrumb > renders correctly 1`] = `
         class="flex items-center"
       >
         <a
-          class="inline-flex min-h-11 items-center px-1 py-1.5 text-sm text-foreground-muted transition-colors duration-150 hover:text-foreground rounded focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
+          class="inline-flex min-h-11 items-center px-1 py-1.5 text-sm text-foreground-muted transition-colors duration-150 hover:text-foreground rounded-control focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none"
           href="/library"
         >
           Library

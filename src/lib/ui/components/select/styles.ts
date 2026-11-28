@@ -7,7 +7,7 @@ const styles = tv({
 		root: ["relative flex flex-col gap-1"],
 		labelText: ["text-sm font-medium text-foreground"],
 		trigger: [
-			"flex w-full items-center justify-between gap-2 rounded border border-border",
+			"flex w-full items-center justify-between gap-2 rounded-control border border-border-control",
 			"bg-background-muted text-left text-foreground transition-colors duration-200",
 			"focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
 			"disabled:cursor-not-allowed disabled:opacity-60",
@@ -19,12 +19,12 @@ const styles = tv({
 			"data-[open=true]:rotate-180",
 		],
 		panel: [
-			"absolute top-full left-0 z-40 mt-1 w-full overflow-hidden rounded",
-			"border border-border bg-background-muted shadow-lg",
+			"absolute top-full left-0 z-40 mt-1 w-full overflow-hidden rounded-surface",
+			"border border-border bg-background-muted shadow-overlay",
 		],
 		searchWrapper: ["border-b border-border p-2"],
 		searchInput: [
-			"w-full rounded bg-background px-2 py-1 text-sm text-foreground outline-none",
+			"w-full rounded-control bg-background px-2 py-1 text-sm text-foreground outline-none",
 			"placeholder:text-foreground-subtle",
 			"focus-visible:ring-2 focus-visible:ring-ring/40",
 		],
@@ -45,7 +45,7 @@ const styles = tv({
 			},
 			subtle: {
 				trigger:
-					"focus-visible:border-border-strong focus-visible:ring-ring/40",
+					"focus-visible:border-foreground-muted focus-visible:ring-ring/40",
 			},
 		},
 		isError: {

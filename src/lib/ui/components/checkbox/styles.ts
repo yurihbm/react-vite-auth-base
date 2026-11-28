@@ -12,7 +12,7 @@ const styles = tv({
 			"disabled:cursor-not-allowed",
 		],
 		box: [
-			"flex items-center justify-center rounded border border-border-strong",
+			"flex items-center justify-center rounded-control border border-border-control",
 			"bg-background-muted text-transparent transition-colors duration-200",
 			"peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground",
 			"peer-indeterminate:border-primary peer-indeterminate:bg-primary peer-indeterminate:text-primary-foreground",

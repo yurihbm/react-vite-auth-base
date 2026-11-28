@@ -6,19 +6,19 @@ exports[`OAuthButtons > renders correctly 1`] = `
     class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
   >
     <button
-      class="flex items-center justify-center gap-2 rounded px-4 py-2 whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 text-base bg-secondary text-secondary-foreground hover:bg-secondary-hover active:bg-secondary-active disabled:hover:bg-secondary disabled:active:bg-secondary"
+      class="flex items-center justify-center gap-2 rounded-control px-4 py-2 whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 text-base bg-secondary text-secondary-foreground hover:bg-secondary-hover active:bg-secondary-active disabled:hover:bg-secondary disabled:active:bg-secondary"
       type="button"
     >
       oauthButtons.google
     </button>
     <button
-      class="flex items-center justify-center gap-2 rounded px-4 py-2 whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 text-base bg-secondary text-secondary-foreground hover:bg-secondary-hover active:bg-secondary-active disabled:hover:bg-secondary disabled:active:bg-secondary"
+      class="flex items-center justify-center gap-2 rounded-control px-4 py-2 whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 text-base bg-secondary text-secondary-foreground hover:bg-secondary-hover active:bg-secondary-active disabled:hover:bg-secondary disabled:active:bg-secondary"
       type="button"
     >
       oauthButtons.github
     </button>
     <button
-      class="flex items-center justify-center gap-2 rounded px-4 py-2 whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 text-base bg-secondary text-secondary-foreground hover:bg-secondary-hover active:bg-secondary-active disabled:hover:bg-secondary disabled:active:bg-secondary"
+      class="flex items-center justify-center gap-2 rounded-control px-4 py-2 whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 text-base bg-secondary text-secondary-foreground hover:bg-secondary-hover active:bg-secondary-active disabled:hover:bg-secondary disabled:active:bg-secondary"
       type="button"
     >
       oauthButtons.microsoft

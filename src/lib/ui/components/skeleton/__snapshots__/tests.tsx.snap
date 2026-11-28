@@ -4,7 +4,7 @@ exports[`Skeleton > renders correctly 1`] = `
 <div>
   <div
     aria-hidden="true"
-    class="block animate-pulse bg-background-elevated h-4 w-full rounded"
+    class="block animate-pulse bg-background-elevated h-4 w-full rounded-control"
   />
 </div>
 `;

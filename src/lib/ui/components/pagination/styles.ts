@@ -6,7 +6,7 @@ const styles = tv({
 	slots: {
 		root: ["flex flex-wrap items-center gap-1"],
 		button: [
-			"inline-flex items-center justify-center rounded font-medium",
+			"inline-flex items-center justify-center rounded-control font-medium",
 			"transition-colors duration-150",
 			"focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
 			"disabled:cursor-not-allowed disabled:opacity-50",

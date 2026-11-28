@@ -22,7 +22,7 @@ const styles = tv({
 		// Absolutely-positioned circle — sibling of nativeInput, so
 		// peer-checked:translate-x-* works correctly.
 		thumb: [
-			"absolute top-0.5 left-0.5 rounded-full bg-white shadow",
+			"absolute top-0.5 left-0.5 rounded-full bg-white shadow-raised",
 			"pointer-events-none transition-transform duration-200",
 		],
 		labelText: ["cursor-pointer text-sm text-foreground select-none"],

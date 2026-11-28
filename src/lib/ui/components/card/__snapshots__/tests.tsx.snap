@@ -3,7 +3,7 @@
 exports[`Card > renders correctly 1`] = `
 <div>
   <div
-    class="rounded-lg border border-border bg-background-elevated"
+    class="rounded-surface border border-border bg-background-elevated"
   >
     <div
       class="p-4"

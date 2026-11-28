@@ -22,13 +22,13 @@ export const viewportStyles = tv({
 const styles = tv({
 	slots: {
 		root: [
-			"pointer-events-auto flex w-full items-start gap-3 rounded-lg border p-4 shadow-lg",
+			"pointer-events-auto flex w-full items-start gap-3 rounded-surface border p-4 shadow-overlay",
 		],
 		content: ["flex flex-1 flex-col gap-0.5"],
 		title: ["text-sm font-semibold"],
 		description: ["text-sm opacity-90"],
 		closeButton: [
-			"shrink-0 rounded p-0.5 opacity-70 transition-opacity duration-200",
+			"shrink-0 rounded-control p-0.5 opacity-70 transition-opacity duration-200",
 			"hover:opacity-100",
 			"focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
 		],

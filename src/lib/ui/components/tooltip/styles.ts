@@ -5,7 +5,7 @@ const styles = tv({
 		wrapper: ["relative inline-flex"],
 		content: [
 			"absolute z-50 w-max max-w-xs",
-			"rounded px-2 py-1 text-xs font-medium shadow",
+			"rounded-surface px-2 py-1 text-xs font-medium shadow-raised",
 			"border border-border bg-background-elevated text-foreground",
 			"pointer-events-none",
 		],

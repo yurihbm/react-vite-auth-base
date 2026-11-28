@@ -5,7 +5,7 @@ import { tv } from "tailwind-variants";
 const styles = tv({
 	slots: {
 		root: [
-			"h-full min-h-0 w-full overflow-hidden rounded-lg border border-border",
+			"h-full min-h-0 w-full overflow-hidden rounded-surface border border-border",
 		],
 		scrollArea: ["h-full min-h-0 w-full overflow-auto"],
 		table: ["w-full caption-bottom border-collapse text-sm"],
@@ -31,7 +31,7 @@ const styles = tv({
 			"disabled:cursor-not-allowed",
 		],
 		checkboxBox: [
-			"flex size-4 items-center justify-center rounded border border-border-strong",
+			"flex size-4 items-center justify-center rounded-control border border-border-control",
 			"bg-background-muted text-transparent transition-colors duration-200",
 			"peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground",
 			"peer-indeterminate:border-primary peer-indeterminate:bg-primary peer-indeterminate:text-primary-foreground",
@@ -41,7 +41,7 @@ const styles = tv({
 		thSortButton: [
 			"flex w-full cursor-pointer items-center justify-between gap-1 select-none",
 			"hover:text-foreground focus-visible:outline-none",
-			"rounded-sm focus-visible:ring-2 focus-visible:ring-ring/40",
+			"rounded-control focus-visible:ring-2 focus-visible:ring-ring/40",
 		],
 		sortIconGroup: ["flex flex-col items-center justify-center gap-px"],
 		sortIcon: ["size-2 text-foreground-subtle transition-colors"],

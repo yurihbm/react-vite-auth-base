@@ -122,7 +122,7 @@ describe("Table", () => {
 		const scrollArea = root?.firstElementChild;
 
 		expect(root?.className).toContain("overflow-hidden");
-		expect(root?.className).toContain("rounded-lg");
+		expect(root?.className).toContain("rounded-surface");
 		expect(scrollArea?.className).toContain("overflow-auto");
 		expect(scrollArea?.className).toContain("h-full");
 	});

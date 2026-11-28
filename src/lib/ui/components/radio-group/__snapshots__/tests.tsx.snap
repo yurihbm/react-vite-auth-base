@@ -26,7 +26,7 @@ exports[`RadioGroup > renders correctly 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex items-center justify-center rounded-full border border-border-strong bg-background-muted transition-colors duration-200 peer-checked:border-primary peer-checked:bg-primary/10 size-5"
+          class="flex items-center justify-center rounded-full border border-border-control bg-background-muted transition-colors duration-200 peer-checked:border-primary peer-checked:bg-primary/10 size-5"
         >
           <span
             class="rounded-full bg-primary opacity-0 transition-opacity peer-checked:opacity-100 size-2.5"
@@ -56,7 +56,7 @@ exports[`RadioGroup > renders correctly 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex items-center justify-center rounded-full border border-border-strong bg-background-muted transition-colors duration-200 peer-checked:border-primary peer-checked:bg-primary/10 size-5"
+          class="flex items-center justify-center rounded-full border border-border-control bg-background-muted transition-colors duration-200 peer-checked:border-primary peer-checked:bg-primary/10 size-5"
         >
           <span
             class="rounded-full bg-primary opacity-0 transition-opacity peer-checked:opacity-100 size-2.5"
@@ -86,7 +86,7 @@ exports[`RadioGroup > renders correctly 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex items-center justify-center rounded-full border border-border-strong bg-background-muted transition-colors duration-200 peer-checked:border-primary peer-checked:bg-primary/10 size-5"
+          class="flex items-center justify-center rounded-full border border-border-control bg-background-muted transition-colors duration-200 peer-checked:border-primary peer-checked:bg-primary/10 size-5"
         >
           <span
             class="rounded-full bg-primary opacity-0 transition-opacity peer-checked:opacity-100 size-2.5"

@@ -3,7 +3,7 @@ import { tv } from "tailwind-variants";
 const styles = tv({
 	slots: {
 		content: [
-			"rounded-lg border border-border bg-background-elevated p-4 shadow-lg",
+			"rounded-surface border border-border bg-background-elevated p-4 shadow-overlay",
 			"focus-visible:outline-none",
 		],
 	},

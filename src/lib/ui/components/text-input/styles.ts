@@ -9,7 +9,7 @@ const styles = tv({
 		baseContainer: ["flex flex-col gap-1"],
 		inputMessage: ["min-h-4 text-xs text-foreground-muted"],
 		inputContainer: [
-			"flex items-center gap-2 rounded border border-border bg-background-muted",
+			"flex items-center gap-2 rounded-control border border-border-control bg-background-muted",
 			"transition-colors duration-200",
 			"focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/40",
 			"data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60",
@@ -47,7 +47,7 @@ const styles = tv({
 			},
 			subtle: {
 				inputContainer: [
-					"focus-within:border-border-strong focus-within:ring-ring/40",
+					"focus-within:border-foreground-muted focus-within:ring-ring/40",
 				],
 			},
 			info: {

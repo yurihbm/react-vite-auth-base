@@ -3,7 +3,7 @@
 exports[`Alert > renders correctly 1`] = `
 <div>
   <div
-    class="flex items-start gap-3 rounded-lg border p-4 border-info bg-info-subtle text-info-subtle-foreground"
+    class="flex items-start gap-3 rounded-surface border p-4 border-info bg-info-subtle text-info-subtle-foreground"
     role="alert"
   >
     <svg
