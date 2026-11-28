@@ -32,8 +32,9 @@ const styles = tv({
 	},
 	variants: {
 		size: {
-			sm: { trigger: "px-3 py-1.5 text-sm" },
-			md: { trigger: "px-3 py-2 text-base" },
+			sm: { trigger: "h-8 px-3 text-sm" },
+			md: { trigger: "h-10 px-3 text-base" },
+			lg: { trigger: "h-12 px-4 text-lg" },
 		},
 		color: {
 			primary: {

@@ -15,7 +15,7 @@ exports[`TextInput > renders correctly 1`] = `
       class="flex flex-col gap-1"
     >
       <div
-        class="flex items-center gap-2 rounded-control border border-border-control bg-background-muted transition-colors duration-200 focus-within:ring-2 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60 px-3 py-2 focus-within:border-primary focus-within:ring-primary/40"
+        class="flex items-center gap-2 rounded-control border border-border-control bg-background-muted transition-colors duration-200 focus-within:ring-2 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60 h-10 px-3 focus-within:border-primary focus-within:ring-primary/40"
         data-disabled="false"
       >
         <input

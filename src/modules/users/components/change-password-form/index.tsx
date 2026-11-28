@@ -42,7 +42,7 @@ export function ChangePasswordForm() {
 		<form onSubmit={handleSubmit} className={base()}>
 			<p>{t("changePasswordForm.description")}</p>
 			{isSuccess && (
-				<Alert type="success" description={t("changePasswordForm.success")} />
+				<Alert color="success" description={t("changePasswordForm.success")} />
 			)}
 			{!!error && !(error instanceof StepUpCancelledError) && (
 				<p className={errorMessage()}>{apiErrorMessage}</p>

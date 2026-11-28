@@ -33,4 +33,16 @@ describe("Divider", () => {
 		expect(queryByRole("separator")).toBeNull();
 		expect(container.querySelectorAll("[aria-hidden='true']")).toHaveLength(2);
 	});
+
+	test("forwards extra props in both forms", () => {
+		const { getByTestId, rerender } = render(
+			<Divider data-testid="divider" id="plain" />,
+		);
+
+		expect(getByTestId("divider").id).toBe("plain");
+
+		rerender(<Divider data-testid="divider" id="labelled" label="or" />);
+
+		expect(getByTestId("divider").id).toBe("labelled");
+	});
 });

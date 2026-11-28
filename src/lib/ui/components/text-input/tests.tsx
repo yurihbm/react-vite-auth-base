@@ -140,4 +140,22 @@ describe("TextInput", () => {
 
 		expect(message.className).toContain("text-success");
 	});
+
+	test.each([
+		["sm", ["h-8", "px-3"], "text-sm"],
+		["md", ["h-10", "px-3"], "text-base"],
+		["lg", ["h-12", "px-4"], "text-lg"],
+	] as const)(
+		"sizes the %s field like a button of the same size",
+		(size, containerClasses, textClass) => {
+			const { getByRole } = render(<TextInput label="Name" size={size} />);
+
+			const input = getByRole("textbox", { name: "Name" });
+
+			for (const className of containerClasses) {
+				expect(input.parentElement?.className).toContain(className);
+			}
+			expect(input.className).toContain(textClass);
+		},
+	);
 });

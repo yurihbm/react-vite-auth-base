@@ -158,8 +158,8 @@
 
 	--theme-secondary: var(--color-indigo-500);
 	--theme-secondary-foreground: var(--color-white);
-	--theme-secondary-hover: var(--color-indigo-400);
-	--theme-secondary-active: var(--color-indigo-600);
+	--theme-secondary-hover: var(--color-indigo-600);
+	--theme-secondary-active: var(--color-indigo-700);
 	--theme-secondary-subtle: var(--color-indigo-950);
 	--theme-secondary-subtle-foreground: var(--color-indigo-200);
 
@@ -239,17 +239,17 @@
 	--theme-subtle-active: var(--color-neutral-300);
 
 	/* Semantic */
-	--theme-info: var(--color-sky-600);
+	--theme-info: var(--color-sky-700);
 	--theme-info-foreground: var(--color-white);
-	--theme-info-hover: var(--color-sky-500);
-	--theme-info-active: var(--color-sky-700);
+	--theme-info-hover: var(--color-sky-800);
+	--theme-info-active: var(--color-sky-900);
 	--theme-info-subtle: var(--color-sky-50);
 	--theme-info-subtle-foreground: var(--color-sky-700);
 
-	--theme-success: var(--color-emerald-600);
+	--theme-success: var(--color-emerald-700);
 	--theme-success-foreground: var(--color-white);
-	--theme-success-hover: var(--color-emerald-500);
-	--theme-success-active: var(--color-emerald-700);
+	--theme-success-hover: var(--color-emerald-800);
+	--theme-success-active: var(--color-emerald-900);
 	--theme-success-subtle: var(--color-emerald-50);
 	--theme-success-subtle-foreground: var(--color-emerald-700);
 

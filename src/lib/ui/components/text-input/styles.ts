@@ -22,15 +22,15 @@ const styles = tv({
 	variants: {
 		size: {
 			sm: {
-				inputContainer: ["px-3 py-1.5"],
+				inputContainer: ["h-8 px-3"],
 				innerInput: ["text-sm"],
 			},
 			md: {
-				inputContainer: ["px-3 py-2"],
+				inputContainer: ["h-10 px-3"],
 				innerInput: ["text-base"],
 			},
 			lg: {
-				inputContainer: ["px-4 py-2.5"],
+				inputContainer: ["h-12 px-4"],
 				innerInput: ["text-lg"],
 			},
 		},

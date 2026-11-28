@@ -11,7 +11,7 @@ const meta: Meta<AlertProps> = {
 		title: "Heads up",
 	},
 	argTypes: {
-		type: {
+		color: {
 			options: ["info", "success", "warning", "danger"],
 			control: { type: "select" },
 		},
@@ -24,35 +24,35 @@ type Story = StoryObj<typeof meta>;
 
 export const Info: Story = {
 	args: {
-		type: "info",
+		color: "info",
 		title: "Information",
 	},
 };
 
 export const Success: Story = {
 	args: {
-		type: "success",
+		color: "success",
 		title: "Success",
 	},
 };
 
 export const Warning: Story = {
 	args: {
-		type: "warning",
+		color: "warning",
 		title: "Warning",
 	},
 };
 
 export const Error: Story = {
 	args: {
-		type: "danger",
+		color: "danger",
 		title: "Error",
 	},
 };
 
 export const WithDescription: Story = {
 	args: {
-		type: "info",
+		color: "info",
 		title: "Update available",
 		description: "A new version is ready to install.",
 	},
@@ -60,21 +60,21 @@ export const WithDescription: Story = {
 
 export const TitleOnly: Story = {
 	args: {
-		type: "success",
+		color: "success",
 		title: "Saved successfully",
 	},
 };
 
 export const DescriptionOnly: Story = {
 	args: {
-		type: "warning",
+		color: "warning",
 		description: "Your session is about to expire.",
 	},
 };
 
 export const Dismissible: Story = {
 	args: {
-		type: "info",
+		color: "info",
 		title: "Dismiss me",
 		description: "Click the close button to dismiss this alert.",
 	},

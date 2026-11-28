@@ -9,7 +9,7 @@ const styles = tv({
 			"backdrop-blur-sm",
 		],
 		panel: [
-			"relative flex max-h-[calc(100vh-2rem)] w-full flex-col overflow-hidden rounded-surface",
+			"relative flex max-h-full w-full flex-col overflow-hidden rounded-surface",
 			"border border-border bg-background-muted shadow-overlay",
 			"focus:outline-none",
 			"motion-reduce:animate-none",

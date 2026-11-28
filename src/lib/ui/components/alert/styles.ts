@@ -17,7 +17,7 @@ const styles = tv({
 		],
 	},
 	variants: {
-		type: {
+		color: {
 			info: { root: "border-info bg-info-subtle text-info-subtle-foreground" },
 			success: {
 				root: "border-success bg-success-subtle text-success-subtle-foreground",
@@ -31,7 +31,7 @@ const styles = tv({
 		},
 	},
 	defaultVariants: {
-		type: "info",
+		color: "info",
 	},
 });
 

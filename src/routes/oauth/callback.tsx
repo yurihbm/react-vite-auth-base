@@ -38,7 +38,7 @@ function RouteComponent() {
 
 	return (
 		<Alert
-			type="danger"
+			color="danger"
 			description={errorKey ? translate(errorKey) : translate("oauth.unknown")}
 		/>
 	);

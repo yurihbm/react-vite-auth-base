@@ -4,7 +4,7 @@ import { tv } from "tailwind-variants";
 
 const menuStyles = tv({
 	base: [
-		"w-fit min-w-[10rem] rounded-surface border border-border py-1",
+		"w-fit min-w-40 rounded-surface border border-border py-1",
 		"bg-background-muted shadow-overlay",
 		"focus:outline-none",
 	],

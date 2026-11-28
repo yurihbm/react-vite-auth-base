@@ -9,7 +9,7 @@ export const styles = tv({
 		size: {
 			sm: "size-4 border-2",
 			md: "size-6 border-2",
-			lg: "size-9 border-[3px]",
+			lg: "size-9 border-3",
 		},
 		color: {
 			primary: "text-primary",

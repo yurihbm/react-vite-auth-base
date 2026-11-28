@@ -102,4 +102,18 @@ describe("Button", () => {
 		expect((button as HTMLButtonElement).disabled).toBe(true);
 		expect(onClick).not.toHaveBeenCalled();
 	});
+
+	test.each([
+		["sm", ["h-8", "px-3", "text-sm"]],
+		["md", ["h-10", "px-4", "text-base"]],
+		["lg", ["h-12", "px-5", "text-lg"]],
+	] as const)("sizes the %s button by height and padding", (size, classes) => {
+		const { container } = render(<Button size={size}>Save</Button>);
+
+		const button = container.querySelector("button") as HTMLButtonElement;
+
+		for (const className of classes) {
+			expect(button.className).toContain(className);
+		}
+	});
 });

@@ -21,9 +21,14 @@ const ICON_MAP = {
 
 export interface AlertProps
 	extends
-		Omit<HTMLAttributes<HTMLDivElement>, "className" | "role" | "title">,
+		Omit<
+			HTMLAttributes<HTMLDivElement>,
+			"className" | "color" | "role" | "title"
+		>,
 		AlertVariants {
 	ref?: Ref<HTMLDivElement>;
+	/** @deprecated Use `color` instead. */
+	type?: AlertVariants["color"];
 	title?: ReactNode;
 	description?: ReactNode;
 	isDismissible?: boolean;
@@ -33,7 +38,8 @@ export interface AlertProps
 
 export function Alert({
 	ref,
-	type = "info",
+	color,
+	type,
 	title,
 	description,
 	isDismissible,
@@ -42,6 +48,7 @@ export function Alert({
 	...rest
 }: AlertProps) {
 	const [dismissed, setDismissed] = useState(false);
+	const resolvedColor = color ?? type ?? "info";
 
 	const {
 		root,
@@ -50,9 +57,9 @@ export function Alert({
 		title: titleSlot,
 		description: descriptionSlot,
 		dismissButton,
-	} = styles({ type });
+	} = styles({ color: resolvedColor });
 
-	const IconComponent = ICON_MAP[type ?? "info"];
+	const IconComponent = ICON_MAP[resolvedColor];
 	const showDismiss = isDismissible || !!onDismiss;
 
 	if (dismissed) return null;

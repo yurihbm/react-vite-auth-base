@@ -23,7 +23,10 @@ export function Divider({
 	}
 
 	return (
-		<div className={labelled({ className })}>
+		<div
+			{...(rest as ComponentPropsWithRef<"div">)}
+			className={labelled({ className })}
+		>
 			<span aria-hidden="true" className={line()} />
 			<span className={labelSlot()}>{label}</span>
 			<span aria-hidden="true" className={line()} />

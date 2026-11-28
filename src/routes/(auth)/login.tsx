@@ -37,7 +37,7 @@ function LoginComponent() {
 		<div className="mx-auto flex w-full flex-col gap-4 sm:max-w-sm">
 			{search.reason && (
 				<Alert
-					type={search.reason === "expired" ? "warning" : "success"}
+					color={search.reason === "expired" ? "warning" : "success"}
 					description={reasonMessages[search.reason]}
 				/>
 			)}

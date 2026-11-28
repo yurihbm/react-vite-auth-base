@@ -20,7 +20,7 @@ export function LogoutOthers() {
 		<div className={base()}>
 			<p>{t("logoutOthers.description")}</p>
 			{isSuccess && (
-				<Alert type="success" description={t("logoutOthers.success")} />
+				<Alert color="success" description={t("logoutOthers.success")} />
 			)}
 			{!!error && <p className={errorMessage()}>{apiErrorMessage}</p>}
 			<Button

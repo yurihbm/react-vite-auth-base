@@ -37,7 +37,7 @@ export function EditNameForm({ user }: EditNameFormProps) {
 	return (
 		<form onSubmit={handleSubmit} className={base()}>
 			{isSuccess && (
-				<Alert type="success" description={t("editNameForm.success")} />
+				<Alert color="success" description={t("editNameForm.success")} />
 			)}
 			{!!error && !(error instanceof StepUpCancelledError) && (
 				<p className={errorMessage()}>{apiErrorMessage}</p>

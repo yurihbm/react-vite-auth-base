@@ -13,7 +13,7 @@ const styles = tv({
 	},
 	variants: {
 		size: {
-			xs: { root: "size-6", initials: "text-[10px]" },
+			xs: { root: "size-6", initials: "text-2xs" },
 			sm: { root: "size-8", initials: "text-xs" },
 			md: { root: "size-10", initials: "text-sm" },
 			lg: { root: "size-12", initials: "text-base" },

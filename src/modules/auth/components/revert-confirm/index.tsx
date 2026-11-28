@@ -38,11 +38,11 @@ export function RevertConfirm({
 		<div className={base()}>
 			<h2 className="text-lg font-bold">{title}</h2>
 			{isSuccess ? (
-				<Alert type="success" description={successMessage} />
+				<Alert color="success" description={successMessage} />
 			) : (
 				<>
 					<p>{description}</p>
-					{!!error && <Alert type="danger" description={apiErrorMessage} />}
+					{!!error && <Alert color="danger" description={apiErrorMessage} />}
 					<Button
 						disabled={isPending || isDisabled || cooldown.remaining > 0}
 						onClick={onConfirm}
