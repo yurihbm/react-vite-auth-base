@@ -569,8 +569,7 @@ export default interface Resources {
         "label": "Search",
         "placeholder": "Name or email prefix"
       },
-      "showing_one": "usersList.showing",
-      "showing_other": "usersList.showing",
+      "showing": "Showing {{loaded}} of {{total}}",
       "total": "{{total}} users"
     },
     "usersPage": {

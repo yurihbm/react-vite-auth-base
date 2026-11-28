@@ -126,9 +126,7 @@
 			"label": "Buscar",
 			"placeholder": "Prefixo do nome ou e-mail"
 		},
-		"showing_one": "",
-		"showing_many": "",
-		"showing_other": "",
+		"showing": "Mostrando {{loaded}} de {{total}}",
 		"total": "{{total}} usuários"
 	},
 	"usersPage": {

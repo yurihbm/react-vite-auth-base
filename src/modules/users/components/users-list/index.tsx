@@ -268,7 +268,10 @@ export function UsersList({ search, role, onFiltersChange }: UsersListProps) {
 			{hasNextPage && (
 				<div className={footer()}>
 					<Text variant="muted">
-						{t("usersList.showing", { count: users.length, total })}
+						{t("usersList.showing", {
+							loaded: users.length,
+							total: total ?? users.length,
+						})}
 					</Text>
 					<Button
 						variant="outline"
