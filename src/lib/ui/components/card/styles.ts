@@ -4,7 +4,7 @@ import { tv } from "tailwind-variants";
 
 const styles = tv({
 	slots: {
-		root: ["rounded-lg border border-border bg-background-elevated"],
+		root: ["rounded-surface border border-border bg-surface"],
 		header: ["border-b border-border font-semibold"],
 		body: [""],
 		footer: ["border-t border-border"],

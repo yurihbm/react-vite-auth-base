@@ -2,10 +2,15 @@ export { useDebouncedValue } from "./use-debounced-value";
 export { useCombobox } from "./use-combobox";
 export type { UseComboboxParams, UseComboboxResult } from "./use-combobox";
 export { useDialogStack } from "./use-dialog-stack";
+export { useDocumentTitle } from "./use-document-title";
 export {
 	useDropdownMenu,
 	type UseDropdownMenuResult,
 } from "./use-dropdown-menu";
+export {
+	useFocusFirstInvalid,
+	type UseFocusFirstInvalidResult,
+} from "./use-focus-first-invalid";
 export { useFilteredOptions } from "./use-filtered-options";
 export type {
 	UseFilteredOptionsParams,

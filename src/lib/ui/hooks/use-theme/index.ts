@@ -4,6 +4,15 @@ export type Theme = "light" | "dark";
 
 const STORAGE_KEY = "theme";
 
+/**
+ * Page background of each theme, for the browser UI (`theme-color`). Keep in
+ * sync with the theme bootstrap script in `index.html`.
+ */
+const THEME_COLORS: Record<Theme, string> = {
+	light: "#ffffff",
+	dark: "#0a0a0a",
+};
+
 function getSystemTheme(): Theme {
 	return window.matchMedia("(prefers-color-scheme: light)").matches
 		? "light"
@@ -19,6 +28,9 @@ function applyTheme(theme: Theme) {
 	const root = document.documentElement;
 	root.classList.remove("light", "dark");
 	root.classList.add(theme);
+	document
+		.querySelector('meta[name="theme-color"]')
+		?.setAttribute("content", THEME_COLORS[theme]);
 }
 
 export interface UseThemeResult {

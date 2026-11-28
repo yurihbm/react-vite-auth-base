@@ -1,0 +1,28 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PageHeader > renders correctly 1`] = `
+<div>
+  <header
+    class="flex flex-col gap-3"
+  >
+    <div
+      class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+    >
+      <div
+        class="flex min-w-0 flex-col gap-1"
+      >
+        <h1
+          class="font-semibold tracking-tight text-balance text-foreground text-2xl"
+        >
+          Account
+        </h1>
+        <p
+          class="text-sm text-foreground-muted"
+        >
+          Manage your profile.
+        </p>
+      </div>
+    </div>
+  </header>
+</div>
+`;

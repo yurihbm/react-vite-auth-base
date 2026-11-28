@@ -1,22 +1,27 @@
 {
 	"en": "en",
 	"footer": {
+		"charts": "Chart examples",
 		"message": "Made with ❤️ by Yuri"
+	},
+	"languageSwitcher": {
+		"label": "Language"
 	},
 	"loginForm": {
 		"submitButton": "loginForm.submitButton",
 		"unexpectedError": "loginForm.unexpectedError"
 	},
 	"nav": {
+		"label": "Main",
 		"link": {
-			"account": "Account",
 			"adminAuditLogs": "Audit logs",
 			"adminUsers": "Users",
 			"home": "Home",
 			"login": "Login",
-			"logout": "Logout",
 			"register": "Register"
-		}
+		},
+		"menu": "Menu",
+		"skipToContent": "Skip to content"
 	},
 	"pt": "pt",
 	"resendButton": {

@@ -34,24 +34,45 @@ describe("LanguageSwitcher", () => {
 		});
 	});
 
-	test("disables the active language button", () => {
-		const { getAllByRole, rerender } = render(<LanguageSwitcher />);
+	test("names each language in its own language and marks the active one", () => {
+		const { getByRole, rerender } = render(<LanguageSwitcher />);
 
-		let [englishButton, portugueseButton] = getAllByRole("button");
+		const group = getByRole("group", { name: "languageSwitcher.label" });
+		const english = getByRole("button", { name: "English" });
+		const portuguese = getByRole("button", { name: "Português" });
 
-		expect((englishButton as HTMLButtonElement).disabled).toBe(true);
-		expect((portugueseButton as HTMLButtonElement).disabled).toBe(false);
+		expect(group).toBeTruthy();
+		expect(english.getAttribute("lang")).toBe("en");
+		expect(portuguese.getAttribute("lang")).toBe("pt");
+		expect(english.getAttribute("aria-pressed")).toBe("true");
+		expect(portuguese.getAttribute("aria-pressed")).toBe("false");
+		expect((english as HTMLButtonElement).disabled).toBe(false);
 
 		vi.mocked(useLanguage).mockReturnValue({
 			changeLanguage: changeLanguageMock,
 			language: "pt",
 		} as unknown as ReturnType<typeof useLanguage>);
-
 		rerender(<LanguageSwitcher />);
-		[englishButton, portugueseButton] = getAllByRole("button");
 
-		expect((englishButton as HTMLButtonElement).disabled).toBe(false);
-		expect((portugueseButton as HTMLButtonElement).disabled).toBe(true);
+		expect(
+			getByRole("button", { name: "Português" }).getAttribute("aria-pressed"),
+		).toBe("true");
+	});
+
+	test("does not switch to the language already in use", () => {
+		const { getByRole } = render(<LanguageSwitcher />);
+
+		fireEvent.click(getByRole("button", { name: "English" }));
+
+		expect(changeLanguageMock).not.toHaveBeenCalled();
+	});
+
+	test("gives each button a 44px target", () => {
+		const { getByRole } = render(<LanguageSwitcher />);
+
+		expect(getByRole("button", { name: "English" }).className).toContain(
+			"size-11",
+		);
 	});
 
 	test("changes language when clicking an inactive button", () => {

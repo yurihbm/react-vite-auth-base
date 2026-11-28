@@ -3,7 +3,7 @@
 exports[`Table > renders correctly 1`] = `
 <div>
   <div
-    class="h-full min-h-0 w-full overflow-hidden rounded-lg border border-border"
+    class="h-full min-h-0 w-full rounded-surface border border-border overflow-hidden"
   >
     <div
       class="h-full min-h-0 w-full overflow-auto"
@@ -23,7 +23,7 @@ exports[`Table > renders correctly 1`] = `
               colspan="1"
             >
               <button
-                class="flex w-full cursor-pointer items-center justify-between gap-1 select-none hover:text-foreground focus-visible:outline-none rounded-sm focus-visible:ring-2 focus-visible:ring-ring/40"
+                class="flex min-h-6 w-full cursor-pointer items-center justify-between gap-1 select-none rounded-control hover:text-foreground"
                 data-testid="table-sort-button"
                 type="button"
               >
@@ -68,7 +68,7 @@ exports[`Table > renders correctly 1`] = `
               colspan="1"
             >
               <button
-                class="flex w-full cursor-pointer items-center justify-between gap-1 select-none hover:text-foreground focus-visible:outline-none rounded-sm focus-visible:ring-2 focus-visible:ring-ring/40"
+                class="flex min-h-6 w-full cursor-pointer items-center justify-between gap-1 select-none rounded-control hover:text-foreground"
                 data-testid="table-sort-button"
                 type="button"
               >

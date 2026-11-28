@@ -6,10 +6,31 @@ export default interface Resources {
         "all": "All actions",
         "label": "Action"
       },
+      "actions": {
+        "EMAIL_CHANGE": "Email changed",
+        "EMAIL_CHANGE_REQUEST": "Email change requested",
+        "EMAIL_CHANGE_REVERT": "Email change undone",
+        "LOGIN": "Log in",
+        "LOGOUT": "Log out",
+        "LOGOUT_OTHERS": "Other devices signed out",
+        "OAUTH_LINK_REVERT": "Provider unlinked",
+        "OAUTH_LOGIN": "Social log in",
+        "PASSWORD_CHANGE": "Password changed",
+        "PASSWORD_RESET": "Password reset",
+        "PASSWORD_RESET_REQUEST": "Password reset requested",
+        "SIGNUP_REQUEST": "Sign-up requested",
+        "STEP_UP_REQUEST": "Identity check requested",
+        "STEP_UP_VERIFY": "Identity verified",
+        "USER_CREATE": "User created",
+        "USER_DELETE": "User deleted",
+        "USER_ROLE_CHANGE": "Role changed",
+        "USER_UPDATE": "User updated"
+      },
       "actor": {
         "label": "Actor UUID",
         "placeholder": "Filter by actor UUID"
       },
+      "clearFilters": "Clear filters",
       "columns": {
         "action": "Action",
         "actor": "Actor",
@@ -17,16 +38,30 @@ export default interface Resources {
         "resource": "Resource",
         "status": "Status"
       },
+      "copiedId": "Copied",
+      "copyId": "Copy ID",
       "empty": "No audit logs found.",
+      "emptyFiltered": {
+        "description": "Try other filters or a wider date range.",
+        "title": "No logs match these filters"
+      },
       "endDate": {
         "label": "Until (exclusive)"
       },
+      "filters": {
+        "title": "Filters",
+        "toggle": "Filters"
+      },
+      "loadMore": "Load more",
+      "loading": "Loading logs",
+      "loadingMore": "Loading…",
       "resource": {
         "all": "All resources",
         "auth": "Auth",
         "label": "Resource type",
         "user": "User"
       },
+      "showing": "Showing {{loaded}} of {{total}}",
       "startDate": {
         "label": "From"
       },
@@ -37,15 +72,28 @@ export default interface Resources {
         "success": "Success"
       },
       "summary": {
-        "title": "Loaded logs by status"
+        "failed": "failed",
+        "succeeded": "succeeded",
+        "title": "Status for these filters"
       },
-      "total": "{{total}} logs"
+      "total_one": "{{count}} log",
+      "total_other": "{{count}} logs"
     },
     "auditPage": {
+      "description": "Who did what and when, across the app.",
       "title": "Audit logs"
     }
   },
   "auth": {
+    "accessDenied": {
+      "description": "It's only available to administrators.",
+      "title": "You don't have access to that page"
+    },
+    "accountMenu": {
+      "account": "Account",
+      "logout": "Log out",
+      "trigger": "Account menu"
+    },
     "forgotPasswordForm": {
       "description": "Enter your email and we will send you a code to reset your password.",
       "input": {
@@ -58,6 +106,11 @@ export default interface Resources {
       },
       "submitButton": "Send code",
       "unexpectedError": "An unexpected error occurred. Try again later."
+    },
+    "forgotPasswordPage": {
+      "logIn": "Log in",
+      "remember": "Remember your password?",
+      "title": "Reset your password"
     },
     "loginForm": {
       "input": {
@@ -78,17 +131,26 @@ export default interface Resources {
       "unexpectedError": "An unexpected error occurred. Try again later."
     },
     "loginPage": {
+      "createAccount": "Create an account",
+      "description": "Welcome back. Log in to your account.",
       "forgotPassword": "Forgot your password?",
+      "noAccount": "New here?",
       "reason": {
         "emailChanged": "Your email was changed. Sign in with the new address.",
         "expired": "Your session has expired. Please sign in again.",
         "passwordReset": "Your password was reset. Sign in with the new password."
-      }
+      },
+      "title": "Log in"
     },
     "oauthButtons": {
+      "divider": "or continue with",
       "github": "Continue with GitHub",
       "google": "Continue with Google",
       "microsoft": "Continue with Microsoft"
+    },
+    "oauthCallbackPage": {
+      "backToLogin": "Back to log in",
+      "errorTitle": "We couldn't sign you in"
     },
     "registerForm": {
       "input": {
@@ -115,6 +177,12 @@ export default interface Resources {
       "submitButton": "Register",
       "unexpectedError": "An unexpected error occurred. Try again later."
     },
+    "registerPage": {
+      "description": "Sign up with your email or a provider.",
+      "haveAccount": "Already have an account?",
+      "logIn": "Log in",
+      "title": "Create your account"
+    },
     "resendButton": {
       "cooldown": "Resend code in {{seconds}}s",
       "label": "Resend code"
@@ -138,11 +206,23 @@ export default interface Resources {
       "submitButton": "Reset password",
       "unexpectedError": "An unexpected error occurred. Try again later."
     },
+    "resetPasswordPage": {
+      "noCode": "Didn't get a code?",
+      "requestAgain": "Request a new one",
+      "title": "Choose a new password"
+    },
     "revertEmailChange": {
       "confirmButton": "Undo email change",
       "description": "This restores your previous email address and signs you out of every device.",
       "success": "Your previous email was restored and you were signed out of every device.",
       "title": "Undo email change"
+    },
+    "revertLink": {
+      "invalid": {
+        "action": "Go to the home page",
+        "description": "It is missing the code that confirms the change. Open the link from the email again, or copy the whole address.",
+        "title": "This link is incomplete"
+      }
     },
     "revertOAuthLink": {
       "confirmButton": "Unlink provider",
@@ -173,6 +253,30 @@ export default interface Resources {
       },
       "submitButton": "Verify",
       "unexpectedError": "An unexpected error occurred. Try again later."
+    },
+    "verifyPage": {
+      "title": "Verify your email"
+    }
+  },
+  "charts": {
+    "line": {
+      "title": "Sales by region"
+    },
+    "page": {
+      "description": "Chart components and the categorical palette, with illustrative data.",
+      "title": "Charts"
+    },
+    "palette": {
+      "description": "Categorical colors for multi-series charts, separate from the semantic colors. Use them as text-chart-1 to text-chart-5 or bg-chart-1 to bg-chart-5.",
+      "title": "Chart palette"
+    },
+    "pie": {
+      "title": "Spending by category"
+    },
+    "table": {
+      "category": "Category",
+      "month": "Month",
+      "value": "Value"
     }
   },
   "errors": {
@@ -353,33 +457,59 @@ export default interface Resources {
     }
   },
   "home": {
-    "count": "Count",
-    "input": {
-      "label": "Write something",
-      "message": "Text length",
-      "placeholder": "Type something here..."
+    "guest": {
+      "createAccount": "Create account",
+      "description": "Email sign-up with verification, social login, account security and an admin area, so you can start on your own features.",
+      "logIn": "Log in",
+      "title": "Accounts and sign-in, ready to build on"
     },
-    "profile": "Go to profile"
+    "shortcuts": {
+      "account": {
+        "description": "Your profile and name.",
+        "title": "Account"
+      },
+      "auditLogs": {
+        "description": "Sign-ins and changes across the app.",
+        "title": "Audit logs"
+      },
+      "security": {
+        "description": "Email, password and signed-in devices.",
+        "title": "Security"
+      },
+      "users": {
+        "description": "Find, edit and remove users.",
+        "title": "Users"
+      }
+    },
+    "user": {
+      "description": "Pick up where you left off.",
+      "title": "Welcome, {{name}}"
+    }
   },
   "shared": {
     "en": "en",
     "footer": {
+      "charts": "Chart examples",
       "message": "Made with ❤️ by Yuri"
+    },
+    "languageSwitcher": {
+      "label": "Language"
     },
     "loginForm": {
       "submitButton": "loginForm.submitButton",
       "unexpectedError": "loginForm.unexpectedError"
     },
     "nav": {
+      "label": "Main",
       "link": {
-        "account": "Account",
         "adminAuditLogs": "Audit logs",
         "adminUsers": "Users",
         "home": "Home",
         "login": "Login",
-        "logout": "Logout",
         "register": "Register"
-      }
+      },
+      "menu": "Menu",
+      "skipToContent": "Skip to content"
     },
     "pt": "pt",
     "resendButton": {
@@ -388,10 +518,17 @@ export default interface Resources {
   },
   "users": {
     "accountPage": {
+      "description": "Your profile and how you sign in.",
       "profile": {
+        "description": "Your name is shown to admins and in your account menu.",
         "email": "Email",
         "memberSince": "Member since",
-        "role": "Role"
+        "role": "Role",
+        "title": "Profile"
+      },
+      "security": {
+        "description": "Change your email or password and sign out of other devices.",
+        "title": "Security"
       },
       "securityLink": "Security settings",
       "title": "Account"
@@ -460,19 +597,43 @@ export default interface Resources {
     },
     "securityPage": {
       "back": "Back to account",
+      "dangerZone": {
+        "description": "These actions are permanent.",
+        "title": "Danger zone"
+      },
+      "description": "Your email, password and signed-in devices.",
       "sections": {
         "delete": "Delete account",
         "email": "Change email",
         "password": "Change password",
         "sessions": "Other devices"
       },
+      "signIn": {
+        "description": "How you log in and where you are logged in.",
+        "title": "Sign-in"
+      },
       "title": "Security"
     },
     "userPage": {
       "back": "Back to users",
+      "dangerZone": {
+        "title": "Danger zone"
+      },
+      "details": {
+        "title": "Details"
+      },
+      "name": {
+        "title": "Name"
+      },
+      "notFound": {
+        "back": "Back to users",
+        "description": "This user doesn't exist or was deleted.",
+        "title": "User not found"
+      },
       "title": "User"
     },
     "usersList": {
+      "clearFilters": "Clear filters",
       "columns": {
         "createdAt": "Created",
         "email": "Email",
@@ -480,6 +641,13 @@ export default interface Resources {
         "role": "Role"
       },
       "empty": "No users found.",
+      "emptyFiltered": {
+        "description": "Try another search or role.",
+        "title": "No users match these filters"
+      },
+      "loadMore": "Load more",
+      "loading": "Loading users",
+      "loadingMore": "Loading…",
       "role": {
         "admin": "Admin",
         "all": "All roles",
@@ -490,9 +658,12 @@ export default interface Resources {
         "label": "Search",
         "placeholder": "Name or email prefix"
       },
-      "total": "{{total}} users"
+      "showing": "Showing {{loaded}} of {{total}}",
+      "total_one": "{{count}} user",
+      "total_other": "{{count}} users"
     },
     "usersPage": {
+      "description": "Find people, change their name or remove their account.",
       "title": "Users"
     }
   }

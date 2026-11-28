@@ -1,8 +1,8 @@
 import { useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
-import { Alert, Button } from "@lib/ui";
+import { Alert, Button, InlineError } from "@lib/ui";
 import { useLogoutOthers } from "@modules/auth/services/logout-others";
-import { base, errorMessage } from "@modules/users/components/styles";
+import { base } from "@modules/users/components/styles";
 
 /** LogoutOthers ends every session of the user except the current one. */
 export function LogoutOthers() {
@@ -18,13 +18,13 @@ export function LogoutOthers() {
 
 	return (
 		<div className={base()}>
-			<p>{t("logoutOthers.description")}</p>
 			{isSuccess && (
-				<Alert type="success" description={t("logoutOthers.success")} />
+				<Alert color="success" description={t("logoutOthers.success")} />
 			)}
-			{!!error && <p className={errorMessage()}>{apiErrorMessage}</p>}
+			{!!error && <InlineError>{apiErrorMessage}</InlineError>}
 			<Button
-				color="secondary"
+				variant="outline"
+				className="self-end"
 				disabled={isPending}
 				onClick={() => logoutOthers()}
 			>

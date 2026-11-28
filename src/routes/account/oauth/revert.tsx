@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { useTranslate } from "@lib/i18n";
-import { RevertConfirm, useRevertOAuthLink } from "@modules/auth";
+import { AuthLayout, RevertConfirm, useRevertOAuthLink } from "@modules/auth";
 
 export const Route = createFileRoute("/account/oauth/revert")({
 	component: RouteComponent,
@@ -18,16 +18,17 @@ function RouteComponent() {
 	const { mutate: revert, isPending, isSuccess, error } = useRevertOAuthLink();
 
 	return (
-		<RevertConfirm
-			title={t("revertOAuthLink.title")}
-			description={t("revertOAuthLink.description")}
-			confirmLabel={t("revertOAuthLink.confirmButton")}
-			successMessage={t("revertOAuthLink.success")}
-			onConfirm={() => token && revert({ token })}
-			isPending={isPending}
-			isSuccess={isSuccess}
-			isDisabled={!token}
-			error={error}
-		/>
+		<AuthLayout title={t("revertOAuthLink.title")}>
+			<RevertConfirm
+				description={t("revertOAuthLink.description")}
+				confirmLabel={t("revertOAuthLink.confirmButton")}
+				successMessage={t("revertOAuthLink.success")}
+				onConfirm={() => token && revert({ token })}
+				isPending={isPending}
+				isSuccess={isSuccess}
+				isLinkInvalid={!token}
+				error={error}
+			/>
+		</AuthLayout>
 	);
 }

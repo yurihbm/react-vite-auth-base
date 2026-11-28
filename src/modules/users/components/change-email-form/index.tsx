@@ -5,10 +5,10 @@ import { useState } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
-import { Button, TextInput } from "@lib/ui";
+import { Button, InlineError, Text, TextInput } from "@lib/ui";
 import { useCooldown } from "@modules/auth/hooks/use-cooldown";
 import { StepUpCancelledError } from "@modules/auth/providers/step-up/context";
-import { base, errorMessage } from "@modules/users/components/styles";
+import { base } from "@modules/users/components/styles";
 import {
 	useConfirmEmailChange,
 	useRequestEmailChange,
@@ -75,13 +75,11 @@ export function ChangeEmailForm() {
 			onSubmit={isRequested ? handleConfirm : handleRequest}
 			className={base()}
 		>
-			<p>
-				{isRequested
-					? t("changeEmailForm.codeDescription")
-					: t("changeEmailForm.description")}
-			</p>
+			{isRequested && (
+				<Text variant="muted">{t("changeEmailForm.codeDescription")}</Text>
+			)}
 			{!!error && !(error instanceof StepUpCancelledError) && (
-				<p className={errorMessage()}>{errorText}</p>
+				<InlineError>{errorText}</InlineError>
 			)}
 			{isRequested ? (
 				<>
@@ -100,6 +98,7 @@ export function ChangeEmailForm() {
 					/>
 					<Button
 						type="submit"
+						className="self-end"
 						disabled={confirm.isPending || confirmCooldown.remaining > 0}
 					>
 						{t("changeEmailForm.confirmButton")}
@@ -119,6 +118,7 @@ export function ChangeEmailForm() {
 					/>
 					<Button
 						type="submit"
+						className="self-end"
 						disabled={request.isPending || requestCooldown.remaining > 0}
 					>
 						{t("changeEmailForm.requestButton")}

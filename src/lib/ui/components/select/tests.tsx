@@ -284,4 +284,28 @@ describe("Select", () => {
 			expect(queryByText("Cheese")).toBeNull();
 		});
 	});
+
+	test.each([
+		["sm", ["h-8", "px-3", "text-sm"]],
+		["md", ["h-10", "px-3", "text-base"]],
+		["lg", ["h-12", "px-4", "text-lg"]],
+	] as const)(
+		"sizes the %s trigger like a button of the same size",
+		(size, classes) => {
+			const { getByRole } = render(
+				<Select
+					options={FRUITS}
+					size={size}
+					value={null}
+					onChange={() => {}}
+				/>,
+			);
+
+			const trigger = getByRole("combobox");
+
+			for (const className of classes) {
+				expect(trigger.className).toContain(className);
+			}
+		},
+	);
 });

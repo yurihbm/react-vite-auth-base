@@ -90,9 +90,7 @@ describe("ForgotPasswordForm", () => {
 	});
 
 	test("shows the translated API error", () => {
-		const { getByLabelText, getByRole, getByText } = render(
-			<ForgotPasswordForm />,
-		);
+		const { getByLabelText, getByRole } = render(<ForgotPasswordForm />);
 
 		fillAndSubmit(getByLabelText, getByRole);
 
@@ -103,7 +101,9 @@ describe("ForgotPasswordForm", () => {
 			);
 		});
 
-		expect(getByText("translated:auth.passwordReset.sendFailed")).toBeDefined();
+		expect(getByRole("alert").textContent).toContain(
+			"translated:auth.passwordReset.sendFailed",
+		);
 	});
 
 	test("maps API error details onto the email input", () => {
@@ -143,5 +143,47 @@ describe("ForgotPasswordForm", () => {
 				}) as HTMLButtonElement
 			).disabled,
 		).toBe(true);
+	});
+
+	test("leaves the page description to the layout", () => {
+		const { queryByText } = render(<ForgotPasswordForm />);
+
+		expect(queryByText("forgotPasswordForm.description")).toBeNull();
+	});
+
+	test("focuses the first invalid field when the browser rejects the submit", () => {
+		const { getByLabelText } = render(<ForgotPasswordForm />);
+
+		const input = getByLabelText("forgotPasswordForm.input.email.label");
+
+		act(() => {
+			fireEvent.invalid(input);
+		});
+
+		expect(document.activeElement).toBe(input);
+	});
+
+	test("focuses the first field the API rejected", () => {
+		const { getByLabelText, getByRole } = render(<ForgotPasswordForm />);
+
+		fillAndSubmit(getByLabelText, getByRole);
+
+		const [, handlers] = forgotMutateMock.mock.calls[0] as [
+			unknown,
+			{ onError: (error: unknown) => void },
+		];
+
+		act(() => {
+			handlers.onError(
+				new APIError("request.validation_failed", {
+					status: 400,
+					details: { email: "rejected" },
+				}),
+			);
+		});
+
+		expect(document.activeElement).toBe(
+			getByLabelText("forgotPasswordForm.input.email.label"),
+		);
 	});
 });

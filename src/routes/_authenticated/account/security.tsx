@@ -1,7 +1,10 @@
+import { ArrowLeftIcon } from "@phosphor-icons/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { useTranslate } from "@lib/i18n";
+import { Container, PageHeader, Section, SettingRow, Stack } from "@lib/ui";
 import { useAuth } from "@modules/auth";
+import { usePageTitle } from "@modules/shared";
 import {
 	ChangeEmailForm,
 	ChangePasswordForm,
@@ -17,28 +20,64 @@ function SecurityComponent() {
 	const { user } = useAuth<true>();
 	const t = useTranslate("users");
 
+	usePageTitle(t("securityPage.title"));
+
 	return (
-		<div className="mx-auto flex w-full flex-col gap-6 sm:max-w-sm">
-			<h2 className="text-lg font-bold">{t("securityPage.title")}</h2>
-			<Link to="/account" className="text-sm underline">
-				{t("securityPage.back")}
-			</Link>
-			<section className="flex flex-col gap-2">
-				<h3 className="font-bold">{t("securityPage.sections.email")}</h3>
-				<ChangeEmailForm />
-			</section>
-			<section className="flex flex-col gap-2">
-				<h3 className="font-bold">{t("securityPage.sections.password")}</h3>
-				<ChangePasswordForm />
-			</section>
-			<section className="flex flex-col gap-2">
-				<h3 className="font-bold">{t("securityPage.sections.sessions")}</h3>
-				<LogoutOthers />
-			</section>
-			<section className="flex flex-col gap-2">
-				<h3 className="font-bold">{t("securityPage.sections.delete")}</h3>
-				<DeleteAccount uuid={user.uuid} />
-			</section>
-		</div>
+		<Container>
+			<Stack gap="lg" className="py-6">
+				<PageHeader
+					backLink={
+						<Link
+							to="/account"
+							className="inline-flex items-center gap-1 hover:text-foreground"
+						>
+							<ArrowLeftIcon aria-hidden="true" size={14} />
+							{t("securityPage.back")}
+						</Link>
+					}
+					title={t("securityPage.title")}
+					description={t("securityPage.description")}
+				/>
+				<Section
+					surface
+					title={t("securityPage.signIn.title")}
+					description={t("securityPage.signIn.description")}
+				>
+					<div className="flex flex-col divide-y divide-border">
+						<SettingRow
+							title={t("securityPage.sections.email")}
+							description={t("changeEmailForm.description")}
+						>
+							<ChangeEmailForm />
+						</SettingRow>
+						<SettingRow
+							title={t("securityPage.sections.password")}
+							description={t("changePasswordForm.description")}
+						>
+							<ChangePasswordForm />
+						</SettingRow>
+						<SettingRow
+							title={t("securityPage.sections.sessions")}
+							description={t("logoutOthers.description")}
+						>
+							<LogoutOthers />
+						</SettingRow>
+					</div>
+				</Section>
+				<Section
+					surface
+					tone="danger"
+					title={t("securityPage.dangerZone.title")}
+					description={t("securityPage.dangerZone.description")}
+				>
+					<SettingRow
+						title={t("securityPage.sections.delete")}
+						description={t("deleteAccount.description")}
+					>
+						<DeleteAccount uuid={user.uuid} />
+					</SettingRow>
+				</Section>
+			</Stack>
+		</Container>
 	);
 }

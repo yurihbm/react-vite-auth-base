@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { useTranslate } from "@lib/i18n";
+import { Container, PageHeader, Stack } from "@lib/ui";
+import { usePageTitle } from "@modules/shared";
 import { UsersList } from "@modules/users";
 
 const searchSchema = z.object({
@@ -21,16 +23,23 @@ function UsersComponent() {
 	const navigate = useNavigate();
 	const t = useTranslate("users");
 
+	usePageTitle(t("usersPage.title"));
+
 	return (
-		<section className="flex w-full flex-col gap-4">
-			<h2 className="text-lg font-bold">{t("usersPage.title")}</h2>
-			<UsersList
-				search={search}
-				role={role}
-				onFiltersChange={(filters) =>
-					navigate({ search: filters, replace: true })
-				}
-			/>
-		</section>
+		<Container size="wide">
+			<Stack gap="lg" className="py-6">
+				<PageHeader
+					title={t("usersPage.title")}
+					description={t("usersPage.description")}
+				/>
+				<UsersList
+					search={search}
+					role={role}
+					onFiltersChange={(filters) =>
+						navigate({ search: filters, replace: true })
+					}
+				/>
+			</Stack>
+		</Container>
 	);
 }

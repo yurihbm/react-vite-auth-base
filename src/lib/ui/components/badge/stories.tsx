@@ -16,15 +16,7 @@ const meta: Meta<BadgeProps<"span">> = {
 			},
 		},
 		color: {
-			options: [
-				"primary",
-				"secondary",
-				"subtle",
-				"info",
-				"success",
-				"warning",
-				"danger",
-			],
+			options: ["primary", "subtle", "info", "success", "warning", "danger"],
 			control: {
 				type: "select",
 			},
@@ -48,7 +40,6 @@ export const Colors: BadgeStory = {
 	render: () => (
 		<div className="flex flex-wrap items-center gap-2">
 			<Badge color="primary">Primary</Badge>
-			<Badge color="secondary">Secondary</Badge>
 			<Badge color="subtle">Subtle</Badge>
 			<Badge color="info">Info</Badge>
 			<Badge color="success">Success</Badge>

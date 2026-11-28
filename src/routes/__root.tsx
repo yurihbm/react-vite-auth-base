@@ -1,127 +1,101 @@
 import type { QueryClient } from "@tanstack/react-query";
 
 import {
+	createLink,
 	createRootRouteWithContext,
 	Link,
 	Outlet,
-	useNavigate,
 } from "@tanstack/react-router";
 
 import { DevTools } from "@lib/dev-tools";
+import { areDevToolsEnabled } from "@lib/dev-tools/utils";
 import { useTranslate } from "@lib/i18n";
-import { StepUpProvider, useAuth, useLogout } from "@modules/auth";
+import { Navbar, NavLink, SkipLink } from "@lib/ui";
+import { AccountMenu, StepUpProvider, useAuth } from "@modules/auth";
 import { LanguageSwitcher, ThemeToggle } from "@modules/shared";
+
+const MAIN_CONTENT_ID = "main-content";
+
+const RouterNavLink = createLink(NavLink);
 
 function RootLayout() {
 	const t = useTranslate();
 	const { isAuthenticated, user } = useAuth();
-	const { mutate: logout, isPending: isLoggingOut } = useLogout();
-	const navigate = useNavigate();
-
-	function handleLogout() {
-		logout(undefined, {
-			onSuccess: () => {
-				navigate({ to: "/" });
-			},
-		});
-	}
 
 	return (
 		<StepUpProvider>
-			<header className="flex h-16 items-center justify-between px-4">
-				<h1 className="text-xl font-bold">React Vite Auth Base</h1>
-				<nav>
-					<ul className="flex items-center gap-4">
-						<li>
-							<Link
-								to="/"
-								className="text-sm font-medium text-foreground/80 hover:text-foreground"
-							>
-								{t("nav.link.home")}
+			<div className="flex min-h-dvh flex-col">
+				<SkipLink href={`#${MAIN_CONTENT_ID}`}>
+					{t("nav.skipToContent")}
+				</SkipLink>
+				<Navbar
+					brand={<Link to="/">React Vite Auth Base</Link>}
+					navLabel={t("nav.label")}
+					menuLabel={t("nav.menu")}
+					actions={isAuthenticated && <AccountMenu />}
+				>
+					<RouterNavLink to="/" activeOptions={{ exact: true }}>
+						{t("nav.link.home")}
+					</RouterNavLink>
+					{isAuthenticated ? (
+						user?.role === "admin" && (
+							<>
+								<RouterNavLink
+									to="/admin/users"
+									search={{}}
+									activeOptions={{ includeSearch: false }}
+								>
+									{t("nav.link.adminUsers")}
+								</RouterNavLink>
+								<RouterNavLink
+									to="/admin/audit-logs"
+									search={{}}
+									activeOptions={{ includeSearch: false }}
+								>
+									{t("nav.link.adminAuditLogs")}
+								</RouterNavLink>
+							</>
+						)
+					) : (
+						<>
+							<RouterNavLink to="/login" search={{ redirect: "/" }}>
+								{t("nav.link.login")}
+							</RouterNavLink>
+							<RouterNavLink to="/register" search={{ redirect: "/" }}>
+								{t("nav.link.register")}
+							</RouterNavLink>
+						</>
+					)}
+				</Navbar>
+				<main
+					id={MAIN_CONTENT_ID}
+					tabIndex={-1}
+					className="flex flex-1 flex-col outline-none"
+				>
+					<Outlet />
+				</main>
+				<footer className="border-t border-border">
+					<div
+						className={[
+							"flex flex-col items-center gap-3 px-4 py-4 sm:flex-row sm:justify-between",
+							"text-xs text-foreground-muted sm:px-6",
+							// Keep the dev tools' floating buttons off the footer content.
+							areDevToolsEnabled() ? "pb-16" : "",
+						].join(" ")}
+					>
+						<div className="flex items-center gap-3">
+							<p>{t("footer.message")}</p>
+							<Link to="/charts" className="underline hover:text-foreground">
+								{t("footer.charts")}
 							</Link>
-						</li>
-						{isAuthenticated ? (
-							<>
-								<li>
-									<Link
-										to="/account"
-										className="text-sm font-medium text-foreground/80 hover:text-foreground"
-									>
-										{t("nav.link.account")}
-									</Link>
-								</li>
-								{user?.role === "admin" && (
-									<>
-										<li>
-											<Link
-												to="/admin/users"
-												search={{}}
-												className="text-sm font-medium text-foreground/80 hover:text-foreground"
-											>
-												{t("nav.link.adminUsers")}
-											</Link>
-										</li>
-										<li>
-											<Link
-												to="/admin/audit-logs"
-												search={{}}
-												className="text-sm font-medium text-foreground/80 hover:text-foreground"
-											>
-												{t("nav.link.adminAuditLogs")}
-											</Link>
-										</li>
-									</>
-								)}
-								<li>
-									<button
-										type="button"
-										disabled={isLoggingOut}
-										onClick={handleLogout}
-										className="text-sm font-medium text-foreground/80 hover:text-foreground"
-									>
-										{t("nav.link.logout")}
-									</button>
-								</li>
-							</>
-						) : (
-							<>
-								<li>
-									<Link
-										to="/login"
-										className="text-sm font-medium text-foreground/80 hover:text-foreground"
-										search={{
-											redirect: "/",
-										}}
-									>
-										{t("nav.link.login")}
-									</Link>
-								</li>
-								<li>
-									<Link
-										to="/register"
-										search={{
-											redirect: "/",
-										}}
-										className="text-sm font-medium text-foreground/80 hover:text-foreground"
-									>
-										{t("nav.link.register")}
-									</Link>
-								</li>
-							</>
-						)}
-					</ul>
-				</nav>
-			</header>
-			<main className="flex min-h-[calc(100vh-4rem-3rem)] flex-col gap-4 px-4 py-6">
-				<Outlet />
-			</main>
-			<footer className="relative flex h-12 items-center justify-center border-t border-t-foreground text-xs">
-				{t("footer.message")}
-				<div className="absolute right-5 flex items-center gap-3">
-					<LanguageSwitcher />
-					<ThemeToggle />
-				</div>
-			</footer>
+						</div>
+						<div className="flex items-center gap-3">
+							<LanguageSwitcher />
+							<ThemeToggle />
+						</div>
+					</div>
+				</footer>
+			</div>
 			<DevTools />
 		</StepUpProvider>
 	);

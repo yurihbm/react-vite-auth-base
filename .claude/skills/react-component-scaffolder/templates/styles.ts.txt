@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 export const styles = tv({
-	base: "rounded",
+	base: "rounded-control",
 	variants: {
 		size: {
 			sm: "p-2 text-sm",

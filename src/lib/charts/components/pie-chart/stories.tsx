@@ -8,10 +8,10 @@ const DATA = [
 		key: "groceries",
 		label: "Groceries",
 		value: 420,
-		className: "text-primary",
+		className: "text-chart-1",
 	},
-	{ key: "rent", label: "Rent", value: 1200, className: "text-secondary" },
-	{ key: "leisure", label: "Leisure", value: 180, className: "text-warning" },
+	{ key: "rent", label: "Rent", value: 1200, className: "text-chart-2" },
+	{ key: "leisure", label: "Leisure", value: 180, className: "text-chart-3" },
 ];
 
 const meta: Meta<PieChartProps> = {

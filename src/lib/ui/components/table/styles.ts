@@ -4,10 +4,8 @@ import { tv } from "tailwind-variants";
 
 const styles = tv({
 	slots: {
-		root: [
-			"h-full min-h-0 w-full overflow-hidden rounded-lg border border-border",
-		],
-		scrollArea: ["h-full min-h-0 w-full overflow-auto"],
+		root: ["h-full min-h-0 w-full rounded-surface border border-border"],
+		scrollArea: ["h-full min-h-0 w-full"],
 		table: ["w-full caption-bottom border-collapse text-sm"],
 		caption: ["mt-4 text-sm text-foreground-muted"],
 		thead: ["bg-background-muted"],
@@ -31,17 +29,16 @@ const styles = tv({
 			"disabled:cursor-not-allowed",
 		],
 		checkboxBox: [
-			"flex size-4 items-center justify-center rounded border border-border-strong",
+			"flex size-4 items-center justify-center rounded-control border border-border-control",
 			"bg-background-muted text-transparent transition-colors duration-200",
 			"peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground",
 			"peer-indeterminate:border-primary peer-indeterminate:bg-primary peer-indeterminate:text-primary-foreground",
-			"peer-focus-visible:ring-2 peer-focus-visible:ring-ring/40",
+			"peer-focus-visible:focus-outline",
 			"peer-disabled:cursor-not-allowed peer-disabled:opacity-60",
 		],
 		thSortButton: [
-			"flex w-full cursor-pointer items-center justify-between gap-1 select-none",
-			"hover:text-foreground focus-visible:outline-none",
-			"rounded-sm focus-visible:ring-2 focus-visible:ring-ring/40",
+			"flex min-h-6 w-full cursor-pointer items-center justify-between gap-1 select-none",
+			"rounded-control hover:text-foreground",
 		],
 		sortIconGroup: ["flex flex-col items-center justify-center gap-px"],
 		sortIcon: ["size-2 text-foreground-subtle transition-colors"],
@@ -62,6 +59,13 @@ const styles = tv({
 		sticky: {
 			true: { thead: "sticky top-0 z-10" },
 		},
+		// `container` scrolls inside the table; `page` lets the window scroll
+		// it, so a sticky header follows the page (clip, unlike hidden or
+		// auto, does not create a scroll container).
+		scroll: {
+			container: { root: "overflow-hidden", scrollArea: "overflow-auto" },
+			page: { root: "overflow-clip", scrollArea: "overflow-x-clip" },
+		},
 		striped: {
 			true: { tr: "[&:nth-child(even)]:bg-background-muted/30" },
 		},
@@ -74,6 +78,7 @@ const styles = tv({
 	},
 	defaultVariants: {
 		size: "md",
+		scroll: "container",
 	},
 });
 

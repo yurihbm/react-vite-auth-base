@@ -13,15 +13,7 @@ const meta: Meta<ButtonProps<"button">> = {
 			},
 		},
 		color: {
-			options: [
-				"primary",
-				"secondary",
-				"subtle",
-				"info",
-				"success",
-				"warning",
-				"danger",
-			],
+			options: ["primary", "subtle", "info", "success", "warning", "danger"],
 			control: {
 				type: "select",
 			},
@@ -42,7 +34,7 @@ export const Default: ButtonStory = {
 export const Colors: ButtonStory = {
 	args: {
 		children: "Click me",
-		color: "secondary",
+		color: "primary",
 	},
 	argTypes: {
 		color: {
@@ -50,6 +42,13 @@ export const Colors: ButtonStory = {
 				type: "select",
 			},
 		},
+	},
+};
+
+export const Outline: ButtonStory = {
+	args: {
+		children: "Cancel",
+		variant: "outline",
 	},
 };
 

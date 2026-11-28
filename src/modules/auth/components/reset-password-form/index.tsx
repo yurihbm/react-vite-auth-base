@@ -5,8 +5,8 @@ import { useState } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate, useTranslateKeyState } from "@lib/i18n";
-import { Button, TextInput } from "@lib/ui";
-import { base, errorMessage } from "@modules/auth/components/login-form/styles";
+import { Alert, Button, TextInput, useFocusFirstInvalid } from "@lib/ui";
+import { base } from "@modules/auth/components/login-form/styles";
 import { useCooldown } from "@modules/auth/hooks";
 import { useResetPassword } from "@modules/auth/services";
 
@@ -29,10 +29,16 @@ export function ResetPasswordForm() {
 
 	const [apiError, setApiError] = useState<APIError | null>(null);
 	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+	const { ref: formRef, focusFirstInvalid } =
+		useFocusFirstInvalid<HTMLFormElement>();
 	const apiErrorMessage = useApiErrorMessage(apiError);
 	const cooldown = useCooldown(apiError);
 
 	const { mutate: resetPassword, isPending } = useResetPassword();
+
+	const formError = apiError
+		? apiErrorMessage
+		: resetMessage.key && t(resetMessage.key);
 
 	function clearFieldError(name: string) {
 		setFieldErrors(({ [name]: _removed, ...rest }) => rest);
@@ -54,6 +60,7 @@ export function ResetPasswordForm() {
 						resetMessage.setKey(null);
 						setApiError(error);
 						setFieldErrors(error.details ?? {});
+						focusFirstInvalid();
 						return;
 					}
 					setApiError(null);
@@ -101,11 +108,13 @@ export function ResetPasswordForm() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className={base()}>
-			<p>{t("resetPasswordForm.description")}</p>
-			<p className={errorMessage()}>
-				{apiError ? apiErrorMessage : resetMessage.key && t(resetMessage.key)}
-			</p>
+		<form
+			ref={formRef}
+			onSubmit={handleSubmit}
+			onInvalidCapture={focusFirstInvalid}
+			className={base()}
+		>
+			{formError && <Alert color="danger" description={formError} />}
 			<TextInput
 				name={CODE_INPUT_NAME}
 				label={t("resetPasswordForm.input.code.label")}

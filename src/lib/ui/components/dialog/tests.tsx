@@ -233,4 +233,28 @@ describe("Dialog", () => {
 		expect(overlaysAfterClose).toHaveLength(1);
 		expect(firstOverlayAfterClose.inert).toBe(false);
 	});
+
+	test("dims the page behind the dialog with a scrim", () => {
+		const { getByRole } = render(
+			<Dialog open onClose={() => {}} title="Scrim">
+				Body
+			</Dialog>,
+		);
+
+		const overlay = getByRole("dialog").parentElement as HTMLElement;
+
+		expect(overlay.className).toContain("bg-scrim");
+	});
+
+	test("gives the close button a 44px target", () => {
+		const { getByRole } = render(
+			<Dialog open onClose={() => {}} title="Target">
+				Body
+			</Dialog>,
+		);
+
+		expect(getByRole("button", { name: "Close" }).className).toContain(
+			"size-11",
+		);
+	});
 });

@@ -6,11 +6,11 @@ const styles = tv({
 	slots: {
 		overlay: [
 			"fixed inset-0 z-50 flex items-center justify-center p-4",
-			"backdrop-blur-sm",
+			"bg-scrim backdrop-blur-sm",
 		],
 		panel: [
-			"relative flex max-h-[calc(100vh-2rem)] w-full flex-col overflow-hidden rounded-lg",
-			"border border-border bg-background-muted shadow-xl",
+			"relative flex max-h-full w-full flex-col overflow-hidden rounded-surface",
+			"border border-border bg-background-muted shadow-overlay",
 			"focus:outline-none",
 			"motion-reduce:animate-none",
 		],
@@ -22,10 +22,10 @@ const styles = tv({
 			"flex items-center justify-end gap-2 border-t border-border px-6 py-4",
 		],
 		closeButton: [
-			"absolute top-4 right-4 rounded p-1 text-foreground-subtle",
+			"absolute top-2 right-2 inline-flex size-11 items-center justify-center",
+			"rounded-control text-foreground-subtle",
 			"transition-colors duration-200",
 			"hover:bg-background-elevated hover:text-foreground",
-			"focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none",
 			"cursor-pointer",
 		],
 	},

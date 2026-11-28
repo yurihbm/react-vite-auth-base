@@ -3,20 +3,35 @@
 exports[`LanguageSwitcher > renders correctly 1`] = `
 <div>
   <div
-    class="flex gap-2 text-base"
+    aria-label="languageSwitcher.label"
+    class="flex gap-1 text-base"
+    role="group"
   >
     <button
-      aria-label="en"
-      class="cursor-pointer rounded p-1 hover:bg-background-elevated active:bg-background-muted disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:active:bg-transparent"
-      disabled=""
+      aria-label="English"
+      aria-pressed="true"
+      class="inline-flex size-11 cursor-pointer items-center justify-center rounded-control opacity-60 transition-opacity duration-200 hover:bg-subtle-hover hover:opacity-100 aria-pressed:bg-subtle aria-pressed:opacity-100"
+      lang="en"
+      type="button"
     >
-      🇺🇸
+      <span
+        aria-hidden="true"
+      >
+        🇺🇸
+      </span>
     </button>
     <button
-      aria-label="pt"
-      class="cursor-pointer rounded p-1 hover:bg-background-elevated active:bg-background-muted disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:active:bg-transparent"
+      aria-label="Português"
+      aria-pressed="false"
+      class="inline-flex size-11 cursor-pointer items-center justify-center rounded-control opacity-60 transition-opacity duration-200 hover:bg-subtle-hover hover:opacity-100 aria-pressed:bg-subtle aria-pressed:opacity-100"
+      lang="pt"
+      type="button"
     >
-      🇧🇷
+      <span
+        aria-hidden="true"
+      >
+        🇧🇷
+      </span>
     </button>
   </div>
 </div>

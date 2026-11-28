@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NavLink > renders correctly 1`] = `
+<div>
+  <a
+    class="inline-flex h-9 cursor-pointer items-center rounded-control px-3 text-sm font-medium whitespace-nowrap text-foreground-muted transition-colors duration-200 hover:bg-subtle-hover hover:text-foreground aria-[current=page]:bg-subtle aria-[current=page]:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+    href="/"
+  >
+    Home
+  </a>
+</div>
+`;

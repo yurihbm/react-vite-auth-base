@@ -102,4 +102,46 @@ describe("Button", () => {
 		expect((button as HTMLButtonElement).disabled).toBe(true);
 		expect(onClick).not.toHaveBeenCalled();
 	});
+
+	test.each([
+		["sm", ["h-8", "px-3", "text-sm"]],
+		["md", ["h-10", "px-4", "text-base"]],
+		["lg", ["h-12", "px-5", "text-lg"]],
+	] as const)("sizes the %s button by height and padding", (size, classes) => {
+		const { container } = render(<Button size={size}>Save</Button>);
+
+		const button = container.querySelector("button") as HTMLButtonElement;
+
+		for (const className of classes) {
+			expect(button.className).toContain(className);
+		}
+	});
+
+	test("renders the outline variant as a bordered neutral button", () => {
+		const { container } = render(
+			<Button color="primary" variant="outline">
+				Cancel
+			</Button>,
+		);
+
+		const button = container.querySelector("button") as HTMLButtonElement;
+
+		expect(button.className).toContain("border-border-control");
+		expect(button.className).toContain("text-foreground");
+		expect(button.className).not.toContain("bg-primary");
+	});
+
+	test("renders the ghost variant without a fill or border", () => {
+		const { container } = render(
+			<Button color="primary" variant="ghost">
+				Resend code
+			</Button>,
+		);
+
+		const button = container.querySelector("button") as HTMLButtonElement;
+
+		expect(button.className).toContain("bg-transparent");
+		expect(button.className).not.toContain("border");
+		expect(button.className).not.toContain("bg-primary");
+	});
 });

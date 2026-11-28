@@ -1,0 +1,38 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DescriptionList > renders correctly 1`] = `
+<div>
+  <dl
+    class="divide-y divide-border"
+  >
+    <div
+      class="grid gap-1 py-3 sm:grid-cols-3 sm:gap-4"
+    >
+      <dt
+        class="text-sm font-medium text-foreground-muted"
+      >
+        Email
+      </dt>
+      <dd
+        class="text-sm break-words text-foreground sm:col-span-2"
+      >
+        test@mail.com
+      </dd>
+    </div>
+    <div
+      class="grid gap-1 py-3 sm:grid-cols-3 sm:gap-4"
+    >
+      <dt
+        class="text-sm font-medium text-foreground-muted"
+      >
+        Role
+      </dt>
+      <dd
+        class="text-sm break-words text-foreground sm:col-span-2"
+      >
+        user
+      </dd>
+    </div>
+  </dl>
+</div>
+`;

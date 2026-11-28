@@ -77,5 +77,20 @@ describe("LogoutOthers", () => {
 		expect(
 			screen.getByText("translated:auth.internalServerError"),
 		).toBeDefined();
+		expect(
+			screen
+				.getByText("translated:auth.internalServerError")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
+	});
+
+	test("is a compact outline button without its own description", () => {
+		render(<LogoutOthers />);
+
+		const button = screen.getByRole("button", { name: "logoutOthers.button" });
+
+		expect(screen.queryByText("logoutOthers.description")).toBeNull();
+		expect(button.className).toContain("border-border-control");
+		expect(button.className).toContain("self-end");
 	});
 });

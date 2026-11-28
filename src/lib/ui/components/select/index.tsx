@@ -223,7 +223,8 @@ export function Select(props: SelectProps) {
 						multi={multiValue !== null}
 						id={listboxId}
 						options={filtered}
-						size={size}
+						// The option list has no lg size; lg triggers use md options.
+						size={size === "lg" ? "md" : size}
 						activeIndex={activeIndex}
 						getIsSelected={getIsSelected}
 						onSelect={selectOption}

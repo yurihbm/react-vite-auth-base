@@ -4,8 +4,8 @@ import { useState } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
-import { Button, Dialog, TextInput } from "@lib/ui";
-import { base, errorMessage } from "@modules/auth/components/login-form/styles";
+import { Button, Dialog, InlineError, TextInput } from "@lib/ui";
+import { base } from "@modules/auth/components/login-form/styles";
 
 const CODE_INPUT_NAME = "code";
 const CODE_LENGTH = 6;
@@ -88,7 +88,7 @@ export function StepUpDialog({
 			size="sm"
 		>
 			<div className={base()}>
-				{!!error && <p className={errorMessage()}>{errorText}</p>}
+				{!!error && <InlineError>{errorText}</InlineError>}
 				{!isLocked && (
 					<>
 						<form onSubmit={handleSubmit} className={base()}>
@@ -111,7 +111,7 @@ export function StepUpDialog({
 							</Button>
 						</form>
 						<Button
-							color="secondary"
+							variant="ghost"
 							disabled={isSending || resendIn > 0}
 							onClick={onResend}
 						>

@@ -1,9 +1,30 @@
 {
-	"count": "Contador",
-	"input": {
-		"label": "Escreva algo",
-		"message": "Comprimento do texto",
-		"placeholder": "Digite algo aqui..."
+	"guest": {
+		"createAccount": "Criar conta",
+		"description": "Cadastro com verificação de e-mail, login social, segurança da conta e área de administração, para você começar pelas suas funcionalidades.",
+		"logIn": "Entrar",
+		"title": "Contas e login prontos para usar"
 	},
-	"profile": "Ir para o perfil"
+	"shortcuts": {
+		"account": {
+			"description": "Seu perfil e nome.",
+			"title": "Conta"
+		},
+		"auditLogs": {
+			"description": "Logins e alterações no app.",
+			"title": "Logs de auditoria"
+		},
+		"security": {
+			"description": "E-mail, senha e dispositivos conectados.",
+			"title": "Segurança"
+		},
+		"users": {
+			"description": "Encontre, edite e remova usuários.",
+			"title": "Usuários"
+		}
+	},
+	"user": {
+		"description": "Continue de onde parou.",
+		"title": "Olá, {{name}}"
+	}
 }

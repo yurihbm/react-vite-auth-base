@@ -1,7 +1,7 @@
 import type { RequestParams } from "@lib/api";
 import type { AuditLog, AuditStatus } from "@modules/audit/types";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { z } from "zod";
 
 import { client, request } from "@lib/api";
@@ -19,6 +19,21 @@ export interface AuditLogsFilters {
 	endDate?: string;
 }
 
+/** Maps the filters to API query params, leaving out empty ones. */
+export function toAuditLogsParams(filters: AuditLogsFilters): RequestParams {
+	const { action, resourceType, status, actorUuid, startDate, endDate } =
+		filters;
+	const params: RequestParams = {};
+	if (action) params.action = action;
+	if (resourceType) params.resource_type = resourceType;
+	if (status) params.status = status;
+	if (actorUuid) params.actor_uuid = actorUuid;
+	if (startDate) params.start_date = startDate;
+	if (endDate) params.end_date = endDate;
+
+	return params;
+}
+
 /** Cache key used for the audit logs list query. */
 export const listAuditLogsKey = "audit/list";
 
@@ -34,13 +49,14 @@ export function useAuditLogsList(filters: AuditLogsFilters) {
 		],
 		initialPageParam: undefined as string | undefined,
 		queryFn: async ({ pageParam, signal }) => {
-			const params: RequestParams = {};
-			if (action) params.action = action;
-			if (resourceType) params.resource_type = resourceType;
-			if (status) params.status = status;
-			if (actorUuid) params.actor_uuid = actorUuid;
-			if (startDate) params.start_date = startDate;
-			if (endDate) params.end_date = endDate;
+			const params = toAuditLogsParams({
+				action,
+				resourceType,
+				status,
+				actorUuid,
+				startDate,
+				endDate,
+			});
 			if (pageParam) params.cursor = pageParam;
 
 			const { data, meta } = await request(
@@ -68,5 +84,7 @@ export function useAuditLogsList(filters: AuditLogsFilters) {
 			};
 		},
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
+		// Keep the current rows on screen while new filters load.
+		placeholderData: keepPreviousData,
 	});
 }

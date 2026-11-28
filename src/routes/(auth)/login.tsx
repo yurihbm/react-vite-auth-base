@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { useTranslate } from "@lib/i18n";
-import { Alert } from "@lib/ui";
+import { Alert, Divider } from "@lib/ui";
 import {
+	AuthLayout,
 	LoginForm,
 	OAuthButtons,
 	publicOnlyRouteBeforeLoad,
@@ -34,18 +35,33 @@ function LoginComponent() {
 	};
 
 	return (
-		<div className="mx-auto flex w-full flex-col gap-4 sm:max-w-sm">
-			{search.reason && (
-				<Alert
-					type={search.reason === "expired" ? "warning" : "success"}
-					description={reasonMessages[search.reason]}
-				/>
-			)}
+		<AuthLayout
+			title={t("loginPage.title")}
+			description={t("loginPage.description")}
+			alert={
+				search.reason && (
+					<Alert
+						color={search.reason === "expired" ? "warning" : "success"}
+						description={reasonMessages[search.reason]}
+					/>
+				)
+			}
+			footer={
+				<>
+					{t("loginPage.noAccount")}{" "}
+					<Link
+						to="/register"
+						search={{ redirect: search.redirect }}
+						className="font-medium text-foreground underline"
+					>
+						{t("loginPage.createAccount")}
+					</Link>
+				</>
+			}
+		>
 			<LoginForm redirectTo={search.redirect} />
-			<Link to="/password/forgot" className="text-sm underline">
-				{t("loginPage.forgotPassword")}
-			</Link>
+			<Divider label={t("oauthButtons.divider")} />
 			<OAuthButtons redirectTo={search.redirect} />
-		</div>
+		</AuthLayout>
 	);
 }

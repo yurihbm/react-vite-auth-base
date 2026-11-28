@@ -41,4 +41,15 @@ describe("OAuthButtons", () => {
 
 		expect(startOAuthLogin).toHaveBeenCalledWith("google", "/");
 	});
+
+	test("renders outline buttons with a decorative provider icon", () => {
+		const { getByRole } = render(<OAuthButtons />);
+
+		const button = getByRole("button", { name: "oauthButtons.github" });
+
+		expect(button.className).toContain("border-border-control");
+		expect(button.querySelector("svg")?.getAttribute("aria-hidden")).toBe(
+			"true",
+		);
+	});
 });

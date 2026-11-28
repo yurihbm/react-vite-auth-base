@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { useTranslate } from "@lib/i18n";
+import { Container, PageHeader, Stack } from "@lib/ui";
 import { AuditLogsList } from "@modules/audit";
+import { usePageTitle } from "@modules/shared";
 
 const searchSchema = z.object({
 	action: z.string().optional().catch(undefined),
@@ -27,13 +29,20 @@ function AuditLogsComponent() {
 	const navigate = useNavigate();
 	const t = useTranslate("audit");
 
+	usePageTitle(t("auditPage.title"));
+
 	return (
-		<section className="flex w-full flex-col gap-4">
-			<h2 className="text-lg font-bold">{t("auditPage.title")}</h2>
-			<AuditLogsList
-				filters={filters}
-				onFiltersChange={(next) => navigate({ search: next, replace: true })}
-			/>
-		</section>
+		<Container size="wide">
+			<Stack gap="lg" className="py-6">
+				<PageHeader
+					title={t("auditPage.title")}
+					description={t("auditPage.description")}
+				/>
+				<AuditLogsList
+					filters={filters}
+					onFiltersChange={(next) => navigate({ search: next, replace: true })}
+				/>
+			</Stack>
+		</Container>
 	);
 }

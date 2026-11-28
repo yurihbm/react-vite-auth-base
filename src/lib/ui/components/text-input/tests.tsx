@@ -140,4 +140,49 @@ describe("TextInput", () => {
 
 		expect(message.className).toContain("text-success");
 	});
+
+	test.each([
+		["sm", ["h-8", "px-3"], "text-sm"],
+		["md", ["h-10", "px-3"], "text-base"],
+		["lg", ["h-12", "px-4"], "text-lg"],
+	] as const)(
+		"sizes the %s field like a button of the same size",
+		(size, containerClasses, textClass) => {
+			const { getByRole } = render(<TextInput label="Name" size={size} />);
+
+			const input = getByRole("textbox", { name: "Name" });
+
+			for (const className of containerClasses) {
+				expect(input.parentElement?.className).toContain(className);
+			}
+			expect(input.className).toContain(textClass);
+		},
+	);
+
+	test("renders labelEnd on the label row, outside the label", () => {
+		const { getByLabelText, getByRole } = render(
+			<TextInput
+				label="Password"
+				labelEnd={<a href="/password/forgot">Forgot password?</a>}
+			/>,
+		);
+
+		const link = getByRole("link", { name: "Forgot password?" });
+		const label = getByLabelText("Password").closest("div")?.parentElement
+			?.parentElement as HTMLElement;
+
+		expect(link.closest("label")).toBeNull();
+		expect(label.querySelector("label")?.parentElement).toBe(
+			link.parentElement,
+		);
+	});
+
+	test("uses the shared focus outline on the field box", () => {
+		const { getByRole } = render(<TextInput label="Name" />);
+
+		const container = getByRole("textbox", { name: "Name" }).parentElement;
+
+		expect(container?.className).toContain("focus-within:focus-outline");
+		expect(container?.className).not.toContain("ring-");
+	});
 });

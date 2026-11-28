@@ -3,9 +3,9 @@ import type { SubmitEvent } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
-import { Alert, Button, TextInput } from "@lib/ui";
+import { Alert, Button, InlineError, TextInput } from "@lib/ui";
 import { StepUpCancelledError } from "@modules/auth/providers/step-up/context";
-import { base, errorMessage } from "@modules/users/components/styles";
+import { base } from "@modules/users/components/styles";
 import { useUpdateUser } from "@modules/users/services";
 
 const NAME_INPUT_NAME = "name";
@@ -37,10 +37,10 @@ export function EditNameForm({ user }: EditNameFormProps) {
 	return (
 		<form onSubmit={handleSubmit} className={base()}>
 			{isSuccess && (
-				<Alert type="success" description={t("editNameForm.success")} />
+				<Alert color="success" description={t("editNameForm.success")} />
 			)}
 			{!!error && !(error instanceof StepUpCancelledError) && (
-				<p className={errorMessage()}>{apiErrorMessage}</p>
+				<InlineError>{apiErrorMessage}</InlineError>
 			)}
 			<TextInput
 				name={NAME_INPUT_NAME}
@@ -53,7 +53,7 @@ export function EditNameForm({ user }: EditNameFormProps) {
 				maxLength={100}
 				required
 			/>
-			<Button type="submit" disabled={isPending}>
+			<Button type="submit" disabled={isPending} className="self-end">
 				{t("editNameForm.submitButton")}
 			</Button>
 		</form>

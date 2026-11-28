@@ -1,7 +1,7 @@
 import type { RequestParams } from "@lib/api";
 import type { UserRole } from "@modules/users/types";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { z } from "zod";
 
 import { client, request } from "@lib/api";
@@ -41,5 +41,7 @@ export function useUsersList({ search, role }: UsersListFilters) {
 			};
 		},
 		getNextPageParam: (lastPage) => lastPage.nextCursor,
+		// Keep the current rows on screen while new filters load.
+		placeholderData: keepPreviousData,
 	});
 }

@@ -152,11 +152,26 @@ describe("ChangeEmailForm", () => {
 			screen.getByText("translated:users.emailChange.cooldown"),
 		).toBeDefined();
 		expect(
+			screen
+				.getByText("translated:users.emailChange.cooldown")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
+		expect(
 			(
 				screen.getByRole("button", {
 					name: "changeEmailForm.requestButton",
 				}) as HTMLButtonElement
 			).disabled,
 		).toBe(true);
+	});
+
+	test("only explains the code step, leaving the intro to the settings row", () => {
+		render(<ChangeEmailForm />);
+
+		expect(screen.queryByText("changeEmailForm.description")).toBeNull();
+		expect(
+			screen.getByRole("button", { name: "changeEmailForm.requestButton" })
+				.className,
+		).toContain("self-end");
 	});
 });

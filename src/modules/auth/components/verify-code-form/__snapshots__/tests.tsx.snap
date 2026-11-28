@@ -3,31 +3,29 @@
 exports[`VerifyCodeForm > renders correctly 1`] = `
 <div>
   <div
-    class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
+    class="mx-auto flex w-full flex-col justify-center gap-5 sm:max-w-sm"
   >
-    <p>
-      verifyCodeForm.description
-    </p>
     <form
-      class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
+      class="mx-auto flex w-full flex-col justify-center gap-5 sm:max-w-sm"
     >
-      <p
-        class="min-h-12 text-danger"
-      />
       <div
         class="flex flex-col gap-1"
       >
-        <label
-          class="text-sm font-medium text-foreground"
-          for="_r_0_"
+        <div
+          class="flex items-center justify-between gap-2"
         >
-          verifyCodeForm.input.code.label
-        </label>
+          <label
+            class="text-sm font-medium text-foreground"
+            for="_r_0_"
+          >
+            verifyCodeForm.input.code.label
+          </label>
+        </div>
         <div
           class="flex flex-col gap-1"
         >
           <div
-            class="flex items-center gap-2 rounded border border-border bg-background-muted transition-colors duration-200 focus-within:ring-2 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60 px-3 py-2 focus-within:border-primary focus-within:ring-primary/40"
+            class="flex items-center gap-2 rounded-control border border-border-control bg-background-muted transition-colors duration-200 focus-within:focus-outline data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60 h-10 px-3 focus-within:border-primary"
             data-disabled="false"
           >
             <input
@@ -53,7 +51,7 @@ exports[`VerifyCodeForm > renders correctly 1`] = `
         </div>
       </div>
       <button
-        class="flex items-center justify-center gap-2 rounded px-4 py-2 whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 text-base bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active disabled:hover:bg-primary disabled:active:bg-primary"
+        class="flex items-center justify-center gap-2 rounded-control whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 h-10 px-4 text-base bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active disabled:hover:bg-primary disabled:active:bg-primary"
         type="submit"
       >
         verifyCodeForm.submitButton

@@ -2,14 +2,7 @@ import type { AvatarStyles, AvatarVariants } from "./styles";
 
 import { styles } from "./styles";
 
-const COLORS = [
-	"primary",
-	"secondary",
-	"info",
-	"success",
-	"warning",
-	"danger",
-] as const;
+const COLORS = ["primary", "info", "success", "warning", "danger"] as const;
 
 type AvatarColor = (typeof COLORS)[number];
 

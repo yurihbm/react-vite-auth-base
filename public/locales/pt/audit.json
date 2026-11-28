@@ -4,10 +4,31 @@
 			"all": "Todas as ações",
 			"label": "Ação"
 		},
+		"actions": {
+			"EMAIL_CHANGE": "E-mail alterado",
+			"EMAIL_CHANGE_REQUEST": "Troca de e-mail solicitada",
+			"EMAIL_CHANGE_REVERT": "Troca de e-mail desfeita",
+			"LOGIN": "Login",
+			"LOGOUT": "Logout",
+			"LOGOUT_OTHERS": "Outros dispositivos desconectados",
+			"OAUTH_LINK_REVERT": "Provedor desvinculado",
+			"OAUTH_LOGIN": "Login social",
+			"PASSWORD_CHANGE": "Senha alterada",
+			"PASSWORD_RESET": "Senha redefinida",
+			"PASSWORD_RESET_REQUEST": "Redefinição de senha solicitada",
+			"SIGNUP_REQUEST": "Cadastro solicitado",
+			"STEP_UP_REQUEST": "Verificação de identidade solicitada",
+			"STEP_UP_VERIFY": "Identidade verificada",
+			"USER_CREATE": "Usuário criado",
+			"USER_DELETE": "Usuário removido",
+			"USER_ROLE_CHANGE": "Papel alterado",
+			"USER_UPDATE": "Usuário atualizado"
+		},
 		"actor": {
 			"label": "UUID do autor",
 			"placeholder": "Filtrar por UUID do autor"
 		},
+		"clearFilters": "Limpar filtros",
 		"columns": {
 			"action": "Ação",
 			"actor": "Autor",
@@ -15,16 +36,30 @@
 			"resource": "Recurso",
 			"status": "Status"
 		},
+		"copiedId": "Copiado",
+		"copyId": "Copiar ID",
 		"empty": "Nenhum log de auditoria encontrado.",
+		"emptyFiltered": {
+			"description": "Tente outros filtros ou um período maior.",
+			"title": "Nenhum log com esses filtros"
+		},
 		"endDate": {
 			"label": "Até (exclusivo)"
 		},
+		"filters": {
+			"title": "Filtros",
+			"toggle": "Filtros"
+		},
+		"loading": "Carregando logs",
+		"loadingMore": "Carregando…",
+		"loadMore": "Carregar mais",
 		"resource": {
 			"all": "Todos os recursos",
 			"auth": "Autenticação",
 			"label": "Tipo de recurso",
 			"user": "Usuário"
 		},
+		"showing": "Mostrando {{loaded}} de {{total}}",
 		"startDate": {
 			"label": "De"
 		},
@@ -35,11 +70,16 @@
 			"success": "Sucesso"
 		},
 		"summary": {
-			"title": "Logs carregados por status"
+			"failed": "com falha",
+			"succeeded": "com sucesso",
+			"title": "Status para esses filtros"
 		},
-		"total": "{{total}} logs"
+		"total_one": "{{count}} log",
+		"total_many": "{{count}} logs",
+		"total_other": "{{count}} logs"
 	},
 	"auditPage": {
+		"description": "Quem fez o quê e quando, em todo o app.",
 		"title": "Logs de auditoria"
 	}
 }

@@ -19,8 +19,8 @@ const meta: Meta<LineChartProps> = {
 		data: DATA,
 		xKey: "month",
 		series: [
-			{ key: "income", label: "Income", className: "text-success" },
-			{ key: "expenses", label: "Expenses", className: "text-danger" },
+			{ key: "income", label: "Income", className: "text-chart-1" },
+			{ key: "expenses", label: "Expenses", className: "text-chart-2" },
 		],
 	},
 };

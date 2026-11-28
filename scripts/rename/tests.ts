@@ -57,7 +57,9 @@ describe("rename", () => {
 		expect(read("README.md")).toContain("cd acme-app");
 		expect(read("CONTRIBUTING.md")).toMatch(/^# Contributing to Acme App$/m);
 		expect(read("AGENTS.md")).toContain("operating in `acme-app`");
-		expect(read("src/routes/__root.tsx")).toContain(">Acme App</h1>");
+		expect(read("src/routes/__root.tsx")).toContain(
+			'<Link to="/">Acme App</Link>',
+		);
 	});
 
 	test("keeps the backend template name untouched", () => {

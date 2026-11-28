@@ -7,15 +7,7 @@ const meta: Meta<SpinnerProps> = {
 	component: Spinner,
 	argTypes: {
 		color: {
-			options: [
-				"primary",
-				"secondary",
-				"subtle",
-				"info",
-				"success",
-				"warning",
-				"danger",
-			],
+			options: ["primary", "subtle", "info", "success", "warning", "danger"],
 			control: {
 				type: "select",
 			},

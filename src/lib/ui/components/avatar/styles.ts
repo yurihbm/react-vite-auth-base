@@ -13,7 +13,7 @@ const styles = tv({
 	},
 	variants: {
 		size: {
-			xs: { root: "size-6", initials: "text-[10px]" },
+			xs: { root: "size-6", initials: "text-2xs" },
 			sm: { root: "size-8", initials: "text-xs" },
 			md: { root: "size-10", initials: "text-sm" },
 			lg: { root: "size-12", initials: "text-base" },
@@ -21,7 +21,6 @@ const styles = tv({
 		},
 		color: {
 			primary: { root: "bg-primary text-primary-foreground" },
-			secondary: { root: "bg-secondary text-secondary-foreground" },
 			info: { root: "bg-info text-info-foreground" },
 			success: { root: "bg-success text-success-foreground" },
 			warning: { root: "bg-warning text-warning-foreground" },

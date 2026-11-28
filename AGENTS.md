@@ -21,6 +21,7 @@ testability, and incremental feature growth (especially with
 Primary references:
 
 - `README.md`
+- `DESIGN.md`
 - `package.json`
 - `oxlint.config.ts`
 - `oxfmt.config.ts`
@@ -91,7 +92,7 @@ Follow module-oriented layout under `src/`:
 - `src/routes/`: route definitions and route composition.
 - `src/modules/<module-name>/`: module-specific code.
 - `src/modules/shared/`: app-aware pieces shared across modules (e.g.
-  `ThemeToggle`, `LanguageSwitcher`).
+  `ThemeToggle`, `LanguageSwitcher`, `ButtonLink`, `usePageTitle`).
 - `src/lib/<lib-name>/`: app-agnostic libraries (`ui`, `charts`, `i18n`, `api`,
   `tests`, `dev-tools`). Libraries never import from `src/modules/`.
 
@@ -129,6 +130,34 @@ follows the same components/hooks/utils layout):
     - `tests.ts` for Vitest tests.
   - `index.ts` for barrel exports of all utilities.
 - `index.ts` for barrel exports of all module code.
+
+## UI composition and design tokens
+
+Full reference, rationale and identity: `DESIGN.md`. Tokens live in
+`src/main.css`.
+
+- Use semantic tokens and the generated utilities only (`bg-surface`,
+  `text-foreground-muted`, `border-border-control`, `rounded-control`,
+  `rounded-surface`, `shadow-raised`, `shadow-overlay`, `text-2xs` to
+  `text-4xl`); never arbitrary values or raw palette colors.
+- Focus: rely on the global `:focus-visible`; for composite controls use
+  `focus-outline` (`focus-within:focus-outline`,
+  `peer-focus-visible:focus-outline`), not `ring-*`.
+- Compose with the `@lib/ui` primitives: `Heading`, `Text`, `Container`,
+  `Stack`, `Inline`, `PageHeader`, `Section`, `SettingRow`, `Divider`,
+  `EmptyState`, `InlineError`, `DescriptionList`, `Navbar`, `NavLink`,
+  `SkipLink`; app-aware: `AuthLayout` (`@modules/auth`), `ButtonLink` and
+  `usePageTitle` (`@modules/shared`).
+- Every page renders one `h1` (`PageHeader` in a `Container` > `Stack` with
+  `py-6`, or `AuthLayout`) and calls `usePageTitle(t("..."))`. Do not copy
+  wrapper classes into routes.
+- Buttons keep their own width (`self-end`), never `w-full`. Form errors use
+  `Alert` or `InlineError`, never bare red text; forms call
+  `useFocusFirstInvalid`.
+- Destructive actions go in `Section surface tone="danger"` with a confirm
+  `Dialog`; cursor lists use the "Load more" pattern (`UsersList`,
+  `AuditLogsList`).
+- Targets: at least 24px for links and small buttons, 44px for icon buttons.
 
 ## Formatting, imports, and style conventions
 

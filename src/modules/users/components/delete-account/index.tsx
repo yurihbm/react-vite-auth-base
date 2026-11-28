@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import { useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
-import { Button, Dialog } from "@lib/ui";
+import { Button, Dialog, InlineError } from "@lib/ui";
 import { StepUpCancelledError } from "@modules/auth/providers/step-up/context";
-import { base, errorMessage } from "@modules/users/components/styles";
+import { base } from "@modules/users/components/styles";
 import { useDeleteUser } from "@modules/users/services";
 
 interface DeleteAccountProps {
@@ -43,8 +43,7 @@ export function DeleteAccount({ uuid }: DeleteAccountProps) {
 
 	return (
 		<div className={base()}>
-			<p>{t("deleteAccount.description")}</p>
-			<Button color="danger" onClick={() => setOpen(true)}>
+			<Button color="danger" className="self-end" onClick={() => setOpen(true)}>
 				{t("deleteAccount.button")}
 			</Button>
 			<Dialog
@@ -55,7 +54,7 @@ export function DeleteAccount({ uuid }: DeleteAccountProps) {
 				size="sm"
 				footer={
 					<>
-						<Button color="subtle" onClick={() => setOpen(false)}>
+						<Button variant="outline" onClick={() => setOpen(false)}>
 							{t("deleteAccount.confirm.cancelButton")}
 						</Button>
 						<Button color="danger" disabled={isPending} onClick={handleConfirm}>
@@ -65,7 +64,7 @@ export function DeleteAccount({ uuid }: DeleteAccountProps) {
 				}
 			>
 				{!!error && !(error instanceof StepUpCancelledError) && (
-					<p className={errorMessage()}>{apiErrorMessage}</p>
+					<InlineError>{apiErrorMessage}</InlineError>
 				)}
 			</Dialog>
 		</div>

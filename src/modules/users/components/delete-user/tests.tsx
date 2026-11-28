@@ -124,6 +124,11 @@ describe("DeleteUser", () => {
 		openDialog();
 
 		expect(screen.getByText("translated:auth.stepUp.required")).toBeDefined();
+		expect(
+			screen
+				.getByText("translated:auth.stepUp.required")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
 	});
 
 	test("shows nothing when the step-up was cancelled", () => {
@@ -133,5 +138,26 @@ describe("DeleteUser", () => {
 		openDialog();
 
 		expect(screen.queryByText(/^translated:|^unknown$/)).toBeNull();
+	});
+
+	test("styles cancel as an outline button", () => {
+		render(<DeleteUser uuid={UUID} onDeleted={onDeleted} />);
+
+		openDialog();
+
+		const cancel = screen.getByRole("button", {
+			name: "deleteUser.confirm.cancelButton",
+		});
+
+		expect(cancel.className).toContain("border-border-control");
+	});
+
+	test("is a compact danger button without its own description", () => {
+		render(<DeleteUser uuid={UUID} onDeleted={onDeleted} />);
+
+		expect(screen.queryByText("deleteUser.description")).toBeNull();
+		expect(
+			screen.getByRole("button", { name: "deleteUser.button" }).className,
+		).toContain("self-end");
 	});
 });

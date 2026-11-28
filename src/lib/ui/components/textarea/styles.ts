@@ -8,9 +8,9 @@ const styles = tv({
 		labelText: ["text-sm font-medium text-foreground"],
 		baseContainer: ["flex flex-col gap-1"],
 		inputContainer: [
-			"w-full rounded border border-border bg-background-muted",
+			"w-full rounded-control border border-border-control bg-background-muted",
 			"transition-colors duration-200",
-			"focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/40",
+			"focus-within:border-ring focus-within:focus-outline",
 			"data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60",
 		],
 		textarea: [
@@ -36,7 +36,7 @@ const styles = tv({
 			true: {
 				inputContainer: [
 					"border-danger bg-danger-subtle/20",
-					"focus-within:border-danger focus-within:ring-danger/40",
+					"focus-within:border-danger",
 				],
 				message: ["text-danger"],
 			},

@@ -102,6 +102,11 @@ describe("StepUpDialog", () => {
 		expect(
 			screen.getByText("translated:auth.stepUp.invalidCode"),
 		).toBeDefined();
+		expect(
+			screen
+				.getByText("translated:auth.stepUp.invalidCode")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
 		expect(screen.getByText("code must be numeric")).toBeDefined();
 	});
 

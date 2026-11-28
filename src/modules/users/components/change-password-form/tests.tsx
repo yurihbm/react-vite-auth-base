@@ -84,6 +84,11 @@ describe("ChangePasswordForm", () => {
 		expect(
 			screen.getByText("translated:auth.stepUp.sessionRevoked"),
 		).toBeDefined();
+		expect(
+			screen
+				.getByText("translated:auth.stepUp.sessionRevoked")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
 	});
 
 	test("shows nothing when the step-up was cancelled", () => {
@@ -91,5 +96,15 @@ describe("ChangePasswordForm", () => {
 		render(<ChangePasswordForm />);
 
 		expect(screen.queryByText(/^translated:|^unknown$/)).toBeNull();
+	});
+
+	test("leaves the description to the settings row and keeps submit compact", () => {
+		render(<ChangePasswordForm />);
+
+		expect(screen.queryByText("changePasswordForm.description")).toBeNull();
+		expect(
+			screen.getByRole("button", { name: "changePasswordForm.submitButton" })
+				.className,
+		).toContain("self-end");
 	});
 });

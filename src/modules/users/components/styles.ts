@@ -2,9 +2,8 @@ import { tv } from "tailwind-variants";
 
 export const styles = tv({
 	slots: {
-		base: "flex w-full flex-col gap-2",
-		errorMessage: "text-danger",
+		base: "flex w-full flex-col gap-5",
 	},
 });
 
-export const { base, errorMessage } = styles();
+export const { base } = styles();

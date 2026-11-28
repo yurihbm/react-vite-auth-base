@@ -15,7 +15,7 @@ const styles = tv({
 			"disabled:cursor-not-allowed",
 		],
 		indicator: [
-			"flex items-center justify-center rounded-full border border-border-strong",
+			"flex items-center justify-center rounded-full border border-border-control",
 			"bg-background-muted transition-colors duration-200",
 			"peer-checked:border-primary peer-checked:bg-primary/10",
 		],

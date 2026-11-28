@@ -17,6 +17,18 @@ export const SUPPORTED_LANGUAGE_EMOJI_MAP: Record<
 };
 
 /**
+ * Each language's name in that language (e.g. for a language switcher, where
+ * people look for their own language).
+ */
+export const SUPPORTED_LANGUAGE_NAME_MAP: Record<
+	(typeof SUPPORTED_LANGUAGES)[number],
+	string
+> = {
+	en: "English",
+	pt: "Português",
+};
+
+/**
  * Fallback language to use when the user's preferred language is not supported
  * or when a translation key is missing in the current language.
  */

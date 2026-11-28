@@ -13,9 +13,9 @@ const meta: Meta<SelectProps> = {
 		placeholder: "Select a country",
 	},
 	argTypes: {
-		size: { options: ["sm", "md"], control: { type: "select" } },
+		size: { options: ["sm", "md", "lg"], control: { type: "select" } },
 		color: {
-			options: ["primary", "secondary", "subtle"],
+			options: ["primary", "subtle"],
 			control: { type: "select" },
 		},
 	},

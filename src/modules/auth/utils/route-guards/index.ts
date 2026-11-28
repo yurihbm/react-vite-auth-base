@@ -85,7 +85,8 @@ export async function privateRouteBeforeLoad({
 /**
  * Builds a route guard that restricts access to users with a given role.
  * Unauthenticated users are redirected to the login page, and authenticated
- * users with another role are redirected to the home page.
+ * users with another role are redirected to the home page with
+ * `reason=forbidden`.
  *
  * Use it in the beforeLoad hook of routes.
  *
@@ -111,8 +112,10 @@ export function requireRoleBeforeLoad(role: UserRole) {
 		}
 
 		if (auth.user.role !== role) {
+			// Home shows an "access denied" notice for this reason.
 			throw redirect({
 				to: "/",
+				search: { reason: "forbidden" },
 				replace: true,
 			});
 		}

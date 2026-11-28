@@ -13,23 +13,29 @@ also be adapted to other backends.
 The repository currently provides:
 
 - Vite + React + TypeScript base setup
-- File-based routing with TanStack Router
-- Server-state foundation with TanStack React Query
-- Tailwind CSS v4 setup
-- Linting, formatting, and test tooling configuration
+- File-based routing with TanStack Router, with route guards for signed-in,
+  signed-out and admin-only pages
+- Server-state foundation with TanStack React Query and an API client for
+  `go-net-http-auth-base` (session renewal, typed errors, response validation)
+- Auth flows: login, register with email verification, password reset, OAuth
+  login, step-up confirmation and emailed revert links
+- Account pages (profile, email, password, other devices, account deletion)
+  and an admin area (users, audit logs)
+- A design system in `src/lib/ui`: tokens, typography, layout and state
+  primitives, and an app shell (navbar, skip link, footer) with light and
+  dark themes
+- i18n (English and Portuguese) with typed keys
+- Linting, formatting, unit and Storybook test tooling
 
 Planned template capabilities (incremental):
 
-- Auth flow module (login, register, token/session handling)
 - Global app state management patterns
-- Reusable design system primitives and app layout
-- Integration-ready API layer for `go-net-http-auth-base`
 
 ## 📂 Project Structure
 
 The project follows a module-oriented structure and file-based routing.
 
-### Directory Layout (goal)
+### Directory Layout
 
 ```text
 src/
@@ -41,12 +47,14 @@ src/
 │   ├── tests/              # Test helpers and setup
 │   └── ui/                 # Design system components, hooks, utils
 ├── modules/                # App feature modules (@modules/*)
+│   ├── audit/              # Admin audit log
 │   ├── auth/               # Auth pages, hooks, services, guards
-│   ├── users/              # User management feature example
-│   └── shared/             # App-aware components shared across modules
+│   ├── home/               # Home page
+│   ├── users/              # Account and admin user management
+│   └── shared/             # App-aware components and hooks shared across modules
 ├── routes/                 # App routes and route-level composition
 ├── main.tsx                # Application entry point
-├── main.css                # Global styles and Tailwind import
+├── main.css                # Design tokens, themes and global styles
 └── routeTree.gen.ts        # Auto-generated route tree
 ```
 
@@ -61,6 +69,26 @@ src/
 - **Linting**: Oxlint
 - **Formatting**: Oxfmt
 - **Testing**: Vitest (`happy-dom` environment)
+
+## 🎨 Design System and Page Layout
+
+Design tokens are defined in `src/main.css`: the Inter Variable font, a type
+scale (`text-2xs` to `text-4xl`), radius (`rounded-control`,
+`rounded-surface`), shadows (`shadow-raised`, `shadow-overlay`) and semantic
+colors for both themes (including `surface`, `scrim` and `border-control`).
+Components use these utilities only, without arbitrary values.
+
+`src/lib/ui` provides the building blocks: `Heading` and `Text`; `Container`,
+`Stack` and `Inline`; `PageHeader`, `Section`, `SettingRow` and `Divider`;
+`EmptyState`, `InlineError` and `DescriptionList`; `Navbar`, `NavLink` and
+`SkipLink`; plus the existing controls (`Button`, `TextInput`, `Select`,
+`Table`, `Dialog`, `Toast`, ...). Browse them with `pnpm storybook`.
+
+Every page renders one `h1` through `PageHeader` inside a `Container` (or
+`AuthLayout` for sign-in and recovery pages) and titles the browser tab with
+`usePageTitle`. Destructive actions sit in a "Danger zone" section, and
+paginated lists use a "Load more" pattern. The full reference (tokens, conventions, identity and rebranding guide) is in
+[`DESIGN.md`](DESIGN.md).
 
 ## 🚀 Getting Started
 
@@ -197,16 +225,17 @@ Checklist after creating a repository from this template:
 
    `name` is a lowercase slug and `title` the human-readable name; `--short-name` and `--description` are optional and left unchanged when omitted. The command rewrites the `package.json` name, the `<title>` in `index.html`, the `APP_NAME`, `APP_SHORT_NAME` and `APP_DESCRIPTION` constants in `vite.config.ts` (PWA manifest), the title in `README.md`, `CONTRIBUTING.md` and the root route header, and the package name in `AGENTS.md`. The backend template references are not touched. Running it again with the same arguments changes nothing.
 
-2. Update the copyright holder in `LICENSE`.
-3. Add a `CODEOWNERS` file in `.github/`.
-4. Fill in `SECURITY.md`: remove the template notice and the placeholders (contact, support policy, response times).
-5. GitHub disables scheduled workflows after 60 days without repository activity; re-enable them in the Actions tab.
-6. Remove the rename tool, which is only needed once: delete `scripts/rename/`, the `rename` script in `package.json`, `scripts/rename` from `tsconfig.node.json` and `scripts/**/tests.ts` from the `unit/integration` include in `vite.config.ts`, and step 1 of this checklist.
-7. Finish with `pnpm lint`, `pnpm typecheck`, `pnpm test:coverage` and `pnpm build`, then delete this whole section once every step is done. In the commit, state that the template phase is over.
+2. **Make `DESIGN.md` yours.** Part 1 (Contract) stays as it is. Rewrite Part 2 (Identity) for the product you are building: who uses it, the tone and density it needs ("The feel"), then the brand colors, font and radii (follow the "Rebranding guide" there and redo its contrast checks). Update the "Current defaults" table and the brand name, drop the "Adding a second accent" and "Known gaps" notes that do not apply, and keep the tokens in `src/main.css` and the document in sync.
+3. Update the copyright holder in `LICENSE`.
+4. Add a `CODEOWNERS` file in `.github/`.
+5. Fill in `SECURITY.md`: remove the template notice and the placeholders (contact, support policy, response times).
+6. GitHub disables scheduled workflows after 60 days without repository activity; re-enable them in the Actions tab.
+7. Remove the rename tool, which is only needed once: delete `scripts/rename/`, the `rename` script in `package.json`, `scripts/rename` from `tsconfig.node.json` and `scripts/**/tests.ts` from the `unit/integration` include in `vite.config.ts`, and step 1 of this checklist.
+8. Finish with `pnpm lint`, `pnpm typecheck`, `pnpm test:coverage` and `pnpm build`, then delete this whole section once every step is done. In the commit, state that the template phase is over.
 
 ### Leaving the template phase
 
-While this is a template, the README, `CONTRIBUTING.md` and `AGENTS.md` describe the template itself. Leave the phase when you bootstrap the real application: replace the template wording in them (the title description and "Current Status" in this README) with the project's own, and keep the backend contract notes in sync with the API you actually consume.
+While this is a template, the README, `CONTRIBUTING.md`, `AGENTS.md` and `DESIGN.md` describe the template itself. Leave the phase when you bootstrap the real application: replace the template wording in them (the title description and "Current Status" in this README, and Part 2 of `DESIGN.md`) with the project's own, and keep the backend contract notes in sync with the API you actually consume.
 
 ### Recommended GitHub settings
 

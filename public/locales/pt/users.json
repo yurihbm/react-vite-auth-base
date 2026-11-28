@@ -1,9 +1,16 @@
 {
 	"accountPage": {
+		"description": "Seu perfil e como você entra na conta.",
 		"profile": {
+			"description": "Seu nome aparece para administradores e no menu da sua conta.",
 			"email": "E-mail",
 			"memberSince": "Membro desde",
-			"role": "Perfil"
+			"role": "Perfil",
+			"title": "Perfil"
+		},
+		"security": {
+			"description": "Altere seu e-mail ou senha e saia de outros dispositivos.",
+			"title": "Segurança"
 		},
 		"securityLink": "Configurações de segurança",
 		"title": "Conta"
@@ -72,19 +79,43 @@
 	},
 	"securityPage": {
 		"back": "Voltar para a conta",
+		"dangerZone": {
+			"description": "Estas ações são permanentes.",
+			"title": "Zona de perigo"
+		},
+		"description": "Seu e-mail, senha e dispositivos conectados.",
 		"sections": {
 			"delete": "Excluir conta",
 			"email": "Alterar e-mail",
 			"password": "Alterar senha",
 			"sessions": "Outros dispositivos"
 		},
+		"signIn": {
+			"description": "Como você entra e onde está conectado.",
+			"title": "Acesso"
+		},
 		"title": "Segurança"
 	},
 	"userPage": {
 		"back": "Voltar para usuários",
+		"dangerZone": {
+			"title": "Zona de perigo"
+		},
+		"details": {
+			"title": "Detalhes"
+		},
+		"name": {
+			"title": "Nome"
+		},
+		"notFound": {
+			"back": "Voltar para usuários",
+			"description": "Este usuário não existe ou foi removido.",
+			"title": "Usuário não encontrado"
+		},
 		"title": "Usuário"
 	},
 	"usersList": {
+		"clearFilters": "Limpar filtros",
 		"columns": {
 			"createdAt": "Criado em",
 			"email": "E-mail",
@@ -92,6 +123,13 @@
 			"role": "Perfil"
 		},
 		"empty": "Nenhum usuário encontrado.",
+		"emptyFiltered": {
+			"description": "Tente outra busca ou outro papel.",
+			"title": "Nenhum usuário com esses filtros"
+		},
+		"loading": "Carregando usuários",
+		"loadingMore": "Carregando…",
+		"loadMore": "Carregar mais",
 		"role": {
 			"admin": "Administrador",
 			"all": "Todos os perfis",
@@ -102,9 +140,13 @@
 			"label": "Buscar",
 			"placeholder": "Prefixo do nome ou e-mail"
 		},
-		"total": "{{total}} usuários"
+		"showing": "Mostrando {{loaded}} de {{total}}",
+		"total_one": "{{count}} usuário",
+		"total_many": "{{count}} usuários",
+		"total_other": "{{count}} usuários"
 	},
 	"usersPage": {
+		"description": "Encontre pessoas, altere o nome ou remova a conta.",
 		"title": "Usuários"
 	}
 }

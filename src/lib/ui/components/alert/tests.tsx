@@ -10,7 +10,7 @@ describe("Alert", () => {
 
 	test("renders correctly", () => {
 		const { container } = render(
-			<Alert type="info" title="Info" description="Description" />,
+			<Alert color="info" title="Info" description="Description" />,
 		);
 
 		expect(container).toMatchSnapshot();
@@ -67,10 +67,33 @@ describe("Alert", () => {
 
 	test.each(["info", "success", "warning", "danger"] as const)(
 		"renders the %s variant",
-		(type) => {
-			const { getByRole } = render(<Alert type={type} title="Alert" />);
+		(color) => {
+			const { getByRole } = render(<Alert color={color} title="Alert" />);
 
 			expect(getByRole("alert")).toBeTruthy();
 		},
 	);
+
+	test("applies the color variant", () => {
+		const { getByRole } = render(<Alert color="success" title="Saved" />);
+
+		expect(getByRole("alert").className).toContain("bg-success-subtle");
+	});
+
+	test("still accepts the deprecated type prop", () => {
+		const { getByRole } = render(<Alert type="danger" title="Failed" />);
+
+		expect(getByRole("alert").className).toContain("bg-danger-subtle");
+	});
+
+	test("prefers color over the deprecated type prop", () => {
+		const { getByRole } = render(
+			<Alert color="warning" type="danger" title="Careful" />,
+		);
+
+		const alert = getByRole("alert");
+
+		expect(alert.className).toContain("bg-warning-subtle");
+		expect(alert.className).not.toContain("bg-danger-subtle");
+	});
 });

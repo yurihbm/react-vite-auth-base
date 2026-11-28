@@ -5,17 +5,21 @@ exports[`TextInput > renders correctly 1`] = `
   <div
     class="flex flex-col gap-1"
   >
-    <label
-      class="text-sm font-medium text-foreground"
-      for="_r_0_"
+    <div
+      class="flex items-center justify-between gap-2"
     >
-      Username
-    </label>
+      <label
+        class="text-sm font-medium text-foreground"
+        for="_r_0_"
+      >
+        Username
+      </label>
+    </div>
     <div
       class="flex flex-col gap-1"
     >
       <div
-        class="flex items-center gap-2 rounded border border-border bg-background-muted transition-colors duration-200 focus-within:ring-2 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60 px-3 py-2 focus-within:border-primary focus-within:ring-primary/40"
+        class="flex items-center gap-2 rounded-control border border-border-control bg-background-muted transition-colors duration-200 focus-within:focus-outline data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-60 h-10 px-3 focus-within:border-primary"
         data-disabled="false"
       >
         <input

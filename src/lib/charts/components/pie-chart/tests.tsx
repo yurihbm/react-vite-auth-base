@@ -53,7 +53,7 @@ const DATA = [
 		value: 400,
 		className: "text-primary",
 	},
-	{ key: "rent", label: "Rent", value: 1200, className: "text-secondary" },
+	{ key: "rent", label: "Rent", value: 1200, className: "text-success" },
 ];
 
 describe("PieChart", () => {
@@ -73,7 +73,7 @@ describe("PieChart", () => {
 		const cells = screen.getAllByTestId("cell");
 
 		expect(cells[0].className).toContain("text-primary");
-		expect(cells[1].className).toContain("text-secondary");
+		expect(cells[1].className).toContain("text-success");
 	});
 
 	test("applies a slice's hex color inline when no className is given", () => {

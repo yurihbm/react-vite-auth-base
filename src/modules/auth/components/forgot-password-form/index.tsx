@@ -5,8 +5,8 @@ import { useState } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate, useTranslateKeyState } from "@lib/i18n";
-import { Button, TextInput } from "@lib/ui";
-import { base, errorMessage } from "@modules/auth/components/login-form/styles";
+import { Alert, Button, TextInput, useFocusFirstInvalid } from "@lib/ui";
+import { base } from "@modules/auth/components/login-form/styles";
 import { useCooldown } from "@modules/auth/hooks";
 import { useForgotPassword } from "@modules/auth/services";
 
@@ -26,10 +26,16 @@ export function ForgotPasswordForm() {
 
 	const [apiError, setApiError] = useState<APIError | null>(null);
 	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+	const { ref: formRef, focusFirstInvalid } =
+		useFocusFirstInvalid<HTMLFormElement>();
 	const apiErrorMessage = useApiErrorMessage(apiError);
 	const cooldown = useCooldown(apiError);
 
 	const { mutate: forgotPassword, isPending } = useForgotPassword();
+
+	const formError = apiError
+		? apiErrorMessage
+		: forgotMessage.key && t(forgotMessage.key);
 
 	function clearFieldError(name: string) {
 		setFieldErrors(({ [name]: _removed, ...rest }) => rest);
@@ -48,6 +54,7 @@ export function ForgotPasswordForm() {
 						forgotMessage.setKey(null);
 						setApiError(error);
 						setFieldErrors(error.details ?? {});
+						focusFirstInvalid();
 						return;
 					}
 					setApiError(null);
@@ -77,11 +84,13 @@ export function ForgotPasswordForm() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className={base()}>
-			<p>{t("forgotPasswordForm.description")}</p>
-			<p className={errorMessage()}>
-				{apiError ? apiErrorMessage : forgotMessage.key && t(forgotMessage.key)}
-			</p>
+		<form
+			ref={formRef}
+			onSubmit={handleSubmit}
+			onInvalidCapture={focusFirstInvalid}
+			className={base()}
+		>
+			{formError && <Alert color="danger" description={formError} />}
 			<TextInput
 				name={EMAIL_INPUT_NAME}
 				label={t("forgotPasswordForm.input.email.label")}

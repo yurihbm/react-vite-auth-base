@@ -108,6 +108,11 @@ describe("EditNameForm", () => {
 		expect(
 			screen.getByText("translated:request.validation_failed"),
 		).toBeDefined();
+		expect(
+			screen
+				.getByText("translated:request.validation_failed")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
 		expect(screen.getByText("name is too short")).toBeDefined();
 	});
 
@@ -116,5 +121,14 @@ describe("EditNameForm", () => {
 		render(<EditNameForm user={USER} />);
 
 		expect(screen.queryByText(/^translated:|^unknown$/)).toBeNull();
+	});
+
+	test("keeps the save button its own width, aligned to the end", () => {
+		render(<EditNameForm user={USER} />);
+
+		expect(
+			screen.getByRole("button", { name: "editNameForm.submitButton" })
+				.className,
+		).toContain("self-end");
 	});
 });

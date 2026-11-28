@@ -3,7 +3,10 @@ import type { Decorator, Meta, StoryObj } from "@storybook/react-vite";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { listAuditLogsKey } from "@modules/audit/services";
+import {
+	auditStatusCountsKey,
+	listAuditLogsKey,
+} from "@modules/audit/services";
 import { withAuthProviders } from "@modules/auth/components/decorators";
 
 import { AuditLogsList } from ".";
@@ -31,6 +34,11 @@ function withLogs(logs: AuditLog[]): Decorator {
 		queryClient.setQueryData([listAuditLogsKey, {}], {
 			pages: [{ logs, total: logs.length }],
 			pageParams: [undefined],
+		});
+		const failure = logs.filter((log) => log.status === "FAILURE").length;
+		queryClient.setQueryData([auditStatusCountsKey, {}], {
+			success: logs.length - failure,
+			failure,
 		});
 
 		return (

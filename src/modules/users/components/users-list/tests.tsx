@@ -66,7 +66,6 @@ const JANE = {
 describe("UsersList", () => {
 	const onFiltersChange = vi.fn();
 	const fetchNextPage = vi.fn();
-	let restoreVirtualizerEnv: () => void;
 
 	function mockQuery(state: Record<string, unknown> = {}) {
 		vi.mocked(useUsersList).mockReturnValue({
@@ -74,15 +73,15 @@ describe("UsersList", () => {
 			hasNextPage: false,
 			isFetchingNextPage: false,
 			isPending: false,
+			isPlaceholderData: false,
 			error: null,
 			fetchNextPage,
 			...state,
 		} as unknown as ReturnType<typeof useUsersList>);
 	}
 
-	function renderList(props: Partial<ComponentProps<typeof UsersList>> = {}) {
-		return render(<UsersList onFiltersChange={onFiltersChange} {...props} />);
-	}
+	// The role Select renders a virtualized option list.
+	let restoreVirtualizerEnv: () => void;
 
 	beforeAll(() => {
 		restoreVirtualizerEnv = setupVirtualizerEnv();
@@ -91,6 +90,10 @@ describe("UsersList", () => {
 	afterAll(() => {
 		restoreVirtualizerEnv();
 	});
+
+	function renderList(props: Partial<ComponentProps<typeof UsersList>> = {}) {
+		return render(<UsersList onFiltersChange={onFiltersChange} {...props} />);
+	}
 
 	beforeEach(() => {
 		vi.clearAllMocks();
@@ -107,13 +110,16 @@ describe("UsersList", () => {
 		expect(useUsersList).toHaveBeenCalledWith({ search: "jo", role: "admin" });
 	});
 
-	test("renders a row per user linking to its detail page", () => {
+	test("links every user to its detail page in the table and the mobile list", () => {
 		renderList();
 
-		const link = screen.getByRole("link", { name: "John Doe" });
-		expect(link.getAttribute("href")).toBe(`/admin/users/${JOHN.uuid}`);
-		expect(screen.getByText("jane@roe.com")).toBeTruthy();
-		expect(screen.getByText("admin")).toBeTruthy();
+		const links = screen.getAllByRole("link", { name: /John Doe/ });
+
+		expect(links).toHaveLength(2);
+		for (const link of links) {
+			expect(link.getAttribute("href")).toBe(`/admin/users/${JOHN.uuid}`);
+		}
+		expect(screen.getAllByText("jane@roe.com")).toHaveLength(2);
 	});
 
 	test("shows the total", () => {
@@ -193,28 +199,75 @@ describe("UsersList", () => {
 		});
 	});
 
-	test("loads the next page when the end is reached", () => {
+	test("loads the next page from the load more button", () => {
 		mockQuery({ hasNextPage: true });
 		renderList();
 
-		expect(fetchNextPage).toHaveBeenCalled();
+		fireEvent.click(screen.getByRole("button", { name: "usersList.loadMore" }));
+
+		expect(fetchNextPage).toHaveBeenCalledTimes(1);
+		expect(screen.getByText("usersList.showing")).toBeTruthy();
 	});
 
-	test("does not load more without a next page or while fetching", () => {
-		mockQuery({ hasNextPage: false });
+	test("hides load more without a next page and disables it while loading", () => {
 		const { unmount } = renderList();
+
+		expect(
+			screen.queryByRole("button", { name: "usersList.loadMore" }),
+		).toBeNull();
 		unmount();
+
 		mockQuery({ hasNextPage: true, isFetchingNextPage: true });
 		renderList();
 
-		expect(fetchNextPage).not.toHaveBeenCalled();
+		expect(
+			(
+				screen.getByRole("button", {
+					name: "usersList.loadingMore",
+				}) as HTMLButtonElement
+			).disabled,
+		).toBe(true);
 	});
 
-	test("shows the empty state", () => {
+	test("dims the current rows while new filters load", () => {
+		mockQuery({ isPlaceholderData: true, isFetching: true });
+		const { container } = renderList();
+
+		const results = container.querySelector('[aria-busy="true"]');
+
+		expect(results).not.toBeNull();
+		expect(results?.textContent).toContain("John Doe");
+	});
+
+	test("shows a loading placeholder before the first page", () => {
+		mockQuery({ data: undefined, isPending: true });
+		const { container } = renderList();
+
+		expect(container.querySelector('[aria-busy="true"]')).not.toBeNull();
+		expect(screen.queryByRole("table")).toBeNull();
+	});
+
+	test("offers to clear the filters when they match nobody", () => {
+		mockQuery({ data: { pages: [{ users: [], total: 0 }] } });
+		renderList({ search: "zz", role: "admin" });
+
+		expect(screen.getByText("usersList.emptyFiltered.title")).toBeTruthy();
+
+		fireEvent.click(
+			screen.getByRole("button", { name: "usersList.clearFilters" }),
+		);
+
+		expect(onFiltersChange).toHaveBeenCalledWith({});
+	});
+
+	test("shows a plain empty state without filters", () => {
 		mockQuery({ data: { pages: [{ users: [], total: 0 }] } });
 		renderList();
 
 		expect(screen.getByText("usersList.empty")).toBeTruthy();
+		expect(
+			screen.queryByRole("button", { name: "usersList.clearFilters" }),
+		).toBeNull();
 	});
 
 	test("shows the API error message", () => {
@@ -225,5 +278,8 @@ describe("UsersList", () => {
 		renderList();
 
 		expect(screen.getByText("translated:x")).toBeTruthy();
+		expect(
+			screen.getByText("translated:x").closest('[role="alert"]'),
+		).not.toBeNull();
 	});
 });

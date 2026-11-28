@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import { useNavigate } from "@tanstack/react-router";
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
@@ -9,6 +11,9 @@ import { LoginForm } from ".";
 
 vi.mock("@tanstack/react-router", () => ({
 	useNavigate: vi.fn(),
+	Link: ({ to, children }: { to: string; children: ReactNode }) => (
+		<a href={to}>{children}</a>
+	),
 }));
 
 vi.mock("@lib/api", async (importOriginal) => ({
@@ -185,5 +190,77 @@ describe("LoginForm", () => {
 		expect(navigateMock).toHaveBeenCalledWith({
 			to: "/dashboard",
 		});
+	});
+
+	test("shows the server error in an alert", () => {
+		const { getByLabelText, getByRole } = render(<LoginForm />);
+
+		fillFormAndSubmit(getByLabelText, getByRole);
+
+		const [, handlers] = loginMutateMock.mock.calls[0] as [
+			unknown,
+			{ onError: (error: unknown) => void },
+		];
+
+		act(() => {
+			handlers.onError(
+				new APIError("auth.authenticate.invalidCredentials", { status: 401 }),
+			);
+		});
+
+		expect(getByRole("alert").textContent).toContain(
+			"translated:auth.authenticate.invalidCredentials",
+		);
+	});
+
+	test("renders no alert before submitting", () => {
+		const { queryByRole } = render(<LoginForm />);
+
+		expect(queryByRole("alert")).toBeNull();
+	});
+
+	test("links to the forgot password page from the password label row", () => {
+		const { getByRole } = render(<LoginForm />);
+
+		const link = getByRole("link", { name: "loginPage.forgotPassword" });
+
+		expect(link.getAttribute("href")).toBe("/password/forgot");
+		expect(link.closest("label")).toBeNull();
+	});
+
+	test("focuses the first invalid field when the browser rejects the submit", () => {
+		const { getByLabelText } = render(<LoginForm />);
+
+		const input = getByLabelText("loginForm.input.email.label");
+
+		act(() => {
+			fireEvent.invalid(input);
+		});
+
+		expect(document.activeElement).toBe(input);
+	});
+
+	test("focuses the first field the API rejected", () => {
+		const { getByLabelText, getByRole } = render(<LoginForm />);
+
+		fillFormAndSubmit(getByLabelText, getByRole);
+
+		const [, handlers] = loginMutateMock.mock.calls[0] as [
+			unknown,
+			{ onError: (error: unknown) => void },
+		];
+
+		act(() => {
+			handlers.onError(
+				new APIError("request.validation_failed", {
+					status: 400,
+					details: { password: "rejected" },
+				}),
+			);
+		});
+
+		expect(document.activeElement).toBe(
+			getByLabelText("loginForm.input.password.label"),
+		);
 	});
 });

@@ -125,6 +125,11 @@ describe("DeleteAccount", () => {
 		expect(
 			screen.getByText("translated:users.emailChange.locked"),
 		).toBeDefined();
+		expect(
+			screen
+				.getByText("translated:users.emailChange.locked")
+				.closest('[role="alert"]'),
+		).not.toBeNull();
 	});
 
 	test("shows nothing when the step-up was cancelled", () => {
@@ -147,5 +152,26 @@ describe("DeleteAccount", () => {
 		);
 
 		await vi.waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+	});
+
+	test("styles cancel as an outline button", () => {
+		render(<DeleteAccount uuid={UUID} />);
+
+		openDialog();
+
+		const cancel = screen.getByRole("button", {
+			name: "deleteAccount.confirm.cancelButton",
+		});
+
+		expect(cancel.className).toContain("border-border-control");
+	});
+
+	test("is a compact danger button without its own description", () => {
+		render(<DeleteAccount uuid={UUID} />);
+
+		expect(screen.queryByText("deleteAccount.description")).toBeNull();
+		expect(
+			screen.getByRole("button", { name: "deleteAccount.button" }).className,
+		).toContain("self-end");
 	});
 });

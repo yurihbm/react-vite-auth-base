@@ -1,9 +1,16 @@
 {
 	"accountPage": {
+		"description": "Your profile and how you sign in.",
 		"profile": {
+			"description": "Your name is shown to admins and in your account menu.",
 			"email": "Email",
 			"memberSince": "Member since",
-			"role": "Role"
+			"role": "Role",
+			"title": "Profile"
+		},
+		"security": {
+			"description": "Change your email or password and sign out of other devices.",
+			"title": "Security"
 		},
 		"securityLink": "Security settings",
 		"title": "Account"
@@ -72,19 +79,43 @@
 	},
 	"securityPage": {
 		"back": "Back to account",
+		"dangerZone": {
+			"description": "These actions are permanent.",
+			"title": "Danger zone"
+		},
+		"description": "Your email, password and signed-in devices.",
 		"sections": {
 			"delete": "Delete account",
 			"email": "Change email",
 			"password": "Change password",
 			"sessions": "Other devices"
 		},
+		"signIn": {
+			"description": "How you log in and where you are logged in.",
+			"title": "Sign-in"
+		},
 		"title": "Security"
 	},
 	"userPage": {
 		"back": "Back to users",
+		"dangerZone": {
+			"title": "Danger zone"
+		},
+		"details": {
+			"title": "Details"
+		},
+		"name": {
+			"title": "Name"
+		},
+		"notFound": {
+			"back": "Back to users",
+			"description": "This user doesn't exist or was deleted.",
+			"title": "User not found"
+		},
 		"title": "User"
 	},
 	"usersList": {
+		"clearFilters": "Clear filters",
 		"columns": {
 			"createdAt": "Created",
 			"email": "Email",
@@ -92,6 +123,13 @@
 			"role": "Role"
 		},
 		"empty": "No users found.",
+		"emptyFiltered": {
+			"description": "Try another search or role.",
+			"title": "No users match these filters"
+		},
+		"loading": "Loading users",
+		"loadingMore": "Loading…",
+		"loadMore": "Load more",
 		"role": {
 			"admin": "Admin",
 			"all": "All roles",
@@ -102,9 +140,12 @@
 			"label": "Search",
 			"placeholder": "Name or email prefix"
 		},
-		"total": "{{total}} users"
+		"showing": "Showing {{loaded}} of {{total}}",
+		"total_one": "{{count}} user",
+		"total_other": "{{count}} users"
 	},
 	"usersPage": {
+		"description": "Find people, change their name or remove their account.",
 		"title": "Users"
 	}
 }

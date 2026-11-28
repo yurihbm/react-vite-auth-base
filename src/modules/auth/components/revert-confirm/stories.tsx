@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { APIError } from "@lib/api";
+import { withAuthProviders } from "@modules/auth/components/decorators";
 
 import { RevertConfirm } from ".";
 
 const meta: Meta<typeof RevertConfirm> = {
 	component: RevertConfirm,
 	args: {
-		title: "Undo email change",
 		description:
 			"This restores your previous email address and signs you out of every device.",
 		confirmLabel: "Undo email change",
@@ -15,6 +15,7 @@ const meta: Meta<typeof RevertConfirm> = {
 			"Your previous email was restored and you were signed out of every device.",
 		onConfirm: () => {},
 	},
+	decorators: [withAuthProviders],
 };
 
 export default meta;
@@ -38,5 +39,11 @@ export const Success: RevertConfirmStory = {
 export const WithError: RevertConfirmStory = {
 	args: {
 		error: new APIError("auth.oauthLink.staleToken", { status: 401 }),
+	},
+};
+
+export const InvalidLink: RevertConfirmStory = {
+	args: {
+		isLinkInvalid: true,
 	},
 };

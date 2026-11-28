@@ -1,0 +1,67 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Navbar > renders correctly 1`] = `
+<div>
+  <header
+    class="border-b border-border bg-background"
+  >
+    <div
+      class="flex h-16 items-center gap-4 px-4 sm:px-6"
+    >
+      <div
+        class="shrink-0 text-base font-semibold whitespace-nowrap text-foreground"
+      >
+        <a
+          href="/"
+        >
+          Brand
+        </a>
+      </div>
+      <nav
+        aria-label="Main"
+        class="hidden flex-1 items-center gap-1 md:flex"
+      >
+        <a
+          href="/"
+        >
+          Home
+        </a>
+        <a
+          href="/users"
+        >
+          Users
+        </a>
+      </nav>
+      <div
+        class="ml-auto flex items-center gap-2"
+      >
+        <button
+          type="button"
+        >
+          Account menu
+        </button>
+        <button
+          aria-controls="_r_0_"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="inline-flex size-11 cursor-pointer items-center justify-center rounded-control text-foreground-muted transition-colors duration-200 hover:bg-subtle-hover hover:text-foreground md:hidden"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            fill="currentColor"
+            height="20"
+            viewBox="0 0 256 256"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+</div>
+`;

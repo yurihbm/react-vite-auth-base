@@ -104,9 +104,7 @@ describe("ResetPasswordForm", () => {
 	});
 
 	test("shows the translated API error", () => {
-		const { getByLabelText, getByRole, getByText } = render(
-			<ResetPasswordForm />,
-		);
+		const { getByLabelText, getByRole } = render(<ResetPasswordForm />);
 
 		fillAndSubmit(getByLabelText, getByRole);
 
@@ -117,9 +115,9 @@ describe("ResetPasswordForm", () => {
 			);
 		});
 
-		expect(
-			getByText("translated:auth.passwordReset.invalidCode"),
-		).toBeDefined();
+		expect(getByRole("alert").textContent).toContain(
+			"translated:auth.passwordReset.invalidCode",
+		);
 	});
 
 	test("maps API error details onto the matching inputs", () => {
@@ -159,5 +157,47 @@ describe("ResetPasswordForm", () => {
 				}) as HTMLButtonElement
 			).disabled,
 		).toBe(true);
+	});
+
+	test("leaves the page description to the layout", () => {
+		const { queryByText } = render(<ResetPasswordForm />);
+
+		expect(queryByText("resetPasswordForm.description")).toBeNull();
+	});
+
+	test("focuses the first invalid field when the browser rejects the submit", () => {
+		const { getByLabelText } = render(<ResetPasswordForm />);
+
+		const input = getByLabelText("resetPasswordForm.input.code.label");
+
+		act(() => {
+			fireEvent.invalid(input);
+		});
+
+		expect(document.activeElement).toBe(input);
+	});
+
+	test("focuses the first field the API rejected", () => {
+		const { getByLabelText, getByRole } = render(<ResetPasswordForm />);
+
+		fillAndSubmit(getByLabelText, getByRole);
+
+		const [, handlers] = resetMutateMock.mock.calls[0] as [
+			unknown,
+			{ onError: (error: unknown) => void },
+		];
+
+		act(() => {
+			handlers.onError(
+				new APIError("request.validation_failed", {
+					status: 400,
+					details: { password: "rejected" },
+				}),
+			);
+		});
+
+		expect(document.activeElement).toBe(
+			getByLabelText("resetPasswordForm.input.password.label"),
+		);
 	});
 });

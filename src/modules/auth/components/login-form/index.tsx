@@ -1,14 +1,14 @@
 import type { SubmitEvent, SyntheticEvent } from "react";
 
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate, useTranslateKeyState } from "@lib/i18n";
-import { Button, TextInput } from "@lib/ui";
+import { Alert, Button, TextInput, useFocusFirstInvalid } from "@lib/ui";
 import { useLogin } from "@modules/auth/services";
 
-import { base, errorMessage } from "./styles";
+import { base, forgotPasswordLink } from "./styles";
 
 const EMAIL_INPUT_NAME = "email";
 const PASSWORD_INPUT_NAME = "password";
@@ -31,9 +31,15 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 
 	const [apiError, setApiError] = useState<APIError | null>(null);
 	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+	const { ref: formRef, focusFirstInvalid } =
+		useFocusFirstInvalid<HTMLFormElement>();
 	const apiErrorMessage = useApiErrorMessage(apiError);
 
 	const { mutate: login, isPending } = useLogin();
+
+	const formError = apiError
+		? apiErrorMessage
+		: loginMessage.key && t(loginMessage.key);
 
 	function clearFieldError(name: string) {
 		setFieldErrors(({ [name]: _removed, ...rest }) => rest);
@@ -56,6 +62,7 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 						loginMessage.setKey(null);
 						setApiError(error);
 						setFieldErrors(error.details ?? {});
+						focusFirstInvalid();
 						return;
 					}
 					setApiError(null);
@@ -108,10 +115,13 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className={base()}>
-			<p className={errorMessage()}>
-				{apiError ? apiErrorMessage : loginMessage.key && t(loginMessage.key)}
-			</p>
+		<form
+			ref={formRef}
+			onSubmit={handleSubmit}
+			onInvalidCapture={focusFirstInvalid}
+			className={base()}
+		>
+			{formError && <Alert color="danger" description={formError} />}
 			<TextInput
 				name={EMAIL_INPUT_NAME}
 				label={t("loginForm.input.email.label")}
@@ -132,6 +142,11 @@ export function LoginForm({ redirectTo = "/" }: LoginFormProps) {
 			<TextInput
 				name={PASSWORD_INPUT_NAME}
 				label={t("loginForm.input.password.label")}
+				labelEnd={
+					<Link to="/password/forgot" className={forgotPasswordLink()}>
+						{t("loginPage.forgotPassword")}
+					</Link>
+				}
 				placeholder={t("loginForm.input.password.placeholder")}
 				type="password"
 				onChange={() => {

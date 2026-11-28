@@ -5,8 +5,8 @@ import { useState } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate, useTranslateKeyState } from "@lib/i18n";
-import { Button, TextInput } from "@lib/ui";
-import { base, errorMessage } from "@modules/auth/components/login-form/styles";
+import { Alert, Button, TextInput, useFocusFirstInvalid } from "@lib/ui";
+import { base } from "@modules/auth/components/login-form/styles";
 import { ResendButton } from "@modules/auth/components/resend-button";
 import { useCooldown } from "@modules/auth/hooks";
 import { useVerifySignup } from "@modules/auth/services";
@@ -35,11 +35,17 @@ export function VerifyCodeForm({
 
 	const [apiError, setApiError] = useState<APIError | null>(null);
 	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+	const { ref: formRef, focusFirstInvalid } =
+		useFocusFirstInvalid<HTMLFormElement>();
 	const apiErrorMessage = useApiErrorMessage(apiError);
 	const verifyMessage = useTranslateKeyState("auth");
 	const cooldown = useCooldown(apiError);
 
 	const { mutate: verify, isPending } = useVerifySignup();
+
+	const formError = apiError
+		? apiErrorMessage
+		: verifyMessage.key && t(verifyMessage.key);
 
 	function clearFieldError(name: string) {
 		setFieldErrors(({ [name]: _removed, ...rest }) => rest);
@@ -58,6 +64,7 @@ export function VerifyCodeForm({
 						verifyMessage.setKey(null);
 						setApiError(error);
 						setFieldErrors(error.details ?? {});
+						focusFirstInvalid();
 						return;
 					}
 					setApiError(null);
@@ -89,13 +96,13 @@ export function VerifyCodeForm({
 
 	return (
 		<div className={base()}>
-			<p>{t("verifyCodeForm.description")}</p>
-			<form onSubmit={handleSubmit} className={base()}>
-				<p className={errorMessage()}>
-					{apiError
-						? apiErrorMessage
-						: verifyMessage.key && t(verifyMessage.key)}
-				</p>
+			<form
+				ref={formRef}
+				onSubmit={handleSubmit}
+				onInvalidCapture={focusFirstInvalid}
+				className={base()}
+			>
+				{formError && <Alert color="danger" description={formError} />}
 				<TextInput
 					name={CODE_INPUT_NAME}
 					label={t("verifyCodeForm.input.code.label")}

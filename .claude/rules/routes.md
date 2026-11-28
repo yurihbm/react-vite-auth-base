@@ -10,5 +10,7 @@ paths:
 - Guards: anything under `src/routes/_authenticated/` is private through its layout (`privateRouteBeforeLoad`). Login-style pages use `beforeLoad: publicOnlyRouteBeforeLoad`; role-limited routes use `requireRoleBeforeLoad(role)`. All come from `@modules/auth`.
 - Redirect targets and `validateSearch` for search params: sanitize with `safeRedirect` (see `(auth)/login.tsx`).
 - Routes compose; logic and forms live in module components and services. Text goes through `useTranslate("<namespace>")` with keys in `public/locales`.
+- Page shape: one `h1` per page through `PageHeader` inside a `Container` (`size="wide"` for tables, `Stack gap="lg" className="py-6"` around the content), or `AuthLayout` for sign-in and recovery pages. Title the tab with `usePageTitle(t("..."))` from `@modules/shared` (`AuthLayout` does it for you). Do not add wrapper classes like `mx-auto flex w-full flex-col gap-4 sm:max-w-sm`; `<main>` adds no padding.
+- Router links that look like buttons use `ButtonLink` (`@modules/shared`), and nav links in `__root.tsx` use `NavLink` through `createLink`, so `to`/`search` stay typed.
 - Routes are excluded from coverage and have no `tests.tsx`; test the module components and services they use.
 - Add a route with the `route-checklist` skill.
