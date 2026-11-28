@@ -47,3 +47,6 @@ coverage
 
 # Claude Code worktrees
 .claude/worktrees/
+
+# Playwright MCP (logs and snapshots)
+.playwright-mcp/
