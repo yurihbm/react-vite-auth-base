@@ -5,11 +5,11 @@ import { useState } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate, useTranslateKeyState } from "@lib/i18n";
-import { Button, TextInput } from "@lib/ui";
+import { Alert, Button, TextInput } from "@lib/ui";
 import { useCooldown } from "@modules/auth/hooks";
 import { useRegister } from "@modules/auth/services";
 
-import { base, errorMessage } from "./styles";
+import { base } from "./styles";
 
 const EMAIL_INPUT_NAME = "email";
 const NAME_INPUT_NAME = "name";
@@ -38,6 +38,10 @@ export function RegisterForm({ redirectTo = "/" }: RegisterFormProps) {
 	const cooldown = useCooldown(apiError);
 
 	const { mutate: register, isPending } = useRegister();
+
+	const formError = apiError
+		? apiErrorMessage
+		: registerMessage.key && t(registerMessage.key);
 
 	function clearFieldError(name: string) {
 		setFieldErrors(({ [name]: _removed, ...rest }) => rest);
@@ -138,11 +142,7 @@ export function RegisterForm({ redirectTo = "/" }: RegisterFormProps) {
 
 	return (
 		<form onSubmit={handleSubmit} className={base()}>
-			<p className={errorMessage()}>
-				{apiError
-					? apiErrorMessage
-					: registerMessage.key && t(registerMessage.key)}
-			</p>
+			{formError && <Alert color="danger" description={formError} />}
 			<TextInput
 				name={EMAIL_INPUT_NAME}
 				label={t("registerForm.input.email.label")}

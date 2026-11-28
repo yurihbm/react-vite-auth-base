@@ -14,12 +14,16 @@ exports[`ResetPasswordForm > renders correctly 1`] = `
     <div
       class="flex flex-col gap-1"
     >
-      <label
-        class="text-sm font-medium text-foreground"
-        for="_r_0_"
+      <div
+        class="flex items-center justify-between gap-2"
       >
-        resetPasswordForm.input.code.label
-      </label>
+        <label
+          class="text-sm font-medium text-foreground"
+          for="_r_0_"
+        >
+          resetPasswordForm.input.code.label
+        </label>
+      </div>
       <div
         class="flex flex-col gap-1"
       >
@@ -52,12 +56,16 @@ exports[`ResetPasswordForm > renders correctly 1`] = `
     <div
       class="flex flex-col gap-1"
     >
-      <label
-        class="text-sm font-medium text-foreground"
-        for="_r_2_"
+      <div
+        class="flex items-center justify-between gap-2"
       >
-        resetPasswordForm.input.password.label
-      </label>
+        <label
+          class="text-sm font-medium text-foreground"
+          for="_r_2_"
+        >
+          resetPasswordForm.input.password.label
+        </label>
+      </div>
       <div
         class="flex flex-col gap-1"
       >

@@ -226,4 +226,10 @@ describe("RegisterForm", () => {
 			search: { redirect: "/" },
 		});
 	});
+
+	test("renders no alert before submitting", () => {
+		const { queryByRole } = render(<RegisterForm />);
+
+		expect(queryByRole("alert")).toBeNull();
+	});
 });

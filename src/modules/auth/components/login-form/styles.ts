@@ -4,7 +4,9 @@ export const styles = tv({
 	slots: {
 		base: "mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm",
 		errorMessage: "min-h-12 text-danger",
+		forgotPasswordLink:
+			"text-sm text-foreground-muted underline hover:text-foreground",
 	},
 });
 
-export const { base, errorMessage } = styles();
+export const { base, errorMessage, forgotPasswordLink } = styles();

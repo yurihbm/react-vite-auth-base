@@ -5,6 +5,7 @@ import { tv } from "tailwind-variants";
 const styles = tv({
 	slots: {
 		labelContainer: ["flex flex-col gap-1"],
+		labelRow: ["flex items-center justify-between gap-2"],
 		labelText: ["text-sm font-medium text-foreground"],
 		baseContainer: ["flex flex-col gap-1"],
 		inputMessage: ["min-h-4 text-xs text-foreground-muted"],
@@ -102,6 +103,7 @@ export type TextInputVariants = VariantProps<typeof styles>;
 
 export const {
 	labelContainer,
+	labelRow,
 	labelText,
 	baseContainer,
 	inputMessage,

@@ -9,6 +9,7 @@ import {
 	inputContainer,
 	inputMessage,
 	labelContainer,
+	labelRow,
 	labelText,
 } from "./styles";
 
@@ -25,6 +26,8 @@ export interface TextInputProps
 	endIcon?: ReactNode;
 	classNames?: TextInputStyles;
 	label?: string;
+	/** Shown at the end of the label row, e.g. a "Forgot password?" link. */
+	labelEnd?: ReactNode;
 	message?: string;
 }
 
@@ -33,6 +36,7 @@ export function TextInput({
 	classNames,
 	ref,
 	label,
+	labelEnd,
 	id,
 	startIcon,
 	endIcon,
@@ -60,12 +64,15 @@ export function TextInput({
 			})}
 		>
 			{label && (
-				<label
-					htmlFor={idToUse}
-					className={labelText({ className: classNames?.labelText })}
-				>
-					{label}
-				</label>
+				<div className={labelRow({ className: classNames?.labelRow })}>
+					<label
+						htmlFor={idToUse}
+						className={labelText({ className: classNames?.labelText })}
+					>
+						{label}
+					</label>
+					{labelEnd}
+				</div>
 			)}
 			<div
 				className={baseContainer({

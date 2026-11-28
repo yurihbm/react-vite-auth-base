@@ -6,21 +6,57 @@ exports[`OAuthButtons > renders correctly 1`] = `
     class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
   >
     <button
-      class="flex items-center justify-center gap-2 rounded-control whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 h-10 px-4 text-base bg-secondary text-secondary-foreground hover:bg-secondary-hover active:bg-secondary-active disabled:hover:bg-secondary disabled:active:bg-secondary"
+      class="flex items-center justify-center gap-2 rounded-control whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 h-10 px-4 text-base border border-border-control bg-transparent text-foreground hover:bg-subtle-hover active:bg-subtle-active disabled:hover:bg-transparent disabled:active:bg-transparent"
       type="button"
     >
+      <svg
+        aria-hidden="true"
+        fill="currentColor"
+        height="20"
+        viewBox="0 0 256 256"
+        width="20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M224,128a96,96,0,1,1-21.95-61.09,8,8,0,1,1-12.33,10.18A80,80,0,1,0,207.6,136H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128Z"
+        />
+      </svg>
       oauthButtons.google
     </button>
     <button
-      class="flex items-center justify-center gap-2 rounded-control whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 h-10 px-4 text-base bg-secondary text-secondary-foreground hover:bg-secondary-hover active:bg-secondary-active disabled:hover:bg-secondary disabled:active:bg-secondary"
+      class="flex items-center justify-center gap-2 rounded-control whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 h-10 px-4 text-base border border-border-control bg-transparent text-foreground hover:bg-subtle-hover active:bg-subtle-active disabled:hover:bg-transparent disabled:active:bg-transparent"
       type="button"
     >
+      <svg
+        aria-hidden="true"
+        fill="currentColor"
+        height="20"
+        viewBox="0 0 256 256"
+        width="20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"
+        />
+      </svg>
       oauthButtons.github
     </button>
     <button
-      class="flex items-center justify-center gap-2 rounded-control whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 h-10 px-4 text-base bg-secondary text-secondary-foreground hover:bg-secondary-hover active:bg-secondary-active disabled:hover:bg-secondary disabled:active:bg-secondary"
+      class="flex items-center justify-center gap-2 rounded-control whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 h-10 px-4 text-base border border-border-control bg-transparent text-foreground hover:bg-subtle-hover active:bg-subtle-active disabled:hover:bg-transparent disabled:active:bg-transparent"
       type="button"
     >
+      <svg
+        aria-hidden="true"
+        fill="currentColor"
+        height="20"
+        viewBox="0 0 256 256"
+        width="20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M208,136H128a8,8,0,0,0-8,8v57.45a8,8,0,0,0,6.57,7.88l80,14.54A7.61,7.61,0,0,0,208,224a8,8,0,0,0,8-8V144A8,8,0,0,0,208,136Zm-8,70.41-64-11.63V152h64ZM96,136H32a8,8,0,0,0-8,8v40a8,8,0,0,0,6.57,7.87l64,11.64a8.54,8.54,0,0,0,1.43.13,8,8,0,0,0,8-8V144A8,8,0,0,0,96,136Zm-8,50.05-48-8.73V152H88ZM213.13,33.86a8,8,0,0,0-6.56-1.73l-80,14.55A8,8,0,0,0,120,54.55V112a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V40A8,8,0,0,0,213.13,33.86ZM200,104H136V61.22l64-11.63ZM101.13,54.22a8,8,0,0,0-6.56-1.73l-64,11.64A8,8,0,0,0,24,72v40a8,8,0,0,0,8,8H96a8,8,0,0,0,8-8V60.36A8,8,0,0,0,101.13,54.22ZM88,104H40V78.68L88,70Z"
+        />
+      </svg>
       oauthButtons.microsoft
     </button>
   </div>

@@ -14,12 +14,16 @@ exports[`ForgotPasswordForm > renders correctly 1`] = `
     <div
       class="flex flex-col gap-1"
     >
-      <label
-        class="text-sm font-medium text-foreground"
-        for="_r_0_"
+      <div
+        class="flex items-center justify-between gap-2"
       >
-        forgotPasswordForm.input.email.label
-      </label>
+        <label
+          class="text-sm font-medium text-foreground"
+          for="_r_0_"
+        >
+          forgotPasswordForm.input.email.label
+        </label>
+      </div>
       <div
         class="flex flex-col gap-1"
       >

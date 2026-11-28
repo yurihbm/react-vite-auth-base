@@ -1,0 +1,31 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AuthLayout > renders correctly 1`] = `
+<div>
+  <div
+    class="mx-auto w-full px-4 sm:px-6 max-w-md flex flex-1 flex-col justify-center gap-6 py-6"
+  >
+    <div
+      class="flex flex-col gap-6 sm:rounded-surface sm:border sm:border-border sm:bg-background sm:p-8 sm:shadow-raised"
+    >
+      <div
+        class="flex flex-col gap-1"
+      >
+        <h1
+          class="font-semibold tracking-tight text-balance text-foreground text-2xl"
+        >
+          Sign in
+        </h1>
+        <p
+          class="text-sm text-foreground-muted"
+        >
+          Welcome back.
+        </p>
+      </div>
+      <form
+        aria-label="Sign in form"
+      />
+    </div>
+  </div>
+</div>
+`;

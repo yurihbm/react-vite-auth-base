@@ -5,18 +5,19 @@ exports[`RegisterForm > renders correctly 1`] = `
   <form
     class="mx-auto flex w-full flex-col justify-center gap-2 sm:max-w-sm"
   >
-    <p
-      class="min-h-12 text-danger"
-    />
     <div
       class="flex flex-col gap-1"
     >
-      <label
-        class="text-sm font-medium text-foreground"
-        for="_r_0_"
+      <div
+        class="flex items-center justify-between gap-2"
       >
-        registerForm.input.email.label
-      </label>
+        <label
+          class="text-sm font-medium text-foreground"
+          for="_r_0_"
+        >
+          registerForm.input.email.label
+        </label>
+      </div>
       <div
         class="flex flex-col gap-1"
       >
@@ -45,12 +46,16 @@ exports[`RegisterForm > renders correctly 1`] = `
     <div
       class="flex flex-col gap-1"
     >
-      <label
-        class="text-sm font-medium text-foreground"
-        for="_r_2_"
+      <div
+        class="flex items-center justify-between gap-2"
       >
-        registerForm.input.name.label
-      </label>
+        <label
+          class="text-sm font-medium text-foreground"
+          for="_r_2_"
+        >
+          registerForm.input.name.label
+        </label>
+      </div>
       <div
         class="flex flex-col gap-1"
       >
@@ -79,12 +84,16 @@ exports[`RegisterForm > renders correctly 1`] = `
     <div
       class="flex flex-col gap-1"
     >
-      <label
-        class="text-sm font-medium text-foreground"
-        for="_r_4_"
+      <div
+        class="flex items-center justify-between gap-2"
       >
-        registerForm.input.password.label
-      </label>
+        <label
+          class="text-sm font-medium text-foreground"
+          for="_r_4_"
+        >
+          registerForm.input.password.label
+        </label>
+      </div>
       <div
         class="flex flex-col gap-1"
       >

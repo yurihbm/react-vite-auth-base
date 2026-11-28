@@ -1,4 +1,5 @@
 export { AccountMenu } from "./account-menu";
+export { AuthLayout, type AuthLayoutProps } from "./auth-layout";
 export { ForgotPasswordForm } from "./forgot-password-form";
 export { LoginForm } from "./login-form";
 export { OAuthButtons } from "./oauth-buttons";

@@ -158,4 +158,22 @@ describe("TextInput", () => {
 			expect(input.className).toContain(textClass);
 		},
 	);
+
+	test("renders labelEnd on the label row, outside the label", () => {
+		const { getByLabelText, getByRole } = render(
+			<TextInput
+				label="Password"
+				labelEnd={<a href="/password/forgot">Forgot password?</a>}
+			/>,
+		);
+
+		const link = getByRole("link", { name: "Forgot password?" });
+		const label = getByLabelText("Password").closest("div")?.parentElement
+			?.parentElement as HTMLElement;
+
+		expect(link.closest("label")).toBeNull();
+		expect(label.querySelector("label")?.parentElement).toBe(
+			link.parentElement,
+		);
+	});
 });

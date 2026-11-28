@@ -17,12 +17,16 @@ exports[`VerifyCodeForm > renders correctly 1`] = `
       <div
         class="flex flex-col gap-1"
       >
-        <label
-          class="text-sm font-medium text-foreground"
-          for="_r_0_"
+        <div
+          class="flex items-center justify-between gap-2"
         >
-          verifyCodeForm.input.code.label
-        </label>
+          <label
+            class="text-sm font-medium text-foreground"
+            for="_r_0_"
+          >
+            verifyCodeForm.input.code.label
+          </label>
+        </div>
         <div
           class="flex flex-col gap-1"
         >

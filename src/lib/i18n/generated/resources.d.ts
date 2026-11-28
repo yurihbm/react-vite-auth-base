@@ -83,14 +83,19 @@ export default interface Resources {
       "unexpectedError": "An unexpected error occurred. Try again later."
     },
     "loginPage": {
+      "createAccount": "Create an account",
+      "description": "Welcome back. Log in to your account.",
       "forgotPassword": "Forgot your password?",
+      "noAccount": "New here?",
       "reason": {
         "emailChanged": "Your email was changed. Sign in with the new address.",
         "expired": "Your session has expired. Please sign in again.",
         "passwordReset": "Your password was reset. Sign in with the new password."
-      }
+      },
+      "title": "Log in"
     },
     "oauthButtons": {
+      "divider": "or continue with",
       "github": "Continue with GitHub",
       "google": "Continue with Google",
       "microsoft": "Continue with Microsoft"
@@ -119,6 +124,12 @@ export default interface Resources {
       },
       "submitButton": "Register",
       "unexpectedError": "An unexpected error occurred. Try again later."
+    },
+    "registerPage": {
+      "description": "Sign up with your email or a provider.",
+      "haveAccount": "Already have an account?",
+      "logIn": "Log in",
+      "title": "Create your account"
     },
     "resendButton": {
       "cooldown": "Resend code in {{seconds}}s",
