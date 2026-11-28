@@ -191,10 +191,10 @@
 	--theme-warning-subtle: var(--color-amber-950);
 	--theme-warning-subtle-foreground: var(--color-amber-200);
 
-	--theme-danger: var(--color-rose-600);
-	--theme-danger-foreground: var(--color-white);
-	--theme-danger-hover: var(--color-rose-700);
-	--theme-danger-active: var(--color-rose-800);
+	--theme-danger: var(--color-rose-400);
+	--theme-danger-foreground: var(--color-rose-950);
+	--theme-danger-hover: var(--color-rose-300);
+	--theme-danger-active: var(--color-rose-500);
 	--theme-danger-subtle: var(--color-rose-950);
 	--theme-danger-subtle-foreground: var(--color-rose-200);
 }
