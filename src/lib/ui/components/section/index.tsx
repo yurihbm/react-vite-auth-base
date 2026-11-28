@@ -16,18 +16,20 @@ export type SectionProps = Omit<ComponentPropsWithRef<"section">, "title"> &
 
 /**
  * A titled region of a page. The title is an `h2` that labels the region; set
- * `surface` to place it on a card-style surface.
+ * `surface` to place it on a card-style surface, and `tone="danger"` to border
+ * it in the danger color (e.g. a danger zone).
  */
 export function Section({
 	title,
 	description,
 	surface,
+	tone,
 	className,
 	children,
 	...rest
 }: SectionProps): JSX.Element {
 	const titleId = useId();
-	const { root, header } = styles({ surface });
+	const { root, header } = styles({ surface, tone });
 
 	return (
 		<section

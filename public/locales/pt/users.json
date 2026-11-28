@@ -79,11 +79,20 @@
 	},
 	"securityPage": {
 		"back": "Voltar para a conta",
+		"dangerZone": {
+			"description": "Estas ações são permanentes.",
+			"title": "Zona de perigo"
+		},
+		"description": "Seu e-mail, senha e dispositivos conectados.",
 		"sections": {
 			"delete": "Excluir conta",
 			"email": "Alterar e-mail",
 			"password": "Alterar senha",
 			"sessions": "Outros dispositivos"
+		},
+		"signIn": {
+			"description": "Como você entra e onde está conectado.",
+			"title": "Acesso"
 		},
 		"title": "Segurança"
 	},

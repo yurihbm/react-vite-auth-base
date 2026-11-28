@@ -18,13 +18,13 @@ export function LogoutOthers() {
 
 	return (
 		<div className={base()}>
-			<p>{t("logoutOthers.description")}</p>
 			{isSuccess && (
 				<Alert color="success" description={t("logoutOthers.success")} />
 			)}
 			{!!error && <InlineError>{apiErrorMessage}</InlineError>}
 			<Button
-				color="secondary"
+				variant="outline"
+				className="self-end"
 				disabled={isPending}
 				onClick={() => logoutOthers()}
 			>

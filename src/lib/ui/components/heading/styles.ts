@@ -8,6 +8,7 @@ export const styles = tv({
 			lg: "text-2xl",
 			md: "text-xl",
 			sm: "text-lg",
+			xs: "text-base",
 		},
 	},
 });

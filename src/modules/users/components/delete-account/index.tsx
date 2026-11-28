@@ -43,8 +43,7 @@ export function DeleteAccount({ uuid }: DeleteAccountProps) {
 
 	return (
 		<div className={base()}>
-			<p>{t("deleteAccount.description")}</p>
-			<Button color="danger" onClick={() => setOpen(true)}>
+			<Button color="danger" className="self-end" onClick={() => setOpen(true)}>
 				{t("deleteAccount.button")}
 			</Button>
 			<Dialog

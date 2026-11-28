@@ -40,7 +40,6 @@ export function ChangePasswordForm() {
 
 	return (
 		<form onSubmit={handleSubmit} className={base()}>
-			<p>{t("changePasswordForm.description")}</p>
 			{isSuccess && (
 				<Alert color="success" description={t("changePasswordForm.success")} />
 			)}
@@ -59,7 +58,7 @@ export function ChangePasswordForm() {
 				maxLength={64}
 				required
 			/>
-			<Button type="submit" disabled={isPending}>
+			<Button type="submit" disabled={isPending} className="self-end">
 				{t("changePasswordForm.submitButton")}
 			</Button>
 		</form>

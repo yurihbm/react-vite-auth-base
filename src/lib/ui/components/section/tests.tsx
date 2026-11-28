@@ -58,4 +58,17 @@ describe("Section", () => {
 		expect(region.className).toContain("bg-surface");
 		expect(region.className).toContain("custom");
 	});
+
+	test("marks a danger zone with the danger border", () => {
+		const { getByRole } = render(
+			<Section surface title="Danger zone" tone="danger">
+				Content
+			</Section>,
+		);
+
+		const region = getByRole("region");
+
+		expect(region.className).toContain("border-danger");
+		expect(region.className).not.toContain("border-border");
+	});
 });

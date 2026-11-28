@@ -522,11 +522,20 @@ export default interface Resources {
     },
     "securityPage": {
       "back": "Back to account",
+      "dangerZone": {
+        "description": "These actions are permanent.",
+        "title": "Danger zone"
+      },
+      "description": "Your email, password and signed-in devices.",
       "sections": {
         "delete": "Delete account",
         "email": "Change email",
         "password": "Change password",
         "sessions": "Other devices"
+      },
+      "signIn": {
+        "description": "How you log in and where you are logged in.",
+        "title": "Sign-in"
       },
       "title": "Security"
     },

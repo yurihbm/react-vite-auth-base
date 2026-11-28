@@ -97,4 +97,14 @@ describe("ChangePasswordForm", () => {
 
 		expect(screen.queryByText(/^translated:|^unknown$/)).toBeNull();
 	});
+
+	test("leaves the description to the settings row and keeps submit compact", () => {
+		render(<ChangePasswordForm />);
+
+		expect(screen.queryByText("changePasswordForm.description")).toBeNull();
+		expect(
+			screen.getByRole("button", { name: "changePasswordForm.submitButton" })
+				.className,
+		).toContain("self-end");
+	});
 });

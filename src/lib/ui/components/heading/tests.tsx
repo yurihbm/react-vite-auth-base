@@ -61,4 +61,14 @@ describe("Heading", () => {
 		expect(element.tagName).toBe("LEGEND");
 		expect(element.className).toContain("text-xl");
 	});
+
+	test("has an xs size for headings inside dense content", () => {
+		const { getByRole } = render(
+			<Heading level={3} size="xs">
+				Title
+			</Heading>,
+		);
+
+		expect(getByRole("heading", { level: 3 }).className).toContain("text-base");
+	});
 });

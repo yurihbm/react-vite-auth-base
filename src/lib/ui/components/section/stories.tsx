@@ -33,6 +33,15 @@ export const Surface: SectionStory = {
 	},
 };
 
+export const DangerZone: SectionStory = {
+	args: {
+		surface: true,
+		tone: "danger",
+		title: "Danger zone",
+		description: "These actions are permanent.",
+	},
+};
+
 export const TitleOnly: SectionStory = {
 	args: {
 		description: undefined,

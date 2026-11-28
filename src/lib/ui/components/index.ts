@@ -45,6 +45,7 @@ export { Portal, type PortalProps } from "./portal";
 export { ProgressBar, type ProgressBarProps } from "./progress-bar";
 export { Section, type SectionProps } from "./section";
 export { Select, type MultiSelectProps, type SelectProps } from "./select";
+export { SettingRow, type SettingRowProps } from "./setting-row";
 export { SkipLink, type SkipLinkProps } from "./skip-link";
 export { Stack, type StackProps } from "./stack";
 export { Switch, type SwitchProps } from "./switch";

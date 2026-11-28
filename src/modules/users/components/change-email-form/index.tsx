@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { APIError, useApiErrorMessage } from "@lib/api";
 import { useTranslate } from "@lib/i18n";
-import { Button, InlineError, TextInput } from "@lib/ui";
+import { Button, InlineError, Text, TextInput } from "@lib/ui";
 import { useCooldown } from "@modules/auth/hooks/use-cooldown";
 import { StepUpCancelledError } from "@modules/auth/providers/step-up/context";
 import { base } from "@modules/users/components/styles";
@@ -75,11 +75,9 @@ export function ChangeEmailForm() {
 			onSubmit={isRequested ? handleConfirm : handleRequest}
 			className={base()}
 		>
-			<p>
-				{isRequested
-					? t("changeEmailForm.codeDescription")
-					: t("changeEmailForm.description")}
-			</p>
+			{isRequested && (
+				<Text variant="muted">{t("changeEmailForm.codeDescription")}</Text>
+			)}
 			{!!error && !(error instanceof StepUpCancelledError) && (
 				<InlineError>{errorText}</InlineError>
 			)}
@@ -100,6 +98,7 @@ export function ChangeEmailForm() {
 					/>
 					<Button
 						type="submit"
+						className="self-end"
 						disabled={confirm.isPending || confirmCooldown.remaining > 0}
 					>
 						{t("changeEmailForm.confirmButton")}
@@ -119,6 +118,7 @@ export function ChangeEmailForm() {
 					/>
 					<Button
 						type="submit"
+						className="self-end"
 						disabled={request.isPending || requestCooldown.remaining > 0}
 					>
 						{t("changeEmailForm.requestButton")}

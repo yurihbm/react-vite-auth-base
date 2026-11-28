@@ -22,7 +22,7 @@ const meta: Meta<HeadingProps<"h2">> = {
 			},
 		},
 		size: {
-			options: ["xl", "lg", "md", "sm"],
+			options: ["xl", "lg", "md", "sm", "xs"],
 			control: {
 				type: "select",
 			},

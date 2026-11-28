@@ -8,11 +8,20 @@ export const styles = tv({
 	variants: {
 		surface: {
 			true: {
-				root: ["rounded-surface border border-border bg-surface", "p-4 sm:p-6"],
+				root: ["rounded-surface border bg-surface", "p-4 sm:p-6"],
 			},
 		},
+		tone: {
+			default: {},
+			danger: {},
+		},
 	},
+	compoundVariants: [
+		{ surface: true, tone: "default", class: { root: "border-border" } },
+		{ surface: true, tone: "danger", class: { root: "border-danger" } },
+	],
 	defaultVariants: {
 		surface: false,
+		tone: "default",
 	},
 });
