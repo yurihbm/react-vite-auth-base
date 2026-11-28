@@ -18,6 +18,7 @@ export {
 	type DropdownMenuSeparatorProps,
 } from "./dropdown-menu";
 export { Dialog, type DialogProps } from "./dialog";
+export { Heading, type HeadingProps } from "./heading";
 export { OptionList, type OptionListProps } from "./option-list";
 export type { SelectOption } from "./option-list/types";
 export {
@@ -32,6 +33,7 @@ export { ProgressBar, type ProgressBarProps } from "./progress-bar";
 export { Select, type MultiSelectProps, type SelectProps } from "./select";
 export { Switch, type SwitchProps } from "./switch";
 export { Tabs, type TabsProps, type TabItem } from "./tabs";
+export { Text, type TextProps } from "./text";
 export { Tooltip, type TooltipProps } from "./tooltip";
 export { Skeleton, type SkeletonProps } from "./skeleton";
 export { Spinner, type SpinnerProps } from "./spinner";
