@@ -37,9 +37,12 @@ export default defineConfig({
 		}),
 		react(),
 		tailwindcss(),
-		babel({
-			presets: [reactCompilerPreset()],
-		}),
+		// Vitest (unit and Storybook) runs without the compiler: its memoization
+		// branches show up in V8 coverage and can't be exercised
+		// (facebook/react#32950).
+		...(process.env.VITEST
+			? []
+			: [babel({ presets: [reactCompilerPreset()] })]),
 		VitePWA({
 			registerType: "autoUpdate",
 			manifest: {
@@ -140,10 +143,10 @@ export default defineConfig({
 			// when a run beats them, so commit the updated values.
 			thresholds: {
 				autoUpdate: true,
-				statements: 91.95,
-				branches: 79.12,
-				functions: 98.19,
-				lines: 97.72,
+				statements: 97.8,
+				branches: 91.82,
+				functions: 98.12,
+				lines: 97.87,
 			},
 			exclude: [
 				// Storybook folder
