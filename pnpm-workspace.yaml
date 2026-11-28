@@ -13,3 +13,5 @@ permissions:
 peerDependencyRules:
   allowedVersions:
     "@typescript-eslint/typescript-estree>@typescript/native": "7"
+overrides:
+  "minimatch@10": "^11.0.9"
