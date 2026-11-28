@@ -154,6 +154,21 @@ describe("DeleteAccount", () => {
 		await vi.waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
 	});
 
+	test("disables confirm while deleting", () => {
+		mockMutation({ isPending: true });
+		render(<DeleteAccount uuid={UUID} />);
+
+		openDialog();
+
+		expect(
+			(
+				screen.getByRole("button", {
+					name: "deleteAccount.confirm.confirmButton",
+				}) as HTMLButtonElement
+			).disabled,
+		).toBe(true);
+	});
+
 	test("styles cancel as an outline button", () => {
 		render(<DeleteAccount uuid={UUID} />);
 

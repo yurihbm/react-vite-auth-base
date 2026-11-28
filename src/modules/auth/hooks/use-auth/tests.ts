@@ -95,4 +95,35 @@ describe("useAuth", () => {
 			isAuthenticated: false,
 		});
 	});
+
+	test("is unauthenticated when the query succeeds without a user", () => {
+		vi.mocked(useGetMe).mockReturnValueOnce({
+			data: undefined,
+			isSuccess: true,
+			isPending: false,
+			isError: false,
+		} as unknown as ReturnType<typeof useGetMe>);
+
+		const { result } = renderHook(() => useAuth());
+
+		expect(result.current).toEqual({
+			user: null,
+			isPending: false,
+			isAuthenticated: false,
+		});
+	});
+
+	test("is not pending when the request errors while still flagged pending", () => {
+		vi.mocked(useGetMe).mockReturnValueOnce({
+			data: undefined,
+			isSuccess: false,
+			isPending: true,
+			isError: true,
+		} as unknown as ReturnType<typeof useGetMe>);
+
+		const { result } = renderHook(() => useAuth());
+
+		expect(result.current.isPending).toBe(false);
+		expect(result.current.isAuthenticated).toBe(false);
+	});
 });

@@ -96,4 +96,59 @@ describe("useFilteredOptions", () => {
 
 		expect(result.current.filtered).toEqual(updatedOptions);
 	});
+
+	test("falls back to an empty list and stops loading when onSearch rejects", async () => {
+		const onSearch = vi.fn(async () => {
+			throw new Error("network");
+		});
+
+		const { result } = renderHook(() =>
+			useFilteredOptions({
+				options: OPTIONS,
+				query: "x",
+				onSearch,
+				debounceMs: 10,
+			}),
+		);
+
+		await waitFor(() => {
+			expect(onSearch).toHaveBeenCalled();
+			expect(result.current.isLoading).toBe(false);
+		});
+		expect(result.current.filtered).toEqual([]);
+	});
+
+	test("ignores a stale response from a superseded query", async () => {
+		let resolveFirst: (options: SelectOption[]) => void = () => {};
+		const onSearch = vi.fn((query: string) =>
+			query === "a"
+				? new Promise<SelectOption[]>((resolve) => {
+						resolveFirst = resolve;
+					})
+				: Promise.resolve([OPTIONS[1]]),
+		);
+
+		const { result, rerender } = renderHook(
+			({ query }) =>
+				useFilteredOptions({
+					options: OPTIONS,
+					query,
+					onSearch,
+					debounceMs: 5,
+				}),
+			{ initialProps: { query: "a" } },
+		);
+
+		await waitFor(() => expect(onSearch).toHaveBeenCalledWith("a"));
+		rerender({ query: "b" });
+		await waitFor(() => {
+			expect(result.current.filtered).toEqual([OPTIONS[1]]);
+		});
+
+		await act(async () => {
+			resolveFirst([OPTIONS[0]]);
+		});
+
+		expect(result.current.filtered).toEqual([OPTIONS[1]]);
+	});
 });

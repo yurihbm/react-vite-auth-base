@@ -136,6 +136,15 @@ export default defineConfig({
 	},
 	test: {
 		coverage: {
+			// Ratchet: coverage may not drop below these. `autoUpdate` raises them
+			// when a run beats them, so commit the updated values.
+			thresholds: {
+				autoUpdate: true,
+				statements: 91.95,
+				branches: 79.12,
+				functions: 98.19,
+				lines: 97.72,
+			},
 			exclude: [
 				// Storybook folder
 				".storybook/**",

@@ -263,4 +263,39 @@ describe("LoginForm", () => {
 			getByLabelText("loginForm.input.password.label"),
 		);
 	});
+
+	test.each([
+		["", "loginForm.input.email.required", "email"],
+		["not-an-email", "loginForm.input.email.invalid", "email"],
+		["a@b", "loginForm.input.email.tooShort", "email"],
+		["", "loginForm.input.password.required", "password"],
+	])("shows %j as %s on the %s input", (value, message, field) => {
+		const { getByLabelText, getByText } = render(<LoginForm />);
+		const input = getByLabelText(`loginForm.input.${field}.label`);
+
+		fireEvent.change(input, { target: { value } });
+		act(() => {
+			fireEvent.invalid(input);
+		});
+
+		expect(getByText(message)).toBeDefined();
+		expect(input.getAttribute("aria-invalid")).toBe("true");
+	});
+
+	test("shows fallback message for unknown errors", () => {
+		const { getByLabelText, getByRole, getByText } = render(<LoginForm />);
+
+		fillFormAndSubmit(getByLabelText, getByRole);
+
+		const [, handlers] = loginMutateMock.mock.calls[0] as [
+			unknown,
+			{ onError: (error: unknown) => void },
+		];
+
+		act(() => {
+			handlers.onError(new Error("boom"));
+		});
+
+		expect(getByText("loginForm.unexpectedError")).toBeDefined();
+	});
 });

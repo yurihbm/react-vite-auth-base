@@ -200,4 +200,23 @@ describe("ResetPasswordForm", () => {
 			getByLabelText("resetPasswordForm.input.password.label"),
 		);
 	});
+
+	test.each([
+		["", "resetPasswordForm.input.code.required", "code"],
+		["123", "resetPasswordForm.input.code.invalid", "code"],
+		["abcdef", "resetPasswordForm.input.code.invalid", "code"],
+		["", "resetPasswordForm.input.password.required", "password"],
+		["short", "resetPasswordForm.input.password.tooShort", "password"],
+	])("shows %j as %s on the %s input", (value, message, field) => {
+		const { getByLabelText, getByText } = render(<ResetPasswordForm />);
+		const input = getByLabelText(`resetPasswordForm.input.${field}.label`);
+
+		fireEvent.change(input, { target: { value } });
+		act(() => {
+			fireEvent.invalid(input);
+		});
+
+		expect(getByText(message)).toBeDefined();
+		expect(input.getAttribute("aria-invalid")).toBe("true");
+	});
 });
