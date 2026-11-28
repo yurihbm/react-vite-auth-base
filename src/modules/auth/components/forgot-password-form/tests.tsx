@@ -186,4 +186,20 @@ describe("ForgotPasswordForm", () => {
 			getByLabelText("forgotPasswordForm.input.email.label"),
 		);
 	});
+
+	test.each([
+		["", "forgotPasswordForm.input.email.required"],
+		["not-an-email", "forgotPasswordForm.input.email.invalid"],
+	])("shows %j as %s on the email input", (value, message) => {
+		const { getByLabelText, getByText } = render(<ForgotPasswordForm />);
+		const input = getByLabelText("forgotPasswordForm.input.email.label");
+
+		fireEvent.change(input, { target: { value } });
+		act(() => {
+			fireEvent.invalid(input);
+		});
+
+		expect(getByText(message)).toBeDefined();
+		expect(input.getAttribute("aria-invalid")).toBe("true");
+	});
 });

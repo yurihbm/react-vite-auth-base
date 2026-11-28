@@ -3,8 +3,9 @@ name: Test
 on:
   push:
     branches: [main]
+  # Every PR runs, stacked ones included: GitHub can merge a stack partially,
+  # so each PR must be green against its own base.
   pull_request:
-    branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -94,19 +95,37 @@ jobs:
       - name: Run tests
         shell: bash
         run: |
-          pnpm test:coverage | tee coverage_summary.txt
+          pnpm test:coverage --coverage.reporter=text --coverage.reporter=text-summary --coverage.reporter=json-summary | tee coverage_summary.txt
 
-      - name: Prepare comment body
-        if: github.event_name == 'pull_request'
+      - name: Compare coverage with the base branch
+        id: coverage-report
+        if: always() && hashFiles('coverage/coverage-summary.json') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
         run: |
-          echo "### Test Results" > comment.md
-          echo "" >> comment.md
-          echo '```' >> comment.md
-          cat coverage_summary.txt >> comment.md
-          echo '```' >> comment.md
+          # `autoUpdate` rewrites vite.config.ts in the workspace during the
+          # test run, so read the committed version from git.
+          git show HEAD:vite.config.ts > pr.vite.config.ts
+          base_args=()
+          if [ "$EVENT" = pull_request ]; then
+            # `github.base_ref` is the stack trunk for stacked PRs; the API has
+            # the branch this PR actually targets.
+            base_ref=$(gh api "repos/$REPO/pulls/$PR" --jq .base.ref)
+            git fetch --depth=1 origin "$base_ref"
+            git show FETCH_HEAD:vite.config.ts > base.vite.config.ts
+            base_args=(--base-config base.vite.config.ts)
+          fi
+          sed -n '/Coverage summary/,$p' coverage_summary.txt > coverage_text.txt
+          node scripts/coverage-report/main.ts "${base_args[@]}" \
+            --config pr.vite.config.ts \
+            --summary coverage/coverage-summary.json \
+            --text coverage_text.txt --out comment.md
 
       - name: Post or update comment
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && hashFiles('comment.md') != ''
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
           header: coverage-report

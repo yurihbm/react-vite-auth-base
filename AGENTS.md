@@ -210,6 +210,11 @@ Naming:
 - For new logic/bug fixes, write or update tests first (TDD cycle).
 - Do not swallow errors silently; handle async failures explicitly.
 - Preserve accessibility semantics (`label`, `aria-*`, disabled behavior).
+- Coverage thresholds in `vite.config.ts` are a ratchet: `pnpm test:coverage`
+  fails below them and `autoUpdate` raises them, so commit the new values. React
+  Compiler's memoization branches are ignored by `coverage.ignoreNode`
+  (facebook/react#32950); if branch coverage drops after a compiler upgrade,
+  check that filter first.
 
 ## API client
 

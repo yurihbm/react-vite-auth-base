@@ -22,5 +22,5 @@
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedSideEffectImports": true
 	},
-	"include": ["vite.config.ts", "scripts/rename"]
+	"include": ["vite.config.ts", "scripts/rename", "scripts/coverage-report"]
 }

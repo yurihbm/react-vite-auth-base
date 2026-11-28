@@ -268,4 +268,37 @@ describe("RegisterForm", () => {
 			getByLabelText("registerForm.input.password.label"),
 		);
 	});
+
+	test.each([
+		["", "registerForm.input.email.required", "email"],
+		["not-an-email", "registerForm.input.email.invalid", "email"],
+		["a@b", "registerForm.input.email.tooShort", "email"],
+		["", "registerForm.input.name.required", "name"],
+		["J", "registerForm.input.name.tooShort", "name"],
+		["", "registerForm.input.password.required", "password"],
+		["short", "registerForm.input.password.tooShort", "password"],
+	])("shows %j as %s on the %s input", (value, message, field) => {
+		const { getByLabelText, getByText } = render(<RegisterForm />);
+		const input = getByLabelText(`registerForm.input.${field}.label`);
+
+		fireEvent.change(input, { target: { value } });
+		act(() => {
+			fireEvent.invalid(input);
+		});
+
+		expect(getByText(message)).toBeDefined();
+		expect(input.getAttribute("aria-invalid")).toBe("true");
+	});
+
+	test("clears the input message once the user edits the field", () => {
+		const { getByLabelText, queryByText } = render(<RegisterForm />);
+		const input = getByLabelText("registerForm.input.email.label");
+
+		act(() => {
+			fireEvent.invalid(input);
+		});
+		fireEvent.change(input, { target: { value: "john@doe.com" } });
+
+		expect(queryByText("registerForm.input.email.required")).toBeNull();
+	});
 });

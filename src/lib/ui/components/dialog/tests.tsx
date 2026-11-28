@@ -257,4 +257,129 @@ describe("Dialog", () => {
 			"size-11",
 		);
 	});
+
+	test("moves focus to the first focusable element when opened", () => {
+		vi.useFakeTimers();
+
+		const { getByLabelText } = render(
+			<Dialog open onClose={() => {}} title="Focus">
+				<input aria-label="Name" />
+			</Dialog>,
+		);
+
+		act(() => {
+			vi.advanceTimersByTime(0);
+		});
+
+		expect(document.activeElement).toBe(getByLabelText("Close"));
+	});
+
+	test("focuses the panel itself when it has no focusable content", () => {
+		vi.useFakeTimers();
+
+		const { getByRole } = render(
+			<Dialog open onClose={() => {}} title="Empty">
+				Body
+			</Dialog>,
+		);
+		getByRole("dialog").querySelector("button")?.remove();
+
+		act(() => {
+			vi.advanceTimersByTime(0);
+		});
+
+		expect(document.activeElement).toBe(getByRole("dialog"));
+	});
+
+	test("Tab from the last element wraps to the first", () => {
+		const { getByLabelText, getByRole } = render(
+			<Dialog open onClose={() => {}} title="Trap">
+				<input aria-label="Name" />
+			</Dialog>,
+		);
+
+		getByLabelText("Name").focus();
+		fireEvent.keyDown(getByRole("dialog"), { key: "Tab" });
+
+		expect(document.activeElement).toBe(getByLabelText("Close"));
+	});
+
+	test("Shift+Tab from the first element wraps to the last", () => {
+		const { getByLabelText, getByRole } = render(
+			<Dialog open onClose={() => {}} title="Trap">
+				<input aria-label="Name" />
+			</Dialog>,
+		);
+
+		getByLabelText("Close").focus();
+		fireEvent.keyDown(getByRole("dialog"), { key: "Tab", shiftKey: true });
+
+		expect(document.activeElement).toBe(getByLabelText("Name"));
+	});
+
+	test("Tab between inner elements is left to the browser", () => {
+		const { getByLabelText, getByRole } = render(
+			<Dialog open onClose={() => {}} title="Trap">
+				<input aria-label="Name" />
+			</Dialog>,
+		);
+
+		getByLabelText("Close").focus();
+		const notPrevented = fireEvent.keyDown(getByRole("dialog"), {
+			key: "Tab",
+		});
+
+		expect(notPrevented).toBe(true);
+		expect(document.activeElement).toBe(getByLabelText("Close"));
+	});
+
+	test("Tab keeps focus on the panel when nothing inside is focusable", () => {
+		const { getByRole } = render(
+			<Dialog open onClose={() => {}} title="Empty">
+				Body
+			</Dialog>,
+		);
+		const dialog = getByRole("dialog");
+		dialog.querySelector("button")?.remove();
+
+		const notPrevented = fireEvent.keyDown(dialog, { key: "Tab" });
+
+		expect(notPrevented).toBe(false);
+		expect(document.activeElement).toBe(dialog);
+	});
+
+	test("restores focus to the opener and body scroll when closed", () => {
+		vi.useFakeTimers();
+		document.body.style.overflow = "";
+
+		function Wrapper() {
+			const [open, setOpen] = useState(false);
+
+			return (
+				<>
+					<button type="button" onClick={() => setOpen(true)}>
+						Open dialog
+					</button>
+					<Dialog open={open} onClose={() => setOpen(false)} title="Restore">
+						Body
+					</Dialog>
+				</>
+			);
+		}
+
+		const { getByText, getByLabelText } = render(<Wrapper />);
+		const opener = getByText("Open dialog");
+		opener.focus();
+
+		fireEvent.click(opener);
+		act(() => {
+			vi.advanceTimersByTime(0);
+		});
+		expect(document.body.style.overflow).toBe("hidden");
+
+		fireEvent.click(getByLabelText("Close"));
+
+		expect(document.activeElement).toBe(opener);
+		expect(document.body.style.overflow).not.toBe("hidden");
+	});
 });

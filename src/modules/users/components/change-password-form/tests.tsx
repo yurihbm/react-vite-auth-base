@@ -1,4 +1,10 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import {
+	act,
+	cleanup,
+	fireEvent,
+	render,
+	screen,
+} from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { APIError } from "@lib/api";
@@ -66,6 +72,52 @@ describe("ChangePasswordForm", () => {
 			{ newPassword: "s3cret-pass" },
 			expect.objectContaining({ onSuccess: expect.any(Function) }),
 		);
+	});
+
+	test("clears the password once it was changed", () => {
+		render(<ChangePasswordForm />);
+
+		const input = screen.getByLabelText(
+			"changePasswordForm.input.password.label",
+		) as HTMLInputElement;
+
+		fireEvent.change(input, { target: { value: "s3cret-pass" } });
+		fireEvent.click(
+			screen.getByRole("button", { name: "changePasswordForm.submitButton" }),
+		);
+
+		const [, options] = mutateMock.mock.calls[0] as [
+			unknown,
+			{ onSuccess: () => void },
+		];
+		act(() => options.onSuccess());
+
+		expect(input.value).toBe("");
+	});
+
+	test("maps the new password validation detail onto the input", () => {
+		mockMutation({
+			error: new APIError("request.validation_failed", {
+				status: 400,
+				details: { new_password: "password is too weak" },
+			}),
+		});
+		render(<ChangePasswordForm />);
+
+		expect(screen.getByText("password is too weak")).toBeDefined();
+	});
+
+	test("disables submit while pending", () => {
+		mockMutation({ isPending: true });
+		render(<ChangePasswordForm />);
+
+		expect(
+			(
+				screen.getByRole("button", {
+					name: "changePasswordForm.submitButton",
+				}) as HTMLButtonElement
+			).disabled,
+		).toBe(true);
 	});
 
 	test("shows a success message", () => {

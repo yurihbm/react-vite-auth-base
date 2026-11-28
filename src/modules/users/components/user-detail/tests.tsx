@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { APIError } from "@lib/api";
@@ -34,7 +34,11 @@ vi.mock("@modules/users/components/edit-name-form", () => ({
 }));
 
 vi.mock("@modules/users/components/delete-user", () => ({
-	DeleteUser: () => <button type="button">delete other</button>,
+	DeleteUser: ({ onDeleted }: { onDeleted: () => void }) => (
+		<button type="button" onClick={onDeleted}>
+			delete other
+		</button>
+	),
 }));
 
 vi.mock("@modules/users/components/delete-account", () => ({
@@ -111,6 +115,15 @@ describe("UserDetail", () => {
 		expect(screen.queryByRole("button", { name: "delete other" })).toBeNull();
 	});
 
+	test("passes the deletion callback to the other user's delete action", () => {
+		mockUser({ data: USER });
+
+		render(<UserDetail uuid={USER.uuid} onDeleted={onDeleted} />);
+		fireEvent.click(screen.getByRole("button", { name: "delete other" }));
+
+		expect(onDeleted).toHaveBeenCalledTimes(1);
+	});
+
 	test("shows an empty state with a way back when the user does not exist", () => {
 		mockUser({
 			error: new APIError("users.notFound", { status: 404 }),
@@ -156,6 +169,16 @@ describe("UserDetail", () => {
 		render(<UserDetail uuid={USER.uuid} onDeleted={onDeleted} />);
 
 		expect(document.title).toBe(`John Doe | ${import.meta.env.VITE_APP_NAME}`);
+	});
+
+	test("titles the browser tab generically on other errors", () => {
+		mockUser({ error: new APIError("x", { status: 500 }) });
+
+		render(<UserDetail uuid="x" onDeleted={onDeleted} />);
+
+		expect(document.title).toBe(
+			`userPage.title | ${import.meta.env.VITE_APP_NAME}`,
+		);
 	});
 
 	test("titles the browser tab when the user is missing", () => {

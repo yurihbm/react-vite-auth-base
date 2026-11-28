@@ -83,6 +83,22 @@ describe("AccountMenu", () => {
 		expect(navigateMock).toHaveBeenCalledWith({ to: "/" });
 	});
 
+	test("disables logout while it is in progress", () => {
+		vi.mocked(useLogout).mockReturnValue({
+			mutate: logoutMock,
+			isPending: true,
+		} as unknown as ReturnType<typeof useLogout>);
+		render(<AccountMenu />);
+
+		openMenu();
+
+		expect(
+			screen
+				.getByRole("menuitem", { name: "accountMenu.logout" })
+				.getAttribute("aria-disabled"),
+		).toBe("true");
+	});
+
 	test("renders nothing without a user", () => {
 		vi.mocked(useAuth).mockReturnValue({
 			isAuthenticated: false,

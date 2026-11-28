@@ -244,4 +244,21 @@ describe("VerifyCodeForm", () => {
 			getByLabelText("verifyCodeForm.input.code.label"),
 		);
 	});
+
+	test.each([
+		["", "verifyCodeForm.input.code.required"],
+		["123", "verifyCodeForm.input.code.invalid"],
+		["abcdef", "verifyCodeForm.input.code.invalid"],
+	])("shows %j as %s on the code input", (value, message) => {
+		const { getByLabelText, getByText } = render(<VerifyCodeForm />);
+		const input = getByLabelText("verifyCodeForm.input.code.label");
+
+		fireEvent.change(input, { target: { value } });
+		act(() => {
+			fireEvent.invalid(input);
+		});
+
+		expect(getByText(message)).toBeDefined();
+		expect(input.getAttribute("aria-invalid")).toBe("true");
+	});
 });

@@ -140,6 +140,33 @@ describe("DeleteUser", () => {
 		expect(screen.queryByText(/^translated:|^unknown$/)).toBeNull();
 	});
 
+	test("closes the dialog on cancel without deleting", async () => {
+		render(<DeleteUser uuid={UUID} onDeleted={onDeleted} />);
+
+		openDialog();
+		fireEvent.click(
+			screen.getByRole("button", { name: "deleteUser.confirm.cancelButton" }),
+		);
+
+		await vi.waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+		expect(mutateMock).not.toHaveBeenCalled();
+	});
+
+	test("disables confirm while deleting", () => {
+		mockMutation({ isPending: true });
+		render(<DeleteUser uuid={UUID} onDeleted={onDeleted} />);
+
+		openDialog();
+
+		expect(
+			(
+				screen.getByRole("button", {
+					name: "deleteUser.confirm.confirmButton",
+				}) as HTMLButtonElement
+			).disabled,
+		).toBe(true);
+	});
+
 	test("styles cancel as an outline button", () => {
 		render(<DeleteUser uuid={UUID} onDeleted={onDeleted} />);
 
