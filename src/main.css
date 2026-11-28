@@ -168,10 +168,10 @@
 	--theme-secondary-subtle-foreground: var(--color-indigo-200);
 
 	/* Neutral interaction */
-	--theme-subtle: var(--color-neutral-900);
+	--theme-subtle: var(--color-neutral-800);
 	--theme-subtle-foreground: var(--color-neutral-200);
-	--theme-subtle-hover: var(--color-neutral-800);
-	--theme-subtle-active: var(--color-neutral-700);
+	--theme-subtle-hover: var(--color-neutral-700);
+	--theme-subtle-active: var(--color-neutral-600);
 
 	/* Semantic */
 	--theme-info: var(--color-sky-500);
