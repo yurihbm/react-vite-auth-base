@@ -53,7 +53,7 @@ export function EditNameForm({ user }: EditNameFormProps) {
 				maxLength={100}
 				required
 			/>
-			<Button type="submit" disabled={isPending}>
+			<Button type="submit" disabled={isPending} className="self-end">
 				{t("editNameForm.submitButton")}
 			</Button>
 		</form>

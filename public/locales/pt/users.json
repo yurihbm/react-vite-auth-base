@@ -1,9 +1,16 @@
 {
 	"accountPage": {
+		"description": "Seu perfil e como você entra na conta.",
 		"profile": {
+			"description": "Seu nome aparece para administradores e no menu da sua conta.",
 			"email": "E-mail",
 			"memberSince": "Membro desde",
-			"role": "Perfil"
+			"role": "Perfil",
+			"title": "Perfil"
+		},
+		"security": {
+			"description": "Altere seu e-mail ou senha e saia de outros dispositivos.",
+			"title": "Segurança"
 		},
 		"securityLink": "Configurações de segurança",
 		"title": "Conta"

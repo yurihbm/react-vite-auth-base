@@ -122,4 +122,13 @@ describe("EditNameForm", () => {
 
 		expect(screen.queryByText(/^translated:|^unknown$/)).toBeNull();
 	});
+
+	test("keeps the save button its own width, aligned to the end", () => {
+		render(<EditNameForm user={USER} />);
+
+		expect(
+			screen.getByRole("button", { name: "editNameForm.submitButton" })
+				.className,
+		).toContain("self-end");
+	});
 });

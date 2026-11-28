@@ -1,9 +1,16 @@
 {
 	"accountPage": {
+		"description": "Your profile and how you sign in.",
 		"profile": {
+			"description": "Your name is shown to admins and in your account menu.",
 			"email": "Email",
 			"memberSince": "Member since",
-			"role": "Role"
+			"role": "Role",
+			"title": "Profile"
+		},
+		"security": {
+			"description": "Change your email or password and sign out of other devices.",
+			"title": "Security"
 		},
 		"securityLink": "Security settings",
 		"title": "Account"

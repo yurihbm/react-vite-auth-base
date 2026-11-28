@@ -1,4 +1,3 @@
-import type { ButtonProps } from "@lib/ui";
 import type { Icon } from "@phosphor-icons/react";
 
 import {
@@ -7,11 +6,10 @@ import {
 	UserCircleIcon,
 	UsersIcon,
 } from "@phosphor-icons/react";
-import { createLink, Link } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 
 import { useTranslate } from "@lib/i18n";
 import {
-	Button,
 	Card,
 	CardGrid,
 	Container,
@@ -21,6 +19,7 @@ import {
 	Text,
 } from "@lib/ui";
 import { useAuth } from "@modules/auth";
+import { ButtonLink } from "@modules/shared";
 
 import { styles } from "./styles";
 
@@ -32,10 +31,6 @@ const SHORTCUTS: Record<ShortcutKey, { to: string; icon: Icon }> = {
 	users: { to: "/admin/users", icon: UsersIcon },
 	auditLogs: { to: "/admin/audit-logs", icon: ListChecksIcon },
 };
-
-const ButtonLink = createLink(function ButtonAnchor(props: ButtonProps<"a">) {
-	return <Button {...props} as="a" />;
-});
 
 /**
  * The home page: a short pitch with log in and sign up for visitors, and a
