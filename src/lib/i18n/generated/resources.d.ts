@@ -46,6 +46,11 @@ export default interface Resources {
     }
   },
   "auth": {
+    "accountMenu": {
+      "account": "Account",
+      "logout": "Log out",
+      "trigger": "Account menu"
+    },
     "forgotPasswordForm": {
       "description": "Enter your email and we will send you a code to reset your password.",
       "input": {
@@ -371,15 +376,16 @@ export default interface Resources {
       "unexpectedError": "loginForm.unexpectedError"
     },
     "nav": {
+      "label": "Main",
       "link": {
-        "account": "Account",
         "adminAuditLogs": "Audit logs",
         "adminUsers": "Users",
         "home": "Home",
         "login": "Login",
-        "logout": "Logout",
         "register": "Register"
-      }
+      },
+      "menu": "Menu",
+      "skipToContent": "Skip to content"
     },
     "pt": "pt",
     "resendButton": {

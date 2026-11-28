@@ -79,7 +79,7 @@ const EDITS: Edit[] = [
 	},
 	{
 		file: "src/routes/__root.tsx",
-		pattern: /(<h1 className="text-xl font-bold">)[^<]*(<\/h1>)/,
+		pattern: /(brand={<Link to="\/">)[^<]*(<\/Link>})/,
 		replacement: ({ title }) => `$1${literal(title.replace(/[{}<>]/g, ""))}$2`,
 	},
 ];

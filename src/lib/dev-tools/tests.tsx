@@ -4,6 +4,7 @@ import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { DevTools } from ".";
+import { areDevToolsEnabled } from "./utils";
 
 vi.mock("@tanstack/react-query-devtools", () => ({
 	ReactQueryDevtools: vi.fn(() => null),
@@ -57,4 +58,18 @@ describe("DevTools", () => {
 		expect(ReactQueryDevtools).toHaveBeenCalled();
 		expect(TanStackRouterDevtools).toHaveBeenCalled();
 	});
+
+	test.each([
+		[false, undefined, true],
+		[false, "true", false],
+		[true, undefined, false],
+	] as const)(
+		"areDevToolsEnabled with PROD=%s and VITE_DISABLE_DEV_TOOLS=%s is %s",
+		(prod, disabled, expected) => {
+			vi.stubEnv("PROD", prod);
+			vi.stubEnv("VITE_DISABLE_DEV_TOOLS", disabled);
+
+			expect(areDevToolsEnabled()).toBe(expected);
+		},
+	);
 });

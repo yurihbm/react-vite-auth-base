@@ -8,15 +8,16 @@
 		"unexpectedError": ""
 	},
 	"nav": {
+		"label": "Principal",
 		"link": {
-			"account": "Conta",
 			"adminAuditLogs": "Logs de auditoria",
 			"adminUsers": "Usuários",
 			"home": "Início",
 			"login": "Entrar",
-			"logout": "Sair",
 			"register": "Registrar"
-		}
+		},
+		"menu": "Menu",
+		"skipToContent": "Pular para o conteúdo"
 	},
 	"pt": "pt",
 	"resendButton": {
