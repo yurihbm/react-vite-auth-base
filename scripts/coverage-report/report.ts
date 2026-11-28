@@ -125,7 +125,7 @@ function title(metric: Metric): string {
 export function renderComment({ rows, errors }: Result, summary: string) {
 	const lines = ["### Coverage", ""];
 
-	lines.push("| | Main | PR | Δ |", "|---|---|---|---|");
+	lines.push("| | Base | PR | Δ |", "|---|---|---|---|");
 
 	for (const { metric, base, current, delta } of rows) {
 		lines.push(

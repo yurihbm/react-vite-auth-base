@@ -3,8 +3,9 @@ name: Test
 on:
   push:
     branches: [main]
+  # Every PR runs, stacked ones included: GitHub can merge a stack partially,
+  # so each PR must be green against its own base.
   pull_request:
-    branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

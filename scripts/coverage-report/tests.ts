@@ -65,7 +65,7 @@ describe("evaluate", () => {
 		expect(result.errors).toEqual([]);
 	});
 
-	test("fails when a metric dropped below main", () => {
+	test("fails when a metric dropped below the base", () => {
 		const result = evaluate({
 			base: cov(),
 			thresholds: cov({ branches: 70 }),
@@ -165,6 +165,7 @@ describe("renderComment", () => {
 			"Branches : 82.5%",
 		);
 
+		expect(comment).toContain("| | Base | PR | Δ |");
 		expect(comment).toContain("| Branches | 80 | 82.5 | +2.5 |");
 		expect(comment).toContain("Branches : 82.5%");
 	});
