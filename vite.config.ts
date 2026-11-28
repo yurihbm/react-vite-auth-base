@@ -25,6 +25,56 @@ const dirname =
 
 // https://vite.dev/config/
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
+// Minimal shape of the AST nodes `coverage.ignoreNode` receives.
+interface AstNode {
+	type: string;
+	computed?: boolean;
+	name?: string;
+	object?: AstNode;
+	left?: AstNode;
+	right?: AstNode;
+	test?: AstNode;
+	id?: AstNode;
+	init?: AstNode;
+	expression?: AstNode;
+}
+
+// React Compiler memoizes with a cache array (`const $ = _c(n)`, `if ($[0] !==
+// dep)`). V8 counts that bookkeeping as branches no test can exercise
+// (facebook/react#32950), so coverage skips it. It matches the compiler's
+// current output; if branch coverage drops after a compiler upgrade, check it.
+const isCacheSlot = (node: AstNode): boolean =>
+	node.type === "MemberExpression" &&
+	node.computed === true &&
+	node.object?.type === "Identifier" &&
+	node.object.name === "$";
+
+const isCacheTest = (node: AstNode): boolean =>
+	node.type === "LogicalExpression"
+		? isCacheTest(node.left!) && isCacheTest(node.right!)
+		: node.type === "BinaryExpression" && isCacheSlot(node.left!);
+
+const isCompilerCacheNode = (node: AstNode, type: string): boolean => {
+	if (node.type === "IfStatement") {
+		return isCacheTest(node.test!);
+	}
+	if (type === "branch") {
+		return node.type === "LogicalExpression" && isCacheTest(node);
+	}
+	if (node.type === "VariableDeclarator") {
+		return (
+			node.id?.type === "Identifier" &&
+			node.id.name === "$" &&
+			node.init?.type === "CallExpression"
+		);
+	}
+	return (
+		node.type === "ExpressionStatement" &&
+		node.expression?.type === "AssignmentExpression" &&
+		(isCacheSlot(node.expression.left!) || isCacheSlot(node.expression.right!))
+	);
+};
+
 export default defineConfig({
 	define: {
 		// The app name for document titles (`usePageTitle`).
@@ -37,12 +87,7 @@ export default defineConfig({
 		}),
 		react(),
 		tailwindcss(),
-		// Vitest (unit and Storybook) runs without the compiler: its memoization
-		// branches show up in V8 coverage and can't be exercised
-		// (facebook/react#32950).
-		...(process.env.VITEST
-			? []
-			: [babel({ presets: [reactCompilerPreset()] })]),
+		babel({ presets: [reactCompilerPreset()] }),
 		VitePWA({
 			registerType: "autoUpdate",
 			manifest: {
@@ -139,14 +184,18 @@ export default defineConfig({
 	},
 	test: {
 		coverage: {
+			// Vitest types `node` as the full parser union; the helpers only read the
+			// few fields in `AstNode`.
+			ignoreNode: (node, type) =>
+				isCompilerCacheNode(node as unknown as AstNode, type),
 			// Ratchet: coverage may not drop below these. `autoUpdate` raises them
 			// when a run beats them, so commit the updated values.
 			thresholds: {
 				autoUpdate: true,
-				statements: 97.8,
+				statements: 98.07,
 				branches: 91.82,
-				functions: 98.12,
-				lines: 97.87,
+				functions: 98.19,
+				lines: 98.34,
 			},
 			exclude: [
 				// Storybook folder
