@@ -53,6 +53,13 @@ export const Colors: ButtonStory = {
 	},
 };
 
+export const Outline: ButtonStory = {
+	args: {
+		children: "Cancel",
+		variant: "outline",
+	},
+};
+
 export const AsLink: ButtonStory<"a"> = {
 	args: {
 		children: "Go to repo",

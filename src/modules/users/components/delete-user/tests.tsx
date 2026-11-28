@@ -134,4 +134,16 @@ describe("DeleteUser", () => {
 
 		expect(screen.queryByText(/^translated:|^unknown$/)).toBeNull();
 	});
+
+	test("styles cancel as an outline button", () => {
+		render(<DeleteUser uuid={UUID} onDeleted={onDeleted} />);
+
+		openDialog();
+
+		const cancel = screen.getByRole("button", {
+			name: "deleteUser.confirm.cancelButton",
+		});
+
+		expect(cancel.className).toContain("border-border-control");
+	});
 });

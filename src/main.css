@@ -77,6 +77,7 @@
 	--color-border-strong: var(--theme-border-strong);
 	--color-border-control: var(--theme-border-control);
 	--color-ring: var(--theme-ring);
+	--color-scrim: var(--theme-scrim);
 
 	/* Brand */
 	--color-primary: var(--theme-primary);
@@ -147,6 +148,7 @@
 	--theme-border-strong: var(--color-neutral-700);
 	--theme-border-control: var(--color-neutral-500);
 	--theme-ring: var(--color-blue-400);
+	--theme-scrim: color-mix(in oklab, var(--color-black) 60%, transparent);
 
 	/* Brand */
 	--theme-primary: var(--color-blue-600);
@@ -216,6 +218,7 @@
 	--theme-border-strong: var(--color-neutral-300);
 	--theme-border-control: var(--color-neutral-500);
 	--theme-ring: var(--color-blue-500);
+	--theme-scrim: color-mix(in oklab, var(--color-neutral-950) 40%, transparent);
 
 	/* Brand */
 	--theme-primary: var(--color-blue-600);

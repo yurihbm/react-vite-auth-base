@@ -60,7 +60,7 @@ export function DeleteUser({ uuid, onDeleted }: DeleteUserProps) {
 				size="sm"
 				footer={
 					<>
-						<Button color="subtle" onClick={() => setOpen(false)}>
+						<Button variant="outline" onClick={() => setOpen(false)}>
 							{t("deleteUser.confirm.cancelButton")}
 						</Button>
 						<Button color="danger" disabled={isPending} onClick={handleConfirm}>

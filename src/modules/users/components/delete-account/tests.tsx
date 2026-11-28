@@ -148,4 +148,16 @@ describe("DeleteAccount", () => {
 
 		await vi.waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
 	});
+
+	test("styles cancel as an outline button", () => {
+		render(<DeleteAccount uuid={UUID} />);
+
+		openDialog();
+
+		const cancel = screen.getByRole("button", {
+			name: "deleteAccount.confirm.cancelButton",
+		});
+
+		expect(cancel.className).toContain("border-border-control");
+	});
 });

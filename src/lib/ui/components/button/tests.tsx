@@ -116,4 +116,18 @@ describe("Button", () => {
 			expect(button.className).toContain(className);
 		}
 	});
+
+	test("renders the outline variant as a bordered neutral button", () => {
+		const { container } = render(
+			<Button color="primary" variant="outline">
+				Cancel
+			</Button>,
+		);
+
+		const button = container.querySelector("button") as HTMLButtonElement;
+
+		expect(button.className).toContain("border-border-control");
+		expect(button.className).toContain("text-foreground");
+		expect(button.className).not.toContain("bg-primary");
+	});
 });

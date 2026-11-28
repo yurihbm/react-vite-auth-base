@@ -55,7 +55,7 @@ export function DeleteAccount({ uuid }: DeleteAccountProps) {
 				size="sm"
 				footer={
 					<>
-						<Button color="subtle" onClick={() => setOpen(false)}>
+						<Button variant="outline" onClick={() => setOpen(false)}>
 							{t("deleteAccount.confirm.cancelButton")}
 						</Button>
 						<Button color="danger" disabled={isPending} onClick={handleConfirm}>
