@@ -386,13 +386,34 @@ export default interface Resources {
     }
   },
   "home": {
-    "count": "Count",
-    "input": {
-      "label": "Write something",
-      "message": "Text length",
-      "placeholder": "Type something here..."
+    "guest": {
+      "createAccount": "Create account",
+      "description": "Email sign-up with verification, social login, account security and an admin area, so you can start on your own features.",
+      "logIn": "Log in",
+      "title": "Accounts and sign-in, ready to build on"
     },
-    "profile": "Go to profile"
+    "shortcuts": {
+      "account": {
+        "description": "Your profile and name.",
+        "title": "Account"
+      },
+      "auditLogs": {
+        "description": "Sign-ins and changes across the app.",
+        "title": "Audit logs"
+      },
+      "security": {
+        "description": "Email, password and signed-in devices.",
+        "title": "Security"
+      },
+      "users": {
+        "description": "Find, edit and remove users.",
+        "title": "Users"
+      }
+    },
+    "user": {
+      "description": "Pick up where you left off.",
+      "title": "Welcome, {{name}}"
+    }
   },
   "shared": {
     "en": "en",

@@ -1,0 +1,40 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HomePage > signed out > renders correctly 1`] = `
+<div>
+  <div
+    class="mx-auto w-full px-4 sm:px-6 max-w-3xl flex flex-1 flex-col items-center justify-center gap-6 py-12 text-center"
+  >
+    <div
+      class="flex max-w-xl flex-col gap-3"
+    >
+      <h1
+        class="font-semibold tracking-tight text-balance text-foreground text-3xl"
+      >
+        guest.title
+      </h1>
+      <p
+        class="text-sm text-foreground-muted"
+      >
+        guest.description
+      </p>
+    </div>
+    <div
+      class="flex flex-row flex-wrap items-center gap-2 justify-center"
+    >
+      <a
+        class="flex items-center justify-center gap-2 rounded-control whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 h-10 px-4 text-base bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active disabled:hover:bg-primary disabled:active:bg-primary"
+        href="/login"
+      >
+        guest.logIn
+      </a>
+      <a
+        class="flex items-center justify-center gap-2 rounded-control whitespace-nowrap transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 h-10 px-4 text-base border border-border-control bg-transparent text-foreground hover:bg-subtle-hover active:bg-subtle-active disabled:hover:bg-transparent disabled:active:bg-transparent"
+        href="/register"
+      >
+        guest.createAccount
+      </a>
+    </div>
+  </div>
+</div>
+`;
