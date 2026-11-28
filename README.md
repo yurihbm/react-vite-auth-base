@@ -87,8 +87,8 @@ Components use these utilities only, without arbitrary values.
 Every page renders one `h1` through `PageHeader` inside a `Container` (or
 `AuthLayout` for sign-in and recovery pages) and titles the browser tab with
 `usePageTitle`. Destructive actions sit in a "Danger zone" section, and
-paginated lists use a "Load more" pattern. The full conventions are in
-[`AGENTS.md`](AGENTS.md#ui-composition-and-design-tokens).
+paginated lists use a "Load more" pattern. The full reference (tokens, conventions, identity and rebranding guide) is in
+[`DESIGN.md`](DESIGN.md).
 
 ## 🚀 Getting Started
 

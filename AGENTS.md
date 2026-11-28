@@ -21,6 +21,7 @@ testability, and incremental feature growth (especially with
 Primary references:
 
 - `README.md`
+- `DESIGN.md`
 - `package.json`
 - `oxlint.config.ts`
 - `oxfmt.config.ts`
@@ -132,59 +133,31 @@ follows the same components/hooks/utils layout):
 
 ## UI composition and design tokens
 
-Design tokens live in `src/main.css` (`@theme` plus per-theme `--theme-*`
-variables). Use the Tailwind utilities they generate, never arbitrary values:
+Full reference, rationale and identity: `DESIGN.md`. Tokens live in
+`src/main.css`.
 
-- Font `font-sans` (self-hosted Inter Variable) and the type scale `text-2xs`
-  to `text-4xl`.
-- Radius: `rounded-control` (buttons, fields, small icon buttons) and
-  `rounded-surface` (cards, alerts, overlays, tables).
-- Shadow: `shadow-raised` (small floating elements) and `shadow-overlay`
-  (popovers, menus, dialogs, toasts).
-- Color: semantic tokens only (`bg-surface` for cards and sections,
-  `bg-scrim` behind dialogs, `border-border-control` for form controls and
-  outline buttons, `text-foreground-muted`, `bg-primary`, ...).
-- Chart color: categorical `chart-1` to `chart-5` (`text-chart-1`,
-  `bg-chart-1`, ...), separate from the semantic colors and at least 3:1
-  against `background` and `surface` in both themes. Pass them to `@lib/charts`
-  as `className`. The `/charts` page shows the palette and sample charts.
-- Focus: one global `:focus-visible` outline built from `--color-ring`; for
-  composite controls use the `focus-outline` utility
-  (`focus-within:focus-outline`, `peer-focus-visible:focus-outline`) instead
-  of `ring-*` classes.
-
-Building blocks in `@lib/ui`: `Heading` (level and size set separately) and
-`Text`; `Container` (`narrow`, `default`, `wide`), `Stack` and `Inline`;
-`PageHeader`, `Section` (`surface`, `tone="danger"`), `SettingRow`, `Divider`;
-`EmptyState`, `InlineError`, `DescriptionList`; `Navbar`, `NavLink`,
-`SkipLink`; `Button` variants `solid`, `outline` and `ghost`. App-aware ones:
-`AuthLayout` (`@modules/auth`), `ButtonLink` and `usePageTitle`
-(`@modules/shared`).
-
-Page conventions:
-
-- Every page renders one `h1`: `PageHeader` inside a `Container` (`Stack` with
-  `py-6` for spacing), or `AuthLayout` for sign-in and recovery pages. Do not
-  copy wrapper classes such as `mx-auto flex w-full flex-col gap-4
-  sm:max-w-sm` into routes. `<main>` adds no padding of its own.
-- Every page titles the tab with `usePageTitle(t("..."))` ("Page | App");
-  `AuthLayout` does it from its `title`.
-- Group related controls in `Section surface` cards; one setting per
-  `SettingRow` (label and description left, control right, stacked on
-  mobile). Buttons keep their own width (`self-end`) instead of `w-full`.
-- Destructive actions go in a separate `Section surface tone="danger"`
-  ("Danger zone") with a compact `color="danger"` button and a confirm
-  `Dialog` whose Cancel is `variant="outline"`.
-- Form-level errors use `Alert` (auth pages) or `InlineError`, both
-  `role="alert"`; never bare red text. Forms focus the first invalid field
-  after a failed submit with `useFocusFirstInvalid`.
-- Lists over the API's forward-only cursor use the "Load more" pattern: a
-  filter toolbar card, the total, the results (a `Table` from `md`, cards
-  below), `keepPreviousData` so rows stay dimmed while filters change, an
-  `EmptyState` with "Clear filters", and a Load more button with "Showing X
-  of Y". See `UsersList` and `AuditLogsList`.
-- Targets: at least 24px for links and small buttons, 44px for icon buttons
-  where the layout allows.
+- Use semantic tokens and the generated utilities only (`bg-surface`,
+  `text-foreground-muted`, `border-border-control`, `rounded-control`,
+  `rounded-surface`, `shadow-raised`, `shadow-overlay`, `text-2xs` to
+  `text-4xl`); never arbitrary values or raw palette colors.
+- Focus: rely on the global `:focus-visible`; for composite controls use
+  `focus-outline` (`focus-within:focus-outline`,
+  `peer-focus-visible:focus-outline`), not `ring-*`.
+- Compose with the `@lib/ui` primitives: `Heading`, `Text`, `Container`,
+  `Stack`, `Inline`, `PageHeader`, `Section`, `SettingRow`, `Divider`,
+  `EmptyState`, `InlineError`, `DescriptionList`, `Navbar`, `NavLink`,
+  `SkipLink`; app-aware: `AuthLayout` (`@modules/auth`), `ButtonLink` and
+  `usePageTitle` (`@modules/shared`).
+- Every page renders one `h1` (`PageHeader` in a `Container` > `Stack` with
+  `py-6`, or `AuthLayout`) and calls `usePageTitle(t("..."))`. Do not copy
+  wrapper classes into routes.
+- Buttons keep their own width (`self-end`), never `w-full`. Form errors use
+  `Alert` or `InlineError`, never bare red text; forms call
+  `useFocusFirstInvalid`.
+- Destructive actions go in `Section surface tone="danger"` with a confirm
+  `Dialog`; cursor lists use the "Load more" pattern (`UsersList`,
+  `AuditLogsList`).
+- Targets: at least 24px for links and small buttons, 44px for icon buttons.
 
 ## Formatting, imports, and style conventions
 
