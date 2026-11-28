@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Container > renders correctly 1`] = `
+<div>
+  <div
+    class="mx-auto w-full px-4 sm:px-6 max-w-3xl"
+  >
+    Content
+  </div>
+</div>
+`;
